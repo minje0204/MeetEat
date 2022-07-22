@@ -1,8 +1,8 @@
 import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "Components/common/nav/Header";
-import Main from "Components/main/Main";
-import Restaurant from "Components/restaurant/Restaurant";
+import IndexPage from "views/index/IndexPage";
+import RestaurantPage from "views/restaurant/RestaurantPage";
 
 function App() {
   return (
@@ -12,8 +12,8 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/">
-              <Route index element={<Main />} />
-              <Route path="restaurant/:id" element={<Restaurant />} />
+              <Route index element={<IndexPage />} />
+              <Route path="restaurant/:id" element={<RestaurantPage />} />
             </Route>
           </Routes>
         </Suspense>
