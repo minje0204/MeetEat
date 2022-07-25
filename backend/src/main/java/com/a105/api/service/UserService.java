@@ -35,4 +35,9 @@ public class UserService {
         userRepository.findAll().forEach(e -> users.add(e));
         return users;
     }
+    
+    public boolean checkNicknameDuplicate(String nickname){
+        return userRepository.existsByNickname(nickname);
+    }
+
 }

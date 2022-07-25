@@ -44,5 +44,9 @@ public class UserController {
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
+    @GetMapping("/exists/{nickname}")
+    public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickname){
+        return ResponseEntity.ok(userService.checkNicknameDuplicate(nickname));
+    }
 
 }
