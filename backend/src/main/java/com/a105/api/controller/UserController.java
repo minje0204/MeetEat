@@ -1,5 +1,6 @@
 package com.a105.api.controller;
 
+import com.a105.api.request.UserBioRequest;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.api.service.UserService;
 import com.a105.domain.user.User;
@@ -47,6 +48,12 @@ public class UserController {
     @GetMapping("/exists/{nickname}")
     public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickname){
         return ResponseEntity.ok(userService.checkNicknameDuplicate(nickname));
+    }
+
+    @PatchMapping("/{idx}/bio")
+    public ResponseEntity<?> updateUserBio(@PathVariable("idx") Long idx, @RequestBody UserBioRequest bio){
+        UserInfoResponse userInfo = userService.updateUserBio(idx, bio);
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 
 }

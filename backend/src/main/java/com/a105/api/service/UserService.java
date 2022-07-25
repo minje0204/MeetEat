@@ -1,11 +1,13 @@
 package com.a105.api.service;
 
+import com.a105.api.request.UserBioRequest;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.domain.user.User;
 import com.a105.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,4 +42,10 @@ public class UserService {
         return userRepository.existsByNickname(nickname);
     }
 
+    @Transactional
+    public UserInfoResponse updateUserBio(Long idx, UserBioRequest userBioRequest){
+        User user = getUserFromIdx(idx);
+        userBioRequest.updateUserBio(user);
+        return UserInfoResponse.fromEntity(user);
+    }
 }
