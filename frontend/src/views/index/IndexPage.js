@@ -2,11 +2,11 @@ import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
-const IndexPage = () => {
+export default function IndexPage () {
   const restaurantList = [{ id: "1" }, { id: "2" }, { id: "3" }];
   const listItems = restaurantList.map(e => (
     <Link to={"/restaurant/" + e.id}>
-      <Button variant="outlined">식당{e.id}</Button>
+      <Button key={e.id} variant="outlined">식당{e.id}</Button>
     </Link>
   ));
   return (
@@ -15,7 +15,6 @@ const IndexPage = () => {
     </StyledWrapper>
   );
 };
-export default IndexPage;
 
 const StyledWrapper = styled.div`
   height: 100vh;

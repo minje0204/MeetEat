@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import { Link, useParams } from "react-router-dom";
 
 
-const Restaurant = () => {
+export default function RestaurantPage () {
   let params = useParams();
   const tableList = [{ id: "1" }, { id: "2" }, { id: "3" }];
   const listItems = tableList.map(e => (
@@ -18,7 +18,6 @@ const Restaurant = () => {
     </StyledWrapper>
   );
 };
-export default Restaurant;
 
 const StyledWrapper = styled.div`
   height: 100vh;

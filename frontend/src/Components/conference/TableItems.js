@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function TableItems (props) {
-  
+
   const [tableDish, setTableDish]=useState([]);
 
   const tableItems = [
@@ -56,10 +56,9 @@ export default function TableItems (props) {
     return result;
 
   }
-  
 
   return (
-    <div>
+    <div id="table-items">
       {rendering(props.tabSelect)}
       선택된 것들 : {tableDish}
     </div>
