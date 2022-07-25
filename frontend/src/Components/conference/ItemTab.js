@@ -3,35 +3,7 @@ import styled from "styled-components";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-// import ItemTabPanel from "./ItemTabPanel";
-import PropTypes from "prop-types";
-import Typography from "@mui/material/Typography";
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
+import ItemTabPanel from "./ItemTabPanel";
 
 function a11yProps(index) {
   return {
@@ -41,10 +13,10 @@ function a11yProps(index) {
 }
 
 export default function ItemTab() {
-  const [activeIdx, setValue] = useState(0);
+  const [activeIdx, setActiveIdx] = useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChange = newValue => {
+    setActiveIdx(newValue);
   };
 
   const tabContArr = [
@@ -71,7 +43,7 @@ export default function ItemTab() {
   ));
 
   const listTabPanels = tabContArr.map((tabCont, index) => (
-    <TabPanel
+    <ItemTabPanel
       isActive={activeIdx === index}
       index={index}
       key={`tabpanel-${index}`}
@@ -88,20 +60,10 @@ export default function ItemTab() {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Item One" {...a11yProps(0)} />
-            <Tab label="Item Two" {...a11yProps(1)} />
-            <Tab label="Item Three" {...a11yProps(2)} />
+            {listTabs}
           </Tabs>
         </Box>
-        <TabPanel value={activeIdx} index={0}>
-          Item One
-        </TabPanel>
-        <TabPanel value={activeIdx} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={activeIdx} index={2}>
-          Item Three
-        </TabPanel>
+        {listTabPanels}
       </Box>
     </StyledWrapper>
   );
