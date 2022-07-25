@@ -1,6 +1,7 @@
 package com.a105.api.controller;
 
 import com.a105.api.request.UserBioRequest;
+import com.a105.api.request.UserNicknameRequest;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.api.service.UserService;
 import com.a105.domain.user.User;
@@ -53,6 +54,12 @@ public class UserController {
     @PatchMapping("/{idx}/bio")
     public ResponseEntity<?> updateUserBio(@PathVariable("idx") Long idx, @RequestBody UserBioRequest bio){
         UserInfoResponse userInfo = userService.updateUserBio(idx, bio);
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{idx}/nickname")
+    public ResponseEntity<?> updateUserNickname(@PathVariable("idx") Long idx, @RequestBody UserNicknameRequest nickname){
+        UserInfoResponse userInfo = userService.updateUserNickname(idx, nickname);
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 

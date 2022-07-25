@@ -1,6 +1,7 @@
 package com.a105.api.service;
 
 import com.a105.api.request.UserBioRequest;
+import com.a105.api.request.UserNicknameRequest;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.domain.user.User;
 import com.a105.domain.user.UserRepository;
@@ -47,5 +48,13 @@ public class UserService {
         User user = getUserFromIdx(idx);
         userBioRequest.updateUserBio(user);
         return UserInfoResponse.fromEntity(user);
+    }
+
+    @Transactional
+    public UserInfoResponse updateUserNickname(Long idx, UserNicknameRequest userNicknameRequest) {
+        User user = getUserFromIdx(idx);
+        userNicknameRequest.updateUserNickname(user);
+        return UserInfoResponse.fromEntity(user);
+        // -> exception 작성하기 (ResourceNotFoundException)
     }
 }

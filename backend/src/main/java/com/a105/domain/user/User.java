@@ -18,7 +18,7 @@ public class User {
     private Long idx;
 
     private String email;
-
+    @Setter
     private String nickname;
 
     private String password;
