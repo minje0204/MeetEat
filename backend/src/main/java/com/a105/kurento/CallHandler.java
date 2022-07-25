@@ -15,7 +15,7 @@
  *
  */
 
-package com.a105.backend.kurento;
+package com.a105.kurento;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

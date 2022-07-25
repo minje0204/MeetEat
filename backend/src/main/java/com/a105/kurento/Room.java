@@ -15,7 +15,7 @@
  *
  */
 
-package com.a105.backend.kurento;
+package com.a105.kurento;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
