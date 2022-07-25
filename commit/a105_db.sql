@@ -1,3 +1,6 @@
+CREATE DATABASE 'a105';
+USE 'a105';
+
 CREATE TABLE `user` (
   `idx` int NOT NULL AUTO_INCREMENT,
   `email` varchar(50) NOT NULL,
@@ -55,7 +58,7 @@ CREATE TABLE `friend` (
   `user_idx` int NOT NULL,
   `friend_idx` int NOT NULL,
   `status` int NOT NULL DEFAULT '0',
-  `is_read` tinyint(1) NOT NULL DEFAULT '0',
+  `is_read`int NOT NULL DEFAULT '0',
   PRIMARY KEY (`idx`),
   KEY `user_idx` (`user_idx`),
   CONSTRAINT `friend_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `user` (`idx`)
