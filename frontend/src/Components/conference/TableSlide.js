@@ -1,14 +1,14 @@
-import * as React from 'react';
-import Switch from '@mui/material/Switch';
-import Slide from '@mui/material/Slide';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import ItemTab from './ItemTab';
+import * as React from "react";
+import Switch from "@mui/material/Switch";
+import Slide from "@mui/material/Slide";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import ItemTab from "./ItemTab";
 
 function TableSlide() {
   const [checked, setChecked] = React.useState(false);
 
   const handleChange = () => {
-    setChecked((prev) => !prev);
+    setChecked(prev => !prev);
   };
 
   return (

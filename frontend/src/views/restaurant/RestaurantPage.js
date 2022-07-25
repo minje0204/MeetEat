@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 import { Link, useParams } from "react-router-dom";
 
-
 const Restaurant = () => {
   let params = useParams();
   const tableList = [{ id: "1" }, { id: "2" }, { id: "3" }];

@@ -1,16 +1,50 @@
 import React, { useState } from "react";
-import TableItems from "./TableItems";
 import styled from "styled-components";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import ItemTabPanel from "./ItemTabPanel";
+// import ItemTabPanel from "./ItemTabPanel";
+import PropTypes from "prop-types";
+import Typography from "@mui/material/Typography";
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 export default function ItemTab() {
-  const [a, setA] = useState(0);
-  console.log(a);
-  const tabClickHandler = index => {
-    setA(index);
+  const [activeIdx, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   const tabContArr = [
@@ -37,35 +71,38 @@ export default function ItemTab() {
   ));
 
   const listTabPanels = tabContArr.map((tabCont, index) => (
-    <ItemTabPanel
-      isActive={a === index}
+    <TabPanel
+      isActive={activeIdx === index}
       index={index}
       key={`tabpanel-${index}`}
     />
   ));
 
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
-    };
-  }
-
   return (
     <StyledWrapper>
       <h2>식탁 꾸미기</h2>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={a}
-          onChange={tabClickHandler}
-          aria-label="basic tabs example"
-        >
-          {/* {listTabs} */}
-          <Tab label="aaaa" {...a11yProps(10)} />
-          <Tab label="bbbb" {...a11yProps(10)} />
-        </Tabs>
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={activeIdx}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Item One" {...a11yProps(0)} />
+            <Tab label="Item Two" {...a11yProps(1)} />
+            <Tab label="Item Three" {...a11yProps(2)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={activeIdx} index={0}>
+          Item One
+        </TabPanel>
+        <TabPanel value={activeIdx} index={1}>
+          Item Two
+        </TabPanel>
+        <TabPanel value={activeIdx} index={2}>
+          Item Three
+        </TabPanel>
       </Box>
-      {listTabPanels}
     </StyledWrapper>
   );
 }
