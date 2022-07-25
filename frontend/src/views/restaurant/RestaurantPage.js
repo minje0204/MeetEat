@@ -2,8 +2,7 @@ import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 import { Link, useParams } from "react-router-dom";
 
-
-export default function RestaurantPage () {
+const Restaurant = () => {
   let params = useParams();
   const tableList = [{ id: "1" }, { id: "2" }, { id: "3" }];
   const listItems = tableList.map(e => (

@@ -1,97 +1,71 @@
-import { useState } from "react";
-import TableItems from "./TableItems";
+import React, { useState } from "react";
 import styled from "styled-components";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import ItemTabPanel from "./ItemTabPanel";
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 export default function ItemTab() {
-  // let posX = 0;
-  // let posY = 0;
+  const [activeIdx, setActiveIdx] = useState(0);
 
-  // let originalX = 0;
-  // let originalY = 0;
-
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const tabClickHandler = index => {
-    setActiveIndex(index);
+  const handleChange = newValue => {
+    setActiveIdx(newValue);
   };
-
-  // const dragStartHandler = e => {
-  //   posX = e.clientX;
-  //   posY = e.clientY;
-  //   originalX = e.target.offsetLeft;
-  //   originalY = e.target.offsetTop;
-  //   console.log('드래그 시작')
-  //   console.log(e)
-  // }
-  // const dragHandler = e => {
-  //   e.target.style.left = `${e.target.offsetLeft + e.clientX - posX}px`;
-  //   e.target.style.top = `${e.target.offsetTop + e.clientY - posY}px`;
-  //   posY = e.clientY;
-  //   posX = e.clientX;
-  //   console.log(posX, posY)
-  // };
 
   const tabContArr = [
     {
-      tabTitle: (
-        <span
-          className={activeIndex === 0 ? "is-active" : ""}
-          onClick={() => tabClickHandler(0)}
-        >
-          {" "}
-          식기류{" "}
-        </span>
-      ),
+      tabTitle: "식기류",
     },
     {
-      tabTitle: (
-        <span
-          className={activeIndex === 1 ? "is-active" : ""}
-          onClick={() => tabClickHandler(1)}
-        >
-          {" "}
-          한식{" "}
-        </span>
-      ),
+      tabTitle: "한식",
     },
     {
-      tabTitle: (
-        <span
-          className={activeIndex === 2 ? "is-active" : ""}
-          onClick={() => tabClickHandler(2)}
-        >
-          {" "}
-          일식{" "}
-        </span>
-      ),
+      tabTitle: "일식",
     },
     {
-      tabTitle: (
-        <span
-          className={activeIndex === 3 ? "is-active" : ""}
-          onClick={() => tabClickHandler(3)}
-        >
-          {" "}
-          양식{" "}
-        </span>
-      ),
+      tabTitle: "양식",
     },
   ];
 
-  // const dragItem = document.querySelectorAll('span')
-  // console.log(dragItem)
-  // dragItem.forEach((e) => {e.addEventListener('dragstart', dragStartHandler)})
-  // dragItem.forEach((e) => {e.addEventListener('drag', dragStartHandler)})
+  const listTabs = tabContArr.map((tabCont, index) => (
+    <Tab
+      label={tabCont.tabTitle}
+      {...a11yProps(index)}
+      key={`${tabCont}-${index}`}
+    />
+  ));
+
+  const listTabPanels = tabContArr.map((tabCont, index) => (
+    <ItemTabPanel
+      isActive={activeIdx === index}
+      index={index}
+      key={`tabpanel-${index}`}
+    />
+  ));
 
   return (
     <StyledWrapper>
       <h2>식탁 꾸미기</h2>
-      <div className="tabs is-boxed">
-        {tabContArr.map((section, index) => {
-          return section.tabTitle;
-        })}
-      </div>
-      <TableItems tabSelect={activeIndex}></TableItems>
+
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={activeIdx}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            {listTabs}
+          </Tabs>
+        </Box>
+        {listTabPanels}
+      </Box>
     </StyledWrapper>
   );
 }
