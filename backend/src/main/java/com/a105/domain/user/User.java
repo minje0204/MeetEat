@@ -3,6 +3,7 @@ package com.a105.domain.user;
 import com.a105.domain.tray.Tray;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,13 +18,14 @@ public class User {
     private Long idx;
 
     private String email;
-
+    @Setter
     private String nickname;
 
     private String password;
 
     private String profile;
 
+    @Setter
     private String bio;
 
     @OneToMany
