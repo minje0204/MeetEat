@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 const IndexPage = () => {
   const restaurantList = [{ id: "1" }, { id: "2" }, { id: "3" }];
   const listItems = restaurantList.map(e => (
-    <Link to={"/restaurant/" + e.id}>
-      <Button variant="outlined">식당{e.id}</Button>
+    <Link to={"/restaurant/" + e.id} key={`link-${e.id}`}>
+      <Button variant="outlined" key={`rest-${e.id}`}>
+        식당{e.id}
+      </Button>
     </Link>
   ));
   return (
