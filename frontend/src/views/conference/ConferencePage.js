@@ -1,7 +1,6 @@
 // import styled from "@emotion/styled";
 import { useParams } from "react-router-dom";
 import TableSlide from "Components/conference/TableSlide";
-import ItemTab from "Components/conference/ItemTab";
 
 function Conference() {
   let params = useParams();

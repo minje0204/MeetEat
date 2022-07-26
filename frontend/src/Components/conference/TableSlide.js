@@ -3,6 +3,8 @@ import Switch from "@mui/material/Switch";
 import Slide from "@mui/material/Slide";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import ItemTab from "./ItemTab";
+import TableArea from "./TableArea";
+// import store from "app/store";
 
 export default function TableSlide() {
   const [checked, setChecked] = React.useState(false);
@@ -10,7 +12,6 @@ export default function TableSlide() {
   const handleChange = () => {
     setChecked(prev => !prev);
   };
-
   return (
     <div>
       <div>

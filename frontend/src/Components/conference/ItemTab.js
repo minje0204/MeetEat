@@ -15,7 +15,7 @@ function a11yProps(index) {
 export default function ItemTab() {
   const [activeIdx, setActiveIdx] = useState(0);
 
-  const handleChange = newValue => {
+  const handleChange = (event, newValue) => {
     setActiveIdx(newValue);
   };
 
