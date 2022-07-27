@@ -26,6 +26,4 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
                 .fetch();
         return users;
     }
-
-    public
 }
