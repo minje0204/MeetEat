@@ -2,11 +2,14 @@ import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 import { Link, useParams } from "react-router-dom";
 
-const Restaurant = () => {
+export default function RestaurantPage() {
   let params = useParams();
   const tableList = [{ id: "1" }, { id: "2" }, { id: "3" }];
   const listItems = tableList.map(e => (
-    <Link to={"/restaurant/" + params.restaurant_id + "/conference/" + e.id}>
+    <Link
+      to={"/restaurant/" + params.restaurant_id + "/conference/" + e.id}
+      key={`conference-${e.id}`}
+    >
       <Button variant="outlined">컨퍼런스{e.id}</Button>
     </Link>
   ));
@@ -16,7 +19,7 @@ const Restaurant = () => {
       <div id="table-list">{listItems}</div>
     </StyledWrapper>
   );
-};
+}
 
 const StyledWrapper = styled.div`
   height: 100vh;
