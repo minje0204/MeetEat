@@ -13,16 +13,16 @@ spring:
         format_sql: true #To beautify or pretty print the SQL
         show_sql: true #show sql
 
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          google:
-#            client-id: 347493483528-h0eb923lqrqe12a39b1a044c6r0rjcik.apps.googleusercontent.com
-#            client-secret: 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
-#            scope:
-#              - email
-#              - profile
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 347493483528-h0eb923lqrqe12a39b1a044c6r0rjcik.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
 
 logging:
   level:

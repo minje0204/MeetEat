@@ -35,4 +35,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
+    @Builder
+    public User(String email, String nickname, String password, AuthProvider provider, String providerId) {
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+        this.provider = provider;
+        this.providerId = providerId;
+    }
+
 }
