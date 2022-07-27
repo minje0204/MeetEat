@@ -1,16 +1,23 @@
 // import styled from "@emotion/styled";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import TableSlide from "Components/conference/TableSlide";
+import RoomGuests from "Components/conference/RoomGuests";
 
-function Conference () {
+function Conference() {
   let params = useParams();
+
+  const location = useLocation();
+  const title = location.state.title;
+  const people = location.state.people;
+
   return (
     <div>
-      <h1>컨퍼런스{params.conf_id}</h1>
-      <TableSlide>
-      </TableSlide>
-
+      <h1>
+        컨퍼런스{params.conf_id} - {title} (현재인원수/{people}명)
+      </h1>
+      <TableSlide></TableSlide>
+      <RoomGuests people={people}></RoomGuests>
     </div>
-  )
-};
+  );
+}
 export default Conference;

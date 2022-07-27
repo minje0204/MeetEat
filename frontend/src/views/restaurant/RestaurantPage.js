@@ -1,16 +1,20 @@
 import styled from "@emotion/styled";
-import Button from "@mui/material/Button";
-import { Link, useParams } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
+import FormDialog from "Components/makingroom/Modal";
+import React, { useState } from "react";
 
 const Restaurant = () => {
   let params = useParams();
   const tableList = [{ id: "1" }, { id: "2" }, { id: "3" }];
   const listItems = tableList.map(e => (
-    <Link to={"/restaurant/" + params.restaurant_id + "/conference/" + e.id}>
-      <Button variant="outlined">컨퍼런스{e.id}</Button>
-    </Link>
+    <div>
+      <FormDialog
+        tableNum={e.id}
+        restaurantId={params.restaurant_id}
+      ></FormDialog>
+    </div>
   ));
+
   return (
     <StyledWrapper>
       <h1>식당{params.restaurant_id}</h1>
@@ -18,7 +22,6 @@ const Restaurant = () => {
     </StyledWrapper>
   );
 };
-export default Restaurant;
 
 const StyledWrapper = styled.div`
   height: 100vh;
