@@ -1,16 +1,17 @@
-import * as React from 'react';
-import Switch from '@mui/material/Switch';
-import Slide from '@mui/material/Slide';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import ItemTab from './ItemTab';
+import * as React from "react";
+import Switch from "@mui/material/Switch";
+import Slide from "@mui/material/Slide";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import ItemTab from "./ItemTab";
+import TableArea from "./TableArea";
+// import store from "app/store";
 
-function TableSlide() {
+export default function TableSlide() {
   const [checked, setChecked] = React.useState(false);
 
   const handleChange = () => {
-    setChecked((prev) => !prev);
+    setChecked(prev => !prev);
   };
-
   return (
     <div>
       <div>
@@ -21,11 +22,10 @@ function TableSlide() {
         <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
           <div>
             <ItemTab></ItemTab>
+            <TableArea></TableArea>
           </div>
         </Slide>
       </div>
     </div>
   );
 }
-
-export default TableSlide;

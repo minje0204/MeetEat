@@ -3,7 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import TableSlide from "Components/conference/TableSlide";
 import RoomGuests from "Components/conference/RoomGuests";
 
-function Conference () {
+function Conference() {
   let params = useParams();
 
   const location = useLocation();
@@ -12,10 +12,12 @@ function Conference () {
 
   return (
     <div>
-      <h1>컨퍼런스{params.conf_id} - {title} (현재인원수/{people}명)</h1>
+      <h1>
+        컨퍼런스{params.conf_id} - {title} (현재인원수/{people}명)
+      </h1>
       <TableSlide></TableSlide>
       <RoomGuests people={people}></RoomGuests>
     </div>
-  )
-};
+  );
+}
 export default Conference;

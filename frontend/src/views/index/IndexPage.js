@@ -25,7 +25,6 @@ const IndexPage = () => {
     </StyledWrapper>
   );
 };
-export default IndexPage;
 
 const StyledWrapper = styled.div`
   bgcolor: ;
@@ -38,13 +37,13 @@ const StyledWrapper = styled.div`
   a {
     text-decoration: none;
   }
-  
+
   button {
     font-family: "BlackHanSans";
     font-size: 32px;
     color: black;
   }
-  
+
   #restaurant-list {
     width: 1500px;
     display: flex;
