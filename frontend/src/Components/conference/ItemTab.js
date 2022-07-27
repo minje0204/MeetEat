@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TableItems from "./TableItems";
 import styled from "styled-components";
+import TableShape from "./TableShape";
 
 export default function ItemTab () {
   const [activeIndex, setActiveIndex]=useState(0);
@@ -41,6 +42,7 @@ export default function ItemTab () {
         })}
       </div>
       <TableItems tabSelect={activeIndex}></TableItems>
+      <TableShape></TableShape>
     </StyledWrapper>
   )
 };

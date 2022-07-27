@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 export default function TableItems (props) {
   
   const [tableDish, setTableDish]=useState([]);
@@ -26,6 +27,7 @@ export default function TableItems (props) {
     if (idx===0) {
       for (let i = 0; i < tableItems.length; i++) {
         if (tableItems[i].type==='silverware') {
+          // result.push(<span key={i} onClick={()=>tableDishHandler(tableItems[i].name)} draggable='True'>{tableItems[i].name}</span>)
           result.push(<span key={i} onClick={()=>tableDishHandler(tableItems[i].name)} draggable='True'>{tableItems[i].name}</span>)
           result.push(<br></br>)
         }
