@@ -50,6 +50,6 @@ public class BackendApplication implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(groupCallHandler(), "/groupcall");
+		registry.addHandler(groupCallHandler(), "/groupcall").setAllowedOrigins("http://localhost:3000");
 	}
 }
