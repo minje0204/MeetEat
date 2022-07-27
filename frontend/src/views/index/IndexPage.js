@@ -21,6 +21,7 @@ const IndexPage = () => {
   ));
   return (
     <StyledWrapper>
+     <div id=""></div>
       <div id="restaurant-list">{listItems}</div>
     </StyledWrapper>
   );
@@ -31,6 +32,7 @@ const StyledWrapper = styled.div`
   bgcolor: ;
   height: 100vh;
   display: flex;
+  
   justify-content: center;
   align-items: center;
   text-align: center;
