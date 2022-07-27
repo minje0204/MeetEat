@@ -1,6 +1,7 @@
 package com.a105.domain.user;
 
 import com.a105.domain.tray.Tray;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,6 +35,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
+
+    private String providerId;
 
     @Builder
     public User(String email, String nickname, String password, AuthProvider provider, String providerId) {

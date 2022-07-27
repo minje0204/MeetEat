@@ -10,7 +10,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<User> findByEmail(String email) {
+    public List<User> searchByEmail(String email) {
         QUser user = QUser.user;
         List<User> users = jpaQueryFactory.selectFrom(user)
                 .where(user.email.contains(email))
@@ -19,7 +19,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
     }
 
     @Override
-    public List<User> findByNickname(String nickname) {
+    public List<User> searchByNickname(String nickname) {
         QUser user = QUser.user;
         List<User> users = jpaQueryFactory.selectFrom(user)
                 .where(user.nickname.contains(nickname))

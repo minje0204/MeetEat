@@ -26,11 +26,11 @@ public class UserService {
     }
 
     public List<User> searchFromEmail(String email){
-        return userRepository.findByEmail(email);
+        return userRepository.searchByEmail(email);
     }
 
     public List<User> searchFromNickname(String nickname){
-        return userRepository.findByNickname(nickname);
+        return userRepository.searchByNickname(nickname);
     }
 
     public List<User> findAll() {

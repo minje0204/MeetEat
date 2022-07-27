@@ -1,5 +1,6 @@
 package com.a105.api.controller;
 
+import com.a105.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
