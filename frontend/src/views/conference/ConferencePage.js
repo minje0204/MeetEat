@@ -1,6 +1,6 @@
 // import styled from "@emotion/styled";
 import { useParams } from "react-router-dom";
-import TableSlide from "components/conference/TableSlide";
+import TableSlide from "Components/conference/TableSlide";
 import UseSocket from "hooks/UseSocket";
 function Conference() {
   let params = useParams();

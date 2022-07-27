@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import Menu from "components/common/nav/Menu";
+import Menu from "Components/common/nav/Menu";
 import { Link } from "react-router-dom";
 
 const Header = () => {
