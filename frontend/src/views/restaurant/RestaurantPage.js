@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import { useParams } from "react-router-dom";
-import FormDialog from "Components/makingroom/Modal";
+import FormDialog from "components/makingroom/Modal";
 import React, { useState } from "react";
 
-const Restaurant = () => {
+export default function RestaurantPage () {
   let params = useParams();
   const tableList = [{ id: "1" }, { id: "2" }, { id: "3" }];
   const listItems = tableList.map(e => (
