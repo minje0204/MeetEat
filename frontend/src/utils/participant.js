@@ -79,18 +79,18 @@ function Participant(name) {
     if (error) return console.error("sdp offer error");
     console.log("Invoking SDP offer callback function");
     var msg = { id: "receiveVideoFrom", sender: name, sdpOffer: offerSdp };
-    // sendMessage(msg);
+    return msg;
   };
 
   this.onIceCandidate = function (candidate, wp) {
     console.log("Local candidate" + JSON.stringify(candidate));
 
-    var message = {
+    let message = {
       id: "onIceCandidate",
       candidate: candidate,
       name: name,
     };
-    // sendMessage(message);
+    return message;
   };
 
   Object.defineProperty(this, "rtcPeer", { writable: true });

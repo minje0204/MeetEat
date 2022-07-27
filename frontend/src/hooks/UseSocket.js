@@ -5,82 +5,18 @@ import { WebRtcPeer } from "kurento-utils";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-var name = "test name";
+let name = "test name";
 let message = {
   id: "joinRoom",
   name: "test name",
   room: "test room",
 };
 const participants = {};
-export function onExistingParticipants(msg) {
-  var constraints = {
-    audio: true,
-    video: {
-      mandatory: {
-        maxWidth: 320,
-        maxFrameRate: 15,
-        minFrameRate: 15,
-      },
-    },
-  };
-  var participant = new Participant(name);
-  participants[name] = participant;
-  var video = participant.getVideoElement();
 
-  var options = {
-    localVideo: video,
-    mediaConstraints: constraints,
-    onicecandidate: participant.onIceCandidate.bind(participant),
-  };
-  participant.rtcPeer = new WebRtcPeer.WebRtcPeerSendonly(options, function (
-    error,
-  ) {
-    if (error) {
-      return console.error(error);
-    }
-    this.generateOffer(participant.offerToReceiveVideo.bind(participant));
-  });
-
-  msg.data.forEach(receiveVideo);
-}
-
-export function onNewParticipant(request) {
-  receiveVideo(request.name);
-}
-function receiveVideo(sender) {
-  var participant = new Participant(sender);
-  participants[sender] = participant;
-  var video = participant.getVideoElement();
-
-  var options = {
-    remoteVideo: video,
-    onicecandidate: participant.onIceCandidate.bind(participant),
-  };
-
-  participant.rtcPeer = new WebRtcPeer.WebRtcPeerRecvonly(options, function (
-    error,
-  ) {
-    if (error) {
-      return console.error(error);
-    }
-    this.generateOffer(participant.offerToReceiveVideo.bind(participant));
-  });
-}
-export function onParticipantLeft(request) {
-  console.log("Participant " + request.name + " left");
-  var participant = participants[request.name];
-  participant.dispose();
-  delete participants[request.name];
-}
-
-export function receiveVideoResponse(result) {
-  participants[result.name].rtcPeer.processAnswer(
-    result.sdpAnswer,
-    function (error) {
-      if (error) return console.error(error);
-    },
-  );
-}
+let onExistingParticipants;
+let onNewParticipant;
+let onParticipantLeft;
+let receiveVideoResponse;
 
 const onMessage = message => {
   let parsedMessage = JSON.parse(message.data);
@@ -115,16 +51,97 @@ const onMessage = message => {
       console.error("Unrecognized message", parsedMessage);
   }
 };
-
 const UseSocket = () => {
+  const [name1, setName1] = useState("");
   //Public API that will echo messages sent to it back to the client
-  const [socketUrl, setSocketUrl] = useState(`ws://${API_URL}/groupcall`);
   const [messageHistory, setMessageHistory] = useState([]);
 
+  const [socketUrl, setSocketUrl] = useState(`ws://${API_URL}/groupcall`);
   const { sendMessage, lastMessage, readyState } = useWebSocket(
     socketUrl,
     onMessage,
   );
+
+  onNewParticipant = request => {
+    receiveVideo(request.name);
+  };
+  function receiveVideo(sender) {
+    var participant = new Participant(sender);
+    participants[sender] = participant;
+    var video = participant.getVideoElement();
+
+    var options = {
+      remoteVideo: video,
+      onicecandidate: candidate =>
+        customSendMsg(participant.onIceCandidate.bind(participant)(candidate)),
+    };
+
+    participant.rtcPeer = new WebRtcPeer.WebRtcPeerRecvonly(options, function (
+      error,
+    ) {
+      if (error) {
+        return console.error(error);
+      }
+      this.generateOffer((a, b, c) =>
+        customSendMsg(
+          participant.offerToReceiveVideo.bind(participant)(a, b, c),
+        ),
+      );
+    });
+  }
+  onParticipantLeft = request => {
+    console.log("Participant " + request.name + " left");
+    var participant = participants[request.name];
+    participant.dispose();
+    delete participants[request.name];
+  };
+
+  receiveVideoResponse = result => {
+    participants[result.name].rtcPeer.processAnswer(
+      result.sdpAnswer,
+      function (error) {
+        if (error) return console.error(error);
+      },
+    );
+  };
+
+  onExistingParticipants = msg => {
+    let constraints = {
+      audio: true,
+      video: {
+        mandatory: {
+          maxWidth: 320,
+          maxFrameRate: 15,
+          minFrameRate: 15,
+        },
+      },
+    };
+    let participant = new Participant(name);
+    participants[name] = participant;
+    let video = participant.getVideoElement();
+
+    let options = {
+      localVideo: video,
+      mediaConstraints: constraints,
+      onicecandidate: candidate =>
+        customSendMsg(participant.onIceCandidate.bind(participant)(candidate)),
+    };
+    participant.rtcPeer = new WebRtcPeer.WebRtcPeerSendonly(options, function (
+      error,
+    ) {
+      if (error) {
+        return console.error(error);
+      }
+
+      this.generateOffer((a, b, c) =>
+        customSendMsg(
+          participant.offerToReceiveVideo.bind(participant)(a, b, c),
+        ),
+      );
+    });
+
+    msg.data.forEach(receiveVideo); // 돌면서 참가자 모두 영상 수신
+  };
 
   const customSendMsg = msg => {
     var jsonMessage = JSON.stringify(msg);
@@ -148,8 +165,17 @@ const UseSocket = () => {
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState];
 
+  useEffect(() => {
+    message.name = name1;
+    name = name1;
+  }, [name1]);
   return (
     <div>
+      <input
+        type="text"
+        value={name1}
+        onChange={e => setName1(e.target.value)}
+      ></input>
       <button
         onClick={handleClickSendMessage}
         disabled={readyState !== ReadyState.OPEN}
