@@ -1,7 +1,7 @@
 // import styled from "@emotion/styled";
 import { useParams, useLocation } from "react-router-dom";
-import TableSlide from "Components/conference/TableSlide";
-import RoomGuests from "Components/conference/RoomGuests";
+import TableSlide from "components/conference/TableSlide";
+import RoomGuests from "components/conference/RoomGuests";
 
 function Conference() {
   let params = useParams();
