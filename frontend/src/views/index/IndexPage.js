@@ -5,7 +5,11 @@ import restaurant from "assets/img/restaurant.png";
 import restaurant_2 from "assets/img/restaurant_2.png";
 import burgershop from "assets/img/burgershop.png";
 
+<<<<<<< HEAD
 export default function IndexPage() {
+=======
+export default function IndexPage () {
+>>>>>>> 84cd64310c3c6c7ddf48360a7b5c76ab9952fbee
   const restaurantList = [
     { id: "1", source: restaurant },
     { id: "2", source: restaurant_2 },
