@@ -4,14 +4,12 @@ import com.a105.api.request.ConferenceRequest;
 import com.a105.api.response.ConferenceListResponse;
 import com.a105.api.service.ConferenceService;
 import com.a105.api.service.UserConferenceService;
-import com.a105.domain.UserConference.UserConference;
 import com.a105.domain.conference.Conference;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -28,7 +26,7 @@ public class ConferenceController {
         return new ResponseEntity<List<ConferenceListResponse>>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/{restaurantIdx}/conference/{conferenceIdx}")// join 요청
+    @GetMapping("/{restaurantIdx}/conference/{conferenceIdx}")
     private ResponseEntity<Conference> joinConference(@PathVariable Long conferenceIdx) {
         Conference conference = conferenceService.getConferenceFromIdx(conferenceIdx);
         if (conference.getCallEndTime() != null) {
@@ -37,22 +35,24 @@ public class ConferenceController {
         if (conference.getMaxUserNum() <= conferenceService.getCurrentUserNum(conferenceIdx)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if (userConferenceService.joinCheck(conferenceIdx, 2L))
+        if (userConferenceService.checkUserConferenceDuplicate(conferenceIdx, 2L))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         userConferenceService.joinConference(conferenceIdx, 2L);
         return new ResponseEntity<>(conference, HttpStatus.OK);
     }
 
-    @PostMapping("/{restaurantIdx}")
-    private ResponseEntity<Conference> insertConference(@RequestBody ConferenceRequest conferenceRequest) {
-        Conference conference = conferenceService.insertCon ference(conferenceRequest);
+    @PostMapping("/{restaurantId}")
+    private ResponseEntity<Conference> insertConference(@PathVariable int restaurantId, @RequestBody ConferenceRequest conferenceRequest) {
+        if (conferenceService.checkConferenceDuplicate(restaurantId, conferenceRequest.getPosition()))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Conference conference = conferenceService.insertConference(conferenceRequest, restaurantId);
         userConferenceService.joinConference(conference.getIdx(), 1L);
         return new ResponseEntity<>(conference, HttpStatus.OK);
     }
 
     @PatchMapping("/{restaurantId}/conference/{conferenceId}")
-    private ResponseEntity<?> leaveConference(@PathVariable Long conferenceId){
+    private ResponseEntity<?> leaveConference(@PathVariable Long conferenceId) {
         userConferenceService.leaveConference(conferenceId, 1L);
-        return ResponseEntity.notFound().build();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -39,11 +39,11 @@ public class Conference {
     private int position;
 
     @Builder
-    private Conference(ConferenceRequest conferenceRequest){
+    private Conference(ConferenceRequest conferenceRequest, int restaurant) {
         this.hostIdx = conferenceRequest.getHostId();
         this.title = conferenceRequest.getTitle();
         this.maxUserNum = conferenceRequest.getMaxUserNum();
-        this.restaurant = conferenceRequest.getRestaurant();
+        this.restaurant = restaurant;
         this.position = conferenceRequest.getPosition();
     }
 }

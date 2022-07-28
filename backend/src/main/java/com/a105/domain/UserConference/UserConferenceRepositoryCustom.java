@@ -2,7 +2,7 @@ package com.a105.domain.UserConference;
 
 import java.util.List;
 
-public interface UserConferenceRepositoryCustom  {
+public interface UserConferenceRepositoryCustom {
 
     int countCurrentUser(Long conferenceIdx);
 

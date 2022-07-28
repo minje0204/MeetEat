@@ -18,37 +18,44 @@ public class ConferenceService {
     private final ConferenceRepository conferenceRepository;
     private final UserConferenceRepository userConferenceRepository;
 
-    public List<ConferenceListResponse> getConferenceList(int restaurant){
+    public List<ConferenceListResponse> getConferenceList(int restaurant) {
         List<ConferenceListResponse> list = new ArrayList<>();
         List<Conference> activeConferenceList = getActiveConferenceList(restaurant);
-        for (Conference conference:
-              activeConferenceList) {
+        for (Conference conference :
+                activeConferenceList) {
             list.add(getConference(conference.getIdx()));
         }
         return list;
     }
 
-    public List<Conference> getActiveConferenceList(int restaurant){
+    public List<Conference> getActiveConferenceList(int restaurant) {
         return conferenceRepository.getActiveConferenceList(restaurant);
     }
 
-    public ConferenceListResponse getConference(Long idx){
-        return ConferenceListResponse.fromEntity(getConferenceFromIdx(idx),getCurrentUserNum(idx));
+    public ConferenceListResponse getConference(Long idx) {
+        return ConferenceListResponse.fromEntity(getConferenceFromIdx(idx), getCurrentUserNum(idx));
     }
 
-    public Conference getConferenceFromIdx(Long idx){
+    public Conference getConferenceFromIdx(Long idx) {
         return conferenceRepository.findById(idx).orElseThrow();
     }
 
-    public int getCurrentUserNum(Long conferenceIdx){
+    public int getCurrentUserNum(Long conferenceIdx) {
         return userConferenceRepository.countCurrentUser(conferenceIdx);
     }
 
-    public Conference insertConference(ConferenceRequest conferenceRequest) {
+    public Conference insertConference(ConferenceRequest conferenceRequest, int restaurant) {
         Conference conference = Conference.builder()
                 .conferenceRequest(conferenceRequest)
+                .restaurant(restaurant)
                 .build();
         conferenceRepository.save(conference);
         return conference;
+    }
+
+    public boolean checkConferenceDuplicate(int restaurant, int position) {
+        Conference conference = conferenceRepository.findByRestaurantAndPosition(restaurant, position);
+        if (conference == null) return false;
+        return conference.getCallEndTime() == null;
     }
 }

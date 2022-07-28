@@ -19,4 +19,15 @@ public class ConferenceRepositoryImpl implements ConferenceRepositoryCustom {
         return conferenceList;
     }
 
+    @Override
+    public Conference findByRestaurantAndPosition(int restaurant, int position) {
+        QConference conference = QConference.conference;
+        List<Conference> conferenceList = jpaQueryFactory.selectFrom(conference)
+                .where(conference.restaurant.eq(restaurant), conference.position.eq(position))
+                .orderBy(conference.idx.desc())
+                .fetch();
+        if (conferenceList.isEmpty()) return null;
+        return conferenceList.get(0);
+    }
+
 }

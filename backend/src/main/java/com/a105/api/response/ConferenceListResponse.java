@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 public class ConferenceListResponse {
-    private Long idx; //회의 인덱스
+    private Long idx;
 
     private String title;
 
@@ -16,11 +16,9 @@ public class ConferenceListResponse {
 
     private int currentUserNum;
 
-    private int tableNum;
-
     private int position;
 
-    public static ConferenceListResponse fromEntity(Conference conference, int currentUserNum){
+    public static ConferenceListResponse fromEntity(Conference conference, int currentUserNum) {
         return ConferenceListResponse.builder()
                 .idx(conference.getIdx())
                 .title(conference.getTitle())

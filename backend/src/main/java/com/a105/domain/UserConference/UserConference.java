@@ -30,7 +30,7 @@ public class UserConference {
     private int action;
 
     @Builder
-    private UserConference(Conference conference, User user){
+    private UserConference(Conference conference, User user) {
         this.conference = conference;
         this.user = user;
     }

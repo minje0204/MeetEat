@@ -6,9 +6,10 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class UserConferenceRepositoryImpl implements UserConferenceRepositoryCustom{
+public class UserConferenceRepositoryImpl implements UserConferenceRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+
     @Override
     public int countCurrentUser(Long conferenceId) {
         QUserConference userConference = QUserConference.userConference;
@@ -23,7 +24,6 @@ public class UserConferenceRepositoryImpl implements UserConferenceRepositoryCus
     public List<UserConference> findByConferenceIdAndUserId(Long conferenceId, Long userId) {
         QUserConference userConference = QUserConference.userConference;
         List<UserConference> result = jpaQueryFactory.selectFrom(userConference)
-                .from(userConference)
                 .where(userConference.conference.idx.eq(conferenceId), userConference.user.idx.eq(userId))
                 .orderBy(userConference.idx.desc())
                 .fetch();

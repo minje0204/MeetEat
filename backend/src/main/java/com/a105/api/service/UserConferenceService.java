@@ -28,7 +28,7 @@ public class UserConferenceService {
         return userConference;
     }
 
-    public boolean joinCheck(Long conferenceId, Long userId) {
+    public boolean checkUserConferenceDuplicate(Long conferenceId, Long userId) {
         List<UserConference> list = userConferenceRepository.findByConferenceIdAndUserId(conferenceId, userId);
         if (list.isEmpty() || list.get(0).getAction() != 0) return false;
         return true;
