@@ -27,48 +27,36 @@ export default function RoomGuests(props) {
   }else if (people == 4){
     return(
       <StyledWrapper>
-        <div id="room_guest_col">
-          <div id="room_guest_row_4up">
-            <RoomGuest></RoomGuest>
-            <RoomGuest></RoomGuest>
-          </div>
-          <div id="room_guest_row_4up">
-            <RoomGuest></RoomGuest>
-            <RoomGuest></RoomGuest>
-          </div>
+        <div id="room_guest_row_4">
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
         </div>
       </StyledWrapper>
     )
   }else if (people == 5){
     return(
       <StyledWrapper>
-        <div id="room_guest_col">
-          <div id="room_guest_row_4up">
-            <RoomGuest></RoomGuest>
-            <RoomGuest></RoomGuest>
-            <RoomGuest></RoomGuest>
-          </div>
-          <div id="room_guest_row_4up">
-            <RoomGuest></RoomGuest>
-            <RoomGuest></RoomGuest>
-          </div>
+        <div id="room_guest_row">
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
         </div>
       </StyledWrapper>
     )
   }else if (people == 6){
     return(
       <StyledWrapper>
-        <div id="room_guest_col">
-          <div id="room_guest_row_4up">
-            <RoomGuest></RoomGuest>
-            <RoomGuest></RoomGuest>
-            <RoomGuest></RoomGuest>
-          </div>
-          <div id="room_guest_row_4up">
-            <RoomGuest></RoomGuest>
-            <RoomGuest></RoomGuest>
-            <RoomGuest></RoomGuest>
-          </div>
+        <div id="room_guest_row">
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
+          <RoomGuest></RoomGuest>
         </div>
       </StyledWrapper>
     )
@@ -78,19 +66,20 @@ export default function RoomGuests(props) {
 const StyledWrapper = styled.div`
   #room_guest_row{
     width: 100vw;
-    height: 80vh;
+    height: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
+    align-content: center;
   }
-  #room_guest_row_4up{
+  #room_guest_row_4{
     width: 100vw;
-    height: 40vh;
+    height: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
-  }
-  #room_guest_col{
-        
+    align-content: center;
   }
 `;
