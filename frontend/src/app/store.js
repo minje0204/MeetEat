@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import _ from "lodash";
 
 const initialState = { tableList: [] };
 

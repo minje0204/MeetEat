@@ -40,7 +40,7 @@ function Participant(name) {
   container.appendChild(video);
   container.appendChild(span);
   container.onclick = switchContainerClass;
-  document.getElementById("participants").appendChild(container);
+  document.getElementById("personal_cam").appendChild(container);
 
   span.appendChild(document.createTextNode(name));
 
@@ -83,8 +83,6 @@ function Participant(name) {
   };
 
   this.onIceCandidate = function (candidate, wp) {
-    console.log("Local candidate" + JSON.stringify(candidate));
-
     let message = {
       id: "onIceCandidate",
       candidate: candidate,

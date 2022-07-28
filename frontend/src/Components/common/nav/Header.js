@@ -7,9 +7,9 @@ const Header = () => {
   return (
     <StyledWrapper>
       <div id="container">
-        <Link to="/" >
+        <Link to="/">
           <div id="logo">
-            <img src={ logoimage }  />
+            <img src={logoimage} alt="로고" />
             <div>혼밥러</div>
           </div>
         </Link>
@@ -21,15 +21,15 @@ const Header = () => {
 export default Header;
 
 const StyledWrapper = styled.div`
-  a{
+  a {
     text-decoration: none;
     color: #000000;
   }
   a:hover {
-    color: #FF8E00;
+    color: #ff8e00;
   }
   img {
-    width:50px;
+    width: 50px;
     height: 45px;
     margin-right: 5px;
     display: inline-block;
@@ -42,7 +42,7 @@ const StyledWrapper = styled.div`
     align-items: center;
   }
   #container {
-    padding:10px;
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;

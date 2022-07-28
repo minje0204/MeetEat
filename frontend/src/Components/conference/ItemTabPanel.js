@@ -1,8 +1,7 @@
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import getItems from "utils/items";
 import store from "app/store";
 import styled from "styled-components";
+import getItems from "utils/items";
 
 export default function ItemTabPanel(props) {
   const { index, isActive, ...other } = props;
@@ -21,8 +20,6 @@ export default function ItemTabPanel(props) {
     img.src = e.target.src;
     console.log(img.width, img.height);
     console.log(img);
-    // img.alt = "image";
-    // img.key = e.target.key;
     e.dataTransfer.setDragImage(img, img.width * 0.6, img.height * 0.6);
     console.log(`e.clientX ${e.clientX}`);
     console.log(`e.clientY ${e.clientY}`);
