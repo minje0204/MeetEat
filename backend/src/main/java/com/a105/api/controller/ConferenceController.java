@@ -1,7 +1,9 @@
 package com.a105.api.controller;
 
+import com.a105.api.request.ConferenceRequest;
 import com.a105.api.response.ConferenceListResponse;
 import com.a105.api.service.ConferenceService;
+import com.a105.api.service.UserConferenceService;
 import com.a105.domain.UserConference.UserConference;
 import com.a105.domain.conference.Conference;
 import lombok.RequiredArgsConstructor;
@@ -18,28 +20,39 @@ import java.util.List;
 public class ConferenceController {
 
     private final ConferenceService conferenceService;
-
-//    private final Principal principal;
+    private final UserConferenceService userConferenceService;
 
     @GetMapping("/{restaurantIdx}")
-    private ResponseEntity<List<ConferenceListResponse>> getConferenceList(@PathVariable int restaurantIdx){
+    private ResponseEntity<List<ConferenceListResponse>> getConferenceList(@PathVariable int restaurantIdx) {
         List<ConferenceListResponse> list = conferenceService.getConferenceList(restaurantIdx);
         return new ResponseEntity<List<ConferenceListResponse>>(list, HttpStatus.OK);
     }
 
     @GetMapping("/{restaurantIdx}/conference/{conferenceIdx}")// join 요청
-    private ResponseEntity<?> getConference(@PathVariable Long restaurantIdx,@PathVariable Long conferenceIdx){
+    private ResponseEntity<Conference> joinConference(@PathVariable Long conferenceIdx) {
         Conference conference = conferenceService.getConferenceFromIdx(conferenceIdx);
-        if(conference.getCallEndTime() == null){
+        if (conference.getCallEndTime() != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-//        UserConference userConference = new UserConference(null, conference.getIdx(), principal.getName(), 0);
-//        conferenceService.
+        if (conference.getMaxUserNum() <= conferenceService.getCurrentUserNum(conferenceIdx)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if (userConferenceService.joinCheck(conferenceIdx, 2L))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        userConferenceService.joinConference(conferenceIdx, 2L);
         return new ResponseEntity<>(conference, HttpStatus.OK);
     }
 
-//    @PostMapping("/{restaurant}")
-//    private ResponseEntity<?> addConference(@RequestBody Conference conference){
-//        Conference
-//    }
+    @PostMapping("/{restaurantIdx}")
+    private ResponseEntity<Conference> insertConference(@RequestBody ConferenceRequest conferenceRequest) {
+        Conference conference = conferenceService.insertCon ference(conferenceRequest);
+        userConferenceService.joinConference(conference.getIdx(), 1L);
+        return new ResponseEntity<>(conference, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{restaurantId}/conference/{conferenceId}")
+    private ResponseEntity<?> leaveConference(@PathVariable Long conferenceId){
+        userConferenceService.leaveConference(conferenceId, 1L);
+        return ResponseEntity.notFound().build();
+    }
 }

@@ -18,13 +18,15 @@ public class ConferenceListResponse {
 
     private int tableNum;
 
+    private int position;
+
     public static ConferenceListResponse fromEntity(Conference conference, int currentUserNum){
         return ConferenceListResponse.builder()
                 .idx(conference.getIdx())
                 .title(conference.getTitle())
                 .maxUserNum(conference.getMaxUserNum())
                 .currentUserNum(currentUserNum)
-//                .tableNum(conference.getTableNum())
+                .position(conference.getPosition())
                 .build();
     }
 }

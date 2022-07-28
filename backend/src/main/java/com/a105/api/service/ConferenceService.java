@@ -1,5 +1,6 @@
 package com.a105.api.service;
 
+import com.a105.api.request.ConferenceRequest;
 import com.a105.api.response.ConferenceListResponse;
 import com.a105.domain.UserConference.UserConferenceRepository;
 import com.a105.domain.conference.Conference;
@@ -15,7 +16,6 @@ import java.util.List;
 public class ConferenceService {
 
     private final ConferenceRepository conferenceRepository;
-
     private final UserConferenceRepository userConferenceRepository;
 
     public List<ConferenceListResponse> getConferenceList(int restaurant){
@@ -42,5 +42,13 @@ public class ConferenceService {
 
     public int getCurrentUserNum(Long conferenceIdx){
         return userConferenceRepository.countCurrentUser(conferenceIdx);
+    }
+
+    public Conference insertConference(ConferenceRequest conferenceRequest) {
+        Conference conference = Conference.builder()
+                .conferenceRequest(conferenceRequest)
+                .build();
+        conferenceRepository.save(conference);
+        return conference;
     }
 }

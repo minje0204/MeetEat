@@ -1,5 +1,7 @@
 package com.a105.domain.conference;
 
+import com.a105.api.request.ConferenceRequest;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,5 +36,14 @@ public class Conference {
 
     private int restaurant;
 
+    private int position;
 
+    @Builder
+    private Conference(ConferenceRequest conferenceRequest){
+        this.hostIdx = conferenceRequest.getHostId();
+        this.title = conferenceRequest.getTitle();
+        this.maxUserNum = conferenceRequest.getMaxUserNum();
+        this.restaurant = conferenceRequest.getRestaurant();
+        this.position = conferenceRequest.getPosition();
+    }
 }

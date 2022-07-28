@@ -10,12 +10,23 @@ public class UserConferenceRepositoryImpl implements UserConferenceRepositoryCus
 
     private final JPAQueryFactory jpaQueryFactory;
     @Override
-    public int countCurrentUser(Long conferenceIdx) {
+    public int countCurrentUser(Long conferenceId) {
         QUserConference userConference = QUserConference.userConference;
         List<Long> result = jpaQueryFactory.select(userConference.count())
                 .from(userConference)
-                .where(userConference.conferenceIdx.eq(conferenceIdx.intValue()), userConference.action.eq(0))
+                .where(userConference.conference.idx.eq(conferenceId), userConference.action.eq(0))
                 .fetch();
         return Math.toIntExact(result.get(0));
+    }
+
+    @Override
+    public List<UserConference> findByConferenceIdAndUserId(Long conferenceId, Long userId) {
+        QUserConference userConference = QUserConference.userConference;
+        List<UserConference> result = jpaQueryFactory.selectFrom(userConference)
+                .from(userConference)
+                .where(userConference.conference.idx.eq(conferenceId), userConference.user.idx.eq(userId))
+                .orderBy(userConference.idx.desc())
+                .fetch();
+        return result;
     }
 }
