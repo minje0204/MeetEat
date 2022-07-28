@@ -9,14 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-@EnableWebSecurity  // Spring Security Filter가 Spring Filter Chain에 등록됨
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-//    @Bean
-//    public BCryptPasswordEncoder encodePwd(){
-//        return new BCryptPasswordEncoder();
-//    }
 
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
@@ -34,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .loginPage("/")
 //                .and()
                 .oauth2Login()
-                .loginPage("/") // google 로그인이 완료된 뒤의 후처리가 필요함. Tip. 코드X (액세스토큰 + 사용자 프로필 정보 O)
+                .loginPage("/")
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService);
     }

@@ -33,12 +33,8 @@ public class TestController {
         System.out.println("oauth2User : " + oauth.getAttributes());
 
         return new ResponseEntity<>("OAuth Session", HttpStatus.OK);
-
     }
 
-    // OAuth 로그인을 해도 Principal, 일반 로그인을 해도 Principal
-    // Authentication으로 접근하면 Principal로 downcasting 해야되는데
-    // annotation만으로도 가능
     @GetMapping("/test/login")
     public ResponseEntity<?> testLogin(@AuthenticationPrincipal UserPrincipal userPrincipal){
         System.out.println("UserPrincipal : " + userPrincipal.getEmail());
