@@ -14,7 +14,6 @@ function a11yProps(index) {
 
 export default function ItemTab() {
   const [activeIdx, setActiveIdx] = useState(0);
-
   const handleChange = (event, newValue) => {
     setActiveIdx(newValue);
   };
@@ -54,8 +53,11 @@ export default function ItemTab() {
     <StyledWrapper>
       <h2>식탁 꾸미기</h2>
 
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box className="item-tab-container">
+        <Box
+          className="item-tab"
+          sx={{ borderBottom: 1, borderColor: "divider" }}
+        >
           <Tabs
             value={activeIdx}
             onChange={handleChange}
@@ -74,5 +76,13 @@ const StyledWrapper = styled.div`
   .is-active {
     font-weight: bold;
     text-decoration: underline;
+  }
+  .item-tab-container {
+    display: flex;
+    width: 360px;
+    flex-direction: column;
+    margin: 2rem;
+  }
+  .item-tab {
   }
 `;
