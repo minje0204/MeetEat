@@ -5,6 +5,7 @@ import com.a105.domain.user.User;
 import com.a105.domain.user.UserRepository;
 import com.a105.security.UserPrincipal;
 import com.a105.security.oauth2.provider.GoogleOAuth2UserInfo;
+import com.a105.security.oauth2.provider.NaverOAuth2UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,10 +16,11 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-//    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
@@ -44,20 +46,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             oAuth2UserInfo = new GoogleOAuth2UserInfo(oAuth2User.getAttributes());
         } else if(registrationId.equalsIgnoreCase(AuthProvider.naver.toString())){
             System.out.println("네이버 로그인 요청");
-//            oAuth2UserInfo = new GoogleOAuth2UserInfo(oAuth2User.getAttributes());
+            oAuth2UserInfo = new NaverOAuth2UserInfo((Map) oAuth2User.getAttributes().get("response"));
         } else {
-
+            System.out.println("지원하지 않는 플랫폼입니다.");
         }
 
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
         String nickname = (provider + "_" + providerId).substring(0, 20);
-        String password = bCryptPasswordEncoder.encode("겟인데어");
+        String password = bCryptPasswordEncoder.encode("A105");
         String email = oAuth2UserInfo.getEmail();
         String role= "ROLE_USER";
 
-
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmailAndProvider(email, AuthProvider.valueOf(provider));
 
         if(user == null){
             user = User.builder()
