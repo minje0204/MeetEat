@@ -35,9 +35,9 @@ public class ConferenceController {
         if (conference.getMaxUserNum() <= conferenceService.getCurrentUserNum(conferenceIdx)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if (userConferenceService.checkUserConferenceDuplicate(conferenceIdx, 2L))
+        if (userConferenceService.checkUserConferenceDuplicate(conferenceIdx, 3L))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        userConferenceService.joinConference(conferenceIdx, 2L);
+        userConferenceService.joinConference(conferenceIdx, 3L);
         return new ResponseEntity<>(conference, HttpStatus.OK);
     }
 
@@ -46,13 +46,13 @@ public class ConferenceController {
         if (conferenceService.checkConferenceDuplicate(restaurantId, conferenceRequest.getPosition()))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         Conference conference = conferenceService.insertConference(conferenceRequest, restaurantId);
-        userConferenceService.joinConference(conference.getIdx(), 1L);
+        userConferenceService.joinConference(conference.getIdx(), 3L);
         return new ResponseEntity<>(conference, HttpStatus.OK);
     }
 
     @PatchMapping("/{restaurantId}/conference/{conferenceId}")
     private ResponseEntity<?> leaveConference(@PathVariable Long conferenceId) {
-        userConferenceService.leaveConference(conferenceId, 1L);
+        userConferenceService.leaveConference(conferenceId, 3L);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
