@@ -2,15 +2,15 @@ package com.a105.api.response;
 
 import com.a105.domain.tray.Tray;
 import com.a105.domain.user.User;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 public class UserInfoResponse {
+
     private Long idx;
 
     private String email;
@@ -23,14 +23,14 @@ public class UserInfoResponse {
 
     private List<Tray> trayAlbum;
 
-    public static UserInfoResponse fromEntity(User user){
+    public static UserInfoResponse fromEntity(User user) {
         return UserInfoResponse.builder()
-                .idx(user.getIdx())
-                .email(user.getEmail())
-                .nickname(user.getNickname())
-                .profile(user.getProfile())
-                .bio(user.getBio())
-                .trayAlbum(user.getTrayAlbum())
-                .build();
+            .idx(user.getIdx())
+            .email(user.getEmail())
+            .nickname(user.getNickname())
+            .profile(user.getProfile())
+            .bio(user.getBio())
+            .trayAlbum(user.getTrayAlbum())
+            .build();
     }
 }
