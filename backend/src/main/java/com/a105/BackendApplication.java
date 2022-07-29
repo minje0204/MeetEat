@@ -14,42 +14,44 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
 @SpringBootApplication(exclude =
-		{SecurityAutoConfiguration.class})
+    {SecurityAutoConfiguration.class})
 @EnableWebSocket
 public class BackendApplication implements WebSocketConfigurer {
-	@Bean
-	public UserRegistry registry() {
-		return new UserRegistry();
-	}
 
-	@Bean
-	public RoomManager roomManager() {
-		return new RoomManager();
-	}
+    @Bean
+    public UserRegistry registry() {
+        return new UserRegistry();
+    }
 
-	@Bean
-	public CallHandler groupCallHandler() {
-		return new CallHandler();
-	}
+    @Bean
+    public RoomManager roomManager() {
+        return new RoomManager();
+    }
 
-	@Bean
-	public KurentoClient kurentoClient() {
-		return KurentoClient.create();
-	}
+    @Bean
+    public CallHandler groupCallHandler() {
+        return new CallHandler();
+    }
 
-	@Bean
-	public ServletServerContainerFactoryBean createServletServerContainerFactoryBean() {
-		ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-		container.setMaxTextMessageBufferSize(32768);
-		return container;
-	}
+    @Bean
+    public KurentoClient kurentoClient() {
+        return KurentoClient.create();
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(BackendApplication.class, args);
-	}
+    @Bean
+    public ServletServerContainerFactoryBean createServletServerContainerFactoryBean() {
+        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
+        container.setMaxTextMessageBufferSize(32768);
+        return container;
+    }
 
-	@Override
-	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(groupCallHandler(), "/groupcall").setAllowedOrigins("http://localhost:3000");
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BackendApplication.class, args);
+    }
+
+    @Override
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry.addHandler(groupCallHandler(), "/groupcall")
+            .setAllowedOrigins("http://localhost:3000");
+    }
 }

@@ -5,9 +5,10 @@ import lombok.Getter;
 
 @Getter
 public class UserBioRequest {
+
     String bio;
 
-    public void updateUserBio(User user){
+    public void updateUserBio(User user) {
         user.setBio(this.bio);
     }
 }
