@@ -1,18 +1,12 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import getItems from "utils/items";
 import store from "app/store";
 import styled from "styled-components";
-import { useState } from "react";
 
 export default function ItemTabPanel(props) {
   const { index, isActive, ...other } = props;
 
   let posX = 0;
   let posY = 0;
-
-  // let originalX = 0;
-  // let originalY = 0;
 
   let imageWidth = 0;
   let imageHeight = 0;
@@ -21,17 +15,12 @@ export default function ItemTabPanel(props) {
     const img = new Image();
     img.src = e.target.src;
 
-    // img.alt = "image";
-    // img.key = e.target.key;
     e.dataTransfer.setDragImage(img, img.width * 0.5, img.height * 0.5);
     posX = e.clientX;
     posY = e.clientY;
 
     imageHeight = img.height;
     imageWidth = img.width;
-
-    // originalX = e.target.offsetLeft;
-    // originalY = e.target.offsetTop;
   };
 
   const dragHandler = e => {
@@ -57,14 +46,12 @@ export default function ItemTabPanel(props) {
         details: e.target.id,
         imageurl: e.target.src,
       };
-      // addItem(data);
+
       store.dispatch({
         type: "ADD_ITEM",
         data: data,
       });
     }
-    // console.log(e);
-    // console.log(items);
   };
 
   return (
@@ -77,20 +64,21 @@ export default function ItemTabPanel(props) {
         {...other}
       >
         {isActive && (
-          <Box sx={{ p: 3 }}>
+          <div>
             {getItems(index).map(item => (
-              <img
-                className="item-list"
-                key={item.name}
-                id={item.name}
-                draggable="true"
-                onDragStart={dragStartHandler}
-                onDrag={dragHandler}
-                onDragEnd={dragEndHandler}
-                src={item.imageurl}
-              ></img>
+              <div className="item-list" key={item.name}>
+                <img
+                  id={item.name}
+                  draggable="true"
+                  onDragStart={dragStartHandler}
+                  onDrag={dragHandler}
+                  onDragEnd={dragEndHandler}
+                  src={item.imageurl}
+                  alt={item.name}
+                ></img>
+              </div>
             ))}
-          </Box>
+          </div>
         )}
       </div>
     </StyledWrapper>
@@ -98,7 +86,15 @@ export default function ItemTabPanel(props) {
 }
 
 const StyledWrapper = styled.div`
+  Box {
+    display: flex;
+  }
   .item-list {
-    width: 50px;
+    float: left;
+    display: flex;
+    width: 72px;
+    height: 72px;
+    margin-top: 15px;
+    justify-content: center;
   }
 `;
