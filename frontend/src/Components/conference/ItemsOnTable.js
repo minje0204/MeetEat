@@ -15,7 +15,6 @@ export default function ItemsOnTable() {
     const deltaY = e.clientY - startY;
     const index = e.target.attributes.index.value;
     const item = myMenu[index];
-    console.log(item);
     if (
       0 < item.top + deltaY - item.height / 2 &&
       item.top + deltaY + item.height / 2 < box.height &&
@@ -54,34 +53,22 @@ export default function ItemsOnTable() {
       onDragStart={dragStartHandler}
       onDragEnd={dragEndHandler}
     >
-      <button
-        // style={{
-        //   position: "absolute",
-        // }}
+      <i
+        className="fa-solid fa-circle-minus"
         onClick={() => store.dispatch({ type: "REMOVE_ITEM", data: { index } })}
-      >
-        삭제
-      </button>
-      {/* <img
-        key={`tableitem-${index}`}
-        src={menu.imageurl}
-        // style={{
-          //   position: "absolute",
-          //   top: menu.top,
-          //   left: menu.left,
-          // }}
-        ></img> */}
+      ></i>
     </div>
   ));
-  // useEffect(menuRender);
-
-  return (
-    <div
-      style={{
-        position: "absolute",
-      }}
-    >
-      {menuRender}
-    </div>
-  );
+  return <StyledWrapper>{menuRender}</StyledWrapper>;
 }
+
+const StyledWrapper = styled.div`
+   {
+    position: absolute;
+  }
+  i {
+    position: absolute;
+    right: 0;
+    font-size: 1.5rem;
+  }
+`;

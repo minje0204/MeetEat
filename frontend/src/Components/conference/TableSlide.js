@@ -1,53 +1,59 @@
-import * as React from "react";
-import Switch from "@mui/material/Switch";
+import { useRef, useState } from "react";
 import Slide from "@mui/material/Slide";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import ItemTab from "./ItemTab";
 import TableArea from "./TableArea";
 import styled from "styled-components";
 import store from "app/store";
 
 export default function TableSlide() {
-  const [checked, setChecked] = React.useState(false);
-  const table = React.useRef();
-  // const box = table.current.getBoundingClientRect();
+  const [checked, setChecked] = useState(false);
+
+  const table = useRef(null);
+
+  function getBoundary() {
+    if (table.current) {
+      const box = table.current.getBoundingClientRect();
+      const data = {
+        top: box.top,
+        left: box.left,
+        bottom: box.top + box.height,
+        right: box.left + box.width,
+        height: box.height,
+        width: box.width,
+      };
+      store.dispatch({
+        type: "GET_BOUNDARY",
+        data: data,
+      });
+    }
+  }
 
   const handleChange = () => {
     setChecked(prev => !prev);
   };
 
-  // React.useEffect(() => {
-  // const box = table.current.getBoundingClientRect();
-  // const data = {
-  //   top: box.top,
-  //   left: box.left,
-  //   bottom: box.top + box.height,
-  //   right: box.left + box.width,
-  // };
-  // store.dispatch({
-  //   type: "GETBOUNDARY",
-  //   data: data,
-  // });
-  // console.log("state", store.getState());
-  // }, setChecked);
   return (
     <StyledWrapper>
-      {/* <FormControlLabel
-        control={<Switch checked={checked} onChange={handleChange} />}
-        label="Show"
-      /> */}
-      {/* <Slide direction="left" in={checked}>
-        zz
-      </Slide> */}
-
-      {!checked && <div className="in-button" onClick={handleChange}></div>}
-      <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
+      {!checked && (
+        <div className="in-button" onClick={handleChange}>
+          <h3>식탁꾸미기</h3>
+        </div>
+      )}
+      <Slide
+        direction="left"
+        in={checked}
+        mountOnEnter
+        unmountOnExit
+        onEntered={getBoundary}
+      >
         <div className="slide-container">
-          <div className="button" onClick={handleChange}></div>
+          <div className="button" onClick={handleChange}>
+            <h3>식탁꾸미기</h3>
+          </div>
           <div className="table-custom">
             <ItemTab></ItemTab>
             <div className="table-container">
-              <TableArea></TableArea>
+              <TableArea ref={table}></TableArea>
             </div>
           </div>
         </div>
@@ -63,6 +69,12 @@ const StyledWrapper = styled.div`
     margin-left: 50px;
     height: 200px;
     background: olive;
+    display: flex;
+    align-items: center;
+  }
+  h3 {
+    writing-mode: vertical-rl;
+    margin: auto;
   }
   .in-button {
     position: absolute;
@@ -72,6 +84,10 @@ const StyledWrapper = styled.div`
     margin-left: 50px;
     height: 200px;
     background: olive;
+    vertical-align: middle;
+
+    display: flex;
+    align-items: center;
   }
   .slide-container {
     position: absolute;

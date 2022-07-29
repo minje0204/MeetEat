@@ -52,7 +52,6 @@ export default function ItemTab() {
   return (
     <StyledWrapper>
       <h2>식탁 꾸미기</h2>
-
       <Box className="item-tab-container">
         <Box
           className="item-tab"

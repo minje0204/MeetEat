@@ -1,22 +1,45 @@
 const tableItems = [
   {
-    name: "스테이크",
+    name: "steak",
     type: "western",
-    imageurl:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoQXZKReGnXIqCplBaunAiFCl7FNCxfvYFP6ELoNOdRozuVrxIo0MIL7onAOG4l7Ydo6Y&usqp=CAU",
+    imageurl: "/images/steak.png",
   },
   {
-    name: "숟가락",
+    name: "spoon_silver",
     type: "silverware",
-    imageurl:
-      "https://w7.pngwing.com/pngs/71/394/png-transparent-spoon-spoon-brew-style-luxury-thumbnail.png",
+    imageurl: "/images/spoon_silver.png",
   },
   {
-    name: "젓가락",
+    name: "spoon_gold",
     type: "silverware",
-    imageurl:
-      "http://jubang25.co.kr/web/product/medium/202104/d8b0536ddf995cbc5235a5709b8aa877.jpg",
+    imageurl: "/images/spoon_gold.png",
   },
+  {
+    name: "chopstick_silver",
+    type: "silverware",
+    imageurl: "/images/chopstick_silver.png",
+  },
+  {
+    name: "chopstick_gold",
+    type: "silverware",
+    imageurl: "/images/chopstick_gold.png",
+  },
+  {
+    name: "fork_silver",
+    type: "silverware",
+    imageurl: "/images/fork_silver.png",
+  },
+  {
+    name: "fork_gold",
+    type: "silverware",
+    imageurl: "/images/fork_gold.png",
+  },
+  {
+    name: "rice",
+    type: "kfood",
+    imageurl: "/images/rice.png",
+  },
+
   // { name: "젓가락", type: "silverware" },
   // { name: "김치", type: "kfood" },
   // { name: "된장찌개", type: "kfood" },
