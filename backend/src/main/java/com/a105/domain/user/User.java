@@ -3,6 +3,7 @@ package com.a105.domain.user;
 import com.a105.domain.tray.Tray;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
