@@ -15,13 +15,13 @@ public class Friend {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Long id;
 
-    @Column(name = "user_idx")
-    private int userIdx;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @Column(name = "conference_idx")
-    private int conferenceIdx;
+    @Column(name = "friend_id")
+    private Long friendId;
 
     private int status;
 

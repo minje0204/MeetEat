@@ -15,13 +15,13 @@ public class Tray {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Long id;
 
-    @Column(name = "user_idx")
-    private int userIdx;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @Column(name = "conference_idx")
-    private int conferenceIdx;
+    @Column(name = "conference_id")
+    private Long conferenceId;
 
     private String images;
 }

@@ -18,9 +18,9 @@ public class Conference {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Long id;
 
-    private Long hostIdx;
+    private Long hostId;
 
     @Column(name = "call_start_time")
     @Temporal(TemporalType.TIMESTAMP)
@@ -40,5 +40,6 @@ public class Conference {
 
     private int restaurant;
 
+    private int position;
 
 }
