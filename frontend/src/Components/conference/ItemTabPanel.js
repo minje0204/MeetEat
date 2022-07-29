@@ -3,6 +3,7 @@ import Typography from "@mui/material/Typography";
 import getItems from "utils/items";
 import store from "app/store";
 import styled from "styled-components";
+import { useState } from "react";
 
 export default function ItemTabPanel(props) {
   const { index, isActive, ...other } = props;
@@ -10,8 +11,8 @@ export default function ItemTabPanel(props) {
   let posX = 0;
   let posY = 0;
 
-  let originalX = 0;
-  let originalY = 0;
+  // let originalX = 0;
+  // let originalY = 0;
 
   let imageWidth = 0;
   let imageHeight = 0;
@@ -19,22 +20,18 @@ export default function ItemTabPanel(props) {
   const dragStartHandler = e => {
     const img = new Image();
     img.src = e.target.src;
-    console.log(img.width, img.height);
-    console.log(img);
+
     // img.alt = "image";
     // img.key = e.target.key;
-    e.dataTransfer.setDragImage(img, img.width * 0.6, img.height * 0.6);
-    console.log(`e.clientX ${e.clientX}`);
-    console.log(`e.clientY ${e.clientY}`);
-    console.log(`e.target.offsetLeft ${e.target.offsetLeft}`);
+    e.dataTransfer.setDragImage(img, img.width * 0.5, img.height * 0.5);
     posX = e.clientX;
     posY = e.clientY;
 
     imageHeight = img.height;
     imageWidth = img.width;
 
-    originalX = e.target.offsetLeft;
-    originalY = e.target.offsetTop;
+    // originalX = e.target.offsetLeft;
+    // originalY = e.target.offsetTop;
   };
 
   const dragHandler = e => {
@@ -45,29 +42,29 @@ export default function ItemTabPanel(props) {
   };
 
   const dragEndHandler = e => {
-    const box = store.getState();
-    console.log(e);
+    const box = store.getState().box;
     if (
-      box.box.top < e.clientY &&
-      box.box.bottom > e.clientY &&
-      box.box.left < e.clientX &&
-      box.box.right > e.clientX
+      box.top < e.clientY - imageHeight / 2 &&
+      box.bottom > e.clientY + imageHeight / 2 &&
+      box.left < e.clientX - imageWidth / 2 &&
+      box.right > e.clientX + imageWidth / 2
     ) {
       const data = {
-        top: e.clientY - box.box.top,
-        left: e.clientX - box.box.left,
+        top: e.clientY - box.top,
+        left: e.clientX - box.left,
         width: imageWidth,
         height: imageHeight,
         details: e.target.id,
         imageurl: e.target.src,
       };
+      // addItem(data);
       store.dispatch({
-        type: "add",
+        type: "ADD_ITEM",
         data: data,
       });
     }
     // console.log(e);
-    console.log(store.getState().tableList);
+    // console.log(items);
   };
 
   return (

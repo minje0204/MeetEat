@@ -1,9 +1,21 @@
 const tableItems = [
   {
     name: "스테이크",
+    type: "western",
+    imageurl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoQXZKReGnXIqCplBaunAiFCl7FNCxfvYFP6ELoNOdRozuVrxIo0MIL7onAOG4l7Ydo6Y&usqp=CAU",
+  },
+  {
+    name: "숟가락",
     type: "silverware",
     imageurl:
-      "https://www.newiki.net/w/images/thumb/8/8f/Grilled_porterhouse_steak.jpg/450px-Grilled_porterhouse_steak.jpg",
+      "https://w7.pngwing.com/pngs/71/394/png-transparent-spoon-spoon-brew-style-luxury-thumbnail.png",
+  },
+  {
+    name: "젓가락",
+    type: "silverware",
+    imageurl:
+      "http://jubang25.co.kr/web/product/medium/202104/d8b0536ddf995cbc5235a5709b8aa877.jpg",
   },
   // { name: "젓가락", type: "silverware" },
   // { name: "김치", type: "kfood" },
