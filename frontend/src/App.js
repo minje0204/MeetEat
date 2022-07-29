@@ -5,7 +5,7 @@ import IndexPage from "views/index/IndexPage";
 import RestaurantPage from "views/restaurant/RestaurantPage";
 import Conference from "views/conference/ConferencePage";
 
-function App() {
+export default function App() {
   return (
     <>
       <Router>
@@ -29,5 +29,3 @@ function App() {
     </>
   );
 }
-
-export default App;

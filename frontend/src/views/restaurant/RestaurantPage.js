@@ -1,30 +1,38 @@
 import styled from "@emotion/styled";
 import { useParams } from "react-router-dom";
-import FormDialog from "components/makingroom/Modal";
-import React, { useState } from "react";
+import Modal from "components/makingroom/Modal";
+import React from "react";
 
 export default function RestaurantPage() {
   let params = useParams();
-  const tableList = [{ id: "1" }, { id: "2" }, { id: "3" }];
+
+  const tableList = [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" },
+  { id: "5" }, { id: "6" }, { id: "7" }, { id: "8" }
+  ];
   const listItems = tableList.map(e => (
-    <FormDialog
+    <Modal
       tableNum={e.id}
       restaurantId={params.restaurant_id}
       key={`table${e.id}`}
-    ></FormDialog>
+    ></Modal>
   ));
 
   return (
     <StyledWrapper>
-      <h1>식당{params.restaurant_id}</h1>
-      <div id="table-list">{listItems}</div>
+      <div id="table-list">
+        { listItems }
+      </div>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  #table-list{
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;    
+  }
 `;

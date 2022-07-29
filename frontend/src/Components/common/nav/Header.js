@@ -2,17 +2,21 @@ import styled from "@emotion/styled";
 import Menu from "components/common/nav/Menu";
 import { Link } from "react-router-dom";
 import logoimage from "assets/img/logo.png";
+import Location from "components/common/nav/Location"
 
 const Header = () => {
   return (
     <StyledWrapper>
       <div id="container">
-        <Link to="/" >
-          <div id="logo">
-            <img src={ logoimage }  />
-            <div>혼밥러</div>
-          </div>
-        </Link>
+        <div id="container-logo-location">
+          <Link to="/" >
+            <div id="logo">
+              <img src={ logoimage } />
+              <div>밋 잇</div>
+            </div>
+          </Link>
+          <Location></Location>
+        </div>
         <Menu></Menu>
       </div>
     </StyledWrapper>
@@ -21,12 +25,15 @@ const Header = () => {
 export default Header;
 
 const StyledWrapper = styled.div`
-  a{
+  position: staic;
+  width: 100%;
+  a {
     text-decoration: none;
     color: #000000;
+    text-shadow: 0 3px 0 rgba(0,0,0,0.15);
   }
   a:hover {
-    color: #FF8E00;
+    color: #293462;
   }
   img {
     width:50px;
@@ -38,16 +45,22 @@ const StyledWrapper = styled.div`
     display: flex;
     font-family: "Ulsan";
     font-size: 40px;
+    font-weight: 100;
     text-align: center;
     align-items: center;
   }
   #container {
-    padding:10px;
+    height: 6vh;
+    max-height: 6vh;
+    padding:2vh;
+    position: static;
     display: flex;
     justify-content: space-between;
     align-items: center;
     text-align: center;
   }
-  position: absolute;
-  width: 100%;
+  #container-logo-location {
+    display: flex;
+    align-items: center;
+  }
 `;
