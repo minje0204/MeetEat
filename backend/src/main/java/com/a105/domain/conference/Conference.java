@@ -14,9 +14,9 @@ import java.util.Date;
 public class Conference {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Long id;
 
-    private Long hostIdx;
+    private Long hostId;
 
     @Column(name = "call_start_time")
     @Temporal(TemporalType.TIMESTAMP)
@@ -40,7 +40,7 @@ public class Conference {
 
     @Builder
     private Conference(ConferenceRequest conferenceRequest, int restaurant) {
-        this.hostIdx = conferenceRequest.getHostId();
+        this.hostId = conferenceRequest.getHostId();
         this.title = conferenceRequest.getTitle();
         this.maxUserNum = conferenceRequest.getMaxUserNum();
         this.restaurant = restaurant;

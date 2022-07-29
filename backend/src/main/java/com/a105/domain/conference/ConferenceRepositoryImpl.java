@@ -24,7 +24,7 @@ public class ConferenceRepositoryImpl implements ConferenceRepositoryCustom {
         QConference conference = QConference.conference;
         List<Conference> conferenceList = jpaQueryFactory.selectFrom(conference)
                 .where(conference.restaurant.eq(restaurant), conference.position.eq(position))
-                .orderBy(conference.idx.desc())
+                .orderBy(conference.id.desc())
                 .fetch();
         if (conferenceList.isEmpty()) return null;
         return conferenceList.get(0);

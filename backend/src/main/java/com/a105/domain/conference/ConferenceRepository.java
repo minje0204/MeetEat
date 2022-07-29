@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface ConferenceRepository extends JpaRepository<Conference, Long>, ConferenceRepositoryCustom {
     List<Conference> findByRestaurant(int restaurant);
 
-    Optional<Conference> findById(Long idx);
+    Optional<Conference> findById(Long id);
 }

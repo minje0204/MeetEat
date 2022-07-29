@@ -1,7 +1,7 @@
 package com.a105.api.service;
 
-import com.a105.domain.UserConference.UserConference;
-import com.a105.domain.UserConference.UserConferenceRepository;
+import com.a105.domain.userConference.UserConference;
+import com.a105.domain.userConference.UserConferenceRepository;
 import com.a105.domain.conference.ConferenceRepository;
 import com.a105.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;

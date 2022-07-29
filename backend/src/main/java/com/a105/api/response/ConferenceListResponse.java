@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 public class ConferenceListResponse {
-    private Long idx;
+    private Long id;
 
     private String title;
 
@@ -20,7 +20,7 @@ public class ConferenceListResponse {
 
     public static ConferenceListResponse fromEntity(Conference conference, int currentUserNum) {
         return ConferenceListResponse.builder()
-                .idx(conference.getIdx())
+                .id(conference.getId())
                 .title(conference.getTitle())
                 .maxUserNum(conference.getMaxUserNum())
                 .currentUserNum(currentUserNum)

@@ -2,7 +2,7 @@ package com.a105.api.service;
 
 import com.a105.api.request.ConferenceRequest;
 import com.a105.api.response.ConferenceListResponse;
-import com.a105.domain.UserConference.UserConferenceRepository;
+import com.a105.domain.userConference.UserConferenceRepository;
 import com.a105.domain.conference.Conference;
 import com.a105.domain.conference.ConferenceRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class ConferenceService {
         List<Conference> activeConferenceList = getActiveConferenceList(restaurant);
         for (Conference conference :
                 activeConferenceList) {
-            list.add(getConference(conference.getIdx()));
+            list.add(getConference(conference.getId()));
         }
         return list;
     }
@@ -32,19 +32,19 @@ public class ConferenceService {
         return conferenceRepository.getActiveConferenceList(restaurant);
     }
 
-    public ConferenceListResponse getConference(Long idx) {
-        return ConferenceListResponse.fromEntity(getConferenceFromIdx(idx), getCurrentUserNum(idx));
+    public ConferenceListResponse getConference(Long id) {
+        return ConferenceListResponse.fromEntity(getConferenceFromId(id), getCurrentUserNum(id));
     }
 
-    public Conference getConferenceFromIdx(Long idx) {
-        return conferenceRepository.findById(idx).orElseThrow();
+    public Conference getConferenceFromId(Long id) {
+        return conferenceRepository.findById(id).orElseThrow();
     }
 
-    public int getCurrentUserNum(Long conferenceIdx) {
-        return userConferenceRepository.countCurrentUser(conferenceIdx);
+    public int getCurrentUserNum(Long conferenceId) {
+        return userConferenceRepository.countCurrentUser(conferenceId);
     }
 
-    public Conference insertConference(ConferenceRequest conferenceRequest, int restaurant) {
+    public Conference createConference(ConferenceRequest conferenceRequest, int restaurant) {
         Conference conference = Conference.builder()
                 .conferenceRequest(conferenceRequest)
                 .restaurant(restaurant)

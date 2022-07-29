@@ -1,4 +1,4 @@
-package com.a105.domain.UserConference;
+package com.a105.domain.userConference;
 
 import com.a105.domain.conference.Conference;
 import com.a105.domain.user.User;
@@ -16,13 +16,13 @@ import javax.persistence.*;
 public class UserConference {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Long id;
 
-    @JoinColumn(name = "conference_idx")
+    @JoinColumn(name = "conference_id")
     @ManyToOne(targetEntity = Conference.class, fetch = FetchType.LAZY)
     private Conference conference;
 
-    @JoinColumn(name = "user_idx")
+    @JoinColumn(name = "user_id")
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     private User user;
 
