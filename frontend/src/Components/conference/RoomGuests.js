@@ -65,8 +65,8 @@ export default function RoomGuests(props) {
 
 const StyledWrapper = styled.div`
   #room_guest_row{
+    height: 90vh;
     width: 100vw;
-    height: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -74,8 +74,8 @@ const StyledWrapper = styled.div`
     align-content: center;
   }
   #room_guest_row_4{
-    width: 100vw;
-    height: 100%;
+    height: 90vh;
+    margin: 0 10vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;

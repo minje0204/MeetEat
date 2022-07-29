@@ -4,7 +4,7 @@ import {useLocation} from 'react-router-dom'
 
 export default function Location() {
 	const location = useLocation();
-  const pathname = location.pathname;
+ 	const pathname = location.pathname;
 	const whatRestaurant_1 = pathname.substring(12,13);
 	const whatRestaurant_2 = pathname.substring(13,14);
 	const whatTable = pathname.substring(26,27);

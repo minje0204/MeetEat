@@ -28,7 +28,7 @@ export default function RestaurantPage() {
 
 const StyledWrapper = styled.div`
   #table-list{
-    height: 100vh;
+    height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;

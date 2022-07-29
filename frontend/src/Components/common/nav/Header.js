@@ -12,7 +12,7 @@ const Header = () => {
           <Link to="/" >
             <div id="logo">
               <img src={ logoimage } />
-              <div>혼밥러</div>
+              <div>밋 잇</div>
             </div>
           </Link>
           <Location></Location>
@@ -25,8 +25,8 @@ const Header = () => {
 export default Header;
 
 const StyledWrapper = styled.div`
-  
-
+  position: staic;
+  width: 100%;
   a {
     text-decoration: none;
     color: #000000;
@@ -50,8 +50,10 @@ const StyledWrapper = styled.div`
     align-items: center;
   }
   #container {
-    
-    padding:10px;
+    height: 6vh;
+    max-height: 6vh;
+    padding:2vh;
+    position: static;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -61,6 +63,4 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
   }
-  position: absolute;
-  width: 100%;
 `;

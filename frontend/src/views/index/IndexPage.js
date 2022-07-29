@@ -28,7 +28,7 @@ export default function IndexPage() {
 }
 
 const StyledWrapper = styled.div`
-  height: 100vh;
+  height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -65,6 +65,7 @@ const StyledWrapper = styled.div`
     background: olive;
   }
   .in-button {
+    margin-top: 30px;
     position: absolute;
     right: 0;
     width: 50px;
