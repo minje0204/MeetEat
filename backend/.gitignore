@@ -42,4 +42,4 @@ out/
 .vscode/
 
 ### Setting ###
-**/application.properties
+*.yml
