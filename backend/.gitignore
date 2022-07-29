@@ -42,4 +42,4 @@ out/
 .vscode/
 
 ### Setting ###
-*.yml
+./src/main/resources/application.yml
