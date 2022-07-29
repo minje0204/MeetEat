@@ -2,15 +2,8 @@ import React, { useState, useCallback, useEffect } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import Participant from "utils/participant";
 import { WebRtcPeer } from "kurento-utils";
-
+import { constraints } from "utils/socket/video";
 const API_URL = process.env.REACT_APP_API_URL;
-
-let name = "test name";
-let message = {
-  id: "joinRoom",
-  name: "test name",
-  room: "test room",
-};
 const participants = {};
 
 let onExistingParticipants;
@@ -51,11 +44,8 @@ const onMessage = message => {
       console.error("Unrecognized message", parsedMessage);
   }
 };
-const UseSocket = () => {
-  const [name1, setName1] = useState("");
-  //Public API that will echo messages sent to it back to the client
+const UseSocket = ({ name, title }) => {
   const [messageHistory, setMessageHistory] = useState([]);
-
   const [socketUrl, setSocketUrl] = useState(`ws://${API_URL}/groupcall`);
   const { sendMessage, lastMessage, readyState } = useWebSocket(
     socketUrl,
@@ -105,21 +95,10 @@ const UseSocket = () => {
     );
   };
 
-  onExistingParticipants = msg => {
-    let constraints = {
-      audio: true,
-      video: {
-        mandatory: {
-          maxWidth: 320,
-          maxFrameRate: 15,
-          minFrameRate: 15,
-        },
-      },
-    };
+  onExistingParticipants = function (msg) {
     let participant = new Participant(name);
     participants[name] = participant;
     let video = participant.getVideoElement();
-
     let options = {
       localVideo: video,
       mediaConstraints: constraints,
@@ -144,8 +123,9 @@ const UseSocket = () => {
   };
 
   const customSendMsg = msg => {
-    var jsonMessage = JSON.stringify(msg);
-    console.log("Sending message: " + jsonMessage);
+    let flag = msg.id === "joinRoom";
+    let jsonMessage = JSON.stringify(msg);
+    if (flag) console.log("Sending message: " + jsonMessage);
     sendMessage(jsonMessage);
   };
   useEffect(() => {
@@ -155,43 +135,19 @@ const UseSocket = () => {
     }
   }, [lastMessage, setMessageHistory]);
 
-  const handleClickSendMessage = useCallback(() => customSendMsg(message), []);
+  const handleClickSendMessage = useCallback(message => {
+    customSendMsg(message);
+  }, []);
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: "Connecting",
-    [ReadyState.OPEN]: "Open",
-    [ReadyState.CLOSING]: "Closing",
-    [ReadyState.CLOSED]: "Closed",
-    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
-  }[readyState];
-
-  useEffect(() => {
-    message.name = name1;
-    name = name1;
-  }, [name1]);
-  return (
-    <div>
-      <input
-        type="text"
-        value={name1}
-        onChange={e => setName1(e.target.value)}
-      ></input>
-      <button
-        onClick={handleClickSendMessage}
-        disabled={readyState !== ReadyState.OPEN}
-      >
-        Click Me to send 'Hello'
-      </button>
-      <span>The WebSocket is currently {connectionStatus}</span>
-      {lastMessage ? <span>Last message: {lastMessage.data}</span> : null}
-      <ul>
-        {messageHistory.map((message, idx) => (
-          <span key={idx}>{message ? message.data : null}</span>
-        ))}
-      </ul>
-      <div id="participants"></div>
-    </div>
-  );
+  return { handleClickSendMessage, readyState };
 };
 
 export default UseSocket;
+
+// const connectionStatus = {
+//   [ReadyState.CONNECTING]: "Connecting",
+//   [ReadyState.OPEN]: "Open",
+//   [ReadyState.CLOSING]: "Closing",
+//   [ReadyState.CLOSED]: "Closed",
+//   [ReadyState.UNINSTANTIATED]: "Uninstantiated",
+// }[readyState];

@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import Menu from "components/common/nav/Menu";
 import { Link } from "react-router-dom";
+import logoimage from "assets/img/logo.png";
 
 const Header = () => {
   return (
@@ -8,10 +9,10 @@ const Header = () => {
       <div id="container">
         <Link to="/">
           <div id="logo">
-            <span>혼밥러</span>
+            <img src={logoimage} alt="로고" />
+            <div>혼밥러</div>
           </div>
         </Link>
-
         <Menu></Menu>
       </div>
     </StyledWrapper>
@@ -20,14 +21,32 @@ const Header = () => {
 export default Header;
 
 const StyledWrapper = styled.div`
+  a {
+    text-decoration: none;
+    color: #000000;
+  }
+  a:hover {
+    color: #ff8e00;
+  }
+  img {
+    width: 50px;
+    height: 45px;
+    margin-right: 5px;
+    display: inline-block;
+  }
   #logo {
-    font-size: 30px;
-    font-weight: bold;
+    display: flex;
+    font-family: "Ulsan";
+    font-size: 40px;
+    text-align: center;
+    align-items: center;
   }
   #container {
     padding: 10px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    text-align: center;
   }
   position: absolute;
   width: 100%;
