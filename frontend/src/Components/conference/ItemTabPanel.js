@@ -1,6 +1,6 @@
-import getItems from "utils/items";
 import store from "app/store";
 import styled from "styled-components";
+import getItems from "utils/items";
 
 export default function ItemTabPanel(props) {
   const { index, isActive, ...other } = props;

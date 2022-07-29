@@ -2,22 +2,18 @@ import * as React from "react";
 import styled from "@emotion/styled";
 
 export default function RoomGuest() {
-  return(
+  return (
     <StyledWrapper>
       <div id="personal">
-          {/* 개인당 주어지는 규격은 총 450 * 370 */}
-          {/* ID가 출력되는 공간 350*20 */}
-            <div id="personal_id">
-              먹짱이될거야
-            </div>
-          {/* 캠 화면의 규격은 350*200 */}
-            <div id="personal_cam">
-            </div>
-          {/* 식탁의 규격은 450*150 */}
-            <div id="personal_table">
-            </div>
-        </div>
-      </StyledWrapper>
+        {/* 개인당 주어지는 규격은 총 450 * 370 */}
+        {/* ID가 출력되는 공간 350*20 */}
+        <div id="personal_id">먹짱이될거야</div>
+        {/* 캠 화면의 규격은 350*200 */}
+        <div id="personal_cam"></div>
+        {/* 식탁의 규격은 450*150 */}
+        <div id="personal_table"></div>
+      </div>
+    </StyledWrapper>
   );
 }
 

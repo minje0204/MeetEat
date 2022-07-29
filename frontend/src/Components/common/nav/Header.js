@@ -1,22 +1,18 @@
 import styled from "@emotion/styled";
+import logoimage from "assets/img/logo.png";
 import Menu from "components/common/nav/Menu";
 import { Link } from "react-router-dom";
-import logoimage from "assets/img/logo.png";
-import Location from "components/common/nav/Location"
 
 const Header = () => {
   return (
     <StyledWrapper>
       <div id="container">
-        <div id="container-logo-location">
-          <Link to="/" >
-            <div id="logo">
-              <img src={ logoimage } />
-              <div>밋 잇</div>
-            </div>
-          </Link>
-          <Location></Location>
-        </div>
+        <Link to="/">
+          <div id="logo">
+            <img src={logoimage} alt="로고" />
+            <div>혼밥러</div>
+          </div>
+        </Link>
         <Menu></Menu>
       </div>
     </StyledWrapper>
@@ -25,18 +21,16 @@ const Header = () => {
 export default Header;
 
 const StyledWrapper = styled.div`
-  position: staic;
-  width: 100%;
   a {
     text-decoration: none;
     color: #000000;
-    text-shadow: 0 3px 0 rgba(0,0,0,0.15);
+    text-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
   }
   a:hover {
-    color: #293462;
+    color: #ff8e00;
   }
   img {
-    width:50px;
+    width: 50px;
     height: 45px;
     margin-right: 5px;
     display: inline-block;
@@ -50,17 +44,12 @@ const StyledWrapper = styled.div`
     align-items: center;
   }
   #container {
-    height: 6vh;
-    max-height: 6vh;
-    padding:2vh;
-    position: static;
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     text-align: center;
   }
-  #container-logo-location {
-    display: flex;
-    align-items: center;
-  }
+  position: absolute;
+  width: 100%;
 `;

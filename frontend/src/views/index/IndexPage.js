@@ -50,21 +50,21 @@ const StyledWrapper = styled.div`
     justify-content: space-between;
   }
   #image-box {
-    display:flex-column;
-		align-items: center;
-		justify-content: center;
+    display: flex-column;
+    align-items: center;
+    justify-content: center;
   }
   #image {
     max-width: 90%;
     max-height: 80%;
     -webkit-filter: brightness(90%);
-		-webkit-transition: all 1s ease;
-		-moz-transition: all 1s ease;
-		-o-transition: all 1s ease;
-		-ms-transition: all 1s ease;
-		transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
   }
-  #image:hover{
-		-webkit-filter: brightness(110%);
-	}
+  #image:hover {
+    -webkit-filter: brightness(110%);
+  }
 `;
