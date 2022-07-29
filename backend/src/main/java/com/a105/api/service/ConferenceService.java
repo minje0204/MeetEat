@@ -37,7 +37,7 @@ public class ConferenceService {
     }
 
     public Conference getConferenceFromId(Long id) {
-        return conferenceRepository.findById(id).orElseThrow();
+        return conferenceRepository.findById(id).orElse(null);
     }
 
     public int getCurrentUserNum(Long conferenceId) {

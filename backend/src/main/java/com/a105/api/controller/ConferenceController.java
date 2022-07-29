@@ -29,7 +29,7 @@ public class ConferenceController {
     @GetMapping("/{restaurantId}/conference/{conferenceId}")
     private ResponseEntity<Conference> joinConference(@PathVariable Long conferenceId) {
         Conference conference = conferenceService.getConferenceFromId(conferenceId);
-        if (conference.getCallEndTime() != null) {
+        if (conference == null || conference.getCallEndTime() != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         if (conference.getMaxUserNum() <= conferenceService.getCurrentUserNum(conferenceId)) {
