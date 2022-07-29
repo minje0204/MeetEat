@@ -1,10 +1,45 @@
 const tableItems = [
   {
-    name: "스테이크",
-    type: "silverware",
-    imageurl:
-      "https://www.newiki.net/w/images/thumb/8/8f/Grilled_porterhouse_steak.jpg/450px-Grilled_porterhouse_steak.jpg",
+    name: "steak",
+    type: "western",
+    imageurl: "/images/steak.png",
   },
+  {
+    name: "spoon_silver",
+    type: "silverware",
+    imageurl: "/images/spoon_silver.png",
+  },
+  {
+    name: "spoon_gold",
+    type: "silverware",
+    imageurl: "/images/spoon_gold.png",
+  },
+  {
+    name: "chopstick_silver",
+    type: "silverware",
+    imageurl: "/images/chopstick_silver.png",
+  },
+  {
+    name: "chopstick_gold",
+    type: "silverware",
+    imageurl: "/images/chopstick_gold.png",
+  },
+  {
+    name: "fork_silver",
+    type: "silverware",
+    imageurl: "/images/fork_silver.png",
+  },
+  {
+    name: "fork_gold",
+    type: "silverware",
+    imageurl: "/images/fork_gold.png",
+  },
+  {
+    name: "rice",
+    type: "kfood",
+    imageurl: "/images/rice.png",
+  },
+
   // { name: "젓가락", type: "silverware" },
   // { name: "김치", type: "kfood" },
   // { name: "된장찌개", type: "kfood" },

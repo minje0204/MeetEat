@@ -1,12 +1,11 @@
 // import styled from "@emotion/styled";
-import { useParams, useLocation } from "react-router-dom";
-import TableSlide from "components/conference/TableSlide";
 import RoomGuests from "components/conference/RoomGuests";
+import TableSlide from "components/conference/TableSlide";
 import UseSocket from "hooks/UseSocket";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 function Conference() {
-  let params = useParams();
   const location = useLocation();
   const { title, people, name } = location.state;
   const { handleClickSendMessage, readyState } = UseSocket(
@@ -24,9 +23,9 @@ function Conference() {
   }, [title, name]);
   return (
     <div>
-      <h1>
+      {/* <h1>
         컨퍼런스{params.conf_id} - {title} (현재인원수/{people}명)
-      </h1>
+      </h1> */}
       <TableSlide></TableSlide>
       <RoomGuests people={people}></RoomGuests>
     </div>

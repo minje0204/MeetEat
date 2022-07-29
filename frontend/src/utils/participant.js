@@ -35,6 +35,7 @@ function Participant(name) {
   container.id = name;
   var span = document.createElement("span");
   var video = document.createElement("video");
+  /* eslint-disable no-unused-vars */
   var rtcPeer;
 
   container.appendChild(video);
@@ -72,7 +73,7 @@ function Participant(name) {
   }
 
   function isPresentMainParticipant() {
-    return document.getElementsByClassName(PARTICIPANT_MAIN_CLASS).length != 0;
+    return document.getElementsByClassName(PARTICIPANT_MAIN_CLASS).length !== 0;
   }
 
   this.offerToReceiveVideo = function (error, offerSdp, wp) {

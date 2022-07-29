@@ -19,26 +19,29 @@ export default function RoomGuest() {
 
 const StyledWrapper = styled.div`
   #personal {
-    width: 450px;
-    height: 370px;
+    width: 27vw;
+    height: 35vh;
+    display: flex-column;
+    align-items: center;
+    margin: 2vh 0;
   }
   #personal_id {
-    width: 350px;
-    height: 20px;
-    font-size: 100%;
-    margin: auto;
+    width: 70%;
+    height: 8%;
+    margin: 0 auto;
   }
   #personal_cam {
-    width: 350px;
-    height: 200px;
+    width: 70%;
+    height: 45%;
     margin: auto;
     border-radius: 5px;
     background-color: gray;
   }
   #personal_table {
-    width: 450px;
-    height: 150px;
+    width: 90%;
+    height: 47%;
     object-fit: cover;
+    margin: auto;
     background-color: rgb(216, 204, 163);
   }
   #personal_table_img {

@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from "react";
-import useWebSocket, { ReadyState } from "react-use-websocket";
-import Participant from "utils/participant";
 import { WebRtcPeer } from "kurento-utils";
+import { useCallback, useEffect, useState } from "react";
+import useWebSocket from "react-use-websocket";
+import Participant from "utils/participant";
 import { constraints } from "utils/socket/video";
 const API_URL = process.env.REACT_APP_API_URL;
 const participants = {};
@@ -45,7 +45,9 @@ const onMessage = message => {
   }
 };
 const UseSocket = ({ name, title }) => {
+  /* eslint-disable no-unused-vars */
   const [messageHistory, setMessageHistory] = useState([]);
+  /* eslint-disable no-unused-vars */
   const [socketUrl, setSocketUrl] = useState(`ws://${API_URL}/groupcall`);
   const { sendMessage, lastMessage, readyState } = useWebSocket(
     socketUrl,
