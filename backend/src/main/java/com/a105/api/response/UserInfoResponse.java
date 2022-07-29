@@ -10,8 +10,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 public class UserInfoResponse {
-
-    private Long idx;
+    private Long id;
 
     private String email;
 
@@ -25,12 +24,12 @@ public class UserInfoResponse {
 
     public static UserInfoResponse fromEntity(User user) {
         return UserInfoResponse.builder()
-            .idx(user.getIdx())
-            .email(user.getEmail())
-            .nickname(user.getNickname())
-            .profile(user.getProfile())
-            .bio(user.getBio())
-            .trayAlbum(user.getTrayAlbum())
-            .build();
+                .id(user.getId())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .profile(user.getProfile())
+                .bio(user.getBio())
+                .trayAlbum(user.getTrayAlbum())
+                .build();
     }
 }

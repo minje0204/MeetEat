@@ -1,13 +1,7 @@
 package com.a105.domain.conference;
 
-import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import com.a105.api.request.ConferenceRequest;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,4 +36,12 @@ public class Conference {
 
     private int position;
 
+    @Builder
+    private Conference(ConferenceRequest conferenceRequest, int restaurant) {
+        this.hostId = conferenceRequest.getHostId();
+        this.title = conferenceRequest.getTitle();
+        this.maxUserNum = conferenceRequest.getMaxUserNum();
+        this.restaurant = restaurant;
+        this.position = conferenceRequest.getPosition();
+    }
 }
