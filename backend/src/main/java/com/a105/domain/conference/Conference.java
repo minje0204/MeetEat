@@ -5,13 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.Date;
-
 @Entity
 @NoArgsConstructor
 @Getter
 public class Conference {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
