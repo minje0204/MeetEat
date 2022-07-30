@@ -1,4 +1,4 @@
-package com.a105.domain.UserConference;
+package com.a105.domain.userConference;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +14,11 @@ public class UserConference {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @Column(name = "user_idx")
-    private int userIdx;
+    @Column(name = "user_id")
+    private int userId;
 
-    @Column(name = "conference_idx")
-    private int conferenceIdx;
+    @Column(name = "conference_id")
+    private int conferenceId;
 
     private int action;
 

@@ -1,5 +1,6 @@
 package com.a105;
 
+import com.a105.config.AppProperties;
 import com.a105.kurento.CallHandler;
 import com.a105.kurento.RoomManager;
 import com.a105.kurento.UserRegistry;
@@ -7,6 +8,7 @@ import org.kurento.client.KurentoClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -16,6 +18,7 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @SpringBootApplication(exclude =
 		{SecurityAutoConfiguration.class})
 @EnableWebSocket
+@EnableConfigurationProperties(AppProperties.class)
 public class BackendApplication implements WebSocketConfigurer {
 	@Bean
 	public UserRegistry registry() {

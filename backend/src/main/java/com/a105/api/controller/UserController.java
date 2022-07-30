@@ -5,10 +5,14 @@ import com.a105.api.request.UserNicknameRequest;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.api.service.UserService;
 import com.a105.domain.user.User;
+import com.a105.exception.ResourceNotFoundException;
+import com.a105.security.CurrentUser;
+import com.a105.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,6 +65,13 @@ public class UserController {
     public ResponseEntity<?> updateUserNickname(@PathVariable("idx") Long idx, @RequestBody UserNicknameRequest nickname){
         UserInfoResponse userInfo = userService.updateUserNickname(idx, nickname);
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('USER')")
+    public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+        return userService.findById(userPrincipal.getId())
+            .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
     }
 
 }

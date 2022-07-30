@@ -11,13 +11,13 @@ import javax.persistence.*;
 public class Friend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Long id;
 
-    @Column(name = "user_idx")
+    @Column(name = "user_id")
     private int userIdx;
 
-    @Column(name = "conference_idx")
-    private int conferenceIdx;
+    @Column(name = "conference_id")
+    private int conferenceId;
 
     private int status;
 

@@ -1,7 +1,6 @@
-package com.a105.security.oauth2.provider;
+package com.a105.security.oauth2.user;
 
 import com.a105.domain.user.AuthProvider;
-import com.a105.security.oauth2.OAuth2UserInfo;
 
 import java.util.Map;
 
