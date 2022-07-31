@@ -25,8 +25,8 @@ function Conference() {
 
   const roomGuestList = (
     <div id="room_guest_row">
-      {_.range(0, people).map(() => (
-        <RoomGuest />
+      {_.range(0, people).map((_, idx) => (
+        <RoomGuest key={`roomGuest-${idx}`} />
       ))}
     </div>
   );
