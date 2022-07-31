@@ -44,7 +44,7 @@ const onMessage = message => {
       console.error("Unrecognized message", parsedMessage);
   }
 };
-const UseSocket = ({ name, title }) => {
+const UseSocket = ({ name, setNum }) => {
   /* eslint-disable no-unused-vars */
   const [messageHistory, setMessageHistory] = useState([]);
   /* eslint-disable no-unused-vars */
@@ -55,7 +55,7 @@ const UseSocket = ({ name, title }) => {
   );
 
   onNewParticipant = request => {
-    console.log(participants);
+    setNum(Object.keys(participants).length + 1);
     receiveVideo(request.name);
   };
   function receiveVideo(sender) {
@@ -90,6 +90,7 @@ const UseSocket = ({ name, title }) => {
   };
 
   receiveVideoResponse = result => {
+    setNum(Object.keys(participants).length);
     participants[result.name].rtcPeer.processAnswer(
       result.sdpAnswer,
       function (error) {
@@ -100,6 +101,7 @@ const UseSocket = ({ name, title }) => {
 
   onExistingParticipants = function (msg) {
     let participant = new Participant(name, 0); //나 자신
+    setNum(Object.keys(participants).length + 1);
     participants[name] = participant;
     let video = participant.getVideoElement();
     let options = {

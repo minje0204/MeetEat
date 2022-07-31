@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import RoomGuest from "components/conference/RoomGuest";
 import TableSlide from "components/conference/TableSlide";
 import UseSocket from "hooks/UseSocket";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import _ from "lodash";
 
@@ -10,10 +10,12 @@ function Conference() {
   let params = useParams();
   const location = useLocation();
   const { title, people, userName } = location.state;
-  const { handleClickSendMessage, readyState } = UseSocket(
-    { name: location.state.userName },
-    title,
-  );
+  const [num, setNum] = useState(1);
+
+  const { handleClickSendMessage, readyState } = UseSocket({
+    name: location.state.userName,
+    setNum,
+  });
 
   useEffect(() => {
     let message = {
@@ -35,7 +37,7 @@ function Conference() {
   return (
     <StyledWrapper>
       <h1>
-        컨퍼런스{params.conf_id} - {title} (현재인원수/{people}명)
+        {`${params.conf_id}번 테이블 - ${title} (${num}명 / ${people}명)`}
       </h1>
       <TableSlide></TableSlide>
       {roomGuestList}
