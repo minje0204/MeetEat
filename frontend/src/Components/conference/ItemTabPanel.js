@@ -89,11 +89,18 @@ const StyledWrapper = styled.div`
   Box {
     display: flex;
   }
+  img {
+    object-fit: scale-down;
+    max-width: 100%;
+    max-height: 100%;
+  }
   .item-list {
     float: left;
     display: flex;
-    width: 72px;
+    width: 60px;
     height: 72px;
+    margin-left: 6px;
+    margin-right: 6px;
     margin-top: 15px;
     justify-content: center;
   }

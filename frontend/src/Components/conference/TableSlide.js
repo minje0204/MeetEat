@@ -77,12 +77,11 @@ const StyledWrapper = styled.div`
     margin: auto;
   }
   .in-button {
-    margin-top: 30px;
+    top: 10%;
     position: absolute;
     right: 0;
     width: 50px;
     float: right;
-    margin-left: 50px;
     height: 200px;
     background: olive;
     vertical-align: middle;
@@ -92,6 +91,7 @@ const StyledWrapper = styled.div`
   }
   .slide-container {
     position: absolute;
+    top: 10%;
     right: 0;
     display: flex;
   }
