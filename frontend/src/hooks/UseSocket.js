@@ -55,10 +55,11 @@ const UseSocket = ({ name, title }) => {
   );
 
   onNewParticipant = request => {
+    console.log(participants);
     receiveVideo(request.name);
   };
   function receiveVideo(sender) {
-    var participant = new Participant(sender);
+    var participant = new Participant(sender, Object.keys(participants).length);
     participants[sender] = participant;
     var video = participant.getVideoElement();
 
@@ -98,7 +99,7 @@ const UseSocket = ({ name, title }) => {
   };
 
   onExistingParticipants = function (msg) {
-    let participant = new Participant(name);
+    let participant = new Participant(name, 0); //나 자신
     participants[name] = participant;
     let video = participant.getVideoElement();
     let options = {
