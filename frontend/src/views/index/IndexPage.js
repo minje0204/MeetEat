@@ -14,13 +14,14 @@ export default function IndexPage() {
     { id: "3", source: burgershop },
   ];
 
+  /* axios 샘플 코드
   useEffect(() => {
-    let idx = 0;
+    let idx = 1;
     Axios.get(`/user/${idx}`).then(data => {
       console.log(data);
     });
   }, []);
-
+  */
   const listItems = restaurantList.map(e => (
     <Link to={"/restaurant/" + e.id} key={`restaurant${e.id}`}>
       <div id="image-box">
