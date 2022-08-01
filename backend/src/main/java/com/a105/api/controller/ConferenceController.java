@@ -4,12 +4,15 @@ import com.a105.api.request.ConferenceRequest;
 import com.a105.api.response.ConferenceListResponse;
 import com.a105.api.service.ConferenceService;
 import com.a105.api.service.UserConferenceService;
+import com.a105.api.service.UserService;
 import com.a105.domain.conference.Conference;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
 @RestController
@@ -19,6 +22,7 @@ public class ConferenceController {
 
     private final ConferenceService conferenceService;
     private final UserConferenceService userConferenceService;
+    private final UserService userService;
 
     @GetMapping("/{restaurantId}")
     private ResponseEntity<List<ConferenceListResponse>> getConferenceList(@PathVariable int restaurantId) {
@@ -42,11 +46,12 @@ public class ConferenceController {
     }
 
     @PostMapping("/{restaurantId}")
-    private ResponseEntity<Conference> createConference(@PathVariable int restaurantId, @RequestBody ConferenceRequest conferenceRequest) {
+    @PreAuthorize("hasRole('USER')")
+    private ResponseEntity<Conference> createConference(@PathVariable int restaurantId, @RequestBody ConferenceRequest conferenceRequest, UserPrincipal userPrincipal) {
         if (conferenceService.checkConferenceDuplicate(restaurantId, conferenceRequest.getPosition()))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         Conference conference = conferenceService.createConference(conferenceRequest, restaurantId);
-        userConferenceService.joinConference(conference.getId(), 3L);
+        userConferenceService.joinConference(conference.getId(), Long.valueOf(userPrincipal.getName()));
         return new ResponseEntity<>(conference, HttpStatus.OK);
     }
 
