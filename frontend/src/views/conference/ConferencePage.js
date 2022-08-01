@@ -27,7 +27,7 @@ function Conference() {
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (
-    <div id="room_guest_row">
+    <div id={ people === 4 ? `room_guest_row_4` : `room_guest_row` }>
       {_.range(0, people).map((_, idx) => (
         <RoomGuest key={`roomGuest-${idx}`} idx={idx} />
       ))}
@@ -36,9 +36,9 @@ function Conference() {
 
   return (
     <StyledWrapper>
-      <h1>
-        {`${params.conf_id}번 테이블 - ${title} (${num}명 / ${people}명)`}
-      </h1>
+      <div id="table-name">
+        {`[ ${params.conf_id}번 테이블 - ${title} (${num}명 / ${people}명) ]`}
+      </div>
       <TableSlide></TableSlide>
       {roomGuestList}
     </StyledWrapper>
@@ -46,13 +46,13 @@ function Conference() {
 }
 export default Conference;
 const StyledWrapper = styled.div`
-  h1 {
+  #table-name {
     position: relative;
-    top: 70px;
-    left: 50px;
+    height: 3vh;
+    margin-left: 1vw;
   }
   #room_guest_row {
-    height: 90vh;
+    height: 87vh;
     width: 100vw;
     display: flex;
     flex-wrap: wrap;
@@ -61,7 +61,7 @@ const StyledWrapper = styled.div`
     align-content: center;
   }
   #room_guest_row_4 {
-    height: 90vh;
+    height: 87vh;
     margin: 0 10vw;
     display: flex;
     flex-wrap: wrap;

@@ -2,15 +2,17 @@ import styled from "@emotion/styled";
 import logoimage from "assets/img/logo.png";
 import Menu from "components/common/nav/Menu";
 import { Link } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const Header = () => {
+
   return (
     <StyledWrapper>
       <div id="container">
         <Link to="/">
           <div id="logo">
             <img src={logoimage} alt="로고" />
-            <div>혼밥러</div>
+            <div>밋 잇</div>
           </div>
         </Link>
         <Menu></Menu>
@@ -44,12 +46,15 @@ const StyledWrapper = styled.div`
     align-items: center;
   }
   #container {
-    padding: 10px;
+    height: 6vh;
+    max-height: 6vh;
+    padding: 2vh;
+    position: static;
     display: flex;
     justify-content: space-between;
     align-items: center;
     text-align: center;
   }
-  position: absolute;
+  position: static;
   width: 100%;
 `;
