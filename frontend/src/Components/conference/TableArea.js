@@ -11,7 +11,7 @@ const TableArea = forwardRef((props, ref) => {
 });
 export default TableArea;
 const StyledWrapper = styled.div`
-  width: 1000px;
-  height: 600px;
+  width: 860px;
+  height: 480px;
   background: #705000;
 `;

@@ -28,10 +28,13 @@ export default function TableSlide() {
     }
   }
 
+  window.addEventListener("resize", () => {
+    getBoundary();
+  });
+
   const handleChange = () => {
     setChecked(prev => !prev);
   };
-
   return (
     <StyledWrapper>
       {!checked && (
@@ -63,8 +66,12 @@ export default function TableSlide() {
 }
 
 const StyledWrapper = styled.div`
+   {
+    max-width: 1000px;
+  }
   .button {
     position: relative;
+    min-width: 50px;
     width: 50px;
     margin-left: 50px;
     height: 200px;
@@ -90,6 +97,7 @@ const StyledWrapper = styled.div`
     align-items: center;
   }
   .slide-container {
+    max-width: 100%;
     position: absolute;
     top: 10%;
     right: 0;
@@ -102,5 +110,8 @@ const StyledWrapper = styled.div`
   }
   .table-container {
     padding: 30px;
+  }
+  Slide {
+    max-width: 100%;
   }
 `;
