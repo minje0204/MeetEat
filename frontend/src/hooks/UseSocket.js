@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from "react";
-import useWebSocket, { ReadyState } from "react-use-websocket";
-import Participant from "utils/participant";
 import { WebRtcPeer } from "kurento-utils";
+import { useCallback, useEffect, useState } from "react";
+import useWebSocket from "react-use-websocket";
+import Participant from "utils/participant";
 import { constraints } from "utils/socket/video";
 const API_URL = process.env.REACT_APP_API_URL;
 const participants = {};
@@ -44,8 +44,10 @@ const onMessage = message => {
       console.error("Unrecognized message", parsedMessage);
   }
 };
-const UseSocket = ({ name, title }) => {
+const UseSocket = ({ name, setNum }) => {
+  /* eslint-disable no-unused-vars */
   const [messageHistory, setMessageHistory] = useState([]);
+  /* eslint-disable no-unused-vars */
   const [socketUrl, setSocketUrl] = useState(`ws://${API_URL}/groupcall`);
   const { sendMessage, lastMessage, readyState } = useWebSocket(
     socketUrl,
@@ -53,10 +55,11 @@ const UseSocket = ({ name, title }) => {
   );
 
   onNewParticipant = request => {
+    setNum(Object.keys(participants).length + 1);
     receiveVideo(request.name);
   };
   function receiveVideo(sender) {
-    var participant = new Participant(sender);
+    var participant = new Participant(sender, Object.keys(participants).length);
     participants[sender] = participant;
     var video = participant.getVideoElement();
 
@@ -87,6 +90,7 @@ const UseSocket = ({ name, title }) => {
   };
 
   receiveVideoResponse = result => {
+    setNum(Object.keys(participants).length);
     participants[result.name].rtcPeer.processAnswer(
       result.sdpAnswer,
       function (error) {
@@ -96,7 +100,8 @@ const UseSocket = ({ name, title }) => {
   };
 
   onExistingParticipants = function (msg) {
-    let participant = new Participant(name);
+    let participant = new Participant(name, 0); //나 자신
+    setNum(Object.keys(participants).length + 1);
     participants[name] = participant;
     let video = participant.getVideoElement();
     let options = {

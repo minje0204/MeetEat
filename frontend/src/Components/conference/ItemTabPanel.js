@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import store from "app/store";
 import styled from "styled-components";
 import getItems from "utils/items";
@@ -9,29 +8,19 @@ export default function ItemTabPanel(props) {
   let posX = 0;
   let posY = 0;
 
-  let originalX = 0;
-  let originalY = 0;
-
   let imageWidth = 0;
   let imageHeight = 0;
 
   const dragStartHandler = e => {
     const img = new Image();
     img.src = e.target.src;
-    console.log(img.width, img.height);
-    console.log(img);
-    e.dataTransfer.setDragImage(img, img.width * 0.6, img.height * 0.6);
-    console.log(`e.clientX ${e.clientX}`);
-    console.log(`e.clientY ${e.clientY}`);
-    console.log(`e.target.offsetLeft ${e.target.offsetLeft}`);
+
+    e.dataTransfer.setDragImage(img, img.width * 0.5, img.height * 0.5);
     posX = e.clientX;
     posY = e.clientY;
 
     imageHeight = img.height;
     imageWidth = img.width;
-
-    originalX = e.target.offsetLeft;
-    originalY = e.target.offsetTop;
   };
 
   const dragHandler = e => {
@@ -42,29 +31,27 @@ export default function ItemTabPanel(props) {
   };
 
   const dragEndHandler = e => {
-    const box = store.getState();
-    console.log(e);
+    const box = store.getState().box;
     if (
-      box.box.top < e.clientY &&
-      box.box.bottom > e.clientY &&
-      box.box.left < e.clientX &&
-      box.box.right > e.clientX
+      box.top < e.clientY - imageHeight / 2 &&
+      box.bottom > e.clientY + imageHeight / 2 &&
+      box.left < e.clientX - imageWidth / 2 &&
+      box.right > e.clientX + imageWidth / 2
     ) {
       const data = {
-        top: e.clientY - box.box.top,
-        left: e.clientX - box.box.left,
+        top: e.clientY - box.top,
+        left: e.clientX - box.left,
         width: imageWidth,
         height: imageHeight,
         details: e.target.id,
         imageurl: e.target.src,
       };
+
       store.dispatch({
-        type: "add",
+        type: "ADD_ITEM",
         data: data,
       });
     }
-    // console.log(e);
-    console.log(store.getState().tableList);
   };
 
   return (
@@ -77,20 +64,21 @@ export default function ItemTabPanel(props) {
         {...other}
       >
         {isActive && (
-          <Box sx={{ p: 3 }}>
+          <div>
             {getItems(index).map(item => (
-              <img
-                className="item-list"
-                key={item.name}
-                id={item.name}
-                draggable="true"
-                onDragStart={dragStartHandler}
-                onDrag={dragHandler}
-                onDragEnd={dragEndHandler}
-                src={item.imageurl}
-              ></img>
+              <div className="item-list" key={item.name}>
+                <img
+                  id={item.name}
+                  draggable="true"
+                  onDragStart={dragStartHandler}
+                  onDrag={dragHandler}
+                  onDragEnd={dragEndHandler}
+                  src={item.imageurl}
+                  alt={item.name}
+                ></img>
+              </div>
             ))}
-          </Box>
+          </div>
         )}
       </div>
     </StyledWrapper>
@@ -98,7 +86,22 @@ export default function ItemTabPanel(props) {
 }
 
 const StyledWrapper = styled.div`
+  Box {
+    display: flex;
+  }
+  img {
+    object-fit: scale-down;
+    max-width: 100%;
+    max-height: 100%;
+  }
   .item-list {
-    width: 50px;
+    float: left;
+    display: flex;
+    width: 60px;
+    height: 72px;
+    margin-left: 6px;
+    margin-right: 6px;
+    margin-top: 15px;
+    justify-content: center;
   }
 `;

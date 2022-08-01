@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
+import logoimage from "assets/img/logo.png";
 import Menu from "components/common/nav/Menu";
 import { Link } from "react-router-dom";
-import logoimage from "assets/img/logo.png";
 
 const Header = () => {
   return (
@@ -24,6 +24,7 @@ const StyledWrapper = styled.div`
   a {
     text-decoration: none;
     color: #000000;
+    text-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
   }
   a:hover {
     color: #ff8e00;
@@ -38,6 +39,7 @@ const StyledWrapper = styled.div`
     display: flex;
     font-family: "Ulsan";
     font-size: 40px;
+    font-weight: 100;
     text-align: center;
     align-items: center;
   }

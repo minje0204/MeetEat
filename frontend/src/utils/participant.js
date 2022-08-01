@@ -26,8 +26,9 @@ const PARTICIPANT_CLASS = "participant";
  *                        The tag of the new element will be 'video<name>'
  * @return
  */
-function Participant(name) {
+function Participant(name, idx) {
   this.name = name;
+  this.idx = idx;
   var container = document.createElement("div");
   container.className = isPresentMainParticipant()
     ? PARTICIPANT_CLASS
@@ -35,14 +36,17 @@ function Participant(name) {
   container.id = name;
   var span = document.createElement("span");
   var video = document.createElement("video");
+  /* eslint-disable no-unused-vars */
   var rtcPeer;
 
   container.appendChild(video);
   container.appendChild(span);
   container.onclick = switchContainerClass;
-  document.getElementById("personal_cam").appendChild(container);
+  document
+    .querySelector(`#personal-${idx} #personalCam`)
+    .appendChild(container);
 
-  span.appendChild(document.createTextNode(name));
+  document.querySelector(`#personal-${idx} #personal_id`).innerHTML = name;
 
   video.id = "video-" + name;
   video.autoplay = true;
@@ -72,7 +76,7 @@ function Participant(name) {
   }
 
   function isPresentMainParticipant() {
-    return document.getElementsByClassName(PARTICIPANT_MAIN_CLASS).length != 0;
+    return document.getElementsByClassName(PARTICIPANT_MAIN_CLASS).length !== 0;
   }
 
   this.offerToReceiveVideo = function (error, offerSdp, wp) {
