@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import restaurant from "assets/img/restaurant.png";
 import restaurant_2 from "assets/img/restaurant_2.png";
 import burgershop from "assets/img/burgershop.png";
+import { useEffect } from "react";
+import Axios from "utils/axios/Axios";
 
 export default function IndexPage() {
   const restaurantList = [
@@ -11,6 +13,15 @@ export default function IndexPage() {
     { id: "2", source: restaurant_2 },
     { id: "3", source: burgershop },
   ];
+
+  /* axios 샘플 코드
+  useEffect(() => {
+    let idx = 1;
+    Axios.get(`/user/${idx}`).then(data => {
+      console.log(data);
+    });
+  }, []);
+  */
   const listItems = restaurantList.map(e => (
     <Link to={"/restaurant/" + e.id} key={`restaurant${e.id}`}>
       <div id="image-box">
