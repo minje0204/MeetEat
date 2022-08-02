@@ -64,8 +64,8 @@ export default function TabFriends() {
         <TabPanel value={value} index={1}>
           친구들
         </TabPanel>
-        <TabPanel value={value} index={2}>
-          <div>
+        <TabPanel component="span" value={value} index={2}>
+          <div id="search">
             <SearchFriends />
             <SearchInputFriends />
           </div>
@@ -77,9 +77,12 @@ export default function TabFriends() {
 
 const StyledWrapper = styled.div`
   #friend-dialog {
-  width: 30vw;
-  height: 40vw;
-  border: 6px groove #FFC263;
-}
-  
+    width: 450px;
+    height: 580px;
+    border: 6px groove #FFC263;
+  }
+  #search {
+    display: flex;
+    justify-content: space-around;
+  }
 `;

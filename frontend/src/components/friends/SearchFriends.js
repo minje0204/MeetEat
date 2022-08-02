@@ -9,21 +9,20 @@ export default function SearchFriends() {
   const [inputValue, setInputValue] = React.useState('');
 
   return (
-    <div>
-      <Autocomplete
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-        inputValue={inputValue}
-        onInputChange={(event, newInputValue) => {
-          setInputValue(newInputValue);
-        }}
-        id="controllable-states-demo"
-        options={options}
-        sx={{ width: 150 }}
-        renderInput={(params) => <TextField {...params} label="검색 방법" />}
-      />
-    </div>
+    <Autocomplete
+      component="span"
+      value={value}
+      onChange={(event, newValue) => {
+        setValue(newValue);
+      }}
+      inputValue={inputValue}
+      onInputChange={(event, newInputValue) => {
+        setInputValue(newInputValue);
+      }}
+      id="controllable-states-demo"
+      options={options}
+      sx={{ width: 140 }}
+      renderInput={(params) => <TextField {...params} label="검색 방법" />}
+    />
   );
 }

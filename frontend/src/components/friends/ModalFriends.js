@@ -18,7 +18,7 @@ export default function ModalFriends() {
         aria-describedby="modal-modal-description"
       >
         <div>
-          <TabFriends></TabFriends>
+          <TabFriends />
         </div>
       </Dialog>
     </div>
