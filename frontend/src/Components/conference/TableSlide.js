@@ -4,6 +4,7 @@ import ItemTab from "./ItemTab";
 import TableArea from "./TableArea";
 import styled from "styled-components";
 import store from "app/store";
+// import { DragDropContext } from 'react-beautiful-dnd'
 
 export default function TableSlide() {
   const [checked, setChecked] = useState(false);

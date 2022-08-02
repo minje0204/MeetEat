@@ -2,7 +2,7 @@ import store from "app/store";
 import styled from "styled-components";
 import getItems from "utils/items";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider, DragPreviewImage, useDrag } from "react-dnd";
+import { DndProvider } from "react-dnd";
 
 export default function ItemTabPanel(props) {
   const { index, isActive, ...other } = props;
@@ -16,7 +16,6 @@ export default function ItemTabPanel(props) {
     const img = new Image();
     img.src = e.target.src;
     e.dataTransfer.setDragImage(img, img.width * 0.5, img.height * 0.5);
-    console.log(e);
     posX = e.clientX;
     posY = e.clientY;
     imageHeight = e.target.naturalHeight;
@@ -31,7 +30,6 @@ export default function ItemTabPanel(props) {
   };
 
   const dragEndHandler = e => {
-    console.log(e);
     const box = store.getState().box;
     if (
       box.top < e.clientY - imageHeight / 2 &&
@@ -96,6 +94,10 @@ const StyledWrapper = styled.div`
     object-fit: scale-down;
     max-width: 100%;
     max-height: 100%;
+    cursor: grab;
+  }
+  img:hover {
+    transform: scale(1.3);
   }
   .item-list {
     float: left;

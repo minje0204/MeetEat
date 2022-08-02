@@ -38,6 +38,7 @@ export default function ItemsOnTable() {
   // console.log(store.getState());
   const menuRender = myMenu.map((menu, index) => (
     <div
+      className="on-table"
       key={`tableitem-${index}`}
       index={index}
       style={{
@@ -66,9 +67,19 @@ const StyledWrapper = styled.div`
    {
     position: absolute;
   }
+  .on-table:hover {
+    // filter: grayscale(50%);
+    filter: brightness(70%);
+    cursor: pointer;
+  }
+
   i {
     position: absolute;
     right: 0;
     font-size: 1.5rem;
+  }
+  i:hover {
+    color: red;
+    filter: none;
   }
 `;
