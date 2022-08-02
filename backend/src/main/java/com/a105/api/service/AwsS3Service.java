@@ -27,10 +27,8 @@ public class AwsS3Service {
 
     public String uploadFile(MultipartFile file, String dirFileName) {
         File fileObj = convertMultiPartFileToFile(file);
-//        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
         String fileUrl = putS3(fileObj, dirFileName);
         fileObj.delete();
-//        return "File uploaded : " + dirFileName;
         return fileUrl;
     }
 
