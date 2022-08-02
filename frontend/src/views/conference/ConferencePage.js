@@ -12,6 +12,7 @@ function Conference() {
   const { title, people, userName } = location.state;
   const [num, setNum] = useState(1);
 
+  /* eslint-disable no-unused-vars */
   const { handleClickSendMessage, readyState } = UseSocket({
     name: location.state.userName,
     setNum,
@@ -27,7 +28,7 @@ function Conference() {
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (
-    <div id={ people === 4 ? `room_guest_row_4` : `room_guest_row` }>
+    <div id={ Number(people) === 4 ? `room_guest_row_4` : `room_guest_row` }>
       {_.range(0, people).map((_, idx) => (
         <RoomGuest key={`roomGuest-${idx}`} idx={idx} />
       ))}

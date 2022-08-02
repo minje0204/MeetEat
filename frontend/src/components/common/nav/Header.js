@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import logoimage from "assets/img/logo.png";
 import Menu from "components/common/nav/Menu";
 import { Link } from "react-router-dom";
-import { useLocation, useParams } from "react-router-dom";
 
 const Header = () => {
 
