@@ -27,44 +27,46 @@ public class UserController {
     private AwsS3Service storageService;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> user = userService.findAll();
         return new ResponseEntity<List<User>>(user, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{idx}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> getUser(@PathVariable("idx") Long idx){
+    public ResponseEntity<?> getUser(@PathVariable("idx") Long idx) {
         UserInfoResponse userInfo = userService.getUserInfo(idx);
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<User>> searchUser(@RequestParam(required = false) String email, @RequestParam(required = false) String nickname){
+    public ResponseEntity<List<User>> searchUser(@RequestParam(required = false) String email,
+        @RequestParam(required = false) String nickname) {
         List<User> users;
-        if(nickname == null){
+        if (nickname == null) {
             users = userService.searchFromEmail(email);
-        }
-        else if(email == null){
+        } else if (email == null) {
             users = userService.searchFromNickname(nickname);
-        } else{
+        } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
     @GetMapping("/exists/{nickname}")
-    public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickname){
+    public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickname) {
         return ResponseEntity.ok(userService.checkNicknameDuplicate(nickname));
     }
 
     @PatchMapping("/{idx}/bio")
-    public ResponseEntity<?> updateUserBio(@PathVariable("idx") Long idx, @RequestBody UserBioRequest bio){
+    public ResponseEntity<?> updateUserBio(@PathVariable("idx") Long idx,
+        @RequestBody UserBioRequest bio) {
         UserInfoResponse userInfo = userService.updateUserBio(idx, bio);
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 
     @PatchMapping("/{idx}/nickname")
-    public ResponseEntity<?> updateUserNickname(@PathVariable("idx") Long idx, @RequestBody UserNicknameRequest nickname){
+    public ResponseEntity<?> updateUserNickname(@PathVariable("idx") Long idx,
+        @RequestBody UserNicknameRequest nickname) {
         UserInfoResponse userInfo = userService.updateUserNickname(idx, nickname);
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
