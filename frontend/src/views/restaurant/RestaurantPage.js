@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useParams } from "react-router-dom";
-import Modal from "components/makingroom/Modal";
+import ModalMakingRoom from "components/makingroom/ModalMakingRoom";
 import React from "react";
 
 export default function RestaurantPage() {
@@ -17,11 +17,11 @@ export default function RestaurantPage() {
     { id: "8" },
   ];
   const listItems = tableList.map(e => (
-    <Modal
+    <ModalMakingRoom
       tableNum={e.id}
       restaurantId={params.restaurant_id}
       key={`table${e.id}`}
-    ></Modal>
+    ></ModalMakingRoom>
   ));
 
   return (

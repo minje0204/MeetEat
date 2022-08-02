@@ -10,7 +10,7 @@ import table_empty from "assets/img/table_empty.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Modal(props) {
+export default function ModalMakingRoom(props) {
   const { tableNum, restaurantId } = props;
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("");
