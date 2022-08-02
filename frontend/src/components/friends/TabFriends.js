@@ -5,6 +5,8 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import styled from "@emotion/styled";
+import SearchFriends from 'components/friends/SearchFriends';
+import SearchInputFriends from 'components/friends/SearchInputFriends';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,13 +59,16 @@ export default function TabFriends() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          Item One
+          친구 추가를 보낸 유저들
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          친구들
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Item Three
+          <div>
+            <SearchFriends />
+            <SearchInputFriends />
+          </div>
         </TabPanel>
       </div>
     </StyledWrapper>
