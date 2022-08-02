@@ -1,6 +1,8 @@
 import store from "app/store";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 
 export default function ItemsOnTable() {
   const myMenu = useSelector(state => state.tableList); // 해당 state가 변할 때 마다 현재 컴포넌트를 리렌더링함.
@@ -60,7 +62,11 @@ export default function ItemsOnTable() {
       ></i>
     </div>
   ));
-  return <StyledWrapper>{menuRender}</StyledWrapper>;
+  return (
+    <StyledWrapper>
+      <DndProvider backend={HTML5Backend}> {menuRender}</DndProvider>
+    </StyledWrapper>
+  );
 }
 
 const StyledWrapper = styled.div`

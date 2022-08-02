@@ -5,6 +5,7 @@ import { forwardRef } from "react";
 const TableArea = forwardRef((props, ref) => {
   return (
     <StyledWrapper ref={ref}>
+      {props.droppable ? "드롭 가능" : "드롭 불가능"}
       <ItemsOnTable></ItemsOnTable>
     </StyledWrapper>
   );

@@ -9,6 +9,11 @@ import store from "app/store";
 export default function TableSlide() {
   const [checked, setChecked] = useState(false);
 
+  const [droppable, setDroppable] = useState(false);
+  const getDroppable = value => {
+    setDroppable(value);
+  };
+
   const table = useRef(null);
 
   function getBoundary() {
@@ -52,12 +57,12 @@ export default function TableSlide() {
       >
         <div className="slide-container">
           <div className="button" onClick={handleChange}>
-            <h3>식탁꾸미기</h3>
+            <h3>식탁꾸미기 </h3>
           </div>
           <div className="table-custom">
-            <ItemTab></ItemTab>
+            <ItemTab getDroppable={getDroppable}></ItemTab>
             <div className="table-container">
-              <TableArea ref={table}></TableArea>
+              <TableArea ref={table} droppable={droppable}></TableArea>
             </div>
           </div>
         </div>

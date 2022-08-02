@@ -3,33 +3,60 @@ import styled from "styled-components";
 import getItems from "utils/items";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
+// import { useState } from "react";
 
 export default function ItemTabPanel(props) {
   const { index, isActive, ...other } = props;
   let posX = 0;
   let posY = 0;
 
-  let imageWidth = 0;
-  let imageHeight = 0;
+  // const box = store.getState().box;
+  // let imageWidth = 0;
+  // let imageHeight = 0;
 
+  // const [droppable, setDroppable] = useState(false);
+  // const handleDroppable = (event, newValue) => {
+  //   setDroppable(newValue);
+  // };
   const dragStartHandler = e => {
     const img = new Image();
+    img.id = "drag-image";
     img.src = e.target.src;
+    // img.setAttribute(
+    //   "style",
+    //   `{transform: scale(${window.devicePixelRatio});}`,
+    // );
+    // console.log(img);
+    // console.log(window.devicePixelRatio);
     e.dataTransfer.setDragImage(img, img.width * 0.5, img.height * 0.5);
     posX = e.clientX;
     posY = e.clientY;
-    imageHeight = e.target.naturalHeight;
-    imageWidth = e.target.naturalWidth;
   };
 
   const dragHandler = e => {
+    const box = store.getState().box;
     e.target.style.left = `${e.target.offsetLeft + e.clientX - posX}px`;
     e.target.style.top = `${e.target.offsetTop + e.clientY - posY}px`;
     posX = e.clientX;
     posY = e.clientY;
+    if (
+      box.top < e.clientY - e.target.naturalHeight / 2 &&
+      box.bottom > e.clientY + e.target.naturalHeight / 2 &&
+      box.left < e.clientX - e.target.naturalWidth / 2 &&
+      box.right > e.clientX + e.target.naturalWidth / 2
+    ) {
+      props.getDroppable(true);
+      // handleDroppable(true);
+      // console.log("드롭 가능");
+    } else {
+      props.getDroppable(false);
+      // console.log("불가능");
+    }
   };
 
   const dragEndHandler = e => {
+    const imageHeight = e.target.naturalHeight;
+    const imageWidth = e.target.naturalWidth;
     const box = store.getState().box;
     if (
       box.top < e.clientY - imageHeight / 2 &&
@@ -45,7 +72,6 @@ export default function ItemTabPanel(props) {
         details: e.target.id,
         imageurl: e.target.src,
       };
-
       store.dispatch({
         type: "ADD_ITEM",
         data: data,
@@ -99,6 +125,7 @@ const StyledWrapper = styled.div`
   img:hover {
     transform: scale(1.3);
   }
+
   .item-list {
     float: left;
     display: flex;
