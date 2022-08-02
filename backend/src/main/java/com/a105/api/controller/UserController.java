@@ -5,18 +5,16 @@ import com.a105.api.request.UserNicknameRequest;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.api.service.UserService;
 import com.a105.domain.user.User;
-import java.util.List;
+import com.a105.api.service.AwsS3Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -24,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+
+    @Autowired
+    private AwsS3Service storageService;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<User>> getAllUsers() {
@@ -69,5 +70,23 @@ public class UserController {
         UserInfoResponse userInfo = userService.updateUserNickname(idx, nickname);
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
+
+
+    @PostMapping("/{id}/profile")
+    public ResponseEntity<String> uploadProfile(@PathVariable("id") Long id, @RequestParam(value = "file") MultipartFile file) {
+        return new ResponseEntity<>(storageService.uploadFile(file, "profile/" + id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}/profile")
+    public ResponseEntity<String> deleteProfile(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(storageService.deleteFile("profile/" + id), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}/profile")
+    public ResponseEntity<String> changeProfile(@PathVariable("id") Long id, @RequestParam(value = "file") MultipartFile file){
+        storageService.deleteFile("profile/" + id);
+        return new ResponseEntity<>(storageService.uploadFile(file, "profile/" + id), HttpStatus.OK);
+    }
+
 
 }
