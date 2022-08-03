@@ -5,12 +5,15 @@ import com.a105.api.request.UserNicknameRequest;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.api.service.UserService;
 import com.a105.domain.user.User;
-import com.a105.api.service.AwsS3Service;
+import com.a105.exception.ResourceNotFoundException;
+import com.a105.security.CurrentUser;
+import com.a105.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,13 +29,13 @@ public class UserController {
     @Autowired
     private AwsS3Service storageService;
 
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> user = userService.findAll();
         return new ResponseEntity<List<User>>(user, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{idx}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/{idx}")
     public ResponseEntity<?> getUser(@PathVariable("idx") Long idx) {
         UserInfoResponse userInfo = userService.getUserInfo(idx);
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
@@ -88,5 +91,12 @@ public class UserController {
         return new ResponseEntity<>(storageService.uploadFile(file, "profile/" + id), HttpStatus.OK);
     }
 
+
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('USER')")
+    public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+        return userService.findById(userPrincipal.getId())
+            .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+    }
 
 }

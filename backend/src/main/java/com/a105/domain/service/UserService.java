@@ -25,12 +25,12 @@ public class UserService {
         return userRepository.findById(idx).orElseThrow();
     }
 
-    public List<User> searchFromEmail(String email) {
-        return userRepository.findByEmail(email);
+    public List<User> searchFromEmail(String email){
+        return userRepository.searchByEmail(email);
     }
 
-    public List<User> searchFromNickname(String nickname) {
-        return userRepository.findByNickname(nickname);
+    public List<User> searchFromNickname(String nickname){
+        return userRepository.searchByNickname(nickname);
     }
 
     public List<User> findAll() {
@@ -56,5 +56,9 @@ public class UserService {
         userNicknameRequest.updateUserNickname(user);
         return UserInfoResponse.fromEntity(user);
         // -> exception 작성하기 (ResourceNotFoundException)
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 }
