@@ -4,7 +4,7 @@ FROM node:alpine as builder
 RUN mkdir /app
 WORKDIR /app
 COPY package.json .
-RUN npm install --silent
+RUN npm install --force --silent 
 RUN npm install react-scripts@5.0.1 -g --silent
 
 # 소스를 작업폴더로 복사하고 빌드
