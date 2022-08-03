@@ -1,11 +1,9 @@
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import burgershop from "assets/img/burgershop.png";
 import restaurant from "assets/img/restaurant.png";
 import restaurant_2 from "assets/img/restaurant_2.png";
-import burgershop from "assets/img/burgershop.png";
-import { useEffect } from "react";
-import Axios from "utils/axios/Axios";
+import { Link } from "react-router-dom";
 
 export default function IndexPage() {
   const restaurantList = [

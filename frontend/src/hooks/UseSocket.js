@@ -140,9 +140,12 @@ const UseSocket = ({ name, setNum }) => {
     }
   }, [lastMessage, setMessageHistory]);
 
-  const handleClickSendMessage = useCallback(message => {
-    customSendMsg(message);
-  }, []);
+  const handleClickSendMessage = useCallback(
+    message => {
+      customSendMsg(message);
+    },
+    [customSendMsg],
+  );
 
   return { handleClickSendMessage, readyState };
 };
