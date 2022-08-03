@@ -1,4 +1,14 @@
 @font-face {
+  font-family: "Jua";
+  src: url("assets/fonts/Jua-Regular.ttf");
+}
+
+@font-face {
+  font-family: "DoHyeon";
+  src: url("assets/fonts/DoHyeon-Regular.ttf");
+}
+
+@font-face {
   font-family: "Yangjin";
   src: url("assets/fonts/Yangjinv0.9_ttf.ttf");
 }

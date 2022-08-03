@@ -11,7 +11,7 @@ const Header = () => {
         <Link to="/">
           <div id="logo">
             <img src={logoimage} alt="로고" />
-            <div>밋 잇</div>
+            <div id="logo_meeteat">밋잇</div>
           </div>
         </Link>
         <Menu></Menu>
@@ -25,10 +25,10 @@ const StyledWrapper = styled.div`
   a {
     text-decoration: none;
     color: #000000;
-    text-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+    text-shadow : 0 1px 0 #CCC, 0 2px 0 #C9C9C9, 0 3px 0 #BBB;
   }
   a:hover {
-    color: #ff8e00;
+    color: #BABD42;
   }
   img {
     width: 50px;
@@ -38,11 +38,16 @@ const StyledWrapper = styled.div`
   }
   #logo {
     display: flex;
-    font-family: "Ulsan";
-    font-size: 40px;
     font-weight: 100;
     text-align: center;
     align-items: center;
+  }
+  #logo_meeteat {
+    font-family: "Jua";
+    font-size: 48px;
+    margin-top: 6px;
+    margin-left: -15px;
+    width: 10vw;
   }
   #container {
     height: 6vh;

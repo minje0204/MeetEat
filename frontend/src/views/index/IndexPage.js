@@ -48,7 +48,7 @@ const StyledWrapper = styled.div`
   }
 
   button {
-    font-family: "BlackHanSans";
+    font-family: "Jua";
     font-size: 32px;
     color: black;
   }
@@ -67,11 +67,11 @@ const StyledWrapper = styled.div`
     max-width: 90%;
     max-height: 80%;
     -webkit-filter: brightness(90%);
-    -webkit-transition: all 1s ease;
-    -moz-transition: all 1s ease;
-    -o-transition: all 1s ease;
-    -ms-transition: all 1s ease;
-    transition: all 1s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
   }
   #image:hover {
     -webkit-filter: brightness(110%);
