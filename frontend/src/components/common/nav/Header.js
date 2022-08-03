@@ -33,7 +33,6 @@ const StyledWrapper = styled.div`
   img {
     width: 50px;
     height: 45px;
-    margin-right: 5px;
     display: inline-block;
   }
   #logo {
@@ -45,8 +44,8 @@ const StyledWrapper = styled.div`
   #logo_meeteat {
     font-family: "Jua";
     font-size: 48px;
-    margin-top: 6px;
-    margin-left: -15px;
+    margin-top: 12px;
+    margin-left: -20px;
     width: 10vw;
   }
   #container {
