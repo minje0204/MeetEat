@@ -127,6 +127,7 @@ const UseSocket = ({ name, setNum }) => {
     document.querySelector(`#myVideoBtn`).addEventListener("click",()=>{
       participant.rtcPeer.videoEnabled = !participant.rtcPeer.videoEnabled
     })
+    console.log(msg);
     msg.data.forEach(receiveVideo); // 돌면서 참가자 모두 영상 수신
   };
 
