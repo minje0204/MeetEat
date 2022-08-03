@@ -24,13 +24,13 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping
     public ResponseEntity<List<User>> getAllUsers(){
         List<User> user = userService.findAll();
         return new ResponseEntity<List<User>>(user, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{idx}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/{idx}")
     public ResponseEntity<?> getUser(@PathVariable("idx") Long idx){
         UserInfoResponse userInfo = userService.getUserInfo(idx);
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
