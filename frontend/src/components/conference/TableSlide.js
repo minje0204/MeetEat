@@ -4,9 +4,20 @@ import ItemTab from "./ItemTab";
 import TableArea from "./TableArea";
 import styled from "styled-components";
 import store from "app/store";
+// import { DragDropContext } from 'react-beautiful-dnd'
 
 export default function TableSlide() {
   const [checked, setChecked] = useState(false);
+
+  const [droppable, setDroppable] = useState(false);
+  const [dragging, setDragging] = useState(false);
+
+  const getDroppable = value => {
+    setDroppable(value);
+  };
+  const isDragging = value => {
+    setDragging(value);
+  };
 
   const table = useRef(null);
 
@@ -28,10 +39,13 @@ export default function TableSlide() {
     }
   }
 
+  window.addEventListener("resize", () => {
+    getBoundary();
+  });
+
   const handleChange = () => {
     setChecked(prev => !prev);
   };
-
   return (
     <StyledWrapper>
       {!checked && (
@@ -48,12 +62,21 @@ export default function TableSlide() {
       >
         <div className="slide-container">
           <div className="button" onClick={handleChange}>
-            <h3>식탁꾸미기</h3>
+            <h3>식탁꾸미기 </h3>
           </div>
           <div className="table-custom">
-            <ItemTab></ItemTab>
+            <ItemTab
+              getDroppable={getDroppable}
+              isDragging={isDragging}
+            ></ItemTab>
             <div className="table-container">
-              <TableArea ref={table}></TableArea>
+              <TableArea
+                ref={table}
+                droppable={droppable}
+                dragging={dragging}
+                getDroppable={getDroppable}
+                isDragging={isDragging}
+              ></TableArea>
             </div>
           </div>
         </div>
@@ -63,14 +86,19 @@ export default function TableSlide() {
 }
 
 const StyledWrapper = styled.div`
+   {
+    max-width: 1000px;
+  }
   .button {
     position: relative;
+    min-width: 50px;
     width: 50px;
     margin-left: 50px;
     height: 200px;
-    background: olive;
+    background: #efd345;
     display: flex;
     align-items: center;
+    border-radius: 10px 0 0 10px;
   }
   h3 {
     writing-mode: vertical-rl;
@@ -83,24 +111,32 @@ const StyledWrapper = styled.div`
     width: 50px;
     float: right;
     height: 200px;
-    background: olive;
+    background: #ffef82;
     vertical-align: middle;
 
+    border-radius: 10px 0 0 10px;
     display: flex;
     align-items: center;
   }
   .slide-container {
+    max-width: 100%;
     position: absolute;
     top: 10%;
     right: 0;
     display: flex;
+    z-index: 140;
   }
   .table-custom {
     display: flex;
+    border-radius: 0 0 0 40px;
     position: relative;
-    background: #eeeeee;
+    background: #ffef82;
+    // border: 5px solid #efd345;
   }
   .table-container {
     padding: 30px;
+  }
+  Slide {
+    max-width: 100%;
   }
 `;
