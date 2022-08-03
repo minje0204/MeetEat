@@ -52,9 +52,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     /**
-     * @param authentication 인증 완료된 결과
-     * @return 인증 결과를 사용해서 access 토큰 발급, 쿠키에 저장한 redirect_uri와 합쳐서 반환.
-     * 명시되지 않으면 설정파일({@link AppProperties})에 명시된 default redirect url 값 적용
+     * 인증 결과를 사용해서 access 토큰 발급, 쿠키에 저장한 redirect_uri와 합쳐서 반환.
+     * 명시되지 않으면 설정파일(AppProperties)에 명시된 default redirect url 값 적용
      */
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         Optional<String> redirectUri = CookieUtils.resolveCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
