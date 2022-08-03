@@ -52,11 +52,11 @@ export default function TabFriends() {
   return (
     <StyledWrapper>
       <div id="friend-dialog">
-        <Box sx={{ width: "100%", bgcolor: "#FFA000" }}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
-            <Tab label="밥친구 요청" {...a11yProps(0)} />
-            <Tab label="밥친구 목록" {...a11yProps(1)} />
-            <Tab label="밥친구 검색" {...a11yProps(2)} />
+        <Box sx={{ width: "100%", bgcolor: "#FFEF82" }}>
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered indicatorColor="#EFD345">
+            <Tab label="밥친구 요청" {...a11yProps(0)} sx={{fontSize: 20, fontFamily: "Jua"}} />
+            <Tab label="밥친구 목록" {...a11yProps(1)} sx={{fontSize: 20, fontFamily: "Jua"}}/>
+            <Tab label="밥친구 검색" {...a11yProps(2)} sx={{fontSize: 20, fontFamily: "Jua"}}/>
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -80,7 +80,7 @@ const StyledWrapper = styled.div`
   #friend-dialog {
     width: 450px;
     height: 580px;
-    border: 6px groove #FFC263;
+    border: 6px dashed #EFD345;
   }
   #search {
     display: flex;

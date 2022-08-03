@@ -61,6 +61,9 @@ const StyledWrapper = styled.div`
     position: relative;
     height: 3vh;
     margin-left: 1vw;
+    font-family: "Jua";
+    font-size: 20px;
+    color: #82954B;
   }
   #room_guest_row {
     height: 80vh;
