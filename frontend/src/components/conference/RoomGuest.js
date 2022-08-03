@@ -16,27 +16,27 @@ export default function RoomGuest(props) {
 
 const StyledWrapper = styled.div`
   .personal {
-    width: 27vw;
-    height: 35vh;
+    width: 305.5px;
+    height: 250px;
     display: flex-column;
     align-items: center;
-    margin: 2vh 0;
+    margin: 20px 50px;
   }
   #personal_id {
-    width: 70%;
-    height: 8%;
+    width: 240px;
+    height: 20px;
     margin: 0 auto;
   }
   #personalCam {
-    width: 70%;
-    height: 45%;
+    width: 240px;
+    height: 100px;
     margin: auto;
     border-radius: 5px;
     background-color: gray;
   }
   #personal_table {
-    width: 90%;
-    height: 47%;
+    width: 305.5px;
+    height: 130px;
     object-fit: cover;
     margin: auto;
     background-color: rgb(216, 204, 163);

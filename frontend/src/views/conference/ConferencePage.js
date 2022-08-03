@@ -49,11 +49,14 @@ function Conference() {
           <SwitchMic />
           <SwitchVideo />
         </div>
+        <div id="chatting">
+        </div>
       </div>
     </StyledWrapper>
   );
 }
 export default Conference;
+
 const StyledWrapper = styled.div`
   #table-name {
     position: relative;
@@ -62,7 +65,7 @@ const StyledWrapper = styled.div`
   }
   #room_guest_row {
     height: 80vh;
-    width: 100vw;
+    margin: 0 8vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -71,7 +74,7 @@ const StyledWrapper = styled.div`
   }
   #room_guest_row_4 {
     height: 80vh;
-    margin: 0 10vw;
+    margin: 0 20vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -86,5 +89,8 @@ const StyledWrapper = styled.div`
   #switch {
     background-color: #FC6677;
     display: flex;
+  }
+  #chatting {
+
   }
 `;
