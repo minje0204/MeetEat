@@ -6,7 +6,7 @@ import _ from "lodash";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
-function Conference() {
+export default function ConferencePage() {
   let params = useParams();
   const location = useLocation();
   const { title, people, userName } = location.state;
@@ -44,7 +44,6 @@ function Conference() {
     </StyledWrapper>
   );
 }
-export default Conference;
 const StyledWrapper = styled.div`
   h1 {
     position: relative;
