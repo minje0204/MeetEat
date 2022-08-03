@@ -5,6 +5,8 @@ import UseSocket from "hooks/UseSocket";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import _ from "lodash";
+import SwitchMic from "components/conference/SwitchMic";
+import SwitchVideo from "components/conference/SwitchVideo";
 
 function Conference() {
   let params = useParams();
@@ -42,6 +44,12 @@ function Conference() {
       </div>
       <TableSlide></TableSlide>
       {roomGuestList}
+      <div id="footer">
+        <div id="switch">
+          <SwitchMic />
+          <SwitchVideo />
+        </div>
+      </div>
     </StyledWrapper>
   );
 }
@@ -53,7 +61,7 @@ const StyledWrapper = styled.div`
     margin-left: 1vw;
   }
   #room_guest_row {
-    height: 87vh;
+    height: 80vh;
     width: 100vw;
     display: flex;
     flex-wrap: wrap;
@@ -62,12 +70,21 @@ const StyledWrapper = styled.div`
     align-content: center;
   }
   #room_guest_row_4 {
-    height: 87vh;
+    height: 80vh;
     margin: 0 10vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
     align-content: center;
+  }
+  #footer {
+    display: flex;
+    align-items: center;
+    height: 7vh;
+  }
+  #switch {
+    background-color: #FC6677;
+    display: flex;
   }
 `;
