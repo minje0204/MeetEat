@@ -3,16 +3,49 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
+import { useState } from "react";
 
-export default function ItemsOnTable() {
+export default function ItemsOnTable(props) {
   const myMenu = useSelector(state => state.tableList); // 해당 state가 변할 때 마다 현재 컴포넌트를 리렌더링함.
+  const [startX, setStartX] = useState(0);
+  const [startY, setStartY] = useState(0);
 
-  let startX = 0;
-  let startY = 0;
+  const getStartX = value => {
+    setStartX(value);
+  };
+  const getStartY = value => {
+    setStartY(value);
+  };
+  const dragStartHandler = e => {
+    getStartX(e.clientX);
+    getStartY(e.clientY);
+  };
+
+  const dragHandler = e => {
+    const box = store.getState().box;
+    // console.log(box);
+    const deltaX = e.clientX - startX;
+    const deltaY = e.clientY - startY;
+    // console.log(deltaX, deltaY);
+    // console.log(startX, startY);
+    const index = e.target.attributes.index.value;
+    const item = myMenu[index];
+    // console.log(item);
+    if (
+      0 < item.top + deltaY - item.height / 2 &&
+      item.top + deltaY + item.height / 2 < box.height &&
+      0 < item.left + deltaX - item.width / 2 &&
+      item.left + deltaX + item.width / 2 < box.width
+    ) {
+      props.getDroppable(true);
+    } else {
+      props.getDroppable(false);
+    }
+  };
+  // console.log(store.getState());
 
   const dragEndHandler = e => {
     const box = store.getState().box;
-
     const deltaX = e.clientX - startX;
     const deltaY = e.clientY - startY;
     const index = e.target.attributes.index.value;
@@ -33,11 +66,6 @@ export default function ItemsOnTable() {
       });
     }
   };
-  const dragStartHandler = e => {
-    startX = e.clientX;
-    startY = e.clientY;
-  };
-  // console.log(store.getState());
   const menuRender = myMenu.map((menu, index) => (
     <div
       className="on-table"
@@ -53,8 +81,17 @@ export default function ItemsOnTable() {
         margin: 0,
       }}
       draggable="true"
-      onDragStart={dragStartHandler}
-      onDragEnd={dragEndHandler}
+      onDragStart={e => {
+        dragStartHandler(e);
+      }}
+      onDrag={e => {
+        props.isDragging(true);
+        dragHandler(e);
+      }}
+      onDragEnd={e => {
+        dragEndHandler(e);
+        props.isDragging(false);
+      }}
     >
       <i
         className="fa-solid fa-circle-minus"

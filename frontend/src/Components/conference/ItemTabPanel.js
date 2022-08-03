@@ -31,6 +31,7 @@ export default function ItemTabPanel(props) {
     e.dataTransfer.setDragImage(img, img.width * 0.5, img.height * 0.5);
     posX = e.clientX;
     posY = e.clientY;
+    props.isDragging(true);
   };
 
   const dragHandler = e => {
@@ -57,6 +58,8 @@ export default function ItemTabPanel(props) {
   const dragEndHandler = e => {
     const imageHeight = e.target.naturalHeight;
     const imageWidth = e.target.naturalWidth;
+
+    props.isDragging(false);
     const box = store.getState().box;
     if (
       box.top < e.clientY - imageHeight / 2 &&

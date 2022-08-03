@@ -4,7 +4,7 @@ export default function ModalContent(props) {
     <StyledWrapper>
       <i
         id="close-button"
-        class="fa-solid fa-x"
+        className="fa-solid fa-x"
         onClick={props.handleClose}
       ></i>
       <div className="social-login-container">

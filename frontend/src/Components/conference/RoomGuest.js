@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "@emotion/styled";
+import PersonalTable from "./PersonalTable";
 
 export default function RoomGuest(props) {
   const { idx } = props;
@@ -12,7 +13,8 @@ export default function RoomGuest(props) {
         {/* 캠 화면의 규격은 350*200 */}
         <div id="personalCam"></div>
         {/* 식탁의 규격은 450*150 */}
-        <div id="personal_table"></div>
+        {/* <div id="personal_table"></div> */}
+        <PersonalTable></PersonalTable>
       </div>
     </StyledWrapper>
   );
@@ -46,8 +48,8 @@ const StyledWrapper = styled.div`
     background-color: rgb(216, 204, 163);
   }
   #personal_table_img {
-    width: 450px;
-    height: 150px;
+    width: 470px;
+    height: 200px;
     object-fit: cover;
   }
 `;

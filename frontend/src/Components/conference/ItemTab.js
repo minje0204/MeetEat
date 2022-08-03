@@ -43,6 +43,7 @@ export default function ItemTab(props) {
   const listTabPanels = tabContArr.map((tabCont, index) => (
     <ItemTabPanel
       getDroppable={props.getDroppable}
+      isDragging={props.isDragging}
       isActive={activeIdx === index}
       index={index}
       key={`tabpanel-${index}`}
@@ -51,7 +52,6 @@ export default function ItemTab(props) {
 
   return (
     <StyledWrapper>
-      <h2>식탁 꾸미기</h2>
       <Box className="item-tab-container">
         <Box
           className="item-tab"
