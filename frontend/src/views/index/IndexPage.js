@@ -20,10 +20,16 @@ export default function IndexPage() {
     });
   }, []);
   */
-  const listItems = restaurantList.map(e => (
+  const listItems = restaurantList.map((e, idx) => (
     <Link to={"/restaurant/" + e.id} key={`restaurant${e.id}`}>
       <div id="image-box">
-        <img src={e.source} width="450px" height="450px" id="image"></img>
+        <img
+          src={e.source}
+          width="450px"
+          height="450px"
+          id="image"
+          alt={`restaurant-img-${idx}`}
+        ></img>
         <Button variant="text">식당 {e.id}</Button>
       </div>
     </Link>

@@ -140,12 +140,10 @@ const UseSocket = ({ name, setNum }) => {
     }
   }, [lastMessage, setMessageHistory]);
 
-  const handleClickSendMessage = useCallback(
-    message => {
-      customSendMsg(message);
-    },
-    [customSendMsg],
-  );
+  const handleClickSendMessage = useCallback(message => {
+    customSendMsg(message);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return { handleClickSendMessage, readyState };
 };
