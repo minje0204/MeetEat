@@ -3,6 +3,7 @@ package com.a105.api.controller;
 import com.a105.api.request.UserBioRequest;
 import com.a105.api.request.UserNicknameRequest;
 import com.a105.api.response.UserInfoResponse;
+import com.a105.api.service.AwsS3Service;
 import com.a105.api.service.UserService;
 import com.a105.domain.user.User;
 import com.a105.exception.ResourceNotFoundException;
