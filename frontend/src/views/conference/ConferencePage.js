@@ -2,9 +2,9 @@ import styled from "@emotion/styled";
 import RoomGuest from "components/conference/RoomGuest";
 import TableSlide from "components/conference/TableSlide";
 import UseSocket from "hooks/UseSocket";
+import _ from "lodash";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import _ from "lodash";
 import SwitchMic from "components/conference/SwitchMic";
 import SwitchVideo from "components/conference/SwitchVideo";
 
@@ -14,8 +14,7 @@ function Conference() {
   const { title, people, userName } = location.state;
   const [num, setNum] = useState(1);
 
-  /* eslint-disable no-unused-vars */
-  const { handleClickSendMessage, readyState } = UseSocket({
+  const { handleClickSendMessage } = UseSocket({
     name: location.state.userName,
     setNum,
   });

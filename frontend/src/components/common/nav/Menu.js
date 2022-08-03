@@ -1,12 +1,13 @@
 import Button from "@mui/material/Button";
 import styled from "styled-components";
 import ModalFriends from "components/friends/ModalFriends";
+import LoginModal from "components/account/LoginModal";
 
 export default function Menu() {
   return (
     <StyledWrapper>
       <ModalFriends />
-      <Button
+      {/* <Button
         variant="outlined"
         size="small"
         sx={{ mx: "auto" }}
@@ -19,7 +20,8 @@ export default function Menu() {
         sx={{ mx: "auto" }}
       >
         회원가입
-      </Button>
+      </Button> */}
+      <LoginModal></LoginModal>
     </StyledWrapper>
   );
 }

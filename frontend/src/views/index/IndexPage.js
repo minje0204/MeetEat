@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import burgershop from "assets/img/burgershop.png";
 import restaurant from "assets/img/restaurant.png";
 import restaurant_2 from "assets/img/restaurant_2.png";
-import burgershop from "assets/img/burgershop.png";
+import { Link } from "react-router-dom";
 
 export default function IndexPage() {
   const restaurantList = [
@@ -20,10 +20,16 @@ export default function IndexPage() {
     });
   }, []);
   */
-  const listItems = restaurantList.map(e => (
+  const listItems = restaurantList.map((e, idx) => (
     <Link to={"/restaurant/" + e.id} key={`restaurant${e.id}`}>
       <div id="image-box">
-        <img src={e.source} alt="식당" width="450px" height="450px" id="image"></img>
+        <img
+          src={e.source}
+          width="450px"
+          height="450px"
+          id="image"
+          alt={`restaurant-img-${idx}`}
+        ></img>
         <Button variant="text">식당 {e.id}</Button>
       </div>
     </Link>

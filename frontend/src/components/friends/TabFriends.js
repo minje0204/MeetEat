@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import styled from "@emotion/styled";
 import SearchFriends from 'components/friends/SearchFriends';
 import SearchInputFriends from 'components/friends/SearchInputFriends';
+// import CloseIcon from '@mui/icons-material/Close';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
