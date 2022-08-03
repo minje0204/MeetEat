@@ -20,6 +20,9 @@ public class TokenProvider {
         this.appProperties = appProperties;
     }
 
+    /**
+     * 유효한 JWT를 발급한다.
+     */
     public String createToken(Authentication authentication){
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
@@ -28,7 +31,7 @@ public class TokenProvider {
 
         return Jwts.builder()
             .setSubject(Long.toString(userPrincipal.getId()))
-            .setIssuedAt(new Date())
+            .setIssuedAt(now)
             .setExpiration(expiryDate)
             .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
             .compact();
@@ -46,7 +49,7 @@ public class TokenProvider {
         try {
             Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
             return true;
-        } catch (SignatureException ex) {
+        } catch (SecurityException ex) {
             logger.error("Invalid JWT signature");
         } catch (MalformedJwtException ex) {
             logger.error("Invalid JWT token");

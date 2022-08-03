@@ -23,9 +23,6 @@ import java.util.Optional;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired

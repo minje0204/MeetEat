@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,15 +35,27 @@ public class AppProperties {
     }
 
     public static final class OAuth2 {
+        private String defaultRedirectUri;
+
         private List<String> authorizedRedirectUris = new ArrayList<>();
+
+        public String getDefaultRedirectUri() {
+            return defaultRedirectUri;
+        }
 
         public List<String> getAuthorizedRedirectUris() {
             return authorizedRedirectUris;
         }
 
-        public OAuth2 authorizedRedirectUris(List<String> authorizedRedirectUris) {
-            this.authorizedRedirectUris = authorizedRedirectUris;
-            return this;
+        public boolean isAuthorizedRedirectUri(String uri){
+            URI clientRedirectUri = URI.create(uri);
+            return this.authorizedRedirectUris.stream()
+                    .anyMatch(authorizedRedirectUri -> {
+                        URI authorizedURI = URI.create(authorizedRedirectUri);
+                        return authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
+                                && authorizedURI.getPort() == clientRedirectUri.getPort()
+                                && authorizedURI.getScheme().equalsIgnoreCase(clientRedirectUri.getScheme());
+                    });
         }
     }
 

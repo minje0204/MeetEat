@@ -9,6 +9,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    /**
+     * cors 설정
+     * preflight 요청에 대한 응답을 브라우저에서 캐싱하는 시간 : 60분
+     */
     private final long MAX_AGE_SECS = 3600;
 
     @Value("${app.cors.allowedOrigins}")
