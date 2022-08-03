@@ -5,6 +5,7 @@ import Participant from "utils/participant";
 import { constraints } from "utils/socket/video";
 const API_URL = process.env.REACT_APP_API_URL;
 const participants = {};
+const host = null;
 
 let onExistingParticipants;
 let onNewParticipant;
@@ -53,7 +54,6 @@ const UseSocket = ({ name, setNum }) => {
     socketUrl,
     onMessage,
   );
-
   onNewParticipant = request => {
     setNum(Object.keys(participants).length + 1);
     receiveVideo(request.name);
@@ -62,23 +62,23 @@ const UseSocket = ({ name, setNum }) => {
     var participant = new Participant(sender, Object.keys(participants).length);
     participants[sender] = participant;
     var video = participant.getVideoElement();
-
+    
     var options = {
       remoteVideo: video,
       onicecandidate: candidate =>
-        customSendMsg(participant.onIceCandidate.bind(participant)(candidate)),
+      customSendMsg(participant.onIceCandidate.bind(participant)(candidate)),
     };
-
+    
     participant.rtcPeer = new WebRtcPeer.WebRtcPeerRecvonly(options, function (
       error,
-    ) {
-      if (error) {
-        return console.error(error);
-      }
-      this.generateOffer((a, b, c) =>
+      ) {
+        if (error) {
+          return console.error(error);
+        }
+        this.generateOffer((a, b, c) =>
         customSendMsg(
           participant.offerToReceiveVideo.bind(participant)(a, b, c),
-        ),
+          ),
       );
     });
   }
@@ -109,8 +109,8 @@ const UseSocket = ({ name, setNum }) => {
       mediaConstraints: constraints,
       onicecandidate: candidate =>
         customSendMsg(participant.onIceCandidate.bind(participant)(candidate)),
-    };
-    participant.rtcPeer = new WebRtcPeer.WebRtcPeerSendonly(options, function (
+      };
+      participant.rtcPeer = new WebRtcPeer.WebRtcPeerSendonly(options, function (
       error,
     ) {
       if (error) {
@@ -123,12 +123,16 @@ const UseSocket = ({ name, setNum }) => {
         ),
       );
     });
-
+  
+    document.querySelector(`#myVideoBtn`).addEventListener("click",()=>{
+      participant.rtcPeer.videoEnabled = !participant.rtcPeer.videoEnabled
+    })
     msg.data.forEach(receiveVideo); // 돌면서 참가자 모두 영상 수신
   };
 
   const customSendMsg = msg => {
-    let flag = msg.id === "joinRoom";
+    // let flag = msg.id === "joinRoom";
+    let flag = true;
     let jsonMessage = JSON.stringify(msg);
     if (flag) console.log("Sending message: " + jsonMessage);
     sendMessage(jsonMessage);

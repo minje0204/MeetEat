@@ -59,6 +59,19 @@ function Participant(name, idx) {
   this.getVideoElement = function () {
     return video;
   };
+  
+  if(idx != 0){
+    document.querySelector(`#personal-${idx} #participantsVideoBtn`).addEventListener("click",()=>{
+      video.muted = !video.muted
+    })
+    document.querySelector(`#personal-${idx} #participantsVideoBtn`).addEventListener("click",()=>{
+      if (video.style.display === "none"){
+        video.style.display = ""
+      }else{
+        video.style.display = "none"
+      }
+    })
+  }
 
   function switchContainerClass() {
     if (container.className === PARTICIPANT_CLASS) {
