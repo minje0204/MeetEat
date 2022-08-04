@@ -9,6 +9,7 @@ import com.a105.domain.user.User;
 import com.a105.exception.ResourceNotFoundException;
 import com.a105.security.CurrentUser;
 import com.a105.security.UserPrincipal;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,9 +32,9 @@ public class UserController {
     private AwsS3Service storageService;
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> user = userService.findAll();
-        return new ResponseEntity<List<User>>(user, HttpStatus.OK);
+    public ResponseEntity<?> getAllUsers() {
+        List<UserInfoResponse> userInfos = userService.getAllUserInfo();
+        return new ResponseEntity<>(userInfos, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{idx}")
@@ -43,22 +44,22 @@ public class UserController {
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<User>> searchUser(@RequestParam(required = false) String email,
+    public ResponseEntity<?> searchUser(@RequestParam(required = false) String email,
         @RequestParam(required = false) String nickname) {
-        List<User> users;
+        List<UserInfoResponse> userInfos;
         if (nickname == null) {
-            users = userService.searchFromEmail(email);
+            userInfos = userService.getUserInfosByEmail(email);
         } else if (email == null) {
-            users = userService.searchFromNickname(nickname);
+            userInfos = userService.getUserInfosByNickname(nickname);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+        return new ResponseEntity<>(userInfos, HttpStatus.OK);
     }
 
     @GetMapping("/exists/{nickname}")
-    public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickname) {
-        return ResponseEntity.ok(userService.checkNicknameDuplicate(nickname));
+    public ResponseEntity<?> checkNicknameDuplicate(@PathVariable String nickname) {
+        return  new ResponseEntity<>(userService.checkNicknameDuplicate(nickname), HttpStatus.OK);
     }
 
     @PatchMapping("/{idx}/bio")
@@ -96,8 +97,8 @@ public class UserController {
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
     public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
-        return userService.findById(userPrincipal.getId())
-            .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+        return userService.findById(userPrincipal.getId());
+
     }
 
 }
