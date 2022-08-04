@@ -72,14 +72,14 @@ export default function ModalMakingRoom(props) {
         <DialogActions>
           <Button onClick={handleClose} sx={{ fontFamily: "Jua", fontSize: 16, color: "inherit" }}>닫기</Button>
           <Button>
-            <StyledWrapper_2>
+            <StyledWrapper2>
               <Link
                 to={`/restaurant/${restaurantId}/conference/${tableNum}`}
                 state={{ title: titleValue, people: peopleValue, userName }}
                 id="link" 
               >만들기
               </Link>
-            </StyledWrapper_2>
+            </StyledWrapper2>
           </Button>
         </DialogActions>
       </Dialog>
@@ -110,7 +110,7 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const StyledWrapper_2 = styled.div`
+const StyledWrapper2 = styled.div`
   #link {
     text-decoration: none;
     color: black;
