@@ -11,6 +11,7 @@ export default function PersonalTable() {
       key={`tableitem-${index}`}
       index={index}
       src={menu.imageurl}
+      draggable={"false"}
       style={{
         position: "absolute",
         width: (menu.width * 305.5) / box.width,
@@ -33,7 +34,7 @@ const StyledWrapper = styled.div`
     height: 130px;
     object-fit: cover;
     margin: auto;
-    background-color: rgb(216, 204, 163);
+    background: #b97a56;
     position: relative;
   }
 `;

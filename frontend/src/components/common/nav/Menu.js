@@ -7,20 +7,7 @@ export default function Menu() {
   return (
     <StyledWrapper>
       <ModalFriends />
-      {/* <Button
-        variant="outlined"
-        size="small"
-        sx={{ mx: "auto" }}
-      >
-        로그인
-      </Button>
-      <Button
-        variant="outlined"
-        size="small"
-        sx={{ mx: "auto" }}
-      >
-        회원가입
-      </Button> */}
+
       <LoginModal></LoginModal>
     </StyledWrapper>
   );
@@ -29,7 +16,7 @@ export default function Menu() {
 const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
-  
+
   a {
     text-decoration: none;
   }
@@ -41,12 +28,11 @@ const StyledWrapper = styled.div`
     border-width: 1px;
     border-color: #e2dcc8;
     margin: 0px 4px;
-    background-color: #FFEF82;
+    background-color: #ffef82;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
     transition: top 0.01s linear;
   }
   button:hover {
-    background-color: #EFD345;
+    background-color: #efd345;
   }
-
 `;

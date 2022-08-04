@@ -2,6 +2,7 @@ import html2canvas from "html2canvas";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { Button } from "@mui/material";
 
 export default function SaveTableImage() {
   const myTable = useRef(null);
@@ -41,15 +42,12 @@ export default function SaveTableImage() {
 
   const onCapture = () => {
     const timestamp = Date.now();
-    console.log("onCapture");
     html2canvas(myTable.current).then(canvas => {
       console.log(canvas.toDataURL("image/png"));
-      console.log(timestamp);
       onSaveAs(canvas.toDataURL("image/png"), `${timestamp}.png`);
     });
 
     const onSaveAs = (url, filename) => {
-      console.log(url);
       var link = document.createElement("a");
       document.body.appendChild(link);
       link.href = url;
@@ -63,22 +61,33 @@ export default function SaveTableImage() {
       <div id="table-image" ref={myTable}>
         {menuRender}
       </div>
-      <button onClick={onCapture}>앨범 저장</button>
+      <Button onClick={onCapture}>앨범 저장</Button>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
-   {
-    width: 100px;
-    height: 30px;
-  }
   #table-image {
     top: -100000px;
     left: -100000px;
     width: 940px;
     height: 400px;
-    position: relative;
+    position: absolute;
     background: #b97a56;
+  }
+  button {
+    font-family: "Jua";
+    font-size: 24px;
+    color: black;
+    padding: 0em 0.5em;
+    border-width: 1px;
+    border-color: #babd42;
+    margin: 0px 4px;
+    background-color: #babd42;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    transition: top 0.01s linear;
+  }
+  button:hover {
+    background-color: #82954b;
   }
 `;

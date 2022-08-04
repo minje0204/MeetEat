@@ -70,7 +70,6 @@ export default function TableSlide() {
               getDroppable={getDroppable}
               isDragging={isDragging}
             ></ItemTab>
-            <SaveTableImage></SaveTableImage>
             <div className="table-container">
               <TableArea
                 ref={table}
@@ -79,6 +78,9 @@ export default function TableSlide() {
                 getDroppable={getDroppable}
                 isDragging={isDragging}
               ></TableArea>
+              <div className="button-group">
+                <SaveTableImage></SaveTableImage>
+              </div>
             </div>
           </div>
         </div>
@@ -102,6 +104,9 @@ const StyledWrapper = styled.div`
     align-items: center;
     border-radius: 10px 0 0 10px;
   }
+  .button:hover {
+    cursor: pointer;
+  }
   h3 {
     writing-mode: vertical-rl;
     margin: auto;
@@ -120,6 +125,9 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
   }
+  .in-button:hover {
+    cursor: pointer;
+  }
   .slide-container {
     max-width: 100%;
     position: absolute;
@@ -136,9 +144,15 @@ const StyledWrapper = styled.div`
     // border: 5px solid #efd345;
   }
   .table-container {
+    margin-right: 30px;
     padding: 30px;
   }
   Slide {
     max-width: 100%;
+  }
+  .button-group {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 30px;
   }
 `;
