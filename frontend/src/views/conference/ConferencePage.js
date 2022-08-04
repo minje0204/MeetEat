@@ -8,7 +8,7 @@ import { useLocation, useParams } from "react-router-dom";
 import SwitchMic from "components/conference/SwitchMic";
 import SwitchVideo from "components/conference/SwitchVideo";
 
-function Conference() {
+export default function ConferencePage() {
   let params = useParams();
   const location = useLocation();
   const { title, people, userName } = location.state;
@@ -54,8 +54,11 @@ function Conference() {
     </StyledWrapper>
   );
 }
+<<<<<<< HEAD
 export default Conference;
 
+=======
+>>>>>>> 34e41222e4e50990f8624f3020c238c6bb6b8ee4
 const StyledWrapper = styled.div`
   #table-name {
     position: relative;
