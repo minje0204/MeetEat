@@ -34,6 +34,7 @@ export default function SignupForm() {
           <div id="profile-image-area">
             <img
               id="profile-image"
+              alt="profile_image"
               src={Image}
               onClick={() => {
                 fileInput.current.click();
