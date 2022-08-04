@@ -8,7 +8,7 @@ import { useLocation, useParams } from "react-router-dom";
 import SwitchMic from "components/conference/SwitchMic";
 import SwitchVideo from "components/conference/SwitchVideo";
 
-function Conference() {
+export default function ConferencePage() {
   let params = useParams();
   const location = useLocation();
   const { title, people, userName } = location.state;
@@ -29,7 +29,7 @@ function Conference() {
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (
-    <div id={ Number(people) === 4 ? `room_guest_row_4` : `room_guest_row` }>
+    <div id={Number(people) === 4 ? `room_guest_row_4` : `room_guest_row`}>
       {_.range(0, people).map((_, idx) => (
         <RoomGuest key={`roomGuest-${idx}`} idx={idx} />
       ))}
@@ -48,14 +48,11 @@ function Conference() {
           <SwitchMic />
           <SwitchVideo />
         </div>
-        <div id="chatting">
-        </div>
+        <div id="chatting"></div>
       </div>
     </StyledWrapper>
   );
 }
-export default Conference;
-
 const StyledWrapper = styled.div`
   #table-name {
     position: relative;
@@ -86,10 +83,9 @@ const StyledWrapper = styled.div`
     height: 7vh;
   }
   #switch {
-    background-color: #FC6677;
+    background-color: #fc6677;
     display: flex;
   }
   #chatting {
-
   }
 `;

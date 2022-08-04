@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
@@ -6,17 +6,58 @@ import Button from "@mui/material/Button";
 export default function SignupForm() {
   const [nickname, setNickname] = useState("");
   const nicknameInput = e => setNickname(e.target.value);
+
+  const [Image, setImage] = useState(
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+  );
+  const fileInput = useRef(null);
+
+  const onChange = e => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImage(reader.result);
+      }
+    };
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
   return (
     <StyledWrapper>
       <div className="form-container">
         <h2>회원가입</h2>
-        <div>
+        <div className="profile-image-container">
+          <div id="profile-image-area">
+            <img
+              id="profile-image"
+              alt="profile_image"
+              src={Image}
+              onClick={() => {
+                fileInput.current.click();
+              }}
+            />
+          </div>
+          <i
+            className="fa-solid fa-circle-plus"
+            onClick={() => {
+              fileInput.current.click();
+            }}
+          ></i>
+
           <input
             type="file"
-            accept="image/jpg,impge/png,image/jpeg,image/gif"
+            style={{ display: "none" }}
+            accept="image/jpg,image/png,image/jpeg"
             name="profile_img"
-          ></input>
+            onChange={onChange}
+            ref={fileInput}
+          />
         </div>
+
         <div>
           <p id="nickname-p">이름 : </p>
         </div>
@@ -47,6 +88,37 @@ const StyledWrapper = styled.div`
   h2 {
     text-align: center;
   }
+  #profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #profile-image-area {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid #crimson;
+  }
+  #profile-image-area:hover {
+    cursor: pointer;
+  }
+  .profile-image-container {
+    width: 200px;
+    height: 200px;
+
+    position: relative;
+    margin: 0 auto;
+  }
+  .profile-image-container > i {
+    font-size: 2rem;
+    position: absolute;
+    right: 9px;
+    bottom: 9px;
+  }
+  .profile-image-container > i:hover {
+    cursor: pointer;
+  }
   #nickname-p {
     margin: 1rem;
   }
@@ -55,6 +127,7 @@ const StyledWrapper = styled.div`
     justify-content: space-between;
   }
   .form-container {
+    min-width: 480;
     width: 480px;
     margin: auto;
     position: relative;
