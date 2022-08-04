@@ -1,4 +1,4 @@
-FROM node:alpine as builder
+FROM node:latest as builder
 
 # 작업 폴더를 만들고 npm 설치
 RUN mkdir /usr/src/app
@@ -13,7 +13,7 @@ COPY . /usr/src/app
 RUN npm run build
 
 # nginx 이미지를 사용합니다. 뒤에 tag가 없으면 latest 를 사용합니다.
-FROM nginx
+FROM nginx:latest
 
 # nginx 의 default.conf 를 삭제
 RUN rm -rf /etc/nginx/conf.d
