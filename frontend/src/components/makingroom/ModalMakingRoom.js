@@ -76,7 +76,7 @@ export default function ModalMakingRoom(props) {
               <Link
                 to={`/restaurant/${restaurantId}/conference/${tableNum}`}
                 state={{ title: titleValue, people: peopleValue, userName }}
-                id="link" 
+                id="link"
               >만들기
               </Link>
             </StyledWrapper2>
@@ -115,6 +115,7 @@ const StyledWrapper2 = styled.div`
     text-decoration: none;
     color: black;
     font-family: "Jua";
-    font-size: 17px;
+    font-size: 16px;
+    height: 28px;
   }
 `;

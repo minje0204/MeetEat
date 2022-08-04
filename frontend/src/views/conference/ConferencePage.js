@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import SwitchMic from "components/conference/SwitchMic";
 import SwitchVideo from "components/conference/SwitchVideo";
+import Chatting from "components/conference/Chatting";
 
 function Conference() {
   let params = useParams();
@@ -49,6 +50,7 @@ function Conference() {
           <SwitchVideo />
         </div>
         <div id="chatting">
+          <Chatting />
         </div>
       </div>
     </StyledWrapper>

@@ -90,5 +90,4 @@ const StyledWrapper = styled.div`
   #option {
     margin: 0 10px;
   }
-
 `;
