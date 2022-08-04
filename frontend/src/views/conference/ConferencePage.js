@@ -29,7 +29,7 @@ export default function ConferencePage() {
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (
-    <div id={ Number(people) === 4 ? `room_guest_row_4` : `room_guest_row` }>
+    <div id={Number(people) === 4 ? `room_guest_row_4` : `room_guest_row`}>
       {_.range(0, people).map((_, idx) => (
         <RoomGuest key={`roomGuest-${idx}`} idx={idx} />
       ))}
@@ -48,17 +48,11 @@ export default function ConferencePage() {
           <SwitchMic />
           <SwitchVideo />
         </div>
-        <div id="chatting">
-        </div>
+        <div id="chatting"></div>
       </div>
     </StyledWrapper>
   );
 }
-<<<<<<< HEAD
-export default Conference;
-
-=======
->>>>>>> 34e41222e4e50990f8624f3020c238c6bb6b8ee4
 const StyledWrapper = styled.div`
   #table-name {
     position: relative;
@@ -89,10 +83,9 @@ const StyledWrapper = styled.div`
     height: 7vh;
   }
   #switch {
-    background-color: #FC6677;
+    background-color: #fc6677;
     display: flex;
   }
   #chatting {
-
   }
 `;

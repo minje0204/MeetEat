@@ -4,6 +4,7 @@ import ItemTab from "./ItemTab";
 import TableArea from "./TableArea";
 import styled from "styled-components";
 import store from "app/store";
+import SaveTableImage from "./SaveTableImage";
 // import { DragDropContext } from 'react-beautiful-dnd'
 
 export default function TableSlide() {
@@ -64,11 +65,12 @@ export default function TableSlide() {
           <div className="button" onClick={handleChange}>
             <h3>식탁꾸미기 </h3>
           </div>
-          <div className="table-custom">
+          <div id="table-custom" className="table-custom">
             <ItemTab
               getDroppable={getDroppable}
               isDragging={isDragging}
             ></ItemTab>
+            <SaveTableImage></SaveTableImage>
             <div className="table-container">
               <TableArea
                 ref={table}

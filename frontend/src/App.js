@@ -3,13 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "components/common/nav/Header";
 import IndexPage from "views/index/IndexPage";
 import RestaurantPage from "views/restaurant/RestaurantPage";
-<<<<<<< HEAD
-import Conference from "views/conference/ConferencePage";
-import SignUpPage from "views/Signup/SignupPage";
-=======
 import ConferencePage from "views/conference/ConferencePage";
 import SignupPage from "views/signup/SignupPage";
->>>>>>> 34e41222e4e50990f8624f3020c238c6bb6b8ee4
 
 export default function App() {
   return (
@@ -28,11 +23,7 @@ export default function App() {
                 path="restaurant/:restaurant_id/conference/:conf_id"
                 element={<ConferencePage />}
               />
-<<<<<<< HEAD
-              <Route path="signup" element={<SignUpPage />} />
-=======
               <Route path="signup" element={<SignupPage />} />
->>>>>>> 34e41222e4e50990f8624f3020c238c6bb6b8ee4
             </Route>
           </Routes>
         </Suspense>
