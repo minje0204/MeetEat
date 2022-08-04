@@ -38,6 +38,8 @@ function Conference() {
     <StyledWrapper>
       <h1>
         {`${params.conf_id}번 테이블 - ${title} (${num}명 / ${people}명)`}
+        <button id="myAudioBtn">MyAudio off</button>
+        <button id="myVideoBtn">MyVideo off</button>
       </h1>
       <TableSlide></TableSlide>
       {roomGuestList}
