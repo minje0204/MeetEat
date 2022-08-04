@@ -1,15 +1,13 @@
 package com.a105.api.controller;
 
-import com.a105.api.request.FriendRequest;
+import com.a105.api.request.FriendshipRequest;
+import com.a105.api.response.DefaultResponse;
 import com.a105.api.response.FriendInfoResponse;
-import com.a105.api.response.UserInfoResponse;
+import com.a105.api.response.ResponseCode;
 import com.a105.api.service.FriendshipService;
 import com.a105.domain.friendship.Friendship;
-import com.a105.domain.friendship.FriendshipDto;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,41 +17,49 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import static com.a105.api.response.ResponseMessage.*;
 
 @RestController
 @RequestMapping("/friend")
 @RequiredArgsConstructor
-public class FriendController {
+public class FriendshipController {
 
     private final FriendshipService friendService;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getAllFriends(@PathVariable("id") Long id){
         List<FriendInfoResponse> friendInfos = friendService.getFriendDtos(id);
-        return new ResponseEntity<>(friendInfos, HttpStatus.OK);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_ALL_FRIENDS, friendInfos));
     }
 
     @PostMapping("/{id}/request/{friend_id}")
     public ResponseEntity<?> sendRequest(@PathVariable("id") Long userId, @PathVariable("friend_id") Long friendId){
         Friendship friendship = friendService.addRequest(userId, friendId);
-        return new ResponseEntity<>(friendship, HttpStatus.CREATED);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, SEND_FRIEND_REQUEST, friendship));
+    }
+
+    @DeleteMapping("/{id}/delete/{friend_id}")
+    public ResponseEntity<?> deleteFriend(@PathVariable("id") Long userId, @PathVariable("friend_id") Long friendId){
+        friendService.deleteFriend(userId, friendId);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, DELETE_FRIEND));
     }
 
     @DeleteMapping("/{id}/received/decline")
-    public ResponseEntity<?> declineReceivedRequest(@PathVariable("id") Long userId, @RequestBody FriendRequest friendRequest){
+    public ResponseEntity<?> declineReceivedRequest(@PathVariable("id") Long userId, @RequestBody FriendshipRequest friendRequest){
         friendService.declineReceivedRequest(userId, friendRequest);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, DECLINE_RECEIVED_REQUEST));
     }
 
     @PatchMapping("/{id}/received/accept")
-    public ResponseEntity<?> acceptReceivedRequest(@PathVariable("id") Long userId, @RequestBody FriendRequest friendRequest){
+    public ResponseEntity<?> acceptReceivedRequest(@PathVariable("id") Long userId, @RequestBody FriendshipRequest friendRequest){
         friendService.acceptReceivedRequest(userId, friendRequest);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, ACCEPT_RECEIVED_REQUEST));
     }
 
     @DeleteMapping("/{id}/sent/cancel")
-    public ResponseEntity<?> cancelSentRequest(@PathVariable("id") Long userId, @RequestBody FriendRequest friendRequest){
+    public ResponseEntity<?> cancelSentRequest(@PathVariable("id") Long userId, @RequestBody FriendshipRequest friendRequest){
         friendService.cancelSentRequest(userId, friendRequest);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, CANCEL_SENT_REQUEST));
     }
+
 }

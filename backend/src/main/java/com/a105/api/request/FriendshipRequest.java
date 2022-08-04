@@ -4,7 +4,7 @@ import com.a105.domain.friendship.Friendship;
 import lombok.Getter;
 
 @Getter
-public class FriendRequest {
+public class FriendshipRequest {
     Long id;
 
     public void updateFriend(Friendship friendship, int status){

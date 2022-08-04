@@ -54,14 +54,14 @@ public class UserService {
     public UserInfoResponse updateUserBio(Long id, UserBioRequest userBioRequest) {
         User user = findById(id);
         userBioRequest.updateUserBio(user);
-        return UserInfoResponse.fromEntity(user);
+        return UserInfoResponse.fromEntity(userRepository.save(user));
     }
 
     @Transactional
     public UserInfoResponse updateUserNickname(Long id, UserNicknameRequest userNicknameRequest) {
         User user = findById(id);
         userNicknameRequest.updateUserNickname(user);
-        return UserInfoResponse.fromEntity(user);
+        return UserInfoResponse.fromEntity(userRepository.save(user));
     }
 
 
