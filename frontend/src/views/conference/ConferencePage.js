@@ -32,7 +32,10 @@ function Conference() {
   const roomGuestList = (
     <div id={ Number(people) === 4 ? `room_guest_row_4` : `room_guest_row` }>
       {_.range(0, people).map((_, idx) => (
-        <RoomGuest key={`roomGuest-${idx}`} idx={idx} />
+        <div id="roomguest-chatting">
+          <RoomGuest key={`roomGuest-${idx}`} idx={idx} />
+          <div id="chatting-ballon">우리 오늘 만나서 너무 반가웠어요</div>
+        </div>
       ))}
     </div>
   );
@@ -40,7 +43,7 @@ function Conference() {
   return (
     <StyledWrapper>
       <div id="table-name">
-        {`[ ${params.conf_id}번 테이블 - ${title} (${num}명 / ${people}명) ]`}
+        {`[ ${params.restaurant_id}번 식당 - ${params.conf_id}번 테이블 : ${title} (${num}명 / ${people}명) ]`}
       </div>
       <TableSlide></TableSlide>
       {roomGuestList}
@@ -78,7 +81,7 @@ const StyledWrapper = styled.div`
   }
   #room_guest_row_4 {
     height: 80vh;
-    margin: 0 20vw;
+    margin: 0 10vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -97,7 +100,28 @@ const StyledWrapper = styled.div`
     align-items: center;
     width: 300px;
   }
-  #chatting {
-
+  #chatting-ballon {
+    position:absolute;
+    width:100px;
+    height:auto;
+    margin-top:50px;
+    background:#d6feff;
+    border-radius: 10px;
+  }
+  #chatting-ballon:after {
+    border-top:15px solid #d6feff;
+    border-left: 15px solid transparent;
+    border-right: 0px solid transparent;
+    border-bottom: 0px solid transparent;
+    content:"";
+    position:absolute;
+    top:10px;
+    left:-15px;
+  }
+  #roomguest-chatting {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
   }
 `;
