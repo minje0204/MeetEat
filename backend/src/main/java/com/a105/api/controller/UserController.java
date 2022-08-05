@@ -38,9 +38,9 @@ public class UserController {
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_ALL_USERS, userInfos));
     }
 
-    @GetMapping(value = "/{idx}")
-    public ResponseEntity<?> getUser(@PathVariable("idx") Long idx) {
-        UserInfoResponse userInfo = userService.getUserInfo(idx);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
+        UserInfoResponse userInfo = userService.getUserInfo(id);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_USER, userInfo));
     }
 
@@ -64,37 +64,37 @@ public class UserController {
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, CHECK_DUPLICATE_NICKNAME, checkDuplicate));
     }
 
-    @PatchMapping("/{id}/bio")
-    public ResponseEntity<?> updateUserBio(@PathVariable("id") Long id,
+    @PatchMapping("/bio")
+    public ResponseEntity<?> updateUserBio(@CurrentUser UserPrincipal userPrincipal,
         @RequestBody UserBioRequest bio) {
-        UserInfoResponse userInfo = userService.updateUserBio(id, bio);
+        UserInfoResponse userInfo = userService.updateUserBio(userPrincipal.getId(), bio);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPDATE_USER_BIO, userInfo));
     }
 
-    @PatchMapping("/{id}/nickname")
-    public ResponseEntity<?> updateUserNickname(@PathVariable("id") Long id,
+    @PatchMapping("/nickname")
+    public ResponseEntity<?> updateUserNickname(@CurrentUser UserPrincipal userPrincipal,
         @RequestBody UserNicknameRequest nickname) {
-        UserInfoResponse userInfo = userService.updateUserNickname(id, nickname);
+        UserInfoResponse userInfo = userService.updateUserNickname(userPrincipal.getId(), nickname);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPDATE_USER_NICKNAME, userInfo));
     }
 
 
-    @PostMapping("/{id}/profile")
-    public ResponseEntity<?> uploadProfileImage(@PathVariable("id") Long id, @RequestParam(value = "file") MultipartFile file) {
-        String fileUrl = storageService.uploadFile(file, "profile/" + id);
+    @PostMapping("/profile")
+    public ResponseEntity<?> uploadProfileImage(@CurrentUser UserPrincipal userPrincipal, @RequestParam(value = "file") MultipartFile file) {
+        String fileUrl = storageService.uploadFile(file, "profile/" + userPrincipal.getId());
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPLOAD_PROFILE_IMAGE, fileUrl));
     }
 
-    @DeleteMapping("/{id}/profile")
-    public ResponseEntity<?> deleteProfileImage(@PathVariable("id") Long id) {
-        storageService.deleteFile("profile/" + id);
+    @DeleteMapping("/profile")
+    public ResponseEntity<?> deleteProfileImage(@CurrentUser UserPrincipal userPrincipal) {
+        storageService.deleteFile("profile/" + userPrincipal.getId());
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, DELETE_PROFILE_IMAGE));
     }
 
-    @PatchMapping("/{id}/profile")
-    public ResponseEntity<?> changeProfileImage(@PathVariable("id") Long id, @RequestParam(value = "file") MultipartFile file){
-        storageService.deleteFile("profile/" + id);
-        String fileUrl = storageService.uploadFile(file, "profile/" + id);
+    @PatchMapping("/profile")
+    public ResponseEntity<?> changeProfileImage(@CurrentUser UserPrincipal userPrincipal, @RequestParam(value = "file") MultipartFile file){
+        storageService.deleteFile("profile/" + userPrincipal.getId());
+        String fileUrl = storageService.uploadFile(file, "profile/" + userPrincipal.getId());
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPLOAD_PROFILE_IMAGE, fileUrl));
     }
 
