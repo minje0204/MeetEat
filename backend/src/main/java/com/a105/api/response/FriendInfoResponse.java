@@ -17,14 +17,14 @@ public class FriendInfoResponse {
 
     private int status;
 
-    private boolean isReceived;
+    private boolean received;
 
     public static FriendInfoResponse fromEntity(User user, FriendshipDto friendship){
         return FriendInfoResponse.builder()
             .friendInfo(UserInfoResponse.fromEntity(user))
             .id(friendship.getId())
             .status(friendship.getStatus())
-            .isReceived(friendship.isReceived())
+            .received(friendship.isReceived())
             .build();
     }
 
