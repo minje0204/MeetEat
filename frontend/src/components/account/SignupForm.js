@@ -1,83 +1,65 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
+import { CheckLength } from "utils/filters/CheckLength";
+import ProfileImage from "./ProfileImage";
+import NicknameFilter from "utils/filters/NicknameFilter";
 
 export default function SignupForm() {
+  const [Image, setImage] = useState(
+    "/images/profile_image/default_profile.png",
+  );
+
   const [nickname, setNickname] = useState("");
   const nicknameInput = e => setNickname(e.target.value);
 
-  let name = "최영찬";
-  let email = "youngchan419@gmail.com";
-  const [Image, setImage] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-  );
-  const fileInput = useRef(null);
+  const [validNickname, setValidNickname] = useState(true);
 
-  const onChange = e => {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setImage(reader.result);
-      }
-    };
-    if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  };
+  const [selfMessage, setSelfMessage] = useState("");
+  const selfMessageInput = e => setSelfMessage(e.target.value);
+
+  let email = "youngchan419@gmail.com";
+
   return (
     <StyledWrapper>
       <div className="form-container">
-        <h2>회원가입</h2>
-        <div className="profile-image-container">
-          <div id="profile-image-area">
-            <img
-              id="profile-image"
-              alt="profile_image"
-              src={Image}
-              onClick={() => {
-                fileInput.current.click();
-              }}
-            />
-          </div>
-          <i
-            className="fa-solid fa-circle-plus"
-            onClick={() => {
-              fileInput.current.click();
-            }}
-          ></i>
-
-          <input
-            type="file"
-            style={{ display: "none" }}
-            accept="image/jpg,image/png,image/jpeg"
-            name="profile_img"
-            onChange={onChange}
-            ref={fileInput}
-          />
-        </div>
+        <h2>회원정보 입력</h2>
+        <div className="wide-p">프로필 사진</div>
+        <ProfileImage Image={Image} setImage={setImage}></ProfileImage>
 
         <div className="form-row">
-          <p id="nickname-p">이름</p>
-          <p className="personal-data">{name}</p>
-        </div>
-        <div className="form-row">
-          <p id="nickname-p">이메일 </p>
+          <p>이메일 </p>
           <p className="personal-data">{email}</p>
         </div>
         <div className="form-row">
-          <p id="nickname-p">별명 </p>
+          <p>별명 </p>
+          <div className="nickname-input-group">
+            <TextField
+              onChange={e => {
+                nicknameInput(e);
+              }}
+              onInput={e => CheckLength(e, 8)}
+              required
+              inputProps={{ maxLength: "40" }}
+              id="nickname-input"
+              label="필수 입력 항목"
+            />
+            <Button variant="contained">중복 확인</Button>
+          </div>
+        </div>
+        <div className="wide-p">
+          자기 소개
+          <span id="text-length">{`<${selfMessage.length}/40>`}</span>
+        </div>
+        <div className="form-row">
           <TextField
-            onChange={nicknameInput}
-            required
-            id="nickname-input"
-            label="필수 입력 항목"
-            variant="standard"
+            onChange={selfMessageInput}
+            onInput={e => CheckLength(e, 40)}
+            fullWidth
+            id="fullWidth"
+            placeholder="자기소개를 입력해주세요."
           />
-          <Button variant="contained">중복 확인</Button>
         </div>
         <div className="button-group">
           <Button variant="contained">저장</Button>
@@ -91,47 +73,39 @@ export default function SignupForm() {
 }
 
 const StyledWrapper = styled.div`
-   {
+  div {
     font-family: "Jua";
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: black;
+  }
+  label {
+    font-family: "Jua";
+  }
+  input {
+    font-size: 1rem;
   }
   h2 {
     text-align: center;
     margin: 0;
   }
-  #profile-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .wide-p {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
   }
-  #profile-image-area {
+  .wide-p: #text-length {
+    font-size: 0.6rem;
+    font-weight: none;
+  }
+  #nickname-input {
     width: 200px;
-    height: 200px;
-    overflow: hidden;
-    border-radius: 50%;
-    border: 1px solid #crimson;
   }
-  #profile-image-area:hover {
-    cursor: pointer;
-  }
-  .profile-image-container {
-    width: 200px;
-    height: 200px;
-
-    position: relative;
-    margin: 2rem auto;
-  }
-  .profile-image-container > i {
-    font-size: 2rem;
-    position: absolute;
-    right: 9px;
-    bottom: 9px;
-  }
-  .profile-image-container > i:hover {
-    cursor: pointer;
+  #text-length {
+    font-size: 1rem;
   }
   .form-row {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -148,6 +122,10 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+  }
+  .nickname-input-group {
+    display: flex;
+    align-items: center;
   }
   .button-group {
     display: flex;
@@ -178,7 +156,6 @@ const StyledWrapper = styled.div`
   }
   button:hover {
     background-color: #efd345;
-
     box-shadow: none;
   }
 `;
