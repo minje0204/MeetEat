@@ -11,8 +11,6 @@ import lombok.Getter;
 @Builder(access = AccessLevel.PRIVATE)
 public class FriendInfoResponse {
 
-    // userinforesponse를 풀어서 쓰고 ? online 여부도 추가해야함. (친구 목록)
-
     private UserInfoResponse friendInfo;
 
     private Long id;

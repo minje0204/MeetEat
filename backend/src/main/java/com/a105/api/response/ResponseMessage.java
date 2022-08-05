@@ -16,7 +16,8 @@ public final class ResponseMessage {
     public static final String DELETE_PROFILE_IMAGE = "프로필 사진 삭제 성공";
 
     // Friendship 관련 응답
-    public static final String GET_ALL_FRIENDS = "모든 친구 정보 조회 성공";
+    public static final String GET_FRIEND_LIST = "친구 정보 목록 조회 성공";
+    public static final String GET_WAITING_LIST = "수락 대기 중 목록 조회 성공";
     public static final String SEND_FRIEND_REQUEST = "친구 추가 요청 전송 성공";
     public static final String DELETE_FRIEND = "친구 삭제 성공";
     public static final String DECLINE_RECEIVED_REQUEST = "받은 친구 요청 거절 성공";

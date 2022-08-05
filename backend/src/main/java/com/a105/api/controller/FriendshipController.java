@@ -27,9 +27,9 @@ public class FriendshipController {
     private final FriendshipService friendService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getAllFriends(@PathVariable("id") Long id){
-        List<FriendInfoResponse> friendInfos = friendService.getFriendDtos(id);
-        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_ALL_FRIENDS, friendInfos));
+    public ResponseEntity<?> getFriendList(@PathVariable("id") Long userId){
+        List<FriendInfoResponse> friendInfos = friendService.getFriendList(userId);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_FRIEND_LIST, friendInfos));
     }
 
     @PostMapping("/{id}/request/{friend_id}")

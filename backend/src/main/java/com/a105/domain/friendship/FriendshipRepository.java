@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FriendshipRepository extends JpaRepository<Friendship, Long>, FriendshipRepositoryCustom {
-    Optional<Friendship> findByUserIdAndFriendId(Long userId, Long friendId);
+    Optional<Friendship> findBySenderIdAndReceiverId(Long userId, Long friendId);
 }

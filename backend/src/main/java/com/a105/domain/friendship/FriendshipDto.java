@@ -23,29 +23,4 @@ public class FriendshipDto {
         this.status = status;
         this.received = received;
     }
-
-
-//    private String email;
-//    private String nickname;
-//    private String profile;
-//    private String bio;
-//    private List<Tray> trayAlbum;
-
-//    private UserInfoResponse friendInfo;
-//
-//    private Long id;
-//    private Long userId;
-//    private Long friendId;
-//    private int status;
-//
-//    public static FriendResponse fromEntity(User friend, Friendship friendship){
-//        return FriendResponse.builder()
-//            .friendInfo(UserInfoResponse.fromEntity(friend))
-//            .id(friendship.getId())
-//            .userId(friendship.getUserId())
-//            .friendId(friendship.getFriendId())
-//            .status(friendship.getStatus())
-//            .build();
-//    }
-
 }

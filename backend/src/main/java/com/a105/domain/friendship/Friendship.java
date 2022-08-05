@@ -18,11 +18,11 @@ public class Friendship {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name ="sender_id")
+    private Long senderId;
 
-    @Column(name = "friend_id")
-    private Long friendId;
+    @Column(name = "receiver_id")
+    private Long receiverId;
     @Setter
     private int status;
 
@@ -30,8 +30,8 @@ public class Friendship {
     private int isRead;
 
     public Friendship(Long userId, Long friendId, int status){
-        this.userId = userId;
-        this.friendId = friendId;
+        this.senderId = userId;
+        this.receiverId = friendId;
         this.status = status;
     }
 }

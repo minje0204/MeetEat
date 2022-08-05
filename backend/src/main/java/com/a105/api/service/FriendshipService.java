@@ -21,8 +21,8 @@ public class FriendshipService {
 
     private final FriendshipRepository friendRepository;
     private final UserService userService;
-    public List<FriendInfoResponse> getFriendDtos(Long id){
-        List<FriendshipDto> friendshipDtos = friendRepository.findFriendshipDtos(id);
+
+    public List<FriendInfoResponse> createFriendInfoResponses (List<FriendshipDto> friendshipDtos){
         List<FriendInfoResponse> friendInfoResponses = new ArrayList<>();
 
         for (FriendshipDto friendshipDto:friendshipDtos) {
@@ -33,14 +33,19 @@ public class FriendshipService {
         return friendInfoResponses;
     }
 
+    public List<FriendInfoResponse> getFriendList(Long id){
+        List<FriendshipDto> friendshipDtos = friendRepository.findFriendshipDtos(id);
+        List<FriendInfoResponse> friendInfoResponses = createFriendInfoResponses(friendshipDtos);
+        return friendInfoResponses;
+    }
 
     /**
      * 새로 친구 요청을 보낸다.
      * @param friendId
      */
     public Friendship addRequest(Long userId, Long friendId){
-        Optional<Friendship> sent = findByUserIdAndFriendId(userId, friendId);
-        Optional<Friendship> received = findByUserIdAndFriendId(friendId, userId);
+        Optional<Friendship> sent = findBySenderIdAndReceiverId(userId, friendId);
+        Optional<Friendship> received = findBySenderIdAndReceiverId(friendId, userId);
 
         if(sent.isEmpty() && received.isEmpty()){
             Friendship newFriendship = friendRepository.save(new Friendship(userId, friendId, 0));
@@ -59,8 +64,8 @@ public class FriendshipService {
      * @param friendId
      */
     public void deleteFriend(Long userId, Long friendId){
-        Optional<Friendship> sent = findByUserIdAndFriendId(userId, friendId);
-        Optional<Friendship> received = findByUserIdAndFriendId(friendId, userId);
+        Optional<Friendship> sent = findBySenderIdAndReceiverId(userId, friendId);
+        Optional<Friendship> received = findBySenderIdAndReceiverId(friendId, userId);
 
         if(sent.isPresent() && sent.get().getStatus() == 1){
             friendRepository.delete(sent.get());
@@ -78,8 +83,8 @@ public class FriendshipService {
             .orElseThrow(() -> new ResourceNotFoundException("Friendship", "id", id));
     }
 
-    public Optional<Friendship> findByUserIdAndFriendId(Long userId, Long friendId){
-        return friendRepository.findByUserIdAndFriendId(userId, friendId);
+    public Optional<Friendship> findBySenderIdAndReceiverId(Long userId, Long friendId){
+        return friendRepository.findBySenderIdAndReceiverId(userId, friendId);
     }
 
     /**
@@ -88,7 +93,7 @@ public class FriendshipService {
      */
     public void declineReceivedRequest(Long userId, FriendshipRequest friendRequest){
         Friendship friendship = findById(friendRequest.getId());
-        if(friendship.getUserId() != userId && friendship.getFriendId() != userId) {
+        if(friendship.getSenderId() != userId && friendship.getReceiverId() != userId) {
             throw new BadRequestException("요청에 속하지 않는 사용자입니다.");
         }
         if(friendship.getStatus() == 1){
@@ -105,7 +110,7 @@ public class FriendshipService {
     public void acceptReceivedRequest(Long userId, FriendshipRequest friendRequest){
         // 받은 요청을 수락한다.
         Friendship friendship = findById(friendRequest.getId());
-        if(friendship.getUserId() != userId && friendship.getFriendId() != userId) {
+        if(friendship.getSenderId() != userId && friendship.getReceiverId() != userId) {
             throw new BadRequestException("요청에 속하지 않는 사용자입니다.");
         }
         if(friendship.getStatus() == 1){
@@ -121,7 +126,7 @@ public class FriendshipService {
     public void cancelSentRequest(Long userId, FriendshipRequest friendRequest){
         // 보낸 요청을 취소한다.
         Friendship friendship = findById(friendRequest.getId());
-        if(friendship.getUserId() != userId && friendship.getFriendId() != userId) {
+        if(friendship.getSenderId() != userId && friendship.getReceiverId() != userId) {
             throw new BadRequestException("요청에 속하지 않는 사용자입니다.");
         }
         if(friendship.getStatus() == 1){
@@ -129,5 +134,6 @@ public class FriendshipService {
         }
         friendRepository.delete(friendship);
     }
+
 
 }
