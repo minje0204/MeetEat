@@ -50,7 +50,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Optional<User> userOptional = userRepository.findByEmailAndProvider(oAuth2UserInfo.getEmail(), AuthProvider.valueOf(oAuth2UserInfo.getProvider()));
         User user;
         if(!userOptional.isPresent()){
-            user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
+            throw new OAuth2AuthenticationProcessingException("YOU NEED TO SIGN UP!");
+//            user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         } else {
             user = userOptional.get();
         }
