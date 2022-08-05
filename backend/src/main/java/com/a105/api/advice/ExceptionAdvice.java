@@ -3,6 +3,7 @@ package com.a105.api.advice;
 import com.a105.api.response.DefaultResponse;
 import com.a105.api.response.ResponseCode;
 import com.a105.exception.BadRequestException;
+import com.a105.exception.OAuth2AuthenticationProcessingException;
 import com.a105.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionAdvice {
 
     @ExceptionHandler({BadRequestException.class})
-    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     protected DefaultResponse<?> handleBadRequestException(BadRequestException e){
-        return DefaultResponse.of(ResponseCode.AUTHENTICATION_ERROR, e.getMessage());
+        return DefaultResponse.of(ResponseCode.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler({ResourceNotFoundException.class})
@@ -25,5 +26,4 @@ public class ExceptionAdvice {
     protected DefaultResponse<?> handleResourceNotFoundException(BadRequestException e){
         return DefaultResponse.of(ResponseCode.RESOURCE_NOT_FOUND, e.getMessage());
     }
-
 }
