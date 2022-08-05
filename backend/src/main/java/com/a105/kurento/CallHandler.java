@@ -59,6 +59,9 @@ public class CallHandler extends TextWebSocketHandler {
         }
 
         switch (jsonMessage.get("id").getAsString()) {
+            case "sendChat":
+                sendChat(jsonMessage);
+                break;
             case "joinRoom":
                 joinRoom(jsonMessage, session);
                 break;
@@ -81,10 +84,52 @@ public class CallHandler extends TextWebSocketHandler {
                     user.addCandidate(cand, jsonMessage.get("name").getAsString());
                 }
                 break;
+            case "changeHost":
+                changeHost(jsonMessage);
+                break;
+            case "kickOut":
+                kickOut(jsonMessage);
+                break;
             default:
                 System.out.println(jsonMessage.getAsString());
                 break;
         }
+    }
+
+    private void sendChat(JsonObject params) {
+        final String roomName = params.get("room").getAsString();
+        final String name = params.get("name").getAsString();
+        final String chat = params.get("chat").getAsString();
+        log.info("PARTICIPANT {}: trying to chatting in room {} saying {}", name, roomName, chat);
+        Room room = roomManager.getRoom(roomName);
+        room.sendChat(name, chat);
+    }
+
+    private void kickOut(JsonObject params) throws IOException {
+        final String roomName = params.get("room").getAsString();
+        final String name = params.get("name").getAsString();
+        final String kick = params.get("kick").getAsString();
+        log.info("room {} HOST {}: trying to kick {} out", roomName, name, kick);
+        Room room = roomManager.getRoom(roomName);
+        if (!room.getHost().equals(name)){
+            log.info("permission denied : attempt to kick out");
+            return;
+        }
+        UserSession user = registry.getByName(kick);
+        leaveRoom(user);
+    }
+
+    private void changeHost(JsonObject params) {
+        final String roomName = params.get("room").getAsString();
+        final String name = params.get("name").getAsString();
+        final String change = params.get("change").getAsString();
+        log.info("room {} HOST {}: trying to change the host to {}", roomName, name, change);
+        Room room = roomManager.getRoom(roomName);
+        if (!room.getHost().equals(name)){
+            log.info("permission denied : attempt to change host");
+            return;
+        }
+        room.changeHost(change);
     }
 
     @Override
@@ -100,10 +145,10 @@ public class CallHandler extends TextWebSocketHandler {
         log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
 
         Room room = roomManager.getRoom(roomName);
-        if (room.getHost() == null)
-            room.setHost(name);
         final UserSession user = room.join(name, session);
         registry.register(user);
+        if (room.getHost() == null)
+            room.changeHost(name);
 //        log.info("PARTICIPANT {}: joined {} host is {}", name, roomName, room.getHost());
     }
 

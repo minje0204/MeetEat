@@ -46,16 +46,44 @@ public class Room implements Closeable {
     private final ConcurrentMap<String, UserSession> participants = new ConcurrentHashMap<>();
     private final MediaPipeline pipeline;
     private final String name;
+    private String host;
 
     public String getHost() {
         return host;
     }
 
-    public void setHost(String host) {
+    private void setHost(String host) {
         this.host = host;
     }
 
-    private String host;
+    public void changeHost(String name){
+        setHost(name);
+        final JsonObject hostChanged = new JsonObject();
+        hostChanged.addProperty("id", "hostChanged");
+        hostChanged.addProperty("name", name);
+        for (final UserSession participant : participants.values()) {
+            try {
+                participant.sendMessage(hostChanged);
+            } catch (final IOException e) {
+                log.debug("ROOM {}: participant {} could not be notified", name,
+                    participant.getName(), e);
+            }
+        }
+    }
+    public void sendChat(String name, String chat) {
+        final JsonObject sendChat = new JsonObject();
+        sendChat.addProperty("id", "chat");
+        sendChat.addProperty("name", name);
+        sendChat.addProperty("chat", chat);
+        for (final UserSession participant : participants.values()) {
+            try {
+                participant.sendMessage(sendChat);
+            } catch (final IOException e) {
+                log.debug("ROOM {}: participant {} could not be notified", name,
+                    participant.getName(), e);
+            }
+        }
+    }
 
     public String getName() {
         return name;

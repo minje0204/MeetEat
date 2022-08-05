@@ -11,11 +11,24 @@ function Conference() {
   const location = useLocation();
   const { title, people, userName } = location.state;
   const [num, setNum] = useState(1);
+  const [chat, setChat] = useState("");
 
   const { handleClickSendMessage, readyState } = UseSocket({
     name: location.state.userName,
     setNum,
   });
+
+  const handleChatMessage = (event) => {
+    event.preventDefault();
+    let message = {
+      id: "sendChat",
+      name: userName,
+      room: title,
+      chat: chat
+    };
+    handleClickSendMessage(message);
+    setChat("");
+  }
 
   useEffect(() => {
     let message = {
@@ -40,6 +53,12 @@ function Conference() {
         {`${params.conf_id}번 테이블 - ${title} (${num}명 / ${people}명)`}
         <button id="myAudioBtn">MyAudio off</button>
         <button id="myVideoBtn">MyVideo off</button>
+        <input
+          type="text" 
+          value={chat}
+          onChange={e => setChat(e.target.value)}
+        />
+        <button id="chatSend" onClick={handleChatMessage}>전송</button>
       </h1>
       <TableSlide></TableSlide>
       {roomGuestList}

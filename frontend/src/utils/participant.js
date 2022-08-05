@@ -61,7 +61,16 @@ function Participant(name, idx) {
   };
   
   if(idx != 0){
-    document.querySelector(`#personal-${idx} #participantsVideoBtn`).addEventListener("click",()=>{
+    document.querySelector(`#personal-${idx} #kickOutBtn`).addEventListener("click",()=>{
+      let userName = document.querySelector(`#personal-0 #personal_id`).innerHTML
+      let message = {
+        id: "kickOut",
+        name: userName,
+        kick: name
+      }
+      return message;
+    })
+    document.querySelector(`#personal-${idx} #participantsAudioBtn`).addEventListener("click",()=>{
       video.muted = !video.muted
     })
     document.querySelector(`#personal-${idx} #participantsVideoBtn`).addEventListener("click",()=>{

@@ -11,6 +11,8 @@ let onExistingParticipants;
 let onNewParticipant;
 let onParticipantLeft;
 let receiveVideoResponse;
+let onChat;
+let hostChanged;
 
 const onMessage = message => {
   let parsedMessage = JSON.parse(message.data);
@@ -18,6 +20,9 @@ const onMessage = message => {
   console.info(parsedMessage);
 
   switch (parsedMessage.id) {
+    case "chat":
+      onChat(parsedMessage);
+      break;
     case "existingParticipants":
       onExistingParticipants(parsedMessage);
       break;
@@ -40,6 +45,9 @@ const onMessage = message => {
           }
         },
       );
+      break;
+    case "hostChanged":
+      hostChanged(parsedMessage);
       break;
     default:
       console.error("Unrecognized message", parsedMessage);
@@ -123,12 +131,37 @@ const UseSocket = ({ name, setNum }) => {
         ),
       );
     });
-  
+
+    document.querySelector(`#myAudioBtn`).addEventListener("click",()=>{
+      participant.rtcPeer.audioEnabled = !participant.rtcPeer.audioEnabled
+    })
     document.querySelector(`#myVideoBtn`).addEventListener("click",()=>{
       participant.rtcPeer.videoEnabled = !participant.rtcPeer.videoEnabled
     })
     console.log(msg);
     msg.data.forEach(receiveVideo); // 돌면서 참가자 모두 영상 수신
+  };
+
+  onChat = function (msg){
+    let name = msg.name;
+    let chat = msg.chat;
+    let idx = participants[name].idx;
+    var container = document.createElement("div");
+    container.innerText = chat
+    document.querySelector(`#personal-${idx}`).appendChild(container);
+  }
+
+  function kickOut() {
+    let message = {
+      id: "kickOut",
+      candidate: candidate,
+      name: name,
+    };
+    customSendMsg(message);
+  };
+
+  hostChanged = msg =>{
+    host = msg.host;
   };
 
   const customSendMsg = msg => {

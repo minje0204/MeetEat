@@ -14,6 +14,7 @@ export default function RoomGuest(props) {
         {/* 식탁의 규격은 450*150 */}
         <button id="participantsAudioBtn">audio off</button> 
         <button id="participantsVideoBtn">video off</button> 
+        <button id="kickOutBtn">강퇴하기</button> 
         <div id="personal_table"></div>
       </div>
     </StyledWrapper>
