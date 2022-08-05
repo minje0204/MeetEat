@@ -40,6 +40,19 @@ public class FriendshipService {
     }
 
     /**
+     * 수락 대기 중 목록을 조회한다.
+     */
+    public List<FriendInfoResponse> getWaitingList(Long userId) {
+        List<FriendshipDto> receivedFriendshipDtos = friendRepository.findReceivedRequests(userId);
+        List<FriendshipDto> sentFriendshipDtos = friendRepository.findSentRequests(userId);
+        List<FriendInfoResponse> friendInfoResponses = new ArrayList<>();
+        friendInfoResponses.addAll(createFriendInfoResponses(receivedFriendshipDtos));
+        friendInfoResponses.addAll(createFriendInfoResponses(sentFriendshipDtos));
+        return friendInfoResponses;
+    }
+
+
+    /**
      * 새로 친구 요청을 보낸다.
      * @param friendId
      */

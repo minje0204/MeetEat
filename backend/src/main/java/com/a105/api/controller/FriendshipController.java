@@ -32,6 +32,12 @@ public class FriendshipController {
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_FRIEND_LIST, friendInfos));
     }
 
+    @GetMapping(value = "/{id}/waiting")
+    public ResponseEntity<?> getWaitingList(@PathVariable("id") Long userId){
+        List<FriendInfoResponse> friendInfos = friendService.getWaitingList(userId);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_WAITING_LIST, friendInfos));
+    }
+
     @PostMapping("/{id}/request/{friend_id}")
     public ResponseEntity<?> sendRequest(@PathVariable("id") Long userId, @PathVariable("friend_id") Long friendId){
         Friendship friendship = friendService.addRequest(userId, friendId);

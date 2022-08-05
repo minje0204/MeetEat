@@ -33,6 +33,7 @@ public class FriendshipRepositoryImpl implements FriendshipRepositoryCustom {
         return friendDtos;
     }
 
+    @Override
     public List<FriendshipDto> findReceivedRequests(Long id){
         QFriendship friendship = QFriendship.friendship;
 
@@ -47,6 +48,7 @@ public class FriendshipRepositoryImpl implements FriendshipRepositoryCustom {
         return friendDtos;
     }
 
+    @Override
     public List<FriendshipDto> findSentRequests(Long id){
         QFriendship friendship = QFriendship.friendship;
 
