@@ -88,11 +88,14 @@ const StyledWrapper = styled.div`
   #footer {
     display: flex;
     align-items: center;
+    justify-content: space-around;
     height: 7vh;
   }
   #switch {
-    background-color: #FC6677;
     display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 300px;
   }
   #chatting {
 

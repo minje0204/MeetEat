@@ -43,7 +43,7 @@ export default function Chatting() {
         />
       </FormControl>
       <div>
-        <SendRoundedIcon sx={{ color: "#BABD42", fontSize: 40, ml: 1 }}/>
+        <SendRoundedIcon sx={{ color: "#EFD345", fontSize: 40, ml: 0.5 }} onClick />
       </div>
     </StyleWrapper>
   );
@@ -53,11 +53,4 @@ const StyleWrapper = styled.div`
   display: flex;
   height: 56px;
   align-items: center;
-  #say-to {
-    
-
-  }
-  #sendicon {
-    
-  }
 `;
