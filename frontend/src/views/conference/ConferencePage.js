@@ -8,6 +8,8 @@ import { useLocation, useParams } from "react-router-dom";
 import SwitchMic from "components/conference/SwitchMic";
 import SwitchVideo from "components/conference/SwitchVideo";
 import Chatting from "components/conference/Chatting";
+import Door from "components/conference/Door";
+import { Link } from "react-router-dom";
 
 function Conference() {
   let params = useParams();
@@ -48,6 +50,9 @@ function Conference() {
       <TableSlide></TableSlide>
       {roomGuestList}
       <div id="footer">
+        <Link to={ "/restaurant/" + params.restaurant_id }>
+          <Door />
+        </Link>
         <div id="switch">
           <SwitchMic />
           <SwitchVideo />
@@ -81,7 +86,7 @@ const StyledWrapper = styled.div`
   }
   #room_guest_row_4 {
     height: 80vh;
-    margin: 0 10vw;
+    margin: 0 15vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -107,6 +112,7 @@ const StyledWrapper = styled.div`
     margin-top:50px;
     background:#d6feff;
     border-radius: 10px;
+    font-family: "Jua";
   }
   #chatting-ballon:after {
     border-top:15px solid #d6feff;
