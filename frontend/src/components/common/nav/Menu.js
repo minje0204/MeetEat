@@ -2,26 +2,14 @@
 import styled from "styled-components";
 import ModalFriends from "components/friends/ModalFriends";
 import LoginModal from "components/account/LoginModal";
+import ProfileIcon from "components/account/ProfileIcon";
 
 export default function Menu() {
   return (
     <StyledWrapper>
       <ModalFriends />
-      {/* <Button
-        variant="outlined"
-        size="small"
-        sx={{ mx: "auto" }}
-      >
-        로그인
-      </Button>
-      <Button
-        variant="outlined"
-        size="small"
-        sx={{ mx: "auto" }}
-      >
-        회원가입
-      </Button> */}
-      <LoginModal></LoginModal>
+      <LoginModal />
+      <ProfileIcon />
     </StyledWrapper>
   );
 }

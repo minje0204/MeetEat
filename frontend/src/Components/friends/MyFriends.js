@@ -8,11 +8,7 @@ const friendslist = testinput.map((e, idx) => (
   <div id="friend-each">
     <div id="icon-nickname">
       <div id="imgbox">
-        <img
-          src={e.avatar}
-          id="image"
-          alt={`avatar-img-${idx}`}
-        ></img>
+        <img src={e.avatar} id="image" alt={`avatar-img-${idx}`} />
       </div>
       <div id="nickname">
         {e.nickname}

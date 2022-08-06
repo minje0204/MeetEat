@@ -14,7 +14,7 @@ const Header = () => {
             <div id="logo_meeteat">밋잇</div>
           </div>
         </Link>
-        <Menu></Menu>
+        <Menu />
       </div>
     </StyledWrapper>
   );
