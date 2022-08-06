@@ -18,9 +18,10 @@ export default function Door() {
 
 const StyledWrapper = styled.div`
   #cont {
-    position: relative;
+    position: absolute;
+    top: 91%;
     width: 45px;
-    height: 85px;
+    height: 75px;
     margin: 0 auto 15px;
     background-color: #733C3C;
   }
@@ -29,22 +30,22 @@ const StyledWrapper = styled.div`
     background-color: white;
     top: 5px;
     width: 30px;
-    height: 80px;
+    height: 70px;
     margin: 0 auto;
     perspective: 480px;
   }
   #door {
     position: relative;
     width: 30px;
-    height: 80px;
+    height: 70px;
     transform-origin: left;
   }
   #door:hover {
     position: relative;
     width: 30px;
-    height: 80px;
+    height: 70px;
     transform-origin: left;
-    animation: opendoor 3s ease-out;
+    animation: opendoor 2.5s ease-out;
   }
   @keyframes opendoor{
     from{transform: rotateY(0);}

@@ -47,7 +47,7 @@ function Conference() {
       <div id="table-name">
         {`[ ${params.restaurant_id}번 식당 - ${params.conf_id}번 테이블 : ${title} (${num}명 / ${people}명) ]`}
       </div>
-      <TableSlide></TableSlide>
+      <TableSlide />
       {roomGuestList}
       <div id="footer">
         <Link to={ "/restaurant/" + params.restaurant_id }>
@@ -77,7 +77,7 @@ const StyledWrapper = styled.div`
   }
   #room_guest_row {
     height: 80vh;
-    margin: 0 8vw;
+    margin: 0 3vh;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;

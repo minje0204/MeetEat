@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from "@emotion/styled";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import menu_rounded from "assets/img/menu_rounded.png";
@@ -14,7 +15,7 @@ export default function PersonalMenu() {
   };
 
   return (
-    <div>
+    <StyledWrapper>
       <img src={ menu_rounded } width="20px" height="20px" id="option" alt="메뉴"
       onClick={handleClick} 
       aria-controls={open ? 'basic-menu' : undefined} />
@@ -36,6 +37,12 @@ export default function PersonalMenu() {
       {/* <MenuItem onClick={handleClose}>방장 넘기기</MenuItem>
       <MenuItem onClick={handleClose}>강제 추방</MenuItem> */}
     </Menu>
-  </div>
+  </StyledWrapper>
   );
 }
+
+const StyledWrapper = styled.div`
+  #option {
+    cursor: pointer;
+  }
+`;
