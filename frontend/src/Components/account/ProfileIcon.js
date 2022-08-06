@@ -3,6 +3,7 @@ import styled from "styled-components";
 import hotdog from "assets/img/hotdog.png"
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from "react-router-dom";
 
 export default function ProfileIcon() {
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -28,9 +29,13 @@ export default function ProfileIcon() {
           'aria-labelledby': 'basic-button',
         }}
       >
-      <MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>나의 프로필</MenuItem>
-      <MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>개인정보 관리</MenuItem>
-      <MenuItem onClick={handleClose} sx={{ color: "#FF0063", fontFamily: "Jua" }}>로그아웃</MenuItem>
+			<StyledWrapper_link>
+				<Link to={"/profile"} id="profile">
+					<MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>나의 프로필</MenuItem>
+				</Link>
+				<MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>개인정보 관리</MenuItem>
+				<MenuItem onClick={handleClose} sx={{ color: "#FF0063", fontFamily: "Jua" }}>로그아웃</MenuItem>
+			</StyledWrapper_link>
     </Menu>
 		</div>
 	</StyledWrapper>
@@ -55,4 +60,10 @@ const StyledWrapper = styled.div`
     height: 90%;
     object-fit: cover;
   }
+`;
+
+const StyledWrapper_link = styled.div`
+	a {
+		text-decoration: none;
+	}
 `;
