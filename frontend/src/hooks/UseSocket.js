@@ -146,15 +146,17 @@ const UseSocket = ({ name, setNum }) => {
     let name = msg.name;
     let chat = msg.chat;
     let idx = participants[name].idx;
-    var container = document.createElement("div");
-    container.innerText = chat
-    document.querySelector(`#personal-${idx}`).appendChild(container);
+    let chatttingballon = document.querySelector(`#roomguest-chatting-${idx} > #chatting-ballon`);
+    chatttingballon.innerHTML = chat;
+    setTimeout(() => {
+      chatttingballon.innerHTML = "";
+    }, 3000);
   }
 
   function kickOut() {
     let message = {
       id: "kickOut",
-      candidate: candidate,
+      // candidate: candidate,
       name: name,
     };
     customSendMsg(message);

@@ -60,6 +60,10 @@ function Participant(name, idx) {
     return video;
   };
   
+  this.kickOut = function (){
+    
+  }
+
   if(idx != 0){
     document.querySelector(`#personal-${idx} #kickOutBtn`).addEventListener("click",()=>{
       let userName = document.querySelector(`#personal-0 #personal_id`).innerHTML
