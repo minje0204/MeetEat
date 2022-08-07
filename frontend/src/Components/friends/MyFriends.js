@@ -5,7 +5,7 @@ import testinput from 'components/friends/testinput';
 import option from 'assets/img/option.png';
 
 const friendslist = testinput.map((e, idx) => (
-  <div id="friend-each">
+  <div id="friend-each" key={`${idx}`}>
     <div id="icon-nickname">
       <div id="imgbox">
         <img src={e.avatar} id="image" alt={`avatar-img-${idx}`} />

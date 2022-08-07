@@ -61,10 +61,14 @@ export default function TabFriends() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          친구 추가를 보낸 유저들
+          <div>
+            친구 추가를 보낸 유저들
+          </div>
         </TabPanel>
-        <TabPanel value={value} index={1} id="friend-list">
-          <MyFriends />
+        <TabPanel component="span" value={value} index={1} id="friend-list">
+          <div>
+            <MyFriends />
+          </div>
         </TabPanel>
         <TabPanel component="span" value={value} index={2}>
           <div id="search">
@@ -78,6 +82,9 @@ export default function TabFriends() {
 }
 
 const StyledWrapper = styled.div`
+  p.MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root {
+    component: span;
+  }
   #friend-dialog {
     width: 450px;
     height: 580px;
