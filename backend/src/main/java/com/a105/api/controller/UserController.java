@@ -7,13 +7,16 @@ import com.a105.api.response.ResponseCode;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.api.service.AwsS3Service;
 import com.a105.api.service.UserService;
-import com.a105.domain.user.User;
-import com.a105.exception.BadRequestException;
 import com.a105.security.CurrentUser;
 import com.a105.security.UserPrincipal;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -33,38 +36,55 @@ public class UserController {
     private AwsS3Service storageService;
 
     @GetMapping
+    @Operation(summary = "모든 사용자 정보 조회")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "모든 사용자 정보 조회 성공", content = @Content(array = @ArraySchema( schema = @Schema(implementation = UserInfoResponse.class))))
+    })
     public ResponseEntity<?> getAllUsers() {
         List<UserInfoResponse> userInfos = userService.getAllUserInfo();
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_ALL_USERS, userInfos));
     }
 
-    @GetMapping(value = "/{idx}")
-    public ResponseEntity<?> getUser(@PathVariable("idx") Long idx) {
-        UserInfoResponse userInfo = userService.getUserInfo(idx);
+    @GetMapping(value = "/{id}")
+    @Operation(summary = "특정 사용자 정보 조회", description = "해당 id의 사용자 정보를 조회한다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "특정 사용자 정보 조회 성공", content = @Content( schema = @Schema(implementation = UserInfoResponse.class)))
+    })
+    public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
+        UserInfoResponse userInfo = userService.getUserInfo(id);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_USER, userInfo));
     }
 
     @GetMapping(value = "/search")
+    @Operation(summary = "사용자 검색 결과 조회", description = "이메일 또는 별명을 검색한 결과를 조회한다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "모든 사용자 정보 조회 성공", content = @Content(array = @ArraySchema( schema = @Schema(implementation = UserInfoResponse.class))))
+    })
     public ResponseEntity<?> searchUser(@RequestParam(required = false) String email,
         @RequestParam(required = false) String nickname) {
         List<UserInfoResponse> userInfos;
-        if (nickname == null && email != null && email.length() > 0) {
-            userInfos = userService.getUserInfosByEmail(email);
-        } else if (email == null && nickname != null && nickname.length() > 0) {
-            userInfos = userService.getUserInfosByNickname(nickname);
-        } else {
-            throw new BadRequestException("검색어를 입력하세요");
+        if(email == null || email.length() == 0){
+            email = "";
         }
+        if(nickname == null || nickname.length() == 0){
+            nickname = "";
+        }
+        userInfos = userService.searchByEmailOrNickname(email, nickname);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, SEARCH_USER, userInfos));
     }
 
     @GetMapping("/exists/{nickname}")
+    @Operation(summary = "별명 중복 확인", description = "해당 별명이 사용 중인지 조회한다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "모든 사용자 정보 조회 성공")
+    })
     public ResponseEntity<?> checkNicknameDuplicate(@PathVariable String nickname) {
         boolean checkDuplicate = userService.checkDuplicateNickname(nickname);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, CHECK_DUPLICATE_NICKNAME, checkDuplicate));
     }
 
     @PatchMapping("/{id}/bio")
+    @Operation(summary = "자기소개 수정")
     public ResponseEntity<?> updateUserBio(@PathVariable("id") Long id,
         @RequestBody UserBioRequest bio) {
         UserInfoResponse userInfo = userService.updateUserBio(id, bio);
@@ -72,26 +92,29 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/nickname")
+    @Operation(summary = "별명 수정")
     public ResponseEntity<?> updateUserNickname(@PathVariable("id") Long id,
         @RequestBody UserNicknameRequest nickname) {
         UserInfoResponse userInfo = userService.updateUserNickname(id, nickname);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPDATE_USER_NICKNAME, userInfo));
     }
 
-
     @PostMapping("/{id}/profile")
+    @Operation(summary = "프로필 사진 업로드")
     public ResponseEntity<?> uploadProfileImage(@PathVariable("id") Long id, @RequestParam(value = "file") MultipartFile file) {
         String fileUrl = storageService.uploadFile(file, "profile/" + id);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPLOAD_PROFILE_IMAGE, fileUrl));
     }
 
     @DeleteMapping("/{id}/profile")
+    @Operation(summary = "프로필 사진 삭제")
     public ResponseEntity<?> deleteProfileImage(@PathVariable("id") Long id) {
         storageService.deleteFile("profile/" + id);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, DELETE_PROFILE_IMAGE));
     }
 
     @PatchMapping("/{id}/profile")
+    @Operation(summary = "프로필 사진 수정")
     public ResponseEntity<?> changeProfileImage(@PathVariable("id") Long id, @RequestParam(value = "file") MultipartFile file){
         storageService.deleteFile("profile/" + id);
         String fileUrl = storageService.uploadFile(file, "profile/" + id);
@@ -101,6 +124,7 @@ public class UserController {
 
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "현재 로그인한 사용자 정보 조회")
     public ResponseEntity<?> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         UserInfoResponse userInfo = userService.getUserInfo(userPrincipal.getId());
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_CURRENT_USER, userInfo));
