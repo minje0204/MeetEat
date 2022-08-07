@@ -1,4 +1,5 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import undoable from "redux-undo";
 
 const initialState = { tableList: [] };
 
