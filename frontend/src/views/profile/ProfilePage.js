@@ -4,7 +4,9 @@ import savebutton from "assets/img/savebutton.png";
 import backbutton from "assets/img/backbutton.png";
 import hotdog from "assets/img/hotdog.png";
 import camera from "assets/img/camera.png";
-import pencil from "assets/img/pencil.png";
+import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
+
 
 export default function ProfilePage() {
   return(
@@ -14,13 +16,15 @@ export default function ProfilePage() {
         <img src={ backbutton } id="backbutton" alt="저장버튼" />메인화면으로 돌아가기
       </div>
       <div id="myiconbox">
-        <img src={ hotdog } id="myicon" alt="아이콘" />
-        <img src={ camera } id="camera" alt="수정" />
+        <div id="myicon-camera">
+          <img src={ hotdog } id="myicon" alt="아이콘" />
+          <img src={ camera } id="camera" alt="수정" />
+        </div>
       </div>
-      <div id="nickname">
-        별명 : Nickname
-        <img src={ pencil } id="pencil" alt="수정" />
-      </div>
+      <Box id="nickname-hello" component="form">
+        별명<Input id="nickname" defaultValue="Hello world" />
+        소개<Input id="hello" defaultValue="Hello world" />
+      </Box>
       <div id="table-album">
 
       </div>
@@ -52,17 +56,23 @@ const StyledWrapper = styled.div`
     height: 3vh;
   }
 	#myiconbox {
+    width: 100%;
+    height: 20vh;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2vh 0;
+  }
+  #myicon-camera {
     height: 200px;
-		width: 200px;
-		margin: 0 10px;
-		border: 2px solid black;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		overflow: hidden;
-	}
+    width: 200px;
+    border: 2px solid black;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
 	#myicon {
     cursor: pointer;
     width: 90%;
@@ -72,24 +82,33 @@ const StyledWrapper = styled.div`
   #camera {
     cursor: pointer;
     position: absolute;
-    top: 39%;
-    left: 53.5%;
+    top: 40%;
+    left: 54%;
     background-color: white;
+    border-radius: 50%;
     height: 50px;
     width: 50px;
   }
-  #nickname {
-    width: 100%;
-    height: 8vh;
+  #nickname-hello {
+    width: %;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     font-family: "Jua";
-    font-size: 30px;
+    font-size: 20px;
   }
-  #pencil {
-    cursor: pointer;
-    height:3vh;
-    margin-left: 8px;
+  #nickname {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 1vh;
+  }
+  #hello {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
