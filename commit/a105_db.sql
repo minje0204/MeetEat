@@ -1,3 +1,6 @@
+create database a105;
+use 'a105';
+
 CREATE TABLE `user` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `email` varchar(50) NOT NULL,
