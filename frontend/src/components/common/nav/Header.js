@@ -14,7 +14,7 @@ const Header = () => {
             <div id="logo_meeteat">밋잇</div>
           </div>
         </Link>
-        <Menu></Menu>
+        <Menu />
       </div>
     </StyledWrapper>
   );
@@ -28,7 +28,7 @@ const StyledWrapper = styled.div`
     text-shadow : 0 1px 0 #CCC, 0 2px 0 #C9C9C9, 0 3px 0 #BBB;
   }
   a:hover {
-    color: #BABD42;
+    color: #82954B;
   }
   img {
     width: 50px;
