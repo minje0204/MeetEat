@@ -5,7 +5,7 @@ COPY --chown=gradle:gradle . /usr/src/app
 WORKDIR /usr/src/app
 RUN gradle build --no-daemon -x test
 
-FROM openjdk:11
+FROM openjdk:11.0.10-jre-slim-buster
 ARG JAR_FILE=/usr/src/app/build/libs/*.jar
 ENV JAVA_OPTS=""
 COPY --from=builder ${JAR_FILE} app.jar
