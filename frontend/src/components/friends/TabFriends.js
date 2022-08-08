@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import styled from "@emotion/styled";
 import SearchFriends from 'components/friends/SearchFriends';
 import SearchInputFriends from 'components/friends/SearchInputFriends';
+import MyFriends from 'components/friends/MyFriends';
 // import CloseIcon from '@mui/icons-material/Close';
 
 function TabPanel(props) {
@@ -52,18 +53,22 @@ export default function TabFriends() {
   return (
     <StyledWrapper>
       <div id="friend-dialog">
-        <Box sx={{ width: "100%", bgcolor: "#FFA000" }}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
-            <Tab label="밥친구 요청" {...a11yProps(0)} />
-            <Tab label="밥친구 목록" {...a11yProps(1)} />
-            <Tab label="밥친구 검색" {...a11yProps(2)} />
+        <Box sx={{ width: "100%", bgcolor: "#FFEF82" }}>
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered indicatorColor="secondary" textColor= "secondary" >
+            <Tab label="밥친구 요청" {...a11yProps(0)} sx={{fontSize: 20, fontFamily: "Jua"}} />
+            <Tab label="밥친구 목록" {...a11yProps(1)} sx={{fontSize: 20, fontFamily: "Jua"}}/>
+            <Tab label="밥친구 검색" {...a11yProps(2)} sx={{fontSize: 20, fontFamily: "Jua"}}/>
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          친구 추가를 보낸 유저들
+          <div>
+            친구 추가를 보낸 유저들
+          </div>
         </TabPanel>
-        <TabPanel value={value} index={1}>
-          친구들
+        <TabPanel component="span" value={value} index={1} id="friend-list">
+          <div>
+            <MyFriends />
+          </div>
         </TabPanel>
         <TabPanel component="span" value={value} index={2}>
           <div id="search">
@@ -77,13 +82,20 @@ export default function TabFriends() {
 }
 
 const StyledWrapper = styled.div`
+  p.MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root {
+    component: span;
+  }
   #friend-dialog {
     width: 450px;
     height: 580px;
-    border: 6px groove #FFC263;
+    border: 6px dashed #EFD345;
   }
   #search {
     display: flex;
     justify-content: space-around;
+  }
+  #friend-list {
+    overflow: auto;
+    height: 530px;
   }
 `;
