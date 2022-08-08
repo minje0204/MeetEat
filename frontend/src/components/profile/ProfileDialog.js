@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import backbutton from "assets/img/backbutton.png";
 import closebutton from "assets/img/closebutton.png";
 import hotdog from "assets/img/hotdog.png";
-import testinput from 'components/profile/testinput';
+import testinput from "components/profile/testinput";
 
 export default function ProfileDialog() {
   const [open, setOpen] = React.useState(false);
@@ -23,6 +23,7 @@ export default function ProfileDialog() {
   const tablealbumlist = testinput.slice(0).reverse().map((e) => (
     <div key={`table${e.id}`}>
       <div id="example-table"></div>
+      
       { e.id }번째 식탁 - { e.date }
     </div>
   ));
@@ -59,6 +60,7 @@ export default function ProfileDialog() {
           소개 : 밥 먹자!!  
         </div>
       </Box>
+      <hr id="horizon-line"/>
       <div id="album">
         <div id="table-album">
           {tablealbumlist}
@@ -150,6 +152,13 @@ const StyledWrapper = styled.div`
     align-items: center;
     margin: 0 1vh;
   }
+  #horizon-line {
+    margin: 30px 0 20px;
+    width: 1100px;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+  }
   #album {
     width: 100%;
     height: 43vh;
@@ -163,7 +172,6 @@ const StyledWrapper = styled.div`
     justify-content: space-evenly;
     font-family: "Jua";
     font-size: 17px;
-    overflow: auto;
   }
   #example-table {
     background-color: rgb(185, 122, 86);
