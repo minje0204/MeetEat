@@ -1,26 +1,35 @@
-const { google } = require("googleapis");
+import styled from "styled-components";
 
-/**
- * To use OAuth2 authentication, we need access to a CLIENT_ID, CLIENT_SECRET, AND REDIRECT_URI
- * from the client_secret.json file. To get these credentials for your application, visit
- * https://console.cloud.google.com/apis/credentials.
- */
-const oauth2Client = new google.auth.OAuth2(
-  YOUR_CLIENT_ID,
-  YOUR_CLIENT_SECRET,
-  YOUR_REDIRECT_URL,
-);
+export default function GoogleLogin() {
+  const client_id =
+    "912257842954-povfeqnej4fse9crrdfa5mrlebtvpv1p.apps.googleusercontent.com";
+  const redirectURI = encodeURI("http://localhost:3000/login");
+  const state = encodeURI("http://localhost:3000/");
+  const scope = "https://www.googleapis.com/auth/userinfo.email";
+  const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&redirect_uri=${redirectURI}&response_type=code&state=${state}&scope=${scope}`;
 
-// Access scopes for read-only Drive activity.
-const scopes = ["https://www.googleapis.com/auth/drive.metadata.readonly"];
+  function handleLogin() {
+    window.location.href = GOOGLE_AUTH_URL;
+  }
 
-// Generate a url that asks permissions for the Drive activity scope
-const authorizationUrl = oauth2Client.generateAuthUrl({
-  // 'online' (default) or 'offline' (gets refresh_token)
-  access_type: "offline",
-  /** Pass in the scopes array defined above.
-   * Alternatively, if only one scope is needed, you can pass a scope URL as a string */
-  scope: scopes,
-  // Enable incremental authorization. Recommended as a best practice.
-  include_granted_scopes: true,
-});
+  return (
+    <StyledWrapper>
+      <a id="google-login" className="login-button" href={GOOGLE_AUTH_URL}>
+        <img className="login-image" src="/images/login/google_login.png"></img>
+      </a>
+    </StyledWrapper>
+  );
+}
+
+const StyledWrapper = styled.div`
+   {
+    width: 75%;
+    margin: 2px auto;
+  }
+  .login-button {
+    text-align: center;
+  }
+  .login-image {
+    width: 100%;
+  }
+`;

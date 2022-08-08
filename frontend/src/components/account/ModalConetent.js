@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import GoogleLogin from "utils/account/GoogleLogin";
 import KakaoLogin from "utils/account/KakaoLogin";
 import NaverLogin from "utils/account/NaverLogin";
 
@@ -35,12 +36,7 @@ export default function ModalContent(props) {
         <span>간편 로그인</span>
       </div>
       <div className="container">
-        <a id="google-login" className="login-button" href="#">
-          <img
-            className="login-image"
-            src="/images/login/google_login.png"
-          ></img>
-        </a>
+        <GoogleLogin></GoogleLogin>
         <KakaoLogin></KakaoLogin>
         <NaverLogin></NaverLogin>
       </div>
