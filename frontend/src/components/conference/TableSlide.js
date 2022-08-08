@@ -3,12 +3,14 @@ import Slide from "@mui/material/Slide";
 import ItemTab from "./ItemTab";
 import TableArea from "./TableArea";
 import styled from "styled-components";
-import store from "app/store";
-// import { DragDropContext } from 'react-beautiful-dnd'
+import SaveTableImage from "./SaveTableImage";
+import { useDispatch } from "react-redux";
+import { GetBoundary } from "modules/table";
 
 export default function TableSlide() {
   const [checked, setChecked] = useState(false);
 
+  const dispatch = useDispatch();
   const [droppable, setDroppable] = useState(false);
   const [dragging, setDragging] = useState(false);
 
@@ -32,10 +34,7 @@ export default function TableSlide() {
         height: box.height,
         width: box.width,
       };
-      store.dispatch({
-        type: "GET_BOUNDARY",
-        data: data,
-      });
+      dispatch(GetBoundary(data));
     }
   }
 
@@ -64,7 +63,7 @@ export default function TableSlide() {
           <div className="button" onClick={handleChange}>
             <h3>식탁꾸미기 </h3>
           </div>
-          <div className="table-custom">
+          <div id="table-custom" className="table-custom">
             <ItemTab
               getDroppable={getDroppable}
               isDragging={isDragging}
@@ -77,6 +76,9 @@ export default function TableSlide() {
                 getDroppable={getDroppable}
                 isDragging={isDragging}
               ></TableArea>
+              <div className="button-group">
+                <SaveTableImage></SaveTableImage>
+              </div>
             </div>
           </div>
         </div>
@@ -100,6 +102,9 @@ const StyledWrapper = styled.div`
     align-items: center;
     border-radius: 10px 0 0 10px;
   }
+  .button:hover {
+    cursor: pointer;
+  }
   h3 {
     writing-mode: vertical-rl;
     margin: auto;
@@ -118,6 +123,9 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
   }
+  .in-button:hover {
+    cursor: pointer;
+  }
   .slide-container {
     max-width: 100%;
     position: absolute;
@@ -134,9 +142,15 @@ const StyledWrapper = styled.div`
     // border: 5px solid #efd345;
   }
   .table-container {
+    margin-right: 30px;
     padding: 30px;
   }
   Slide {
     max-width: 100%;
+  }
+  .button-group {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 30px;
   }
 `;

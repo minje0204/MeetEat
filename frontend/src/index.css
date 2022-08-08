@@ -1,21 +1,6 @@
 @font-face {
-  font-family: "Yangjin";
-  src: url("assets/fonts/Yangjinv0.9_ttf.ttf");
-}
-
-@font-face {
-  font-family: "Ulsan";
-  src: url("assets/fonts/ulsanjunggu.ttf");
-}
-
-@font-face {
-  font-family: "BlackHanSans";
-  src: url("assets/fonts/BlackHanSans-Regular.ttf");
-}
-
-@font-face {
-  font-family: "Mugunghwa";
-  src: url("assets/fonts/Mugunghwa.ttf");
+  font-family: "Jua";
+  src: url("assets/fonts/Jua-Regular.ttf");
 }
 
 body {

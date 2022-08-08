@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import {useLocation} from 'react-router-dom'
-// import Conference from "views/conference/ConferencePage";
+import {useLocation} from 'react-router-dom';
 
 export default function Location() {
 	const location = useLocation();

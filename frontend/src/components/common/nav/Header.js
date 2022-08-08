@@ -4,16 +4,17 @@ import Menu from "components/common/nav/Menu";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+
   return (
     <StyledWrapper>
       <div id="container">
         <Link to="/">
           <div id="logo">
             <img src={logoimage} alt="로고" />
-            <div>혼밥러</div>
+            <div id="logo_meeteat">밋잇</div>
           </div>
         </Link>
-        <Menu></Menu>
+        <Menu />
       </div>
     </StyledWrapper>
   );
@@ -24,32 +25,39 @@ const StyledWrapper = styled.div`
   a {
     text-decoration: none;
     color: #000000;
-    text-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+    text-shadow : 0 1px 0 #CCC, 0 2px 0 #C9C9C9, 0 3px 0 #BBB;
   }
   a:hover {
-    color: #ff8e00;
+    color: #82954B;
   }
   img {
     width: 50px;
     height: 45px;
-    margin-right: 5px;
     display: inline-block;
   }
   #logo {
     display: flex;
-    font-family: "Ulsan";
-    font-size: 40px;
     font-weight: 100;
     text-align: center;
     align-items: center;
   }
+  #logo_meeteat {
+    font-family: "Jua";
+    font-size: 48px;
+    margin-top: 12px;
+    margin-left: -20px;
+    width: 10vw;
+  }
   #container {
-    padding: 10px;
+    height: 6vh;
+    max-height: 6vh;
+    padding: 2vh;
+    position: static;
     display: flex;
     justify-content: space-between;
     align-items: center;
     text-align: center;
   }
-  position: absolute;
+  position: static;
   width: 100%;
 `;
