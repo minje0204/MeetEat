@@ -4,7 +4,6 @@ import Header from "components/common/nav/Header";
 import IndexPage from "views/index/IndexPage";
 import RestaurantPage from "views/restaurant/RestaurantPage";
 import Conference from "views/conference/ConferencePage";
-import ProfilePage from "views/profile/ProfilePage"
 
 export default function App() {
   return (
@@ -15,10 +14,6 @@ export default function App() {
           <Routes>
             <Route path="/">
               <Route index element={<IndexPage />} />
-              <Route
-                path="profile"
-                element={<ProfilePage />}
-              />
               <Route
                 path="restaurant/:restaurant_id"
                 element={<RestaurantPage />}

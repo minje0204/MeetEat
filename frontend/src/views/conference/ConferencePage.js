@@ -34,9 +34,9 @@ function Conference() {
   const roomGuestList = (
     <div id={ Number(people) === 4 ? `room_guest_row_4` : `room_guest_row` }>
       {_.range(0, people).map((_, idx) => (
-        <div id="roomguest-chatting">
+        <div id="roomguest-chatting" key={`chatting-${idx}`}>
           <RoomGuest key={`roomGuest-${idx}`} idx={idx} />
-          <div id="chatting-ballon">우리 오늘 만나서 너무 반가웠어요</div>
+          <div id="chatting-ballon">우리 오늘 만나</div>
         </div>
       ))}
     </div>
@@ -67,10 +67,12 @@ function Conference() {
 export default Conference;
 
 const StyledWrapper = styled.div`
+  min-width: 1500px;
   #table-name {
-    position: relative;
+    position: fixed;
+    top: 25px;
+    margin-left: 160px;
     height: 2vh;
-    margin-left: 1vw;
     font-family: "Jua";
     font-size: 20px;
     color: #82954B;
@@ -106,23 +108,24 @@ const StyledWrapper = styled.div`
     width: 300px;
   }
   #chatting-ballon {
-    position:absolute;
-    width:100px;
-    height:auto;
-    margin-top:50px;
-    background:#d6feff;
+    position: absolute;
+    width: 100px;
+    min-height: 40px;
+    height: auto;
+    margin-top: 50px;
+    background: #d6feff;
     border-radius: 10px;
     font-family: "Jua";
   }
   #chatting-ballon:after {
-    border-top:15px solid #d6feff;
+    border-top: 15px solid #d6feff;
     border-left: 15px solid transparent;
     border-right: 0px solid transparent;
     border-bottom: 0px solid transparent;
-    content:"";
-    position:absolute;
-    top:10px;
-    left:-15px;
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: -15px;
   }
   #roomguest-chatting {
     display: flex;
