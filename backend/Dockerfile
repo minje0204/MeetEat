@@ -7,5 +7,5 @@ RUN gradle build -x test
 
 FROM openjdk:11
 ENV JAVA_OPTS=""
-COPY --from=builder ${JAR_FILE} app.jar
-ENTRYPOINT java /usr/src/app/build/libs/*.jar -jar /app.jar
+COPY --from=builder /usr/src/app/build/libs/*.jar app.jar
+ENTRYPOINT java ${JAVA_OPTS} -jar /app.jar
