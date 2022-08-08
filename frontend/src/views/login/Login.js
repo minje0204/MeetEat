@@ -5,16 +5,15 @@ export default function Login() {
   const code = params.get("code");
   const provider = useParams().provider;
   const redirect_uri = `http://localhost:3000/login/${provider}`;
-  console.log(provider);
-  console.log(code);
   if (code != null) {
     axios
-      .get("url", {
-        params: { provider: provider, code: code, redirect_uri: redirect_uri },
+      .get(`http://localhost:8080/login/oauth2/code/${provider}`, {
+        params: { code: code, redirect_uri: redirect_uri },
       })
       .then(res => {
         if (res.data) {
           console.log(res.data);
+          localStorage.setItem("jwtToken", token);
         }
       })
       .catch(err => {
