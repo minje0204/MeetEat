@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import GoogleLogin from "react-google-login";
 import KakaoLogin from "utils/account/KakaoLogin";
+import NaverLogin from "utils/account/NaverLogin";
 
 export default function ModalContent(props) {
   const API_KEY = "AIzaSyDHx-W4KLLtJ3PRrEzPTjeJRoLS3Q15EX8";
@@ -35,31 +35,14 @@ export default function ModalContent(props) {
         <span>간편 로그인</span>
       </div>
       <div className="container">
-        <GoogleLogin
-          clientId={CLIENT_ID}
-          responseType={"id_token"}
-          onSuccess={onSuccess}
-          onFailure={onFailure}
-        ></GoogleLogin>
         <a id="google-login" className="login-button" href="#">
           <img
             className="login-image"
             src="/images/login/google_login.png"
           ></img>
         </a>
-        <a id="naver-login" className="login-button" href="#">
-          <img
-            className="login-image"
-            src="/images/login/naver_login.png"
-          ></img>
-        </a>
         <KakaoLogin></KakaoLogin>
-        <a id="kakao-login" className="login-button" href="#">
-          <img
-            className="login-image"
-            src="/images/login/kakao_login.png"
-          ></img>
-        </a>
+        <NaverLogin></NaverLogin>
       </div>
     </StyledWrapper>
   );

@@ -5,6 +5,7 @@ import IndexPage from "views/index/IndexPage";
 import RestaurantPage from "views/restaurant/RestaurantPage";
 import ConferencePage from "views/conference/ConferencePage";
 import SignUpPage from "views/signup/SignupPage";
+import Login from "views/login/Login";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
                 element={<ConferencePage />}
               />
               <Route path="signup" element={<SignUpPage />} />
+              <Route path="login" element={<Login />} />
             </Route>
           </Routes>
         </Suspense>
