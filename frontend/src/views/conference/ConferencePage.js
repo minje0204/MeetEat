@@ -70,7 +70,7 @@ const StyledWrapper = styled.div`
   min-width: 1500px;
   #table-name {
     position: fixed;
-    top: 25px;
+    top: 4vh;
     margin-left: 160px;
     height: 2vh;
     font-family: "Jua";

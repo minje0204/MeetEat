@@ -9,6 +9,7 @@ import TextField from "@mui/material/TextField";
 import table_empty from "assets/img/table_empty.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import roomtitle from "assets/img/roomtitle.png";
 
 export default function ModalMakingRoom(props) {
 
@@ -29,7 +30,10 @@ export default function ModalMakingRoom(props) {
   return (
     <StyledWrapper>
       <div id="image-box">
-        <img src={table_empty} alt="" onClick={handleClickOpen} id="image" />
+        <div id="roomtitle-box">
+          <img src={roomtitle} alt="방제목" onClick={handleClickOpen} id="roomtitle"/>
+        </div>
+        <img src={table_empty} alt="테이블" onClick={handleClickOpen} id="table" />
       </div>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ fontFamily: "Jua", fontSize: 22 }}>{tableNum}번 테이블 만들기</DialogTitle>
@@ -72,14 +76,14 @@ export default function ModalMakingRoom(props) {
         <DialogActions>
           <Button onClick={handleClose} sx={{ fontFamily: "Jua", fontSize: 16, color: "inherit" }}>닫기</Button>
           <Button>
-            <StyledWrapper2>
+            <StyledWrapperLink>
               <Link
                 to={`/restaurant/${restaurantId}/conference/${tableNum}`}
                 state={{ title: titleValue, people: peopleValue, userName }}
                 id="link"
               >만들기
               </Link>
-            </StyledWrapper2>
+            </StyledWrapperLink>
           </Button>
         </DialogActions>
       </Dialog>
@@ -89,12 +93,23 @@ export default function ModalMakingRoom(props) {
 
 const StyledWrapper = styled.div`
   #image-box {
-    width: 24vw;
+    width: 22vw;
+    height: 40vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  #image {
+  #roomtitle-box {
+    cursor: pointer;
+    max-width: 60%;
+    max-height: 40%;
+  }
+  #roomtitle {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  #table {
     cursor: pointer;
     max-width: 90%;
     max-height: 90%;
@@ -105,12 +120,12 @@ const StyledWrapper = styled.div`
     -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
   }
-  #image:hover {
+  #table:hover {
     -webkit-filter: brightness(120%);
   }
 `;
 
-const StyledWrapper2 = styled.div`
+const StyledWrapperLink = styled.div`
   #link {
     text-decoration: none;
     color: black;

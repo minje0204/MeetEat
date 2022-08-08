@@ -41,6 +41,7 @@ export default function RestaurantPage() {
 const StyledWrapper = styled.div`
   #table-list {
     height: 85vh;
+    width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,6 +49,6 @@ const StyledWrapper = styled.div`
     align-content: center;
   }
   #exit {
-    margin-left: 70px;
+    margin-left: 40px;
   }
 `;
