@@ -7,14 +7,14 @@ export default function GoogleLogin() {
   const scope = "https://www.googleapis.com/auth/userinfo.email";
   const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&redirect_uri=${redirectURI}&response_type=code&state=${state}&scope=${scope}`;
 
-  function handleLogin() {
-    window.location.href = GOOGLE_AUTH_URL;
-  }
-
   return (
     <StyledWrapper>
       <a id="google-login" className="login-button" href={GOOGLE_AUTH_URL}>
-        <img className="login-image" src="/images/login/google_login.png"></img>
+        <img
+          className="login-image"
+          src="/images/login/google_login.png"
+          alt="google_logiin"
+        ></img>
       </a>
     </StyledWrapper>
   );

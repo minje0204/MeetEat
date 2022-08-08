@@ -2,13 +2,16 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 export default function Login() {
   let params = new URL(document.location).searchParams;
-  let code = params.get("code");
+  const code = params.get("code");
   const provider = useParams().provider;
+  const redirect_uri = `http://localhost:3000/login/${provider}`;
   console.log(provider);
   console.log(code);
   if (code != null) {
     axios
-      .get("url", `{provider: ${provider}, code: ${code}}`)
+      .get("url", {
+        params: { provider: provider, code: code, redirect_uri: redirect_uri },
+      })
       .then(res => {
         if (res.data) {
           console.log(res.data);

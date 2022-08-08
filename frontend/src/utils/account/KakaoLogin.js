@@ -5,14 +5,14 @@ export default function KakaoLogin() {
   const REDIRECT_URI = "http://localhost:3000/login-kakao";
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-  function handleLogin() {
-    window.location.href = KAKAO_AUTH_URL;
-  }
-
   return (
     <StyledWrapper>
       <a id="kakao-login" className="login-button" href={KAKAO_AUTH_URL}>
-        <img className="login-image" src="/images/login/kakao_login.png"></img>
+        <img
+          className="login-image"
+          src="/images/login/kakao_login.png"
+          alt="kakao_login"
+        ></img>
       </a>
     </StyledWrapper>
   );

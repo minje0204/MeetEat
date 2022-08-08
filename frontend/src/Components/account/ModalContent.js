@@ -4,24 +4,6 @@ import KakaoLogin from "utils/account/KakaoLogin";
 import NaverLogin from "utils/account/NaverLogin";
 
 export default function ModalContent(props) {
-  const API_KEY = "AIzaSyDHx-W4KLLtJ3PRrEzPTjeJRoLS3Q15EX8";
-  const CLIENT_ID =
-    "912257842954-povfeqnej4fse9crrdfa5mrlebtvpv1p.apps.googleusercontent.com";
-
-  const onSuccess = async response => {
-    console.log(response);
-
-    const {
-      googleId,
-      profileObj: { email, name },
-    } = response;
-    console.log(response);
-  };
-
-  const onFailure = error => {
-    console.log(error);
-  };
-
   return (
     <StyledWrapper>
       <i

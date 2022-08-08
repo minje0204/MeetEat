@@ -8,21 +8,6 @@ export default function SaveTableImage() {
   const myTable = useRef(null);
   const myMenu = useSelector(state => state.tableList);
 
-  const getTableImage = () => {
-    return (
-      <div
-        style={{
-          width: "940px",
-          height: "400px",
-          position: "relative",
-          background: "#b97a56",
-        }}
-      >
-        {menuRender}
-      </div>
-    );
-  };
-
   const menuRender = myMenu.map((menu, index) => (
     <div
       className="on-table"

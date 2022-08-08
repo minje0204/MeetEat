@@ -50,20 +50,16 @@ export default function ConferencePage() {
       <TableSlide />
       {roomGuestList}
       <div id="footer">
-        <Link to={ "/restaurant/" + params.restaurant_id }>
+        <Link to={"/restaurant/" + params.restaurant_id}>
           <Door />
         </Link>
         <div id="switch">
           <SwitchMic />
           <SwitchVideo />
         </div>
-<<<<<<< HEAD
-        <div id="chatting"></div>
-=======
         <div id="chatting">
           <Chatting />
         </div>
->>>>>>> f1b3797dd28fbfe1b0f24cf07b48bd6010ba371f
       </div>
     </StyledWrapper>
   );
