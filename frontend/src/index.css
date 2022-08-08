@@ -1,34 +1,18 @@
 @font-face {
-  font-family: "Yangjin";
-  src: url("assets/fonts/Yangjinv0.9_ttf.ttf");
+  font-family: "Jua";
+  src: url("assets/fonts/Jua-Regular.ttf");
 }
-
-@font-face {
-  font-family: "Ulsan";
-  src: url("assets/fonts/ulsanjunggu.ttf");
-}
-
-@font-face {
-  font-family: "BlackHanSans";
-  src: url("assets/fonts/BlackHanSans-Regular.ttf");
-}
-
-@font-face {
-  font-family: "Mugunghwa";
-  src: url("assets/fonts/Mugunghwa.ttf");
-}
-
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

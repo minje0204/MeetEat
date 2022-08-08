@@ -4,7 +4,7 @@ import Header from "components/common/nav/Header";
 import IndexPage from "views/index/IndexPage";
 import RestaurantPage from "views/restaurant/RestaurantPage";
 import ConferencePage from "views/conference/ConferencePage";
-import SignupPage from "views/signup/SignupPage";
+import SignUpPage from "views/signup/SignupPage";
 
 export default function App() {
   return (
@@ -23,7 +23,7 @@ export default function App() {
                 path="restaurant/:restaurant_id/conference/:conf_id"
                 element={<ConferencePage />}
               />
-              <Route path="signup" element={<SignupPage />} />
+              <Route path="signup" element={<SignUpPage />} />
             </Route>
           </Routes>
         </Suspense>

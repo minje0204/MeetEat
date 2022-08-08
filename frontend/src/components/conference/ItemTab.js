@@ -12,12 +12,11 @@ function a11yProps(index) {
   };
 }
 
-export default function ItemTab() {
+export default function ItemTab(props) {
   const [activeIdx, setActiveIdx] = useState(0);
   const handleChange = (event, newValue) => {
     setActiveIdx(newValue);
   };
-
   const tabContArr = [
     {
       tabTitle: "식기류",
@@ -43,6 +42,8 @@ export default function ItemTab() {
 
   const listTabPanels = tabContArr.map((tabCont, index) => (
     <ItemTabPanel
+      getDroppable={props.getDroppable}
+      isDragging={props.isDragging}
       isActive={activeIdx === index}
       index={index}
       key={`tabpanel-${index}`}
@@ -51,7 +52,6 @@ export default function ItemTab() {
 
   return (
     <StyledWrapper>
-      <h2>식탁 꾸미기</h2>
       <Box className="item-tab-container">
         <Box
           className="item-tab"

@@ -1,15 +1,12 @@
-import SignupForm from "components/account/SignupForm";
 import styled from "styled-components";
-export default function SignupPage() {
+import SignupForm from "components/account/SignupForm";
+
+export default function SignUpPage() {
   return (
     <StyledWrapper>
       <SignupForm></SignupForm>
     </StyledWrapper>
   );
 }
-const StyledWrapper = styled.div`
-   {
-    display: flex;
-    justify-content: center;
-  }
-`;
+
+const StyledWrapper = styled.div``;
