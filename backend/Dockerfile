@@ -6,7 +6,6 @@ WORKDIR /usr/src/app
 RUN gradle build -x test
 
 FROM openjdk:11
-ARG JAR_FILE=usr/src/app/build/libs/*.jar
 ENV JAVA_OPTS=""
 COPY --from=builder ${JAR_FILE} app.jar
-ENTRYPOINT java ${JAVA_OPTS} -jar /app.jar
+ENTRYPOINT java /usr/src/app/build/libs/*.jar -jar /app.jar
