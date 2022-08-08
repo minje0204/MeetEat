@@ -21,7 +21,7 @@ export default function ItemTabPanel(props) {
     props.isDragging(true);
   };
 
-  const box = useSelector(state => state.table.box);
+  const box = useSelector(state => state.box.box);
   const dragHandler = e => {
     e.target.style.left = `${e.target.offsetLeft + e.clientX - posX}px`;
     e.target.style.top = `${e.target.offsetTop + e.clientY - posY}px`;
