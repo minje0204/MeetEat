@@ -25,7 +25,7 @@ export default function App() {
                 element={<ConferencePage />}
               />
               <Route path="signup" element={<SignUpPage />} />
-              <Route path="login" element={<Login />} />
+              <Route path="login-:provider" element={<Login />} />
             </Route>
           </Routes>
         </Suspense>

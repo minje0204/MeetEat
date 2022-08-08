@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export default function NaverLogin() {
-  const client_id = "xcL5NzWuGyxSsq3G9Vhh";
-  const redirectURI = encodeURI("http://localhost:3000/login");
+  const client_id = "add here";
+  const redirectURI = encodeURI("http://localhost:3000/login-naver");
   const state = encodeURI("http://localhost:3000/");
   const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirectURI}&state=${state};`;
 
