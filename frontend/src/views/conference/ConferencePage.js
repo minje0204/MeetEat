@@ -69,7 +69,7 @@ export default Conference;
 const StyledWrapper = styled.div`
   #table-name {
     position: relative;
-    height: 3vh;
+    height: 2vh;
     margin-left: 1vw;
     font-family: "Jua";
     font-size: 20px;
@@ -77,7 +77,7 @@ const StyledWrapper = styled.div`
   }
   #room_guest_row {
     height: 80vh;
-    margin: 0 3vh;
+    margin: 0 5vh;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;

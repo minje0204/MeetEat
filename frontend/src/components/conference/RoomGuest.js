@@ -18,9 +18,9 @@ export default function RoomGuest(props) {
             Nickname
           </div>
           <div>
-            <StyledWrapper_link>
+            <StyledWrapperLink>
               <PersonalMenu />
-            </StyledWrapper_link>
+            </StyledWrapperLink>
           </div>
         </div>
         <div id="personalCam"></div>
@@ -70,7 +70,7 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const StyledWrapper_link = styled.div`
+const StyledWrapperLink = styled.div`
   a{
     text-decoration: none;
   }
