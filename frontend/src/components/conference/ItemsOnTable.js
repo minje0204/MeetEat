@@ -1,14 +1,16 @@
-import store from "app/store";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { useState } from "react";
+import { MoveItem, RemoveItem } from "modules/table";
 
 export default function ItemsOnTable(props) {
-  const myMenu = useSelector(state => state.tableList); // 해당 state가 변할 때 마다 현재 컴포넌트를 리렌더링함.
+  const myMenu = useSelector(state => state.table.tableList); // 해당 state가 변할 때 마다 현재 컴포넌트를 리렌더링함.
+
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
+  const dispatch = useDispatch();
 
   const getStartX = value => {
     setStartX(value);
@@ -21,16 +23,12 @@ export default function ItemsOnTable(props) {
     getStartY(e.clientY);
   };
 
+  const box = useSelector(state => state.table.box);
   const dragHandler = e => {
-    const box = store.getState().box;
-    // console.log(box);
     const deltaX = e.clientX - startX;
     const deltaY = e.clientY - startY;
-    // console.log(deltaX, deltaY);
-    // console.log(startX, startY);
     const index = e.target.attributes.index.value;
     const item = myMenu[index];
-    // console.log(item);
     if (
       0 < item.top + deltaY - item.height / 2 &&
       item.top + deltaY + item.height / 2 < box.height &&
@@ -42,10 +40,8 @@ export default function ItemsOnTable(props) {
       props.getDroppable(false);
     }
   };
-  // console.log(store.getState());
 
   const dragEndHandler = e => {
-    const box = store.getState().box;
     const deltaX = e.clientX - startX;
     const deltaY = e.clientY - startY;
     const index = e.target.attributes.index.value;
@@ -56,14 +52,13 @@ export default function ItemsOnTable(props) {
       0 < item.left + deltaX - item.width / 2 &&
       item.left + deltaX + item.width / 2 < box.width
     ) {
-      store.dispatch({
-        type: "MOVE_ITEM",
-        data: {
+      dispatch(
+        MoveItem({
           index: index,
           deltaX: deltaX,
           deltaY: deltaY,
-        },
-      });
+        }),
+      );
     }
   };
   const menuRender = myMenu.map((menu, index) => (
@@ -95,7 +90,10 @@ export default function ItemsOnTable(props) {
     >
       <i
         className="fa-solid fa-circle-minus"
-        onClick={() => store.dispatch({ type: "REMOVE_ITEM", data: { index } })}
+        onClick={() => {
+          console.log(index);
+          dispatch(RemoveItem(index));
+        }}
       ></i>
     </div>
   ));

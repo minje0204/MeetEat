@@ -3,15 +3,15 @@ import ItemsOnTable from "./ItemsOnTable";
 import { forwardRef } from "react";
 
 const TableArea = forwardRef((props, ref) => {
+  const { getDroppable, isDragging, ...other } = props;
   return (
     <StyledWrapper>
       <div id="table" className="droppable-area" ref={ref}>
         <ItemsOnTable
-          getDroppable={props.getDroppable}
-          isDragging={props.isDragging}
+          getDroppable={getDroppable}
+          isDragging={isDragging}
+          {...other}
         ></ItemsOnTable>
-        {/* {props.dragging ? "드래그 중" : "드래그 중 아님"}
-        {props.droppable ? "드롭 가능" : "드롭 불가능"} */}
       </div>
       {!props.dragging || props.droppable || (
         <div id="disable" className="droppable-area"></div>

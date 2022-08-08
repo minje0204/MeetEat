@@ -3,13 +3,14 @@ import Slide from "@mui/material/Slide";
 import ItemTab from "./ItemTab";
 import TableArea from "./TableArea";
 import styled from "styled-components";
-import store from "app/store";
 import SaveTableImage from "./SaveTableImage";
-// import { DragDropContext } from 'react-beautiful-dnd'
+import { useDispatch } from "react-redux";
+import { GetBoundary } from "modules/table";
 
 export default function TableSlide() {
   const [checked, setChecked] = useState(false);
 
+  const dispatch = useDispatch();
   const [droppable, setDroppable] = useState(false);
   const [dragging, setDragging] = useState(false);
 
@@ -33,10 +34,7 @@ export default function TableSlide() {
         height: box.height,
         width: box.width,
       };
-      store.dispatch({
-        type: "GET_BOUNDARY",
-        data: data,
-      });
+      dispatch(GetBoundary(data));
     }
   }
 
