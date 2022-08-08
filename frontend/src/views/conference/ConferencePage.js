@@ -11,7 +11,7 @@ import Chatting from "components/conference/Chatting";
 import Door from "components/conference/Door";
 import { Link } from "react-router-dom";
 
-function Conference() {
+export default function ConferencePage() {
   let params = useParams();
   const location = useLocation();
   const { title, people, userName } = location.state;
@@ -32,7 +32,7 @@ function Conference() {
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (
-    <div id={ Number(people) === 4 ? `room_guest_row_4` : `room_guest_row` }>
+    <div id={Number(people) === 4 ? `room_guest_row_4` : `room_guest_row`}>
       {_.range(0, people).map((_, idx) => (
         <div id="roomguest-chatting">
           <RoomGuest key={`roomGuest-${idx}`} idx={idx} />
@@ -64,8 +64,6 @@ function Conference() {
     </StyledWrapper>
   );
 }
-export default Conference;
-
 const StyledWrapper = styled.div`
   #table-name {
     position: relative;
@@ -86,7 +84,7 @@ const StyledWrapper = styled.div`
   }
   #room_guest_row_4 {
     height: 80vh;
-    margin: 0 15vw;
+    margin: 0 5vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;

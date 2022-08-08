@@ -1,7 +1,7 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
+import * as React from "react";
+import Button from "@mui/material/Button";
 import TabFriends from "components/friends/TabFriends";
-import { Dialog } from '@mui/material';
+import { Dialog } from "@mui/material";
 
 export default function ModalFriends() {
   const [open, setOpen] = React.useState(false);
@@ -10,7 +10,7 @@ export default function ModalFriends() {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="outlined">밥친구 관리</Button>
+      <Button onClick={handleOpen}>밥친구 관리</Button>
       <Dialog
         open={open}
         onClose={handleClose}
