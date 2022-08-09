@@ -63,6 +63,7 @@ const UseSocket = ({ name, setNum }) => {
     onMessage,
   );
   const [rtcPeer, setRtcPeer] = useState("");
+  const [host, setHost] = useState("");
   // const [host, setHost] = useState("");
   onNewParticipant = request => {
     setNum(Object.keys(participants).length + 1);
@@ -110,7 +111,7 @@ const UseSocket = ({ name, setNum }) => {
   };
 
   onExistingParticipants = function (msg) {
-    hostChanged(msg.host);
+    setHost(msg.host);
     let participant = new Participant(name, 0); //나 자신
     setNum(Object.keys(participants).length + 1);
     participants[name] = participant;
@@ -137,7 +138,6 @@ const UseSocket = ({ name, setNum }) => {
 
     setRtcPeer(participant.rtcPeer);
 
-    console.log(msg);
     msg.data.forEach(receiveVideo); // 돌면서 참가자 모두 영상 수신
   };
 
@@ -162,11 +162,6 @@ const UseSocket = ({ name, setNum }) => {
     customSendMsg(message);
   };
 
-  hostChanged = host =>{
-    console.log("host is"+host)
-    console.log(participants)
-  };
-
   const customSendMsg = msg => {
     let flag = msg.id === "joinRoom";
     let jsonMessage = JSON.stringify(msg);
@@ -185,7 +180,7 @@ const UseSocket = ({ name, setNum }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { handleClickSendMessage, readyState, rtcPeer };
+  return { handleClickSendMessage, readyState, rtcPeer, host };
 };
 
 export default UseSocket;
