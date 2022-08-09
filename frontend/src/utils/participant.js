@@ -59,32 +59,6 @@ function Participant(name, idx) {
   this.getVideoElement = function () {
     return video;
   };
-  
-  this.kickOut = function (){
-    
-  }
-
-  if(idx != 0){
-    document.querySelector(`#personal-${idx} #kickOutBtn`).addEventListener("click",()=>{
-      let userName = document.querySelector(`#personal-0 #personal_id`).innerHTML
-      let message = {
-        id: "kickOut",
-        name: userName,
-        kick: name
-      }
-      return message;
-    })
-    document.querySelector(`#personal-${idx} #participantsAudioBtn`).addEventListener("click",()=>{
-      video.muted = !video.muted
-    })
-    document.querySelector(`#personal-${idx} #participantsVideoBtn`).addEventListener("click",()=>{
-      if (video.style.display === "none"){
-        video.style.display = ""
-      }else{
-        video.style.display = "none"
-      }
-    })
-  }
 
   function switchContainerClass() {
     if (container.className === PARTICIPANT_CLASS) {
