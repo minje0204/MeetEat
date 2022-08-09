@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import store from "app/store";
 
 export default function PersonalTable() {
   const myMenu = useSelector(state => state.tableList);

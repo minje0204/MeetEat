@@ -8,9 +8,11 @@ import backbutton from "assets/img/backbutton.png";
 import closebutton from "assets/img/closebutton.png";
 import hotdog from "assets/img/hotdog.png";
 import testinput from "components/profile/testinput";
+import ProfileDialogDetail from "components/profile/ProfileDialogDetail";
 
 export default function ProfileDialog() {
   const [open, setOpen] = React.useState(false);
+  const [openDetail, setOpenDetail] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,10 +22,18 @@ export default function ProfileDialog() {
     setOpen(false);
   };
 
+  const clickDetail = () => {
+    setOpenDetail(true);
+  };
+  const detailClose = () => {
+    setOpenDetail(false);
+  };
+
   const tablealbumlist = testinput.slice(0).reverse().map((e) => (
     <div key={`table${e.id}`}>
-      <div id="example-table"></div>
-      
+      <div id="example-table" onClick={clickDetail}>
+        <ProfileDialogDetail open={openDetail} onClose={detailClose}/>
+      </div>
       { e.id }번째 식탁 - { e.date }
     </div>
   ));
@@ -33,40 +43,40 @@ export default function ProfileDialog() {
       <div onClick={handleClickOpen}>
         프로필 보기
       </div>
-      <Dialog
-        maxWidth="lg"
-        open={open}
-        onClose={handleClose}
-        >
+    <Dialog
+      maxWidth="lg"
+      open={open}
+      onClose={handleClose}
+      >
       <StyledWrapper>
-      <div id="return-exit">
-        <Link to={"/"}>
-          <Button id="btn" variant="outlined" onClick={handleClose} sx={{ fontFamily: "Jua", fontSize: 16, color: "black", ml: 3, backgroundColor: "#BABD42", borderColor: "#82954B" }}>
-            <img src={ backbutton } id="return-icon" alt="수정하기" />회원정보 수정하기
-          </Button>
-        </Link>
-        <img src={ closebutton } id="exit-icon" alt="창닫기" onClick={handleClose}/>
-      </div>
-      <div id="myiconbox">
-        <div id="myicon-layout">
-          <img src={ hotdog } id="myicon" alt="아이콘" />
+        <div id="return-exit">
+          <Link to={"/"}>
+            <Button id="btn" variant="outlined" onClick={handleClose} sx={{ fontFamily: "Jua", fontSize: 16, color: "black", ml: 3, backgroundColor: "#BABD42", borderColor: "#82954B" }}>
+              <img src={ backbutton } id="return-icon" alt="수정하기" />회원정보 수정하기
+            </Button>
+          </Link>
+          <img src={ closebutton } id="exit-icon" alt="창닫기" onClick={handleClose}/>
         </div>
-      </div>
-      <Box id="nickname-hello" component="form">
-        <div>
-          별명 : Nickname
+        <div id="myiconbox">
+          <div id="myicon-layout">
+            <img src={ hotdog } id="myicon" alt="아이콘" />
+          </div>
         </div>
-        <div>
-          소개 : 밥 먹자!!  
+        <Box id="nickname-hello" component="form">
+          <div>
+            별명 : Nickname
+          </div>
+          <div>
+            소개 : 밥 먹자!!  
+          </div>
+        </Box>
+        <hr id="horizon-line"/>
+        <div id="album">
+          <div id="table-album">
+            {tablealbumlist}
+          </div>
         </div>
-      </Box>
-      <hr id="horizon-line"/>
-      <div id="album">
-        <div id="table-album">
-          {tablealbumlist}
-        </div>
-      </div>
-    </StyledWrapper>
+      </StyledWrapper>
     </Dialog>
     </>
   );
@@ -124,7 +134,6 @@ const StyledWrapper = styled.div`
     overflow: hidden;
   }
 	#myicon {
-    cursor: pointer;
     width: 90%;
     height: 90%;
     object-fit: cover;
