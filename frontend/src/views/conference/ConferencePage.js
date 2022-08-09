@@ -11,7 +11,7 @@ import Chatting from "components/conference/Chatting";
 import Door from "components/conference/Door";
 import { Link } from "react-router-dom";
 
-function Conference() {
+export default function ConferencePage() {
   let params = useParams();
   const location = useLocation();
   const { title, peopleLimit, userName } = location.state;
@@ -64,8 +64,6 @@ function Conference() {
     </StyledWrapper>
   );
 }
-export default Conference;
-
 const StyledWrapper = styled.div`
   min-width: 1500px;
   #table-name {
@@ -88,7 +86,7 @@ const StyledWrapper = styled.div`
   }
   #room_guest_row_4 {
     height: 80vh;
-    margin: 0 15vw;
+    margin: 0 5vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;

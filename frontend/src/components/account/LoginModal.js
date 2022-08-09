@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import styled from "styled-components";
-import ModalContent from "./ModalConetent";
+// import ModalContent from "./ModalConetent";
 
 const style = {
   position: "absolute",
@@ -32,7 +32,7 @@ export default function LoginModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <ModalContent handleClose={handleClose}></ModalContent>
+          {/* <ModalContent handleClose={handleClose}></ModalContent> */}
         </Box>
       </Modal>
     </StyledWrapper>

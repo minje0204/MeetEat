@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "components/common/nav/Header";
 import IndexPage from "views/index/IndexPage";
 import RestaurantPage from "views/restaurant/RestaurantPage";
-import Conference from "views/conference/ConferencePage";
+import ProfilePage from "views/profile/ProfilePage"
+import ConferencePage from "views/conference/ConferencePage";
+import SignupPage from "views/signup/SignupPage";
 
 export default function App() {
   return (
@@ -20,8 +22,9 @@ export default function App() {
               />
               <Route
                 path="restaurant/:restaurant_id/conference/:conf_id"
-                element={<Conference />}
+                element={<ConferencePage />}
               />
+              <Route path="signup" element={<SignupPage />} />
             </Route>
           </Routes>
         </Suspense>

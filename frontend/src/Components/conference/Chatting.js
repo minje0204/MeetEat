@@ -9,14 +9,14 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 
 export default function Chatting() {
   const [chatting, setChatting] = React.useState('');
+  const [value, setValue] = React.useState(options[0]);
+  const [inputValue, setInputValue] = React.useState('');
+  
+  const options = ['모두에게', '귓속말 하기'];
 
   const handleChange = (prop) => (event) => {
     setChatting({ ...chatting, [prop]: event.target.value });
   };
-
-  const options = ['모두에게', '귓속말 하기'];
-  const [value, setValue] = React.useState(options[0]);
-  const [inputValue, setInputValue] = React.useState('');
 
   return (
     <StyleWrapper>
