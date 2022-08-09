@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 function Conference() {
   let params = useParams();
   const location = useLocation();
-  const { title, people, userName } = location.state;
+  const { title, peopleLimit, userName } = location.state;
   const [num, setNum] = useState(1);
 
   const { handleClickSendMessage } = UseSocket({
@@ -32,8 +32,8 @@ function Conference() {
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (
-    <div id={ Number(people) === 4 ? `room_guest_row_4` : `room_guest_row` }>
-      {_.range(0, people).map((_, idx) => (
+    <div id={ Number(peopleLimit) === 4 ? `room_guest_row_4` : `room_guest_row` }>
+      {_.range(0, peopleLimit).map((_, idx) => (
         <div id="roomguest-chatting" key={`chatting-${idx}`}>
           <RoomGuest key={`roomGuest-${idx}`} idx={idx} />
           <div id="chatting-ballon">우리 오늘 만나</div>
@@ -45,7 +45,7 @@ function Conference() {
   return (
     <StyledWrapper>
       <div id="table-name">
-        {`[ ${params.restaurant_id}번 식당 - ${params.conf_id}번 테이블 : ${title} (${num}명 / ${people}명) ]`}
+        {`[ ${params.restaurant_id}번 식당 - ${params.conf_id}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
       </div>
       <TableSlide />
       {roomGuestList}
