@@ -17,10 +17,6 @@ export default function App() {
             <Route path="/">
               <Route index element={<IndexPage />} />
               <Route
-                path="profile"
-                element={<ProfilePage />}
-              />
-              <Route
                 path="restaurant/:restaurant_id"
                 element={<RestaurantPage />}
               />

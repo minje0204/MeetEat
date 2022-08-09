@@ -28,6 +28,9 @@ export default function RestaurantPage() {
 
   return (
     <StyledWrapper>
+      <div id="restaurant-name">
+        {`[ ${params.restaurant_id}번 식당 ]`}
+      </div>
       <div id="table-list">{listItems}</div>
       <div id="exit">
         <Link to={ "/" }>
@@ -39,8 +42,18 @@ export default function RestaurantPage() {
 }
 
 const StyledWrapper = styled.div`
+  #restaurant-name {
+    position: fixed;
+    top: 4vh;
+    margin-left: 160px;
+    height: 2vh;
+    font-family: "Jua";
+    font-size: 20px;
+    color: #82954B;
+  }
   #table-list {
     height: 85vh;
+    width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,6 +61,6 @@ const StyledWrapper = styled.div`
     align-content: center;
   }
   #exit {
-    margin-left: 70px;
+    margin-left: 40px;
   }
 `;

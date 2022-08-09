@@ -9,27 +9,52 @@ import TextField from "@mui/material/TextField";
 import table_empty from "assets/img/table_empty.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import roomtitle from "assets/img/roomtitle.png";
 
 export default function ModalMakingRoom(props) {
-
   const { tableNum, restaurantId } = props;
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("");
+  /* eslint-disable-next-line */
+  const [peopleValue, setPeopleValue] = useState("");
+  const [titleValue, setTitleValue] = useState("");
+  const [peopleLimitValue, setPeopleLimitValue] = useState("");
+
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
+  const makeRoom = () => {};
 
-  const [titleValue, setTitleValue] = useState("");
-  const [peopleValue, setPeopleValue] = useState("");
+  /* eslint-disable-next-line */
+  const tableList = [
+    { id: "1", peopleValue: "", peopleLimitValue: "", titleValue: "" },
+    { id: "2", peopleValue: "", peopleLimitValue: "", titleValue: "" },
+    { id: "3", peopleValue: "", peopleLimitValue: "", titleValue: "" },
+    { id: "4", peopleValue: "", peopleLimitValue: "", titleValue: "" },
+    { id: "5", peopleValue: "", peopleLimitValue: "", titleValue: "" },
+    { id: "6", peopleValue: "", peopleLimitValue: "", titleValue: "" },
+    { id: "7", peopleValue: "", peopleLimitValue: "", titleValue: "" },
+    { id: "8", peopleValue: "", peopleLimitValue: "", titleValue: "" },
+  ];
 
   return (
     <StyledWrapper>
       <div id="image-box">
-        <img src={table_empty} alt="" onClick={handleClickOpen} id="image" />
+        <div id="roomtitle-box" onClick={handleClickOpen}>
+          <img src={roomtitle} alt="방제목" id="roomtitle-img"/>
+          <div id="roomtitle-text">
+            <div id="roomtitle-text-number-people">
+              <div id="roomtitle-text-number">{ tableNum }번방</div>
+              <div id="roomtitle-text-people">(2명/6명)</div>
+            </div>
+            {/* 16글자까지 */}
+            <div id="roomtitle-text-title">"오늘 밥 같이 먹을 사람 있나요?"</div>
+          </div>
+        </div>
+        <img src={table_empty} alt="테이블" onClick={handleClickOpen} id="table" />
       </div>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ fontFamily: "Jua", fontSize: 22 }}>{tableNum}번 테이블 만들기</DialogTitle>
@@ -66,20 +91,20 @@ export default function ModalMakingRoom(props) {
             }}
             style={{ marginLeft: "50px" }}
             variant="standard"
-            onChange={e => setPeopleValue(e.target.value)}
+            onChange={e => setPeopleLimitValue(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} sx={{ fontFamily: "Jua", fontSize: 16, color: "inherit" }}>닫기</Button>
-          <Button>
-            <StyledWrapper2>
+          <Button onClick={makeRoom}>
+            <StyledWrapperLink>
               <Link
                 to={`/restaurant/${restaurantId}/conference/${tableNum}`}
-                state={{ title: titleValue, people: peopleValue, userName }}
+                state={{ title: titleValue, peopleLimit: peopleLimitValue, userName }}
                 id="link"
               >만들기
               </Link>
-            </StyledWrapper2>
+            </StyledWrapperLink>
           </Button>
         </DialogActions>
       </Dialog>
@@ -89,12 +114,42 @@ export default function ModalMakingRoom(props) {
 
 const StyledWrapper = styled.div`
   #image-box {
-    width: 24vw;
+    width: 22vw;
+    height: 40vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  #image {
+  #roomtitle-box {
+    cursor: pointer;
+    max-width: 60%;
+    max-height: 40%;
+    display: flex;
+    position: relative;
+  }
+  #roomtitle-img {
+    width: 100%;
+    vertical-align: middle;
+  }
+  #roomtitle-text {
+    padding: 5px 10px;
+    position: absolute;
+    width: 80%;
+    top: 28%;
+    left: 5%;
+    font-family: "Jua";
+  }
+  #roomtitle-text-number-people{
+    height: 30%;
+    display: flex;
+    justify-content: space-between;
+  }
+  #roomtitle-text-title{
+    width: 100%;
+    height: 70%;
+  }
+  #table {
     cursor: pointer;
     max-width: 90%;
     max-height: 90%;
@@ -105,12 +160,12 @@ const StyledWrapper = styled.div`
     -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
   }
-  #image:hover {
+  #table:hover {
     -webkit-filter: brightness(120%);
   }
 `;
 
-const StyledWrapper2 = styled.div`
+const StyledWrapperLink = styled.div`
   #link {
     text-decoration: none;
     color: black;
