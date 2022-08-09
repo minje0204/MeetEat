@@ -177,6 +177,7 @@ public class Room implements Closeable {
         final JsonObject existingParticipantsMsg = new JsonObject();
         existingParticipantsMsg.addProperty("id", "existingParticipants");
         existingParticipantsMsg.add("data", participantsArray);
+        existingParticipantsMsg.addProperty("host", host);
         log.debug("PARTICIPANT {}: sending a list of {} participants", user.getName(),
             participantsArray.size());
         user.sendMessage(existingParticipantsMsg);
