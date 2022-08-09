@@ -13,6 +13,7 @@ function a11yProps(index) {
 }
 
 export default function ItemTab(props) {
+  const { getDroppable, isDragging, ...other } = props;
   const [activeIdx, setActiveIdx] = useState(0);
   const handleChange = (event, newValue) => {
     setActiveIdx(newValue);
@@ -42,10 +43,11 @@ export default function ItemTab(props) {
 
   const listTabPanels = tabContArr.map((tabCont, index) => (
     <ItemTabPanel
-      getDroppable={props.getDroppable}
-      isDragging={props.isDragging}
+      getDroppable={getDroppable}
+      isDragging={isDragging}
       isActive={activeIdx === index}
       index={index}
+      {...other}
       key={`tabpanel-${index}`}
     />
   ));
