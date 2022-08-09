@@ -146,7 +146,7 @@ const UseSocket = ({ name, setNum }) => {
     let chat = msg.chat;
     let idx = participants[name].idx;
     let chattingballoon = document.querySelector(`#roomguest-chatting-${idx} > #chatting-balloon`);
-    chattingballoon.innerHTML = chat;
+    chattingballoon.innerText = chat;
     chattingballoon.style="display:true";
     clearInterval(interval);
     interval = setTimeout(() => {

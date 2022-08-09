@@ -46,7 +46,7 @@ function Participant(name, idx) {
     .querySelector(`#personal-${idx} #personalCam`)
     .appendChild(container);
 
-  document.querySelector(`#personal-${idx} #personal_id`).innerHTML = name;
+  document.querySelector(`#personal-${idx} #personal_id`).innerText = name;
 
   video.id = "video-" + name;
   video.autoplay = true;

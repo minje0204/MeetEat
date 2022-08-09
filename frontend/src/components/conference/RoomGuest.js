@@ -10,7 +10,7 @@ export default function RoomGuest(props) {
   const {host} = props.value;
   const [isHost, setIsHost] = useState("");
   useEffect(()=>{
-    let target = document.querySelector(`#personal-${idx} #personal_id`).innerHTML
+    let target = document.querySelector(`#personal-${idx} #personal_id`).innerText
     if( !target ){
       setIsHost("none");
       return;
