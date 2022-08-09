@@ -13,7 +13,7 @@ export default function Login() {
       .then(res => {
         if (res.data) {
           console.log(res.data);
-          localStorage.setItem("jwtToken", token);
+          localStorage.setItem("jwtToken", res.token);
         }
       })
       .catch(err => {

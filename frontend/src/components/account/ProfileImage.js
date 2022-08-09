@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import styled from "styled-components";
 export default function ProfileImage(props) {
-  const { Image, setImage, ...others } = props;
+  const { Image, setImage, ...other } = props;
   const fileInput = useRef(null);
 
   const onChange = e => {

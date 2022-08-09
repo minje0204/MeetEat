@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { CheckLength } from "utils/filters/CheckLength";
 import ProfileImage from "./ProfileImage";
-import NicknameFilter from "utils/filters/NicknameFilter";
+import { Link } from "react-router-dom";
+import Nickname from "./Nickname";
+import axios from "axios";
 
 export default function SignupForm() {
   const [Image, setImage] = useState(
@@ -12,15 +14,40 @@ export default function SignupForm() {
   );
 
   const [nickname, setNickname] = useState("");
-  const nicknameInput = e => setNickname(e.target.value);
-
+  const [checkedNickname, setCheckedNickname] = useState("");
   const [validNickname, setValidNickname] = useState(true);
+  const isValid = value => setValidNickname(value);
 
   const [selfMessage, setSelfMessage] = useState("");
   const selfMessageInput = e => setSelfMessage(e.target.value);
 
   let email = "youngchan419@gmail.com";
 
+  const signupPost = () => {
+    if (!validNickname) {
+      alert("유효하지 않은 별명입니다. ");
+    } else if (!checkedNickname || nickname != checkedNickname) {
+      alert("별명 중복확인이 필요합니다. ");
+    } else {
+      const data = {
+        email: email,
+        nickname: checkedNickname,
+        self_message: selfMessage,
+        profile_image: Image,
+      };
+      console.log(data);
+      axios
+        .post(`http://localhost:8080/auth/signup`, {
+          data: data,
+        })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  };
   return (
     <StyledWrapper>
       <div className="form-container">
@@ -32,22 +59,13 @@ export default function SignupForm() {
           <p>이메일 </p>
           <p className="personal-data">{email}</p>
         </div>
-        <div className="form-row">
-          <p>별명 </p>
-          <div className="nickname-input-group">
-            <TextField
-              onChange={e => {
-                nicknameInput(e);
-              }}
-              onInput={e => CheckLength(e, 8)}
-              required
-              inputProps={{ maxLength: "40" }}
-              id="nickname-input"
-              label="필수 입력 항목"
-            />
-            <Button variant="contained">중복 확인</Button>
-          </div>
-        </div>
+        <Nickname
+          nickname={nickname}
+          setNickname={setNickname}
+          setCheckedNickname={setCheckedNickname}
+          validNickname={validNickname}
+          isValid={isValid}
+        ></Nickname>
         <div className="wide-p">
           자기 소개
           <span id="text-length">{`<${selfMessage.length}/40>`}</span>
@@ -62,10 +80,14 @@ export default function SignupForm() {
           />
         </div>
         <div className="button-group">
-          <Button variant="contained">저장</Button>
-          <Button variant="contained" id="signup-cancel">
-            회원가입 취소
+          <Button variant="contained" className="btn-wide" onClick={signupPost}>
+            저장
           </Button>
+          <Link to="/">
+            <Button variant="contained" className="btn-wide" id="signup-cancel">
+              회원가입 취소
+            </Button>
+          </Link>
         </div>
       </div>
     </StyledWrapper>
@@ -73,6 +95,9 @@ export default function SignupForm() {
 }
 
 const StyledWrapper = styled.div`
+  a {
+    text-decoration: none;
+  }
   div {
     font-family: "Jua";
     font-size: 1.3rem;
@@ -98,12 +123,6 @@ const StyledWrapper = styled.div`
     font-size: 0.6rem;
     font-weight: none;
   }
-  #nickname-input {
-    width: 200px;
-  }
-  #text-length {
-    font-size: 1rem;
-  }
   .form-row {
     position: relative;
     display: flex;
@@ -123,21 +142,11 @@ const StyledWrapper = styled.div`
     justify-content: center;
     flex-direction: column;
   }
-  .nickname-input-group {
-    display: flex;
-    align-items: center;
-  }
+
   .button-group {
     display: flex;
     justify-content: space-between;
     margin: 2rem 0;
-  }
-  .button-group > button {
-    background-color: #babd42;
-    width: 14rem;
-  }
-  .button-group > button:hover {
-    background-color: #82954b;
   }
   button {
     font-family: "Jua";
@@ -145,17 +154,22 @@ const StyledWrapper = styled.div`
     color: black;
     padding: 0em 0.5em;
     border-width: 1px;
-    border-color: #e2dcc8;
+    border-color: #babd42;
     margin: 0px 4px;
-    background-color: #ffef82;
+    background-color: #babd42;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
     transition: top 0.01s linear;
     text-shadow: none;
     box-shadow: none;
     height: 3rem;
   }
+
   button:hover {
-    background-color: #efd345;
     box-shadow: none;
+    background-color: #82954b;
+  }
+
+  .btn-wide {
+    width: 14rem;
   }
 `;
