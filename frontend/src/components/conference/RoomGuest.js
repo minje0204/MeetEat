@@ -12,10 +12,10 @@ export default function RoomGuest(props) {
         <div id="personal_header">
           <div id="crown-nickname">
             {/* 방장일 경우 조건 분기 필수 */}
-            <div id="crown">
+            <div id="crown" style={{display:"none"}}>
               <img src={ crown } width="20px" height="20px" id="option" alt="방장" />
             </div>
-            Nickname
+            <div id="personal_id"></div>
           </div>
           <div>
             <StyledWrapperLink>
