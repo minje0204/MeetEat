@@ -15,18 +15,18 @@ export default function SignupForm() {
 
   const [nickname, setNickname] = useState("");
   const [checkedNickname, setCheckedNickname] = useState("");
-  const [validNickname, setValidNickname] = useState(true);
+  const [validNickname, setValidNickname] = useState(false);
   const isValid = value => setValidNickname(value);
 
   const [selfMessage, setSelfMessage] = useState("");
   const selfMessageInput = e => setSelfMessage(e.target.value);
-
-  let email = "youngchan419@gmail.com";
+  let params = new URL(document.location).searchParams;
+  const email = params.get("email");
 
   const signupPost = () => {
     if (!validNickname) {
       alert("유효하지 않은 별명입니다. ");
-    } else if (!checkedNickname || nickname != checkedNickname) {
+    } else if (!checkedNickname || nickname !== checkedNickname) {
       alert("별명 중복확인이 필요합니다. ");
     } else {
       const data = {
@@ -66,6 +66,7 @@ export default function SignupForm() {
           validNickname={validNickname}
           isValid={isValid}
         ></Nickname>
+        <p id="nickname-alert">별명은 2~8글자 한글, 영문, 숫자만 가능합니다</p>
         <div className="wide-p">
           자기 소개
           <span id="text-length">{`<${selfMessage.length}/40>`}</span>
@@ -95,6 +96,11 @@ export default function SignupForm() {
 }
 
 const StyledWrapper = styled.div`
+  #nickname-alert {
+    font-size: 1rem;
+    margin: 0;
+    text-align: center;
+  }
   a {
     text-decoration: none;
   }

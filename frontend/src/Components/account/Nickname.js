@@ -30,13 +30,13 @@ export default function Nickname(props) {
             nicknameInput(e);
             isValid(NicknameFilter(e));
           }}
+          error={nickname && !validNickname}
           onInput={e => CheckLength(e, 8)}
           required
           inputProps={{ maxLength: "40" }}
           id="nickname-input"
           label="필수 입력 항목"
         />
-        <p>{validNickname}</p>
         <Button
           variant="contained"
           onClick={checkNickname}

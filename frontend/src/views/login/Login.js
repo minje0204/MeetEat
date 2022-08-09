@@ -13,7 +13,11 @@ export default function Login() {
       .then(res => {
         if (res.data) {
           console.log(res.data);
-          localStorage.setItem("jwtToken", res.token);
+          localStorage.setItem("jwtToken", res.data.token);
+          // state에 user 정보 저장
+          window.location.href = `http://localhost:3000`;
+        } else {
+          window.location.href = `http://localhost:3000/signup?code=${code}&redirect_uri=${redirect_uri}&email=${res.data.email}`;
         }
       })
       .catch(err => {
