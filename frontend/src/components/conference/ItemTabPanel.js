@@ -1,41 +1,28 @@
-import store from "app/store";
 import styled from "styled-components";
 import getItems from "utils/items";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
-// import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { AddItem } from "modules/table";
 
 export default function ItemTabPanel(props) {
-  const { index, isActive, ...other } = props;
+  const { index, isActive, getDroppable, isDragging, ...other } = props;
   let posX = 0;
   let posY = 0;
+  const dispatch = useDispatch();
 
-  // const box = store.getState().box;
-  // let imageWidth = 0;
-  // let imageHeight = 0;
-
-  // const [droppable, setDroppable] = useState(false);
-  // const handleDroppable = (event, newValue) => {
-  //   setDroppable(newValue);
-  // };
   const dragStartHandler = e => {
     const img = new Image();
     img.id = "drag-image";
     img.src = e.target.src;
-    // img.setAttribute(
-    //   "style",
-    //   `{transform: scale(${window.devicePixelRatio});}`,
-    // );
-    // console.log(img);
-    // console.log(window.devicePixelRatio);
     e.dataTransfer.setDragImage(img, img.width * 0.5, img.height * 0.5);
     posX = e.clientX;
     posY = e.clientY;
     props.isDragging(true);
   };
 
+  const box = useSelector(state => state.box.box);
   const dragHandler = e => {
-    const box = store.getState().box;
     e.target.style.left = `${e.target.offsetLeft + e.clientX - posX}px`;
     e.target.style.top = `${e.target.offsetTop + e.clientY - posY}px`;
     posX = e.clientX;
@@ -46,12 +33,9 @@ export default function ItemTabPanel(props) {
       box.left < e.clientX - e.target.naturalWidth / 2 &&
       box.right > e.clientX + e.target.naturalWidth / 2
     ) {
-      props.getDroppable(true);
-      // handleDroppable(true);
-      // console.log("드롭 가능");
+      getDroppable(true);
     } else {
-      props.getDroppable(false);
-      // console.log("불가능");
+      getDroppable(false);
     }
   };
 
@@ -60,7 +44,6 @@ export default function ItemTabPanel(props) {
     const imageWidth = e.target.naturalWidth;
 
     props.isDragging(false);
-    const box = store.getState().box;
     if (
       box.top < e.clientY - imageHeight / 2 &&
       box.bottom > e.clientY + imageHeight / 2 &&
@@ -75,10 +58,7 @@ export default function ItemTabPanel(props) {
         details: e.target.id,
         imageurl: e.target.src,
       };
-      store.dispatch({
-        type: "ADD_ITEM",
-        data: data,
-      });
+      dispatch(AddItem(data));
     }
   };
 
@@ -104,6 +84,7 @@ export default function ItemTabPanel(props) {
                     onDragEnd={dragEndHandler}
                     src={item.imageurl}
                     alt={item.name}
+                    {...other}
                   ></img>
                 </div>
               ))}
