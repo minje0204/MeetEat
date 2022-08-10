@@ -9,12 +9,16 @@ export default function Login() {
   if (code != null) {
     axios
       .get(`http://localhost:8080/login/oauth2/code/${provider}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${code}`,
+        },
         params: { code: code, redirect_uri: redirect_uri },
       })
       .then(res => {
         if (res.data) {
           console.log(res.data);
-          localStorage.setItem("jwtToken", res.data.token);
+          localStorage.setItem("jwt-token", res.data.response.jwt);
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${res.data.token}`;
