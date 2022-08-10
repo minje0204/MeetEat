@@ -4,6 +4,7 @@ import useWebSocket from "react-use-websocket";
 import Participant from "utils/participant";
 import { constraints } from "utils/socket/video";
 const API_URL = process.env.REACT_APP_API_URL;
+const WS_PROTOCOL = process.env.REACT_APP_WS_PROTOCOL;
 const participants = {};
 
 let onExistingParticipants;
@@ -57,7 +58,9 @@ const UseSocket = ({ name, setNum }) => {
   /* eslint-disable no-unused-vars */
   const [messageHistory, setMessageHistory] = useState([]);
   /* eslint-disable no-unused-vars */
-  const [socketUrl, setSocketUrl] = useState(`ws://${API_URL}/groupcall`);
+  const [socketUrl, setSocketUrl] = useState(
+    `${WS_PROTOCOL}://${API_URL}/groupcall`,
+  );
   const { sendMessage, lastMessage, readyState } = useWebSocket(
     socketUrl,
     onMessage,
@@ -73,23 +76,23 @@ const UseSocket = ({ name, setNum }) => {
     var participant = new Participant(sender, Object.keys(participants).length);
     participants[sender] = participant;
     var video = participant.getVideoElement();
-    
+
     var options = {
       remoteVideo: video,
       onicecandidate: candidate =>
-      customSendMsg(participant.onIceCandidate.bind(participant)(candidate)),
+        customSendMsg(participant.onIceCandidate.bind(participant)(candidate)),
     };
-    
+
     participant.rtcPeer = new WebRtcPeer.WebRtcPeerRecvonly(options, function (
       error,
-      ) {
-        if (error) {
-          return console.error(error);
-        }
-        this.generateOffer((a, b, c) =>
+    ) {
+      if (error) {
+        return console.error(error);
+      }
+      this.generateOffer((a, b, c) =>
         customSendMsg(
           participant.offerToReceiveVideo.bind(participant)(a, b, c),
-          ),
+        ),
       );
     });
   }
@@ -121,8 +124,8 @@ const UseSocket = ({ name, setNum }) => {
       mediaConstraints: constraints,
       onicecandidate: candidate =>
         customSendMsg(participant.onIceCandidate.bind(participant)(candidate)),
-      };
-      participant.rtcPeer = new WebRtcPeer.WebRtcPeerSendonly(options, function (
+    };
+    participant.rtcPeer = new WebRtcPeer.WebRtcPeerSendonly(options, function (
       error,
     ) {
       if (error) {
@@ -141,18 +144,20 @@ const UseSocket = ({ name, setNum }) => {
     msg.data.forEach(receiveVideo); // 돌면서 참가자 모두 영상 수신
   };
 
-  onChat = function (msg){
+  onChat = function (msg) {
     let name = msg.name;
     let chat = msg.chat;
     let idx = participants[name].idx;
-    let chattingballoon = document.querySelector(`#roomguest-chatting-${idx} > #chatting-balloon`);
+    let chattingballoon = document.querySelector(
+      `#roomguest-chatting-${idx} > #chatting-balloon`,
+    );
     chattingballoon.innerText = chat;
-    chattingballoon.style="display:true";
+    chattingballoon.style = "display:true";
     clearInterval(interval);
     interval = setTimeout(() => {
-      chattingballoon.style="display:none";
+      chattingballoon.style = "display:none";
     }, 3000);
-  }
+  };
 
   function kickOut() {
     let message = {
@@ -160,7 +165,7 @@ const UseSocket = ({ name, setNum }) => {
       name: name,
     };
     customSendMsg(message);
-  };
+  }
 
   const customSendMsg = msg => {
     let flag = msg.id === "joinRoom";
