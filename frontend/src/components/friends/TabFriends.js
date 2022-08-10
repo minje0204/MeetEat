@@ -150,6 +150,7 @@ const StyledWrapper = styled.div`
   }
   #subtab {
     color: #82954B;
+    margin-top: 15px;
   }
   #subtab-detail {
     width: 100%;
