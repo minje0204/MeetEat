@@ -4,11 +4,11 @@ import ModalMakingRoom from "components/makingroom/ModalMakingRoom";
 import React from "react";
 import { Link } from "react-router-dom";
 import Door from "components/conference/Door";
+import axios from "axios";
 
 export default function RestaurantPage() {
   let params = useParams();
-
-  const tableList = [
+  let tableList = [
     { id: "1" },
     { id: "2" },
     { id: "3" },
@@ -18,6 +18,16 @@ export default function RestaurantPage() {
     { id: "7" },
     { id: "8" },
   ];
+  axios
+    .get(`http://localhost:8080/restaurant`)
+    .then(res => {
+      console.log(res);
+      tableList = res.response;
+    })
+    .catch(err => {
+      console.log(err);
+      alert("방 정보를 불러올 수 없습니다.");
+    });
   const listItems = tableList.map(e => (
     <ModalMakingRoom
       tableNum={e.id}
@@ -33,7 +43,7 @@ export default function RestaurantPage() {
       </div>
       <div id="table-list">{listItems}</div>
       <div id="exit">
-        <Link to={ "/" }>
+        <Link to={"/"}>
           <Door />
         </Link>
       </div>
