@@ -38,7 +38,6 @@ public class OAuth2GoogleUtil {
 
     public OAuth2Response getUserInfoByAccessToken(String accessToken){
         String userInfo = OAuth2Util.getUserInfoByAccessToken(accessToken, userInfoUri);
-        System.out.println(userInfo);
         JSONObject jsonObject = new JSONObject(userInfo);
 
         OAuth2Response oAuth2Response = OAuth2Response.of(

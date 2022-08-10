@@ -35,22 +35,21 @@ public class OAuth2Service {
         return checkUserExists(oAuth2Response);
     }
 
-    public void oAuth2AuthotizationKakao(String code, String redirectUri){
+    public OAuth2Response oAuth2AuthotizationKakao(String code, String redirectUri){
         AuthorizationKakaoDto authorizationKakaoDto = oAuth2KakaoUtil.getAccessTokenByCode(code, redirectUri);
         OAuth2Response oAuth2Response = oAuth2KakaoUtil.getUserInfoByAccessToken(authorizationKakaoDto.getAccess_token());
-        checkUserExists(oAuth2Response);
+        return checkUserExists(oAuth2Response);
     }
 
-    public void oAuth2AuthotizationGoogle(String code, String redirectUri){
+    public OAuth2Response oAuth2AuthotizationGoogle(String code, String redirectUri){
         AuthorizationGoogleDto authorizationgoogleDto = oAuth2GoogleUtil.getAccessTokenByCode(code, redirectUri);
         OAuth2Response oAuth2Response = oAuth2GoogleUtil.getUserInfoByAccessToken(authorizationgoogleDto.getAccess_token());
-        checkUserExists(oAuth2Response);
+        return checkUserExists(oAuth2Response);
     }
 
     public OAuth2Response checkUserExists(OAuth2Response oAuth2Response){
         OAuth2Response result = userRepository.findByEmailAndProvider(oAuth2Response.getEmail(), oAuth2Response.getProvider())
             .map(oAuth2User -> {
-//                oAuth2Response.setJwt(jwtService.createJwt(oAuth2User.getId(), "Check User"));
                 oAuth2Response.setJwt(authTokenProvider.createToken(oAuth2User.getId()).getToken());
                 oAuth2Response.setId(oAuth2User.getId());
                 oAuth2Response.setRole(UserRole.USER);
@@ -59,8 +58,6 @@ public class OAuth2Service {
                 oAuth2Response.setRole(UserRole.ANONYMOUS);
                 return oAuth2Response;
             });
-        System.out.println("Role:"+ result.getRole());
-        System.out.println("Jwt: " + result.getJwt());
         return result;
     }
 }

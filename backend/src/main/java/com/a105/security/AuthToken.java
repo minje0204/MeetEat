@@ -38,12 +38,10 @@ public class AuthToken {
     }
 
     public boolean validate(){
-        System.out.println("validate");
         return this.getTokenClaims() != null;
     }
 
     public Claims getTokenClaims(){
-        System.out.println("getTokenClaims");
         try{
             return Jwts.parserBuilder()
                 .setSigningKey(key)
