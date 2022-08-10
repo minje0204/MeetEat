@@ -5,7 +5,9 @@ import lombok.Getter;
 
 @Getter
 public class UserNicknameRequest {
+
     String nickname;
+
     public void updateUserNickname(User user) {
         user.setNickname(this.nickname);
     }

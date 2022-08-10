@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface UserRepositoryCustom {
 
-    List<User> findByEmail(String email);
+    List<User> searchByEmail(String email);
 
-    List<User> findByNickname(String nickname);
+    List<User> searchByNickname(String nickname);
 
 
 }

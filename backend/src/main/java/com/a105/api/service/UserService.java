@@ -5,56 +5,64 @@ import com.a105.api.request.UserNicknameRequest;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.domain.user.User;
 import com.a105.domain.user.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import com.a105.exception.ResourceNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
 
-    public UserInfoResponse getUserInfo(Long idx){
-        return UserInfoResponse.fromEntity(getUserFromIdx(idx));
+    public UserInfoResponse getUserInfo(Long id) {
+        return UserInfoResponse.fromEntity(findById(id));
     }
 
-    public User getUserFromIdx(Long idx){
-        return userRepository.findById(idx).orElseThrow();
+    public List<UserInfoResponse> getAllUserInfo() {
+        List<UserInfoResponse> userInfos = new ArrayList<>();
+        userRepository.findAll().forEach(user -> userInfos.add(UserInfoResponse.fromEntity(user)));
+        return userInfos;
     }
 
-    public List<User> searchFromEmail(String email){
-        return userRepository.findByEmail(email);
+    public User findById(Long id) {
+        return userRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 
-    public List<User> searchFromNickname(String nickname){
-        return userRepository.findByNickname(nickname);
+    public List<UserInfoResponse> getUserInfosByEmail(String email){
+        List<UserInfoResponse> userInfos = new ArrayList<>();
+        userRepository.searchByEmail(email).forEach(user ->  userInfos.add(getUserInfo(user.getId())));
+        return userInfos;
     }
 
-    public List<User> findAll() {
-        List<User> users = new ArrayList<>();
-        userRepository.findAll().forEach(e -> users.add(e));
-        return users;
+    public List<UserInfoResponse> getUserInfosByNickname(String nickname){
+        List<UserInfoResponse> userInfos = new ArrayList<>();
+        userRepository.searchByNickname(nickname).forEach(user ->  userInfos.add(getUserInfo(user.getId())));
+        return userInfos;
     }
-    
-    public boolean checkNicknameDuplicate(String nickname){
+
+    public boolean checkDuplicateNickname(String nickname) {
         return userRepository.existsByNickname(nickname);
     }
 
     @Transactional
-    public UserInfoResponse updateUserBio(Long idx, UserBioRequest userBioRequest){
-        User user = getUserFromIdx(idx);
+    public UserInfoResponse updateUserBio(Long id, UserBioRequest userBioRequest) {
+        User user = findById(id);
         userBioRequest.updateUserBio(user);
-        return UserInfoResponse.fromEntity(user);
+        return UserInfoResponse.fromEntity(userRepository.save(user));
     }
 
     @Transactional
-    public UserInfoResponse updateUserNickname(Long idx, UserNicknameRequest userNicknameRequest) {
-        User user = getUserFromIdx(idx);
+    public UserInfoResponse updateUserNickname(Long id, UserNicknameRequest userNicknameRequest) {
+        User user = findById(id);
         userNicknameRequest.updateUserNickname(user);
-        return UserInfoResponse.fromEntity(user);
-        // -> exception 작성하기 (ResourceNotFoundException)
+        return UserInfoResponse.fromEntity(userRepository.save(user));
     }
+
+
 }

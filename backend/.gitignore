@@ -18,7 +18,12 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
+/.idea/*
+# Keep the code styles.
+!/.idea/codeStyles
+/.idea/codeStyles/*
+!/.idea/codeStyles/Project.xml
+!/.idea/codeStyles/codeStyleConfig.xml
 *.iws
 *.iml
 *.ipr
@@ -35,3 +40,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Setting ###
+src/main/resources/application.yml
