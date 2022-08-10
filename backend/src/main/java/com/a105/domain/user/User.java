@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,7 +44,15 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
-    @Column(name = "provider_id")
     private String providerId;
+
+    @Builder
+    public User(String email, String nickname, String password, AuthProvider provider, String providerId) {
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+        this.provider = provider;
+        this.providerId = providerId;
+    }
 
 }
