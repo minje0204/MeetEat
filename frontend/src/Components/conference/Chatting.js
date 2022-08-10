@@ -8,12 +8,12 @@ import Autocomplete from '@mui/material/Autocomplete';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 
 export default function Chatting() {
+  const options = ['모두에게', '귓속말 하기'];
+
   const [chatting, setChatting] = React.useState('');
   const [value, setValue] = React.useState(options[0]);
   const [inputValue, setInputValue] = React.useState('');
   
-  const options = ['모두에게', '귓속말 하기'];
-
   const handleChange = (prop) => (event) => {
     setChatting({ ...chatting, [prop]: event.target.value });
   };
@@ -43,7 +43,7 @@ export default function Chatting() {
         />
       </FormControl>
       <div>
-        <SendRoundedIcon sx={{ color: "#EFD345", fontSize: 40, ml: 0.5 }} onClick />
+        <SendRoundedIcon sx={{ color: "#EFD345", fontSize: 40, ml: 0.5 }} />
       </div>
     </StyleWrapper>
   );
