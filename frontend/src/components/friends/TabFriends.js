@@ -8,7 +8,6 @@ import styled from "@emotion/styled";
 import SearchFriends from 'components/friends/SearchFriends';
 import SearchInputFriends from 'components/friends/SearchInputFriends';
 import MyFriends from 'components/friends/MyFriends';
-// import CloseIcon from '@mui/icons-material/Close';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,10 +69,18 @@ export default function TabFriends() {
             <MyFriends />
           </div>
         </TabPanel>
-        <TabPanel component="span" value={value} index={2}>
+        <TabPanel id="search-tab"component="span" value={value} index={2}>
           <div id="search">
             <SearchFriends />
             <SearchInputFriends />
+          </div>
+          <hr id="horizon-line"/>
+          <div id="search-result">
+            <div id="example_1"></div>
+            <div id="example_1"></div>
+            <div id="example_1"></div>
+            <div id="example_1"></div>
+            <div id="example_1"></div>
           </div>
         </TabPanel>
       </div>
@@ -82,20 +89,42 @@ export default function TabFriends() {
 }
 
 const StyledWrapper = styled.div`
-  p.MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root {
-    component: span;
-  }
   #friend-dialog {
     width: 450px;
     height: 580px;
     border: 6px dashed #EFD345;
+    overflow: auto;
   }
   #search {
     display: flex;
     justify-content: space-around;
+    width: 100%;
+    height: 30%;
   }
   #friend-list {
     overflow: auto;
     height: 530px;
+  }
+  #search-result {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #horizon-line {
+    margin: 10px 0 5px;
+    width: 100%;
+    border: 0;
+    height: 1px;
+    background-color: #E2E2E2;
+  }
+  #example_1 {
+    height: 70px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    border: 4px solid #EFD345;
+    border-radius: 20px;
   }
 `;

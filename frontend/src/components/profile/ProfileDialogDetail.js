@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
-import closebutton from "assets/img/closebutton.png";
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 
@@ -89,7 +88,7 @@ const StyledWrapper = styled.div`
     width: 457.75px;
     border: 0;
     height: 1px;
-    background-color: gray;
+    background-color: #E2E2E2;
   }
   #footer {
     width: 100%;
