@@ -17,7 +17,7 @@ export default function ConferencePage() {
   const { title, peopleLimit, userName } = location.state;
   const [num, setNum] = useState(1);
 
-  const { handleClickSendMessage } = UseSocket({
+  const { handleClickSendMessage, rtcPeer, host } = UseSocket({
     name: location.state.userName,
     setNum,
   });
@@ -32,11 +32,14 @@ export default function ConferencePage() {
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (
-    <div id={ Number(peopleLimit) === 4 ? `room_guest_row_4` : `room_guest_row` }>
+    <div id={Number(peopleLimit) === 4 ? `room_guest_row_4` : `room_guest_row`}>
       {_.range(0, peopleLimit).map((_, idx) => (
-        <div id="roomguest-chatting" key={`chatting-${idx}`}>
-          <RoomGuest key={`roomGuest-${idx}`} idx={idx} />
-          <div id="chatting-ballon">우리 오늘 만나</div>
+        <div id={`roomguest-chatting-${idx}`}>
+          <RoomGuest 
+          key={`roomGuest-${idx}`} idx={idx} 
+          value={{host}}
+          />
+          <div id="chatting-balloon" style={{display:'none'}}></div>
         </div>
       ))}
     </div>
@@ -54,11 +57,18 @@ export default function ConferencePage() {
           <Door />
         </Link>
         <div id="switch">
-          <SwitchMic />
-          <SwitchVideo />
+          <SwitchMic
+            value={{rtcPeer: rtcPeer}}>
+          </SwitchMic>
+          <SwitchVideo
+            value={{rtcPeer: rtcPeer}}>
+          </SwitchVideo>
         </div>
         <div id="chatting">
-          <Chatting />
+          <Chatting
+            handleClickSendMessage={handleClickSendMessage}
+            value={{room: title, name: userName}}
+          ></Chatting>
         </div>
       </div>
     </StyledWrapper>
@@ -105,18 +115,18 @@ const StyledWrapper = styled.div`
     align-items: center;
     width: 300px;
   }
-  #chatting-ballon {
-    position: absolute;
-    width: 100px;
-    min-height: 40px;
-    height: auto;
-    margin-top: 50px;
-    background: #d6feff;
+  #chatting-balloon {
+    position:absolute;
+    width:100px;
+    height:auto;
+    min-height:30px;
+    margin-top:50px;
+    background:#d6feff;
     border-radius: 10px;
     font-family: "Jua";
   }
-  #chatting-ballon:after {
-    border-top: 15px solid #d6feff;
+  #chatting-balloon:after {
+    border-top:15px solid #d6feff;
     border-left: 15px solid transparent;
     border-right: 0px solid transparent;
     border-bottom: 0px solid transparent;

@@ -2,10 +2,11 @@ import styled from "@emotion/styled";
 import * as React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 
-export default function StandaloneToggleButton() {
+export default function StandaloneToggleButton(props) {
   const [selected, setSelected] = React.useState(false);
   const options = ['음소거', '음소거 해제'];
   const [value, setValue] = React.useState(options[0]);
+  const {rtcPeer} = props.value;
 
   return (
     <StyledWrapper>
@@ -15,6 +16,7 @@ export default function StandaloneToggleButton() {
         onChange={() => {
           setSelected(!selected);
           setValue(selected === true ? options[0] : options[1]);
+          rtcPeer.audioEnabled = !rtcPeer.audioEnabled
         }}
         sx={{ width: 120, p:0.5}}
         id={ value === options[0] ? "btn" : "btn-clicked" }
