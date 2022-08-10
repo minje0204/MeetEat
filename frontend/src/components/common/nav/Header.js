@@ -22,6 +22,7 @@ const Header = () => {
 export default Header;
 
 const StyledWrapper = styled.div`
+  min-width: 1000px;
   a {
     text-decoration: none;
     color: #000000;
@@ -40,13 +41,13 @@ const StyledWrapper = styled.div`
     font-weight: 100;
     text-align: center;
     align-items: center;
+    width: 150px;
   }
   #logo_meeteat {
     font-family: "Jua";
     font-size: 48px;
     margin-top: 12px;
-    margin-left: -20px;
-    width: 10vw;
+    width: 100px;
   }
   #container {
     height: 6vh;

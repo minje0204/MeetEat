@@ -29,18 +29,18 @@ export default function StandaloneToggleButton(props) {
 
 const StyledWrapper = styled.div`
   #btn {
-    background-color: #FFEF82;
+    background-color: #FFC3C3;
     font-family: "Jua";
     font-size: 16px;
     color: black;
     border-radius: 10%;
-    border: 2px solid #EFD345;
+    border: 2px solid #FF8C8C;
   }
   #btn-clicked {
-    background-color: #EFD345;
+    background-color: #FF8C8C ;
     font-family: "Jua";
     font-size: 16px;
     border-radius: 10%;
-    border: 2px solid #EFD345;
+    border: 2px solid #FF5D5D;
   }
 `;
