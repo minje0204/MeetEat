@@ -1,6 +1,6 @@
 package com.a105.security.oauth2.user;
 
-import com.a105.domain.user.AuthProvider;
+import com.a105.domain.oauth2.AuthProvider;
 
 import java.util.Map;
 
@@ -26,7 +26,7 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getProvider() {
-        return AuthProvider.kakao.toString();
+        return AuthProvider.KAKAO.toString();
     }
 
     @Override

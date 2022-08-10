@@ -1,6 +1,6 @@
 package com.a105.security.oauth2.user;
 
-import com.a105.domain.user.AuthProvider;
+import com.a105.domain.oauth2.AuthProvider;
 import com.a105.exception.OAuth2AuthenticationProcessingException;
 
 import java.util.Map;
@@ -8,13 +8,13 @@ import java.util.Map;
 public class OAuth2UserInfoFactory {
 
     public static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes){
-        if(registrationId.equalsIgnoreCase(AuthProvider.google.toString())){
+        if(registrationId.toUpperCase().equalsIgnoreCase(AuthProvider.GOOGLE.toString())){
             System.out.println("구글 로그인 요청");
             return new GoogleOAuth2UserInfo(attributes);
-        } else if(registrationId.equalsIgnoreCase(AuthProvider.naver.toString())){
+        } else if(registrationId.toUpperCase().equalsIgnoreCase(AuthProvider.NAVER.toString())){
             System.out.println("네이버 로그인 요청");
             return new NaverOAuth2UserInfo((Map) attributes.get("response"));
-        }  else if(registrationId.equalsIgnoreCase(AuthProvider.kakao.toString())){
+        }  else if(registrationId.toUpperCase().equalsIgnoreCase(AuthProvider.KAKAO.toString())){
             System.out.println("카카오 로그인 요청");
             return new KakaoOAuth2UserInfo(attributes);
         } else {

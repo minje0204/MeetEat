@@ -15,8 +15,7 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
-@SpringBootApplication(exclude =
-    {SecurityAutoConfiguration.class})
+@SpringBootApplication()
 @EnableWebSocket
 @EnableConfigurationProperties(AppProperties.class)
 public class BackendApplication implements WebSocketConfigurer {

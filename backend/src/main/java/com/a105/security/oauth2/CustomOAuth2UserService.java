@@ -1,6 +1,6 @@
 package com.a105.security.oauth2;
 
-import com.a105.domain.user.AuthProvider;
+import com.a105.domain.oauth2.AuthProvider;
 import com.a105.domain.user.User;
 import com.a105.domain.user.UserRepository;
 import com.a105.exception.OAuth2AuthenticationProcessingException;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -51,6 +50,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user;
         if(!userOptional.isPresent()){
             throw new OAuth2AuthenticationProcessingException("YOU NEED TO SIGN UP!");
+//            user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         } else {
             user = userOptional.get();
         }
