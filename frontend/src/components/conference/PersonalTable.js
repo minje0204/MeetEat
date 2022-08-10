@@ -2,8 +2,10 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function PersonalTable() {
-  const myMenu = useSelector(state => state.table.tableList);
-  const box = useSelector(state => state.table.box);
+  const myMenu = useSelector(state => {
+    return state.table.present.tableList;
+  });
+  const box = useSelector(state => state.box.box);
   const menuRender = myMenu.map((menu, index) => (
     <img
       className="on-table"

@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 
 export default function SaveTableImage() {
   const myTable = useRef(null);
-  const myMenu = useSelector(state => state.table.tableList);
+  const myMenu = useSelector(state => state.table.present.tableList);
 
   const menuRender = myMenu.map((menu, index) => (
     <div

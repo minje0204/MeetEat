@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "components/common/nav/Header";
 import IndexPage from "views/index/IndexPage";
 import RestaurantPage from "views/restaurant/RestaurantPage";
-import ProfilePage from "views/profile/ProfilePage"
 import ConferencePage from "views/conference/ConferencePage";
 import SignupPage from "views/signup/SignupPage";
 
@@ -16,10 +15,6 @@ export default function App() {
           <Routes>
             <Route path="/">
               <Route index element={<IndexPage />} />
-              <Route
-                path="profile"
-                element={<ProfilePage />}
-              />
               <Route
                 path="restaurant/:restaurant_id"
                 element={<RestaurantPage />}

@@ -3,7 +3,6 @@
 const ADD_ITEM = "todos/ADD_ITEM";
 const REMOVE_ITEM = "todos/REMOVE_ITEM";
 const MOVE_ITEM = "todos/MOVE_ITEM";
-const GET_BOUNDARY = "todos/GET_BOUNDARY";
 
 export const AddItem = data => ({
   type: ADD_ITEM,
@@ -17,10 +16,6 @@ export const MoveItem = data => ({
   type: MOVE_ITEM,
   data,
 });
-export const GetBoundary = data => ({
-  type: GET_BOUNDARY,
-  data,
-});
 
 const initialState = { tableList: [] };
 
@@ -30,10 +25,6 @@ export default function table(state = initialState, action) {
   switch (action.type) {
     case ADD_ITEM:
       return { ...state, tableList: [...state.tableList, action.data] };
-
-    case GET_BOUNDARY:
-      return { ...state, box: action.data };
-
     case REMOVE_ITEM: {
       let newTableList = [...state.tableList];
       newTableList.splice(action.id, 1);

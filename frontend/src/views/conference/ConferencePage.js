@@ -14,10 +14,10 @@ import { Link } from "react-router-dom";
 export default function ConferencePage() {
   let params = useParams();
   const location = useLocation();
-  const { title, people, userName } = location.state;
+  const { title, peopleLimit, userName } = location.state;
   const [num, setNum] = useState(1);
 
-  const { handleClickSendMessage } = UseSocket({
+  const { handleClickSendMessage, rtcPeer, host } = UseSocket({
     name: location.state.userName,
     setNum,
   });
@@ -32,11 +32,14 @@ export default function ConferencePage() {
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (
-    <div id={Number(people) === 4 ? `room_guest_row_4` : `room_guest_row`}>
-      {_.range(0, people).map((_, idx) => (
-        <div id="roomguest-chatting">
-          <RoomGuest key={`roomGuest-${idx}`} idx={idx} />
-          <div id="chatting-ballon">우리 오늘 만나서 너무 반가웠어요</div>
+    <div id={Number(peopleLimit) === 4 ? `room_guest_row_4` : `room_guest_row`}>
+      {_.range(0, peopleLimit).map((_, idx) => (
+        <div id={`roomguest-chatting-${idx}`}>
+          <RoomGuest 
+          key={`roomGuest-${idx}`} idx={idx} 
+          value={{host}}
+          />
+          <div id="chatting-balloon" style={{display:'none'}}></div>
         </div>
       ))}
     </div>
@@ -45,7 +48,7 @@ export default function ConferencePage() {
   return (
     <StyledWrapper>
       <div id="table-name">
-        {`[ ${params.restaurant_id}번 식당 - ${params.conf_id}번 테이블 : ${title} (${num}명 / ${people}명) ]`}
+        {`[ ${params.restaurant_id}번 식당 - ${params.conf_id}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
       </div>
       <TableSlide />
       {roomGuestList}
@@ -54,21 +57,30 @@ export default function ConferencePage() {
           <Door />
         </Link>
         <div id="switch">
-          <SwitchMic />
-          <SwitchVideo />
+          <SwitchMic
+            value={{rtcPeer: rtcPeer}}>
+          </SwitchMic>
+          <SwitchVideo
+            value={{rtcPeer: rtcPeer}}>
+          </SwitchVideo>
         </div>
         <div id="chatting">
-          <Chatting />
+          <Chatting
+            handleClickSendMessage={handleClickSendMessage}
+            value={{room: title, name: userName}}
+          ></Chatting>
         </div>
       </div>
     </StyledWrapper>
   );
 }
 const StyledWrapper = styled.div`
+  min-width: 1500px;
   #table-name {
-    position: relative;
+    position: fixed;
+    top: 4vh;
+    margin-left: 160px;
     height: 2vh;
-    margin-left: 1vw;
     font-family: "Jua";
     font-size: 20px;
     color: #82954B;
@@ -103,24 +115,25 @@ const StyledWrapper = styled.div`
     align-items: center;
     width: 300px;
   }
-  #chatting-ballon {
+  #chatting-balloon {
     position:absolute;
     width:100px;
     height:auto;
+    min-height:30px;
     margin-top:50px;
     background:#d6feff;
     border-radius: 10px;
     font-family: "Jua";
   }
-  #chatting-ballon:after {
+  #chatting-balloon:after {
     border-top:15px solid #d6feff;
     border-left: 15px solid transparent;
     border-right: 0px solid transparent;
     border-bottom: 0px solid transparent;
-    content:"";
-    position:absolute;
-    top:10px;
-    left:-15px;
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: -15px;
   }
   #roomguest-chatting {
     display: flex;

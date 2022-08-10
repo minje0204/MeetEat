@@ -5,7 +5,8 @@ import TableArea from "./TableArea";
 import styled from "styled-components";
 import SaveTableImage from "./SaveTableImage";
 import { useDispatch } from "react-redux";
-import { GetBoundary } from "modules/table";
+import { GetBoundary } from "modules/box";
+import UndoTableCustom from "./UndoTableCustom";
 
 export default function TableSlide() {
   const [checked, setChecked] = useState(false);
@@ -77,6 +78,7 @@ export default function TableSlide() {
                 isDragging={isDragging}
               ></TableArea>
               <div className="button-group">
+                <UndoTableCustom></UndoTableCustom>
                 <SaveTableImage></SaveTableImage>
               </div>
             </div>

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { MoveItem, RemoveItem } from "modules/table";
 
 export default function ItemsOnTable(props) {
-  const myMenu = useSelector(state => state.table.tableList); // 해당 state가 변할 때 마다 현재 컴포넌트를 리렌더링함.
+  const myMenu = useSelector(state => state.table.present.tableList); // 해당 state가 변할 때 마다 현재 컴포넌트를 리렌더링함.
 
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
@@ -23,7 +23,7 @@ export default function ItemsOnTable(props) {
     getStartY(e.clientY);
   };
 
-  const box = useSelector(state => state.table.box);
+  const box = useSelector(state => state.box.box);
   const dragHandler = e => {
     const deltaX = e.clientX - startX;
     const deltaY = e.clientY - startY;
@@ -91,7 +91,6 @@ export default function ItemsOnTable(props) {
       <i
         className="fa-solid fa-circle-minus"
         onClick={() => {
-          console.log(index);
           dispatch(RemoveItem(index));
         }}
       ></i>
