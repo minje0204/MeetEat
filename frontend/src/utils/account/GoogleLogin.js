@@ -4,7 +4,8 @@ export default function GoogleLogin() {
   const client_id = "add here";
   const redirectURI = encodeURI("http://localhost:3000/login/google");
   const state = encodeURI("http://localhost:3000/");
-  const scope = "https://www.googleapis.com/auth/userinfo.email";
+  const scope =
+    "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
   const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&redirect_uri=${redirectURI}&response_type=code&state=${state}&scope=${scope}`;
 
   return (
