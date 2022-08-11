@@ -19,24 +19,24 @@ import static com.a105.api.response.ResponseMessage.*;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService oAuth2Service;
+    private final AuthService authService;
 
     @GetMapping(value = "/google")
     public ResponseEntity<?> googleOAuthRedirect(@RequestParam String code, @RequestParam("redirect_uri") String redirectUri){
-        AuthResponse oAuth2Response = oAuth2Service.oAuth2AuthorizationGoogle(code, redirectUri);
-        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, OAUTH2_LOGIN, oAuth2Response));
+        AuthResponse authResponse = authService.oAuth2AuthorizationGoogle(code, redirectUri);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, OAUTH2_LOGIN, authResponse));
     }
 
     @GetMapping(value = "/kakao")
     public ResponseEntity<?> kakaoOAuthRedirect(@RequestParam String code, @RequestParam("redirect_uri") String redirectUri){
-        AuthResponse oAuth2Response = oAuth2Service.oAuth2AuthorizationKakao(code, redirectUri);
-        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, OAUTH2_LOGIN, oAuth2Response));
+        AuthResponse authResponse = authService.oAuth2AuthorizationKakao(code, redirectUri);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, OAUTH2_LOGIN, authResponse));
     }
 
     @GetMapping(value = "/naver")
     public ResponseEntity<?> naverOAuthRedirect(@RequestParam String code, @RequestParam("redirect_uri") String redirectUri){
-        AuthResponse oAuth2Response = oAuth2Service.oAuth2AuthorizationNaver(code, redirectUri);
-        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, OAUTH2_LOGIN, oAuth2Response));
+        AuthResponse authResponse = authService.oAuth2AuthorizationNaver(code, redirectUri);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, OAUTH2_LOGIN, authResponse));
     }
 
 
@@ -45,7 +45,7 @@ public class AuthController {
     public String getUserInfo(HttpServletRequest request){
         String headerValue = request.getHeader("Authorization");
         String token = headerValue.substring("Bearer ".length());
-        UserInfoResponse userInfoResponse = oAuth2Service.getUserInfoFromToken(token);
+        UserInfoResponse userInfoResponse = authService.getUserInfoFromToken(token);
         return "Success : " + userInfoResponse.getId();
     }
 
