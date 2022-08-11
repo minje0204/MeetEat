@@ -2,42 +2,42 @@ const tableItems = [
   {
     name: "steak",
     type: "western",
-    imageurl: "/images/steak.png",
+    imageurl: "/images/table_items/steak.png",
   },
   {
     name: "spoon_silver",
     type: "silverware",
-    imageurl: "/images/spoon_silver.png",
+    imageurl: "/images/table_items/spoon_silver.png",
   },
   {
     name: "spoon_gold",
     type: "silverware",
-    imageurl: "/images/spoon_gold.png",
+    imageurl: "/images/table_items/spoon_gold.png",
   },
   {
     name: "chopstick_silver",
     type: "silverware",
-    imageurl: "/images/chopstick_silver.png",
+    imageurl: "/images/table_items/chopstick_silver.png",
   },
   {
     name: "chopstick_gold",
     type: "silverware",
-    imageurl: "/images/chopstick_gold.png",
+    imageurl: "/images/table_items/chopstick_gold.png",
   },
   {
     name: "fork_silver",
     type: "silverware",
-    imageurl: "/images/fork_silver.png",
+    imageurl: "/images/table_items/fork_silver.png",
   },
   {
     name: "fork_gold",
     type: "silverware",
-    imageurl: "/images/fork_gold.png",
+    imageurl: "/images/table_items/fork_gold.png",
   },
   {
     name: "rice",
     type: "kfood",
-    imageurl: "/images/rice.png",
+    imageurl: "/images/table_items/rice.png",
   },
 
   // { name: "젓가락", type: "silverware" },

@@ -19,7 +19,7 @@ export default function RestaurantPage() {
     { id: "8" },
   ];
   axios
-    .get(`http://localhost:8080/restaurant`)
+    .get(`http://localhost:8080/restaurant/${params.restaurant_id}`)
     .then(res => {
       console.log(res);
       tableList = res.response;
@@ -38,9 +38,7 @@ export default function RestaurantPage() {
 
   return (
     <StyledWrapper>
-      <div id="restaurant-name">
-        {`[ ${params.restaurant_id}번 식당 ]`}
-      </div>
+      <div id="restaurant-name">{`[ ${params.restaurant_id}번 식당 ]`}</div>
       <div id="table-list">{listItems}</div>
       <div id="exit">
         <Link to={"/"}>
@@ -59,7 +57,7 @@ const StyledWrapper = styled.div`
     height: 2vh;
     font-family: "Jua";
     font-size: 20px;
-    color: #82954B;
+    color: #82954b;
   }
   #table-list {
     height: 85vh;
