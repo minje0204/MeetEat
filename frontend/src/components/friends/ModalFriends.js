@@ -10,16 +10,14 @@ export default function ModalFriends() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>밥친구 관리</Button>
+      <Button onClick={handleOpen} sx={{ border: 1 }}>밥친구 관리</Button>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div>
-          <TabFriends />
-        </div>
+        <TabFriends />
       </Dialog>
     </div>
   );
