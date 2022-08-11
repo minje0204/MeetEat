@@ -1,9 +1,4 @@
 import styled from "@emotion/styled";
-import burgershop from "assets/img/burgershop.png";
-import restaurant from "assets/img/restaurant.png";
-import restaurant_2 from "assets/img/restaurant_2.png";
-import door_open from "assets/img/door_open.png";
-import door_closed from "assets/img/door_closed.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -11,27 +6,30 @@ export default function IndexPage() {
   const restaurantList = [
     {
       id: "1",
-      source: restaurant,
-      door_open: door_open,
-      door_closed: door_closed,
+      source: "/images/index_page/restaurant_1.png",
+      door_open: "/images/index_page/door1_open.png",
+      door_closed: "/images/index_page/door1_closed.png",
     },
     {
       id: "2",
-      source: restaurant_2,
-      door_open: door_open,
-      door_closed: door_closed,
+      source: "/images/index_page/restaurant_2.png",
+      door_open: "/images/index_page/door2_open.png",
+      door_closed: "/images/index_page/door2_closed.png",
     },
     {
       id: "3",
-      source: burgershop,
-      door_open: door_open,
-      door_closed: door_closed,
+      source: "/images/index_page/restaurant_3.png",
+      door_open: "/images/index_page/door3_open.png",
+      door_closed: "/images/index_page/door3_closed.png",
     },
   ];
   const [open, setOpen] = useState(0);
 
   const listItems = restaurantList.map((e, idx) => (
-    <div className="image-container" key={`restaurant${e.id}`}>
+    <div
+      className={`image-container image-container${e.id}`}
+      key={`restaurant${e.id}`}
+    >
       <div
         id="image-box"
         onMouseOver={() => setOpen(e.id)}
@@ -42,14 +40,14 @@ export default function IndexPage() {
 
           <img
             src={e.door_open}
-            id="door_open"
+            className={`door${e.id}_open door`}
             alt="door"
             style={{ display: open === e.id ? "block" : "none" }}
           ></img>
 
           <img
             src={e.door_closed}
-            id="door_closed"
+            className={`door${e.id}_closed door`}
             alt="door"
             style={{ display: open !== e.id ? "block" : "none" }}
           ></img>
@@ -65,19 +63,39 @@ export default function IndexPage() {
 }
 
 const StyledWrapper = styled.div`
-  #door_open {
-    position: absolute;
-    z-index: 100;
-    bottom: -8.5%;
+.door {
+  position: absolute;
+  z-index: 100;
+}
+  .door1_open {
+    bottom: -5.5%;
+    width: 20%;
+    left: 60%;
+  }
+  .door1_closed {
+    bottom: 1.9%;
+    width: 20%;
+    left: 60%;
+  }
+  .door2_open {
+    bottom: -9%;
     width: 26%;
     left: 37%;
   }
-  #door_closed {
-    position: absolute;
-    z-index: 100;
-    bottom: 1.7%;
+  .door2_closed {
+    bottom: 1.3%;
     width: 26%;
     left: 37%;
+  }
+  .door3_open {
+    bottom: -8.1%;
+    width: 26%;
+    left: 38%;
+  }
+  .door3_closed {
+    bottom: 3.3%;
+    width: 26%;
+    left: 38%;
   }
   #restaurant-list {
     min-width: 904px;
@@ -86,8 +104,16 @@ const StyledWrapper = styled.div`
     align-items: flex-end;
     padding: 3rem 3rem 0  3rem;
   }
-  .image-container {
-    width: 33%;
+  .image-container1 {
+    width: 35%;
+    position: relative;
+  }
+  .image-container2 {
+    width: 32%;
+    position: relative;
+  }
+  .image-container3 {
+    width: 44%;
     position: relative;
   }
   #image-box {
