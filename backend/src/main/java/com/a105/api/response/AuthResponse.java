@@ -1,6 +1,7 @@
 package com.a105.api.response;
 
 import com.a105.domain.oauth2.AuthProvider;
+import com.a105.domain.user.User;
 import com.a105.domain.user.UserRole;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,9 +16,10 @@ public class AuthResponse {
     private String email;
     private String nickname;
     private AuthProvider provider;
+    private String profile;
+    private String bio;
     @Setter
     private UserRole role;
-    @Setter
     private String accessToken;
 
     public static AuthResponse of(String email, String nickname, AuthProvider provider){
@@ -28,6 +30,19 @@ public class AuthResponse {
             .build();
     }
 
+    public static AuthResponse toUser(AuthResponse authResponse, User user, UserRole role, String accessToken){
+        return AuthResponse.builder()
+            .id(user.getId())
+            .email(authResponse.getEmail())
+            .nickname(user.getNickname())
+            .provider(authResponse.getProvider())
+            .profile(user.getProfile())
+            .bio(user.getBio())
+            .role(role)
+            .accessToken(accessToken)
+            .build();
+    }
+
     @Override
     public String toString() {
         return "AuthResponse{" +
@@ -35,6 +50,8 @@ public class AuthResponse {
             ", email='" + email + '\'' +
             ", nickname='" + nickname + '\'' +
             ", provider=" + provider +
+            ", profile='" + profile + '\'' +
+            ", bio='" + bio + '\'' +
             ", role=" + role +
             '}';
     }

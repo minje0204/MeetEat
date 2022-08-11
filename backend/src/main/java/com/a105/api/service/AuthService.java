@@ -5,6 +5,7 @@ import com.a105.api.response.UserInfoResponse;
 import com.a105.domain.oauth2.AuthorizationGoogleDto;
 import com.a105.domain.oauth2.AuthorizationKakaoDto;
 import com.a105.domain.oauth2.AuthorizationNaverDto;
+import com.a105.domain.user.User;
 import com.a105.domain.user.UserRepository;
 import com.a105.domain.user.UserRole;
 import com.a105.security.jwt.AuthToken;
@@ -48,10 +49,8 @@ public class AuthService {
     public AuthResponse checkUserExists(AuthResponse authResponse){
         AuthResponse result = userRepository.findByEmailAndProvider(authResponse.getEmail(), authResponse.getProvider())
             .map(oAuth2User -> {
-                authResponse.setAccessToken(authTokenProvider.createToken(oAuth2User.getId()).getToken());
-                authResponse.setId(oAuth2User.getId());
-                authResponse.setRole(UserRole.USER);
-                return authResponse;
+                String accessToken = authTokenProvider.createToken(oAuth2User.getId()).getToken();
+                return AuthResponse.toUser(authResponse, oAuth2User, UserRole.USER, accessToken);
             }).orElseGet(() -> {
                 authResponse.setRole(UserRole.ANONYMOUS);
                 return authResponse;
