@@ -23,6 +23,8 @@ import java.io.IOException;
 @Slf4j
 public class AwsS3Service {
 
+    @Value("${cloud.aws.cloudfront.domain}")
+    private String distributionDomain;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -33,7 +35,7 @@ public class AwsS3Service {
         File fileObj = convertMultiPartFileToFile(file);
         String fileUrl = putS3(fileObj, dirFileName);
         fileObj.delete();
-        return fileUrl;
+        return distributionDomain + dirFileName;
     }
 
     public String uploadBase64Image(String base64, String dirFileName){
@@ -67,7 +69,7 @@ public class AwsS3Service {
 
         String fileUrl = putS3(fileObj, dirFileName);
         fileObj.delete();
-        return fileUrl;
+        return distributionDomain + dirFileName;
     }
 
     public byte[] downloadFile(String fileName) {
