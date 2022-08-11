@@ -7,15 +7,11 @@ import com.a105.api.response.ResponseCode;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.api.service.AwsS3Service;
 import com.a105.api.service.UserService;
-import com.a105.domain.user.User;
 import com.a105.exception.BadRequestException;
 import com.a105.security.CurrentUser;
 import com.a105.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import static com.a105.api.response.ResponseMessage.*;
@@ -28,9 +24,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-
-    @Autowired
-    private AwsS3Service storageService;
+    private final AwsS3Service storageService;
 
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
@@ -98,9 +92,7 @@ public class UserController {
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPLOAD_PROFILE_IMAGE, fileUrl));
     }
 
-
     @GetMapping("/me")
-    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         UserInfoResponse userInfo = userService.getUserInfo(userPrincipal.getId());
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_CURRENT_USER, userInfo));
