@@ -11,7 +11,6 @@ export default function IndexPage() {
     { id: "2", source: restaurant_2 },
     { id: "3", source: burgershop },
   ];
-
   /* axios 샘플 코드
   useEffect(() => {
     let idx = 1;

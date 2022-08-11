@@ -53,7 +53,7 @@ export default function ConferencePage() {
       <TableSlide />
       {roomGuestList}
       <div id="footer">
-        <Link to={ "/restaurant/" + params.restaurant_id }>
+        <Link to={"/restaurant/" + params.restaurant_id}>
           <Door />
         </Link>
         <div id="switch">
@@ -110,11 +110,16 @@ const StyledWrapper = styled.div`
     height: 7vh;
   }
   #switch {
+<<<<<<< HEAD
+    background-color: #fc6677;
+=======
+>>>>>>> f1b3797dd28fbfe1b0f24cf07b48bd6010ba371f
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     width: 300px;
   }
+<<<<<<< HEAD
   #chatting-balloon {
     position:absolute;
     width:100px;
@@ -122,6 +127,18 @@ const StyledWrapper = styled.div`
     min-height:30px;
     margin-top:50px;
     background:#d6feff;
+=======
+<<<<<<< HEAD
+  #chatting {
+=======
+  #chatting-ballon {
+    position: absolute;
+    width: 100px;
+    min-height: 40px;
+    height: auto;
+    margin-top: 50px;
+    background: #d6feff;
+>>>>>>> 972e9de0daa3e41d60e8b8c9c3db41307e8181b8
     border-radius: 10px;
     font-family: "Jua";
   }
@@ -140,5 +157,6 @@ const StyledWrapper = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     align-items: flex-start;
+>>>>>>> f1b3797dd28fbfe1b0f24cf07b48bd6010ba371f
   }
 `;
