@@ -1,10 +1,15 @@
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { SetUserInfo } from "modules/user";
 import { useParams } from "react-router-dom";
+
 export default function Login() {
   let params = new URL(document.location).searchParams;
   const code = params.get("code");
   const provider = useParams().provider;
   const redirect_uri = `http://localhost:3000/login/${provider}`;
+
+  const dispatch = useDispatch();
 
   if (code != null) {
     axios
@@ -16,16 +21,23 @@ export default function Login() {
         params: { code: code, redirect_uri: redirect_uri },
       })
       .then(res => {
-        if (res.data) {
-          console.log(res.data);
-          localStorage.setItem("jwt-token", res.data.response.jwt);
+        if (res.data.response.role === "ANONYMOUS") {
+          window.location.href = `http://localhost:3000/signup?code=${code}&redirect_uri=${redirect_uri}&email=${res.data.response.email}`;
+        } else {
+          localStorage.setItem("jwt-token", res.data.response.accessToken);
           axios.defaults.headers.common[
             "Authorization"
-          ] = `Bearer ${res.data.token}`;
+          ] = `Bearer ${res.data.response.accessToken}`;
+          const data = {
+            nickname: res.data.response.nickname,
+            email: res.data.response.email,
+            bio: res.data.response.bio,
+            profile: res.data.response.profile,
+            accessToken: res.data.response.accessToken,
+          };
+          dispatch(SetUserInfo(data));
           // state에 user 정보 저장
           window.location.href = `http://localhost:3000`;
-        } else {
-          window.location.href = `http://localhost:3000/signup?code=${code}&redirect_uri=${redirect_uri}&email=${res.data.email}`;
         }
       })
       .catch(err => {

@@ -30,7 +30,7 @@ export default function Nickname(props) {
             nicknameInput(e);
             isValid(NicknameFilter(e));
           }}
-          error={nickname && !validNickname}
+          error={Boolean(nickname && !validNickname)}
           onInput={e => CheckLength(e, 8)}
           required
           inputProps={{ maxLength: "40" }}
