@@ -10,6 +10,7 @@ import com.a105.api.service.UserService;
 import com.a105.exception.BadRequestException;
 import com.a105.security.CurrentUser;
 import com.a105.security.UserPrincipal;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final AwsS3Service storageService;
+//    private final AwsS3Service storageService;
 
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
@@ -75,21 +76,20 @@ public class UserController {
 
     @PostMapping("/profile")
     public ResponseEntity<?> uploadProfileImage(@CurrentUser UserPrincipal userPrincipal, @RequestParam(value = "file") MultipartFile file) {
-        String fileUrl = storageService.uploadFile(file, "profile/" + userPrincipal.getId());
-        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPLOAD_PROFILE_IMAGE, fileUrl));
+        UserInfoResponse userInfo = userService.uploadProfileImage(userPrincipal.getId(), file);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPLOAD_PROFILE_IMAGE, userInfo));
     }
 
     @DeleteMapping("/profile")
     public ResponseEntity<?> deleteProfileImage(@CurrentUser UserPrincipal userPrincipal) {
-        storageService.deleteFile("profile/" + userPrincipal.getId());
-        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, DELETE_PROFILE_IMAGE));
+        UserInfoResponse userInfo = userService.deleteProfileImage(userPrincipal.getId());
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, DELETE_PROFILE_IMAGE, userInfo));
     }
 
     @PatchMapping("/profile")
     public ResponseEntity<?> changeProfileImage(@CurrentUser UserPrincipal userPrincipal, @RequestParam(value = "file") MultipartFile file){
-        storageService.deleteFile("profile/" + userPrincipal.getId());
-        String fileUrl = storageService.uploadFile(file, "profile/" + userPrincipal.getId());
-        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPLOAD_PROFILE_IMAGE, fileUrl));
+        UserInfoResponse userInfo = userService.changeProfileImage(userPrincipal.getId(), file);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPLOAD_PROFILE_IMAGE, userInfo));
     }
 
     @GetMapping("/me")

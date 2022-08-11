@@ -12,11 +12,13 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
+    private final AwsS3Service storageService;
     private final UserRepository userRepository;
 
     public UserInfoResponse getUserInfo(Long id) {
@@ -62,6 +64,34 @@ public class UserService {
         User user = findById(id);
         userNicknameRequest.updateUserNickname(user);
         return UserInfoResponse.fromEntity(userRepository.save(user));
+    }
+
+    @Transactional
+    public UserInfoResponse uploadProfileImage(Long id, MultipartFile file){
+        String dirFileName = "profile/" + id;
+        String fileUrl = storageService.uploadMultipartFile(file, dirFileName);
+
+        User user = findById(id);
+        user.setProfile(fileUrl);
+        return UserInfoResponse.fromEntity(userRepository.save(user));
+    }
+
+    @Transactional
+    public UserInfoResponse deleteProfileImage(Long id){
+        String dirFileName = "profile/" + id;
+        storageService.deleteFile(dirFileName);
+
+        User user = findById(id);
+        user.setProfile(null);
+        return UserInfoResponse.fromEntity(userRepository.save(user));
+    }
+
+    @Transactional
+    public UserInfoResponse changeProfileImage(Long id, MultipartFile file){
+        String dirFileName = "profile/" + id;
+        storageService.deleteFile(dirFileName);
+
+        return uploadProfileImage(id, file);
     }
 
 

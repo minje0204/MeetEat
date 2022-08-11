@@ -31,7 +31,7 @@ public class User {
     private String nickname;
 
     private String password;
-
+    @Setter
     private String profile;
 
     @Setter
