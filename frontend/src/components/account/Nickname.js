@@ -1,4 +1,4 @@
-import axios from "axios";
+import Axios from "utils/axios/Axios";
 import NicknameFilter from "utils/filters/NicknameFilter";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
@@ -12,14 +12,12 @@ export default function Nickname(props) {
   const nicknameInput = e => setNickname(e.target.value);
 
   const checkNickname = () => {
-    axios
-      .get(`http://localhost:8080/user/exists/${nickname}`, {
-        nickname: nickname,
-      })
-      .then(res => {
-        console.log(res);
-        setCheckedNickname(res.data.nickname);
-      });
+    Axios.get(`http://localhost:8080/user/exists/${nickname}`, {
+      nickname: nickname,
+    }).then(res => {
+      console.log(res);
+      setCheckedNickname(res.data.nickname);
+    });
   };
   return (
     <StyledWrapper className="form-row">
