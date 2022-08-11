@@ -1,7 +1,7 @@
-package com.a105.security;
+package com.a105.security.jwt;
 
-import com.a105.api.response.OAuth2Response;
-import com.a105.exception.BadRequestException;
+import com.a105.exception.TokenValidFailedException;
+import com.a105.security.UserPrincipal;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,13 +18,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AuthTokenProvider {
-    private String expiry = "10000000000";
+    @Value("${jwt.access-token.expiry}")
+    private String expiry;
     private final Key key;
     private static final String AUTHORITIES_KEY = "role";
-    private static final String SECRET_KEY="MySecretKey1$1$234MySecretKey1$1$234MySecretKey1$1$234MySecretKey1$1$234MySecretKey1$1$234MySecretKey1$1$234MySecretKey1$1$234MySecretKey1$1$234";
 
-    public AuthTokenProvider(){
-        this.key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    public AuthTokenProvider( @Value("${jwt.secret-key}") String secretKey ){
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
     public AuthToken createToken(Long id){
@@ -40,7 +41,6 @@ public class AuthTokenProvider {
     }
 
     public Authentication getAuthentication(AuthToken authToken){
-        System.out.println("getAuthentication");
         if(authToken.validate()){
             Claims claims = authToken.getTokenClaims();
             Collection<? extends GrantedAuthority> authorities =
@@ -51,7 +51,7 @@ public class AuthTokenProvider {
             UserPrincipal principal = new UserPrincipal(Long.parseLong(claims.getSubject()), "", "", authorities);
             return new UsernamePasswordAuthenticationToken(principal, authToken, authorities);
         } else {
-            throw new BadRequestException("TOKEN VALID FAILED");
+            throw new TokenValidFailedException("Failed to generate Token.");
         }
     }
 

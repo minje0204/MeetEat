@@ -1,4 +1,4 @@
-package com.a105.util;
+package com.a105.security.oauth2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;

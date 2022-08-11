@@ -1,4 +1,4 @@
-package com.a105.security;
+package com.a105.security.jwt;
 
 import com.a105.domain.user.UserRole;
 import io.jsonwebtoken.Claims;
