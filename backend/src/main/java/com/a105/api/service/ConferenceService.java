@@ -22,7 +22,7 @@ public class ConferenceService {
         List<ConferenceListResponse> list = new ArrayList<>();
         List<Conference> activeConferenceList = getActiveConferenceList(restaurant);
         for (Conference conference :
-                activeConferenceList) {
+            activeConferenceList) {
             list.add(getConference(conference.getId()));
         }
         return list;
@@ -44,18 +44,23 @@ public class ConferenceService {
         return userConferenceRepository.countCurrentUser(conferenceId);
     }
 
-    public Conference createConference(ConferenceRequest conferenceRequest, int restaurant) {
+    public Conference createConference(ConferenceRequest conferenceRequest, Long userId,
+        int restaurant) {
         Conference conference = Conference.builder()
-                .conferenceRequest(conferenceRequest)
-                .restaurant(restaurant)
-                .build();
+            .conferenceRequest(conferenceRequest)
+            .hostId(userId)
+            .restaurant(restaurant)
+            .build();
         conferenceRepository.save(conference);
         return conference;
     }
 
     public boolean checkConferenceDuplicate(int restaurant, int position) {
-        Conference conference = conferenceRepository.findByRestaurantAndPosition(restaurant, position);
-        if (conference == null) return false;
+        Conference conference = conferenceRepository.findByRestaurantAndPosition(restaurant,
+            position);
+        if (conference == null) {
+            return false;
+        }
         return conference.getCallEndTime() == null;
     }
 }
