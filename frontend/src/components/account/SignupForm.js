@@ -36,7 +36,7 @@ export default function SignupForm() {
         profile_image: Image,
       };
       console.log(data);
-      Axios.post(`http://localhost:8080/auth/signup`, {
+      Axios.post(`/auth/signup`, {
         data: data,
       })
         .then(res => {

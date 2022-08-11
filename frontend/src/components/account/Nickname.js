@@ -12,7 +12,7 @@ export default function Nickname(props) {
   const nicknameInput = e => setNickname(e.target.value);
 
   const checkNickname = () => {
-    Axios.get(`http://localhost:8080/user/exists/${nickname}`, {
+    Axios.get(`/user/exists/${nickname}`, {
       nickname: nickname,
     }).then(res => {
       console.log(res);
