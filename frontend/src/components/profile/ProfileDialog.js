@@ -92,6 +92,8 @@ const StyledWrapper = styled.div`
     text-decoration: none;
   }
   #return-exit {
+    position: sticky;
+    top: 30px;
     width: 100%;
     height: 10px;
     margin: 40px 20px;
