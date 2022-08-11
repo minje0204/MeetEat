@@ -28,16 +28,14 @@ export default function IndexPage() {
       door_closed: door_closed,
     },
   ];
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(0);
 
   const listItems = restaurantList.map((e, idx) => (
     <div className="image-container" key={`restaurant${e.id}`}>
       <div
         id="image-box"
-        onMouseOver={() => {
-          setOpen(true);
-        }}
-        onMouseOut={() => setOpen(false)}
+        onMouseOver={() => setOpen(e.id)}
+        onMouseOut={() => setOpen(0)}
       >
         <Link to={"/restaurant/" + e.id}>
           <img src={e.source} id="image" alt={`restaurant-img-${idx}`}></img>
@@ -46,14 +44,14 @@ export default function IndexPage() {
             src={e.door_open}
             id="door_open"
             alt="door"
-            style={{ display: open ? "block" : "none" }}
+            style={{ display: open === e.id ? "block" : "none" }}
           ></img>
 
           <img
             src={e.door_closed}
             id="door_closed"
             alt="door"
-            style={{ display: !open ? "block" : "none" }}
+            style={{ display: open !== e.id ? "block" : "none" }}
           ></img>
         </Link>
       </div>
@@ -86,7 +84,7 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 3rem;
+    padding: 3rem 3rem 0  3rem;
   }
   .image-container {
     width: 33%;
