@@ -14,14 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-public class UserPrincipal implements UserDetails, OAuth2User {
+public class UserPrincipal implements UserDetails {
 
     private final Long id;
     private final String email;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
-    @Setter
-    private Map<String, Object> attributes;
 
     public UserPrincipal(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities){
         this.id = id;
@@ -30,18 +28,20 @@ public class UserPrincipal implements UserDetails, OAuth2User {
         this.authorities = authorities;
     }
 
-    // 일반 로그인
     public static UserPrincipal create(User user){
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
         return new UserPrincipal(user.getId(), user.getEmail(), user.getPassword(), authorities);
     }
 
-    // OAuth 로그인
-    public static UserPrincipal create(User user, Map<String, Object> attributes) {
-        UserPrincipal userPrincipal = UserPrincipal.create(user);
-        userPrincipal.setAttributes(attributes);
-        return userPrincipal;
+    @Override
+    public String toString() {
+        return "UserPrincipal{" +
+            "id=" + id +
+            ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
+            ", authorities=" + authorities +
+            '}';
     }
 
     @Override
@@ -79,8 +79,4 @@ public class UserPrincipal implements UserDetails, OAuth2User {
         return true;
     }
 
-    @Override
-    public String getName() {
-        return (String) attributes.get("sub");
-    }
 }
