@@ -29,7 +29,7 @@ export default function IndexPage() {
           id="image"
           alt={`restaurant-img-${idx}`}
         ></img>
-        <Button variant="text">식당 {e.id}</Button>
+        <Button id="restaurant-name" variant="text">식당 {e.id}</Button>
       </div>
     </Link>
   ));
@@ -80,5 +80,8 @@ const StyledWrapper = styled.div`
   }
   #image:hover {
     -webkit-filter: brightness(110%);
+  }
+  #restaurant-name {
+    width: 100%;
   }
 `;
