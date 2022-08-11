@@ -5,6 +5,7 @@ import com.a105.kurento.CallHandler;
 import com.a105.kurento.RoomManager;
 import com.a105.kurento.UserRegistry;
 import org.kurento.client.KurentoClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -52,9 +53,12 @@ public class BackendApplication implements WebSocketConfigurer {
         SpringApplication.run(BackendApplication.class, args);
     }
 
+    @Value("${app.cors.allowedOrigins}")
+    private String[] allowedOrigins;
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(groupCallHandler(), "/groupcall")
-            .setAllowedOrigins("http://localhost:3000");
+            .setAllowedOrigins(allowedOrigins);
     }
 }
