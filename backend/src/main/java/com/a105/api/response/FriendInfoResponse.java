@@ -1,6 +1,5 @@
 package com.a105.api.response;
 
-import com.a105.domain.friendship.Friendship;
 import com.a105.domain.friendship.FriendshipDto;
 import com.a105.domain.user.User;
 import lombok.AccessLevel;
