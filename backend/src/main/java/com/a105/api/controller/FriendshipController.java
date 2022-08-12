@@ -11,6 +11,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import com.a105.domain.friendship.Friendship;
+import com.a105.security.CurrentUser;
+import com.a105.security.UserPrincipal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,61 +34,61 @@ public class FriendshipController {
 
     private final FriendshipService friendService;
 
-    @GetMapping(value = "/{id}")
+    @GetMapping
     @Operation(summary = "친구 정보 목록 조회")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "친구 정보 목록 조회 성공", content = @Content(array = @ArraySchema( schema = @Schema(implementation = FriendInfoResponse.class))))
     })
-    public ResponseEntity<?> getFriendList(@PathVariable("id") Long userId){
-        List<FriendInfoResponse> friendInfos = friendService.getFriendList(userId);
+    public ResponseEntity<?> getFriendList(@CurrentUser UserPrincipal userPrincipal){
+        List<FriendInfoResponse> friendInfos = friendService.getFriendList(userPrincipal.getId());
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_FRIEND_LIST, friendInfos));
     }
 
-    @GetMapping(value = "/{id}/waiting")
+    @GetMapping(value = "/waiting")
     @Operation(summary = "수락 대기 중 목록 조회")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "수락 대기 중 목록 조회 성공", content = @Content(array = @ArraySchema( schema = @Schema(implementation = FriendInfoResponse.class))))
     })
-    public ResponseEntity<?> getWaitingList(@PathVariable("id") Long userId){
-        List<FriendInfoResponse> friendInfos = friendService.getWaitingList(userId);
+    public ResponseEntity<?> getWaitingList(@CurrentUser UserPrincipal userPrincipal){
+        List<FriendInfoResponse> friendInfos = friendService.getWaitingList(userPrincipal.getId());
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_WAITING_LIST, friendInfos));
     }
 
-    @PostMapping("/{id}/request/{friend_id}")
+    @PostMapping("/request/{friend_id}")
     @Operation(summary = "친구 추가 요청 전송")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "수락 대기 중 목록 조회 성공", content = @Content( schema = @Schema(implementation = FriendInfoResponse.class)))
     })
-    public ResponseEntity<?> sendRequest(@PathVariable("id") Long userId, @PathVariable("friend_id") Long friendId){
-        FriendInfoResponse friendship = friendService.addRequest(userId, friendId);
+    public ResponseEntity<?> sendRequest(@CurrentUser UserPrincipal userPrincipal, @PathVariable("friend_id") Long friendId){
+        FriendInfoResponse friendship = friendService.addRequest(userPrincipal.getId(), friendId);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, SEND_FRIEND_REQUEST, friendship));
     }
 
-    @DeleteMapping("/{id}/delete/{friend_id}")
+    @DeleteMapping("/delete/{friend_id}")
     @Operation(summary = "친구 삭제")
-    public ResponseEntity<?> deleteFriend(@PathVariable("id") Long userId, @PathVariable("friend_id") Long friendId){
-        friendService.deleteFriend(userId, friendId);
+    public ResponseEntity<?> deleteFriend(@CurrentUser UserPrincipal userPrincipal, @PathVariable("friend_id") Long friendId){
+        friendService.deleteFriend(userPrincipal.getId(), friendId);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, DELETE_FRIEND));
     }
 
-    @DeleteMapping("/{id}/received/decline")
+    @DeleteMapping("/received/decline")
     @Operation(summary = "받은 친구 요청 거절")
-    public ResponseEntity<?> declineReceivedRequest(@PathVariable("id") Long userId, @RequestBody FriendshipRequest friendRequest){
-        friendService.declineReceivedRequest(userId, friendRequest);
+    public ResponseEntity<?> declineReceivedRequest(@CurrentUser UserPrincipal userPrincipal, @RequestBody FriendshipRequest friendRequest){
+        friendService.declineReceivedRequest(userPrincipal.getId(), friendRequest);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, DECLINE_RECEIVED_REQUEST));
     }
 
-    @PatchMapping("/{id}/received/accept")
+    @PatchMapping("/received/accept")
     @Operation(summary = "받은 친구 요청 수락")
-    public ResponseEntity<?> acceptReceivedRequest(@PathVariable("id") Long userId, @RequestBody FriendshipRequest friendRequest){
-        friendService.acceptReceivedRequest(userId, friendRequest);
+    public ResponseEntity<?> acceptReceivedRequest(@CurrentUser UserPrincipal userPrincipal, @RequestBody FriendshipRequest friendRequest){
+        friendService.acceptReceivedRequest(userPrincipal.getId(), friendRequest);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, ACCEPT_RECEIVED_REQUEST));
     }
 
-    @DeleteMapping("/{id}/sent/cancel")
+    @DeleteMapping("/sent/cancel")
     @Operation(summary = "보낸 친구 요청 취소")
-    public ResponseEntity<?> cancelSentRequest(@PathVariable("id") Long userId, @RequestBody FriendshipRequest friendRequest){
-        friendService.cancelSentRequest(userId, friendRequest);
+    public ResponseEntity<?> cancelSentRequest(@CurrentUser UserPrincipal userPrincipal, @RequestBody FriendshipRequest friendRequest){
+        friendService.cancelSentRequest(userPrincipal.getId(), friendRequest);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, CANCEL_SENT_REQUEST));
     }
 

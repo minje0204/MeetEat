@@ -7,6 +7,7 @@ import com.a105.api.response.ResponseCode;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.api.service.AwsS3Service;
 import com.a105.api.service.UserService;
+import com.a105.exception.BadRequestException;
 import com.a105.security.CurrentUser;
 import com.a105.security.UserPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,9 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import static com.a105.api.response.ResponseMessage.*;
@@ -31,9 +30,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-
-    @Autowired
-    private AwsS3Service storageService;
+    private final AwsS3Service storageService;
 
     @GetMapping
     @Operation(summary = "모든 사용자 정보 조회")
@@ -83,47 +80,46 @@ public class UserController {
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, CHECK_DUPLICATE_NICKNAME, checkDuplicate));
     }
 
-    @PatchMapping("/{id}/bio")
+    @PatchMapping("/bio")
     @Operation(summary = "자기소개 수정")
-    public ResponseEntity<?> updateUserBio(@PathVariable("id") Long id,
+    public ResponseEntity<?> updateUserBio(@CurrentUser UserPrincipal userPrincipal,
         @RequestBody UserBioRequest bio) {
-        UserInfoResponse userInfo = userService.updateUserBio(id, bio);
+        UserInfoResponse userInfo = userService.updateUserBio(userPrincipal.getId(), bio);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPDATE_USER_BIO, userInfo));
     }
 
-    @PatchMapping("/{id}/nickname")
+    @PatchMapping("/nickname")
     @Operation(summary = "별명 수정")
-    public ResponseEntity<?> updateUserNickname(@PathVariable("id") Long id,
+    public ResponseEntity<?> updateUserNickname(@CurrentUser UserPrincipal userPrincipal,
         @RequestBody UserNicknameRequest nickname) {
-        UserInfoResponse userInfo = userService.updateUserNickname(id, nickname);
+        UserInfoResponse userInfo = userService.updateUserNickname(userPrincipal.getId(), nickname);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPDATE_USER_NICKNAME, userInfo));
     }
 
-    @PostMapping("/{id}/profile")
+
+    @PostMapping("/profile")
     @Operation(summary = "프로필 사진 업로드")
-    public ResponseEntity<?> uploadProfileImage(@PathVariable("id") Long id, @RequestParam(value = "file") MultipartFile file) {
-        String fileUrl = storageService.uploadFile(file, "profile/" + id);
+    public ResponseEntity<?> uploadProfileImage(@CurrentUser UserPrincipal userPrincipal, @RequestParam(value = "file") MultipartFile file) {
+        String fileUrl = storageService.uploadFile(file, "profile/" + userPrincipal.getId());
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPLOAD_PROFILE_IMAGE, fileUrl));
     }
 
-    @DeleteMapping("/{id}/profile")
+    @DeleteMapping("/profile")
     @Operation(summary = "프로필 사진 삭제")
-    public ResponseEntity<?> deleteProfileImage(@PathVariable("id") Long id) {
-        storageService.deleteFile("profile/" + id);
+    public ResponseEntity<?> deleteProfileImage(@CurrentUser UserPrincipal userPrincipal) {
+        storageService.deleteFile("profile/" + userPrincipal.getId());
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, DELETE_PROFILE_IMAGE));
     }
 
-    @PatchMapping("/{id}/profile")
+    @PatchMapping("/profile")
     @Operation(summary = "프로필 사진 수정")
-    public ResponseEntity<?> changeProfileImage(@PathVariable("id") Long id, @RequestParam(value = "file") MultipartFile file){
-        storageService.deleteFile("profile/" + id);
-        String fileUrl = storageService.uploadFile(file, "profile/" + id);
+    public ResponseEntity<?> changeProfileImage(@CurrentUser UserPrincipal userPrincipal, @RequestParam(value = "file") MultipartFile file){
+        storageService.deleteFile("profile/" + userPrincipal.getId());
+        String fileUrl = storageService.uploadFile(file, "profile/" + userPrincipal.getId());
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, UPLOAD_PROFILE_IMAGE, fileUrl));
     }
 
-
     @GetMapping("/me")
-    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "현재 로그인한 사용자 정보 조회")
     public ResponseEntity<?> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         UserInfoResponse userInfo = userService.getUserInfo(userPrincipal.getId());
