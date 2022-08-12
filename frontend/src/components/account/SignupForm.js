@@ -9,50 +9,52 @@ import Nickname from "./Nickname";
 import Axios from "utils/axios/Axios";
 
 export default function SignupForm() {
-  const [Image, setImage] = useState(
-    "/images/profile_image/default_profile.png",
-  );
+  const [Image, setImage] = useState({});
 
   const [nickname, setNickname] = useState("");
   const [checkedNickname, setCheckedNickname] = useState("");
   const [validNickname, setValidNickname] = useState(false);
   const isValid = value => setValidNickname(value);
 
-  const [selfMessage, setSelfMessage] = useState("");
-  const selfMessageInput = e => setSelfMessage(e.target.value);
+  const [bio, setBio] = useState("");
+  const bioInput = e => setBio(e.target.value);
   let params = new URL(document.location).searchParams;
   const email = params.get("email");
-
   const signupPost = () => {
-    if (!validNickname) {
-      alert("유효하지 않은 별명입니다. ");
-    } else if (!checkedNickname || nickname !== checkedNickname) {
-      alert("별명 중복확인이 필요합니다. ");
-    } else {
-      const data = {
-        email: email,
-        nickname: checkedNickname,
-        self_message: selfMessage,
-        profile_image: Image,
-      };
-      console.log(data);
-      Axios.post(`/auth/signup`, {
-        data: data,
-      })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    // if (!validNickname) {
+    //   alert("유효하지 않은 별명입니다. ");
+    // } else if (!checkedNickname || nickname !== checkedNickname) {
+    //   alert("별명 중복확인이 필요합니다. ");
+    // } else {
+    const bodyFormData = new FormData();
+    const data = {
+      email: email,
+      nickname: checkedNickname,
+      bio: bio,
+      profile_image: Image,
+    };
+    bodyFormData.append("data", data);
+    bodyFormData.append("multipartFile", Image);
+    for (var pair of bodyFormData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
     }
+    Axios.post(`/auth/signup`, {
+      data: bodyFormData,
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    // }
   };
   return (
     <StyledWrapper>
       <div className="form-container">
         <h2>회원정보 입력</h2>
         <div className="wide-p">프로필 사진</div>
-        <ProfileImage Image={Image} setImage={setImage}></ProfileImage>
+        <ProfileImage setImage={setImage}></ProfileImage>
 
         <div className="form-row">
           <p>이메일 </p>
@@ -68,11 +70,11 @@ export default function SignupForm() {
         <p id="nickname-alert">별명은 2~8글자 한글, 영문, 숫자만 가능합니다</p>
         <div className="wide-p">
           자기 소개
-          <span id="text-length">{`<${selfMessage.length}/40>`}</span>
+          <span id="text-length">{`<${bio.length}/40>`}</span>
         </div>
         <div className="form-row">
           <TextField
-            onChange={selfMessageInput}
+            onChange={bioInput}
             onInput={e => CheckLength(e, 40)}
             fullWidth
             id="fullWidth"

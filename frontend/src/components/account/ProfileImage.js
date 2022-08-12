@@ -1,7 +1,12 @@
 import { useRef } from "react";
+import { useState } from "react";
 import styled from "styled-components";
+
 export default function ProfileImage(props) {
-  const { Image, setImage, ...other } = props;
+  const { setImage } = props;
+  const [preview, setPreview] = useState(
+    "/images/profile_image/default_profile.png",
+  );
   const fileInput = useRef(null);
 
   const onChange = e => {
@@ -15,7 +20,7 @@ export default function ProfileImage(props) {
         const reader = new FileReader();
         reader.onload = () => {
           if (reader.readyState === 2) {
-            setImage(reader.result);
+            setPreview(reader.result);
           }
         };
         if (e.target.files[0]) {
@@ -33,7 +38,7 @@ export default function ProfileImage(props) {
           <img
             id="profile-image"
             alt="profile_image"
-            src={Image}
+            src={preview}
             onClick={() => {
               fileInput.current.click();
             }}

@@ -12,7 +12,7 @@ export default function Login() {
   const dispatch = useDispatch();
 
   if (code != null) {
-    Axios.get(`/login/oauth2/code/${provider}`, {
+    Axios.get(`/auth/login/${provider}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${code}`,
