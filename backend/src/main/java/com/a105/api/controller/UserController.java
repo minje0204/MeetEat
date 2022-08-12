@@ -3,6 +3,7 @@ package com.a105.api.controller;
 import com.a105.api.request.UserBioRequest;
 import com.a105.api.request.UserNicknameRequest;
 import com.a105.api.response.DefaultResponse;
+import com.a105.api.response.NicknameResponse;
 import com.a105.api.response.ResponseCode;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.api.service.UserService;
@@ -74,7 +75,7 @@ public class UserController {
         @ApiResponse(responseCode = "200", description = "모든 사용자 정보 조회 성공")
     })
     public ResponseEntity<?> checkNicknameDuplicate(@PathVariable String nickname) {
-        boolean checkDuplicate = userService.checkDuplicateNickname(nickname);
+        NicknameResponse checkDuplicate = userService.checkDuplicateNickname(nickname);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, CHECK_DUPLICATE_NICKNAME, checkDuplicate));
     }
 
