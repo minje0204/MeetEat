@@ -4,6 +4,7 @@ import com.a105.domain.userConference.UserConference;
 import com.a105.domain.userConference.UserConferenceRepository;
 import com.a105.domain.conference.ConferenceRepository;
 import com.a105.domain.user.UserRepository;
+import com.a105.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
