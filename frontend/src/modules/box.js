@@ -1,6 +1,6 @@
 // actions
 
-const GET_BOUNDARY = "todos/GET_BOUNDARY";
+const GET_BOUNDARY = "box/GET_BOUNDARY";
 
 export const GetBoundary = data => ({
   type: GET_BOUNDARY,

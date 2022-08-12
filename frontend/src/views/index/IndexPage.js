@@ -11,7 +11,6 @@ export default function IndexPage() {
     { id: "2", source: restaurant_2 },
     { id: "3", source: burgershop },
   ];
-
   /* axios 샘플 코드
   useEffect(() => {
     let idx = 1;
@@ -30,7 +29,9 @@ export default function IndexPage() {
           id="image"
           alt={`restaurant-img-${idx}`}
         ></img>
-        <Button id="restaurant-name" variant="text">식당 {e.id}</Button>
+        <Button id="restaurant-name" variant="text">
+          식당 {e.id}
+        </Button>
       </div>
     </Link>
   ));
