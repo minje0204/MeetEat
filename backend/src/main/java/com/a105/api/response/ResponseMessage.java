@@ -4,6 +4,8 @@ public final class ResponseMessage {
 
     public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러";
 
+    public static final String OAUTH2_LOGIN = "로그인 성공";
+
     // User 관련 응답
     public static final String GET_ALL_USERS = "모든 사용자 정보 조회 성공";
     public static final String GET_USER = "특정 사용자 정보 조회 성공";
