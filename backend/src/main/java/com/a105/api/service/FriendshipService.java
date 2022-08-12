@@ -56,13 +56,15 @@ public class FriendshipService {
      * 새로 친구 요청을 보낸다.
      * @param friendId
      */
-    public Friendship addRequest(Long userId, Long friendId){
+    public FriendInfoResponse addRequest(Long userId, Long friendId){
         Optional<Friendship> sent = findBySenderIdAndReceiverId(userId, friendId);
         Optional<Friendship> received = findBySenderIdAndReceiverId(friendId, userId);
 
         if(sent.isEmpty() && received.isEmpty()){
             Friendship newFriendship = friendRepository.save(new Friendship(userId, friendId, 0));
-            return newFriendship;
+            User friend = userService.findById(friendId);
+            return FriendInfoResponse.fromEntity(friend, friendRepository.converToDto(userId,
+                newFriendship.getId()));
         } else if(sent.isPresent() && sent.get().getStatus() == 0){
             throw new BadRequestException("상대에게 이미 요청을 보냈습니다.");
         } else if(received.isPresent() && received.get().getStatus() == 0) {

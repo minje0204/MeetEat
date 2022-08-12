@@ -8,4 +8,6 @@ public interface FriendshipRepositoryCustom {
     public List<FriendshipDto> findReceivedRequests(Long id);
 
     public List<FriendshipDto> findSentRequests(Long id);
+
+    FriendshipDto converToDto(Long userId, Long id);
 }

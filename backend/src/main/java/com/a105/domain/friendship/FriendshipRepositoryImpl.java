@@ -11,22 +11,22 @@ public class FriendshipRepositoryImpl implements FriendshipRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<FriendshipDto> findFriendshipDtos(Long id){
+    public List<FriendshipDto> findFriendshipDtos(Long userId){
         QFriendship friendship = QFriendship.friendship;
 
         List<FriendshipDto> friendDtos = new ArrayList<>();
 
         // Received Requests
-        friendDtos.addAll(jpaQueryFactory.select(new QFriendshipDto(friendship.id, friendship.senderId, friendship.status, friendship.receiverId.eq(id)))
+        friendDtos.addAll(jpaQueryFactory.select(new QFriendshipDto(friendship.id, friendship.senderId, friendship.status, friendship.receiverId.eq(userId)))
             .from(friendship)
-            .where(friendship.receiverId.eq(id)
+            .where(friendship.receiverId.eq(userId)
                 .and(friendship.status.eq(1)))
             .fetch());
 
         // Sent Requests
-        friendDtos.addAll(jpaQueryFactory.select(new QFriendshipDto(friendship.id, friendship.receiverId, friendship.status, friendship.receiverId.eq(id)))
+        friendDtos.addAll(jpaQueryFactory.select(new QFriendshipDto(friendship.id, friendship.receiverId, friendship.status, friendship.receiverId.eq(userId)))
             .from(friendship)
-            .where(friendship.senderId.eq(id)
+            .where(friendship.senderId.eq(userId)
                 .and(friendship.status.eq(1)))
             .fetch());
 
@@ -34,32 +34,49 @@ public class FriendshipRepositoryImpl implements FriendshipRepositoryCustom {
     }
 
     @Override
-    public List<FriendshipDto> findReceivedRequests(Long id){
+    public List<FriendshipDto> findReceivedRequests(Long userId){
         QFriendship friendship = QFriendship.friendship;
 
         List<FriendshipDto> friendDtos = new ArrayList<>();
 
         friendDtos.addAll(jpaQueryFactory.select(new QFriendshipDto(friendship.id,
-            friendship.senderId, friendship.status, friendship.receiverId.eq(id)))
+            friendship.senderId, friendship.status, friendship.receiverId.eq(userId)))
             .from(friendship)
-            .where(friendship.receiverId.eq(id)
+            .where(friendship.receiverId.eq(userId)
                 .and(friendship.status.eq(0)))
             .fetch());
         return friendDtos;
     }
 
     @Override
-    public List<FriendshipDto> findSentRequests(Long id){
+    public List<FriendshipDto> findSentRequests(Long userId){
         QFriendship friendship = QFriendship.friendship;
 
         List<FriendshipDto> friendDtos = new ArrayList<>();
 
         friendDtos.addAll(jpaQueryFactory.select(new QFriendshipDto(friendship.id,
-            friendship.receiverId, friendship.status, friendship.receiverId.eq(id)))
+            friendship.receiverId, friendship.status, friendship.receiverId.eq(userId)))
             .from(friendship)
-            .where(friendship.senderId.eq(id)
+            .where(friendship.senderId.eq(userId)
                 .and(friendship.status.eq(0)))
             .fetch());
         return friendDtos;
+    }
+
+    @Override
+    public FriendshipDto converToDto(Long userId, Long id){
+        QFriendship friendship = QFriendship.friendship;
+
+        FriendshipDto ifSent = jpaQueryFactory.select(new QFriendshipDto(friendship.id,
+            friendship.receiverId, friendship.status, friendship.receiverId.eq(userId)))
+        .from(friendship)
+            .where(friendship.id.eq(id)).fetch().get(0);
+
+        FriendshipDto ifReceived = jpaQueryFactory.select(new QFriendshipDto(friendship.id,
+                friendship.receiverId, friendship.status, friendship.receiverId.eq(userId)))
+            .from(friendship)
+            .where(friendship.id.eq(id)).fetch().get(0);
+
+        return ifSent != null ? ifSent : ifReceived;
     }
 }
