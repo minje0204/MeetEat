@@ -5,6 +5,10 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,17 +23,53 @@ import java.io.IOException;
 @Slf4j
 public class AwsS3Service {
 
+    @Value("${cloud.aws.cloudfront.domain}")
+    private String distributionDomain;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     @Autowired
     private AmazonS3 s3Client;
 
-    public String uploadFile(MultipartFile file, String dirFileName) {
+    public String uploadMultipartFile(MultipartFile file, String dirFileName) {
         File fileObj = convertMultiPartFileToFile(file);
         String fileUrl = putS3(fileObj, dirFileName);
         fileObj.delete();
-        return fileUrl;
+        return distributionDomain + dirFileName;
+    }
+
+    public String uploadBase64Image(String base64, String dirFileName){
+        String[] fileBase64 = base64.split(",");
+        String extension;
+        switch (fileBase64[0]) {
+            case "data:image/jpeg;base64":
+                extension = "jpeg";
+                break;
+            case "data:image/png;base64":
+                extension = "png";
+                break;
+            default:
+                extension = "jpg";
+                break;
+        }
+        byte[] imageBytes = DatatypeConverter.parseBase64Binary(fileBase64[1]);
+        File fileObj = new File("tray.png");
+        BufferedImage bufImg = null;
+        try {
+            bufImg = ImageIO.read(new ByteArrayInputStream(imageBytes));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            ImageIO.write(bufImg, extension, fileObj);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String fileUrl = putS3(fileObj, dirFileName);
+        fileObj.delete();
+        return distributionDomain + dirFileName;
     }
 
     public byte[] downloadFile(String fileName) {

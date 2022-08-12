@@ -29,14 +29,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/restaurant/**");
     }
     @Override
+    public void configure(WebSecurity web) {
+        web.ignoring()
+            .antMatchers("**");// Todo: wss 테스트위해서 임시 세팅
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authTokenProvider);
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(
+            authTokenProvider);
 
         http
-//            .authorizeRequests()
-//            .antMatchers("/login/**").permitAll()
-//            .anyRequest().authenticated()
-//            .and()
+            .authorizeRequests()
+            .antMatchers("/auth/**").permitAll()
+            .anyRequest().authenticated()
+            .and()
             .headers()
             .frameOptions()
             .sameOrigin()

@@ -56,13 +56,15 @@ public class FriendshipService {
      * 새로 친구 요청을 보낸다.
      * @param friendId
      */
-    public Friendship addRequest(Long userId, Long friendId){
+    public FriendInfoResponse addRequest(Long userId, Long friendId){
         Optional<Friendship> sent = findBySenderIdAndReceiverId(userId, friendId);
         Optional<Friendship> received = findBySenderIdAndReceiverId(friendId, userId);
 
         if(sent.isEmpty() && received.isEmpty()){
             Friendship newFriendship = friendRepository.save(new Friendship(userId, friendId, 0));
-            return newFriendship;
+            User friend = userService.findById(friendId);
+            return FriendInfoResponse.fromEntity(friend, friendRepository.converToDto(userId,
+                newFriendship.getId()));
         } else if(sent.isPresent() && sent.get().getStatus() == 0){
             throw new BadRequestException("상대에게 이미 요청을 보냈습니다.");
         } else if(received.isPresent() && received.get().getStatus() == 0) {
@@ -121,7 +123,6 @@ public class FriendshipService {
      */
     @Transactional
     public void acceptReceivedRequest(Long userId, FriendshipRequest friendRequest){
-        // 받은 요청을 수락한다.
         Friendship friendship = findById(friendRequest.getId());
         if(friendship.getSenderId() != userId && friendship.getReceiverId() != userId) {
             throw new BadRequestException("요청에 속하지 않는 사용자입니다.");
@@ -137,7 +138,6 @@ public class FriendshipService {
      * @param friendRequest
      */
     public void cancelSentRequest(Long userId, FriendshipRequest friendRequest){
-        // 보낸 요청을 취소한다.
         Friendship friendship = findById(friendRequest.getId());
         if(friendship.getSenderId() != userId && friendship.getReceiverId() != userId) {
             throw new BadRequestException("요청에 속하지 않는 사용자입니다.");
