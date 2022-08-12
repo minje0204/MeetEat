@@ -29,7 +29,9 @@ export default function IndexPage() {
           id="image"
           alt={`restaurant-img-${idx}`}
         ></img>
-        <Button id="restaurant-name" variant="text">식당 {e.id}</Button>
+        <Button id="restaurant-name" variant="text">
+          식당 {e.id}
+        </Button>
       </div>
     </Link>
   ));

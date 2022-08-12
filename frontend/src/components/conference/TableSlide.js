@@ -24,7 +24,7 @@ export default function TableSlide() {
 
   const table = useRef(null);
 
-  function getBoundary() {
+  function getBoundaryLocal() {
     if (table.current) {
       const box = table.current.getBoundingClientRect();
       const data = {
@@ -40,7 +40,7 @@ export default function TableSlide() {
   }
 
   window.addEventListener("resize", () => {
-    getBoundary();
+    getBoundaryLocal();
   });
 
   const handleChange = () => {
@@ -58,7 +58,7 @@ export default function TableSlide() {
         in={checked}
         mountOnEnter
         unmountOnExit
-        onEntered={getBoundary}
+        onEntered={getBoundaryLocal}
       >
         <div className="slide-container">
           <div className="button" onClick={handleChange}>

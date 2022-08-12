@@ -1,8 +1,8 @@
 // actions
 
-const ADD_ITEM = "todos/ADD_ITEM";
-const REMOVE_ITEM = "todos/REMOVE_ITEM";
-const MOVE_ITEM = "todos/MOVE_ITEM";
+const ADD_ITEM = "table/ADD_ITEM";
+const REMOVE_ITEM = "table/REMOVE_ITEM";
+const MOVE_ITEM = "table/MOVE_ITEM";
 
 export const AddItem = data => ({
   type: ADD_ITEM,
