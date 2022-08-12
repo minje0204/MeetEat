@@ -33,10 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authTokenProvider);
 
         http
-//            .authorizeRequests()
-//            .antMatchers("/login/**").permitAll()
-//            .anyRequest().authenticated()
-//            .and()
+            .authorizeRequests()
+            .antMatchers("/auth/**").permitAll()
+            .anyRequest().authenticated()
+            .and()
             .headers()
             .frameOptions()
             .sameOrigin()

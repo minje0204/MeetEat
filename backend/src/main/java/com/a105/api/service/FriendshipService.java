@@ -123,7 +123,6 @@ public class FriendshipService {
      */
     @Transactional
     public void acceptReceivedRequest(Long userId, FriendshipRequest friendRequest){
-        // 받은 요청을 수락한다.
         Friendship friendship = findById(friendRequest.getId());
         if(friendship.getSenderId() != userId && friendship.getReceiverId() != userId) {
             throw new BadRequestException("요청에 속하지 않는 사용자입니다.");
@@ -139,7 +138,6 @@ public class FriendshipService {
      * @param friendRequest
      */
     public void cancelSentRequest(Long userId, FriendshipRequest friendRequest){
-        // 보낸 요청을 취소한다.
         Friendship friendship = findById(friendRequest.getId());
         if(friendship.getSenderId() != userId && friendship.getReceiverId() != userId) {
             throw new BadRequestException("요청에 속하지 않는 사용자입니다.");

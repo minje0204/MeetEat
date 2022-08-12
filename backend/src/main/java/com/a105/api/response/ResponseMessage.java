@@ -5,6 +5,7 @@ public final class ResponseMessage {
     public static final String INTERNAL_SERVER_ERROR = "서버 내부 에러";
 
     public static final String OAUTH2_LOGIN = "로그인 성공";
+    public static final String SIGN_UP = "회원가입 성공";
 
     // User 관련 응답
     public static final String GET_ALL_USERS = "모든 사용자 정보 조회 성공";
@@ -26,5 +27,6 @@ public final class ResponseMessage {
     public static final String ACCEPT_RECEIVED_REQUEST = "받은 친구 요청 수락 성공";
     public static final String CANCEL_SENT_REQUEST = "보낸 친구 요청 취소 성공";
 
-
+    // Tray
+    public static final String UPLOAD_TRAY_IMAGE = "식탁 이미지 업로드 성공";
 }
