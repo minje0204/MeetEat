@@ -63,6 +63,12 @@ export default function IndexPage() {
 }
 
 const StyledWrapper = styled.div`
+cursor: url("/images/cursor_image.png"), auto;
+img {
+  cursor: url("/images/cursor_image.png"), auto;
+  
+}
+  
 .door {
   position: absolute;
   z-index: 100;
@@ -105,6 +111,7 @@ const StyledWrapper = styled.div`
     padding: 3rem 3rem 0  3rem;
   }
   .image-container1 {
+    
     width: 35%;
     position: relative;
   }
