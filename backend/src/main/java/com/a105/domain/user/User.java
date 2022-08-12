@@ -1,9 +1,9 @@
 package com.a105.domain.user;
 
+import com.a105.domain.oauth2.AuthProvider;
 import com.a105.domain.tray.Tray;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,7 +31,7 @@ public class User {
     private String nickname;
 
     private String password;
-
+    @Setter
     private String profile;
 
     @Setter
@@ -44,15 +44,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
-    private String providerId;
-
     @Builder
-    public User(String email, String nickname, String password, AuthProvider provider, String providerId) {
+    public User(String email, String nickname, String password, AuthProvider provider, String bio) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
         this.provider = provider;
-        this.providerId = providerId;
+        this.bio = bio;
     }
-
 }
