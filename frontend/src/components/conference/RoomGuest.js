@@ -7,15 +7,17 @@ import { useEffect, useState } from "react";
 
 export default function RoomGuest(props) {
   const { idx } = props;
-  const {host} = props.value;
+  const { host } = props.value;
   const [isHost, setIsHost] = useState("");
-  useEffect(()=>{
-    let target = document.querySelector(`#personal-${idx} #personal_id`).innerText
-    if( !target ){
+  useEffect(() => {
+    let target = document.querySelector(
+      `#personal-${idx} #personal_id`,
+    ).innerText;
+    if (!target) {
       setIsHost("none");
       return;
     }
-    if(target === host){
+    if (target === host) {
       setIsHost("");
     }
   }, [host]);
@@ -24,14 +26,20 @@ export default function RoomGuest(props) {
       <div className="personal" id={`personal-${idx}`}>
         <div id="personal_header">
           <div id="crown-nickname">
-            <div id="crown" style={{display:`${isHost}`}}>
-              <img src={ crown } width="20px" height="20px" id="option" alt="방장" />
+            <div id="crown" style={{ display: `${isHost}` }}>
+              <img
+                src={crown}
+                width="20px"
+                height="20px"
+                id="option"
+                alt="방장"
+              />
             </div>
             <div id="personal_id"></div>
           </div>
           <div>
             <StyledWrapperLink>
-              <PersonalMenu />
+              <PersonalMenu idx={idx} host={host}></PersonalMenu>
             </StyledWrapperLink>
           </div>
         </div>
@@ -74,7 +82,7 @@ const StyledWrapper = styled.div`
     margin: auto;
     background-color: rgb(216, 204, 163);
   }
-  #crown-nickname{
+  #crown-nickname {
     display: flex;
   }
   #crown {
@@ -83,7 +91,7 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledWrapperLink = styled.div`
-  a{
+  a {
     text-decoration: none;
   }
 `;
