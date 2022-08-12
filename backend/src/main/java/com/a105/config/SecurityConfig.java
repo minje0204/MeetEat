@@ -23,14 +23,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AuthTokenProvider authTokenProvider;
+
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-            .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");
+            .antMatchers("**");// Todo: wss 테스트위해서 임시 세팅
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authTokenProvider);
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(
+            authTokenProvider);
 
         http
             .authorizeRequests()
