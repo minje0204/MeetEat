@@ -14,14 +14,22 @@ export default function Nickname(props) {
   const checkNickname = () => {
     Axios.get(`/user/exists/${nickname}`, {
       nickname: nickname,
-    }).then(res => {
-      console.log(res);
-      setCheckedNickname(res.data.nickname);
-    });
+    })
+      .then(res => {
+        if (res.data.response) {
+          //true인 경우 중복 닉네임 있음
+          alert("이미 사용중인 닉네임입니다.");
+        } else {
+          console.log(res);
+          alert("사용 가능한 닉네임입니다");
+          setCheckedNickname(nickname);
+        }
+      })
+      .catch(err => console.log(err));
   };
   return (
     <StyledWrapper className="form-row">
-      <p>별명 </p>
+      <p>닉네임 </p>
       <div className="nickname-input-group">
         <TextField
           onChange={e => {

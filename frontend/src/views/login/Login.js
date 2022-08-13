@@ -7,10 +7,9 @@ export default function Login() {
   let params = new URL(document.location).searchParams;
   const code = params.get("code");
   const provider = useParams().provider;
-  const redirect_uri = `/login/${provider}`;
-
+  const redirect_uri = `http://localhost:3000/login/${provider}`;
+  console.log(code);
   const dispatch = useDispatch();
-
   if (code != null) {
     Axios.get(`/auth/login/${provider}`, {
       headers: {
@@ -21,7 +20,7 @@ export default function Login() {
     })
       .then(res => {
         if (res.data.response.role === "ANONYMOUS") {
-          window.location.href = `http://localhost:3000/signup?code=${code}&redirect_uri=${redirect_uri}&email=${res.data.response.email}`;
+          window.location.href = `http://localhost:3000/signup?code=${code}&redirect_uri=${redirect_uri}&email=${res.data.response.email}&provider=${provider}`;
         } else {
           localStorage.setItem("accessToken", res.data.response.accessToken);
           Axios.defaults.headers.common[
