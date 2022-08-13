@@ -7,6 +7,7 @@ import ProfileImage from "./ProfileImage";
 import { Link } from "react-router-dom";
 import Nickname from "./Nickname";
 import Axios from "utils/axios/Axios";
+import { toUpper } from "lodash";
 
 export default function SignupForm() {
   const [Image, setImage] = useState("");
@@ -35,8 +36,9 @@ export default function SignupForm() {
         email: email,
         nickname: checkedNickname,
         bio: bio,
-        provider: provider,
+        provider: toUpper(`${provider}`),
       };
+      console.log(`${provider}`);
       const blobData = new Blob([JSON.stringify(data)], {
         type: "application/json",
       });
