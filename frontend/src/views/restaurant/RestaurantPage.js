@@ -35,9 +35,9 @@ export default function RestaurantPage() {
   }
 
   useEffect(() => {
-    Axios.get(`/restaurant/${encodeURI(params.restaurant_id)}`).then(response =>
-      onload(response.data),
-    );
+    Axios.get(`/restaurant/${encodeURI(params.restaurant_id)}`)
+      .then(response => onload(response.data))
+      .catch(e => console.log(e));
   }, []);
 
   const listItems = tableList.map(e => (
