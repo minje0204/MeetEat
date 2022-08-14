@@ -37,6 +37,7 @@ public class UserConferenceService {
 
     public void leaveConference(Long conferenceId, Long userId) {
         List<UserConference> list = userConferenceRepository.findByConferenceIdAndUserId(conferenceId,userId);
+        if (list.isEmpty()) return;
         UserConference userConference = list.get(0);
         userConference.setAction(1);
         userConferenceRepository.save(userConference);

@@ -23,11 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AuthTokenProvider authTokenProvider;
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring()
-            .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/restaurant/**");
-    }
+
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
