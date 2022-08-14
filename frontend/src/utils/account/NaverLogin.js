@@ -19,7 +19,7 @@ export default function NaverLogin() {
 }
 
 const StyledWrapper = styled.div`
-   {
+  {
     width: 75%;
     margin: 2px auto;
   }

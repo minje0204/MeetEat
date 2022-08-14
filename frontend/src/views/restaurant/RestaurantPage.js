@@ -32,12 +32,12 @@ export default function RestaurantPage() {
       };
     }
     setTableList(onTableList);
-  }
+  };
 
   useEffect(() => {
     Axios.get(`/restaurant/${encodeURI(params.restaurant_id)}`).then(response =>
       onload(response.data),
-    );
+      );
   }, []);
 
   const listItems = tableList.map(e => (
