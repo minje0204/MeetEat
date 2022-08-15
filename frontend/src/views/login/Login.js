@@ -20,19 +20,13 @@ export default function Login() {
     })
       .then(res => {
         if (res.data.response.role === "ANONYMOUS") {
-          window.location.href = `http://localhost:3000/signup?code=${code}&redirect_uri=${redirect_uri}&email=${res.data.response.email}&provider=${provider}`;
+          window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/signup?code=${code}&redirect_uri=${redirect_uri}&email=${res.data.response.email}&provider=${provider}`;
         } else if (res.data.response.id) {
           console.log(res);
           localStorage.setItem("accessToken", res.data.response.accessToken);
           Axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${res.data.response.accessToken}`;
-          // window.sessionStorage.setItem("user", {
-          //   nickname: res.data.response.nickname,
-          //   email: res.data.response.email,
-          //   bio: res.data.response.bio,
-          //   profile: res.data.response.profile,
-          // });
           window.sessionStorage.setItem("logged", true);
           window.sessionStorage.setItem("nickname", res.data.response.nickname);
           window.sessionStorage.setItem("email", res.data.response.email);
@@ -42,14 +36,6 @@ export default function Login() {
             "accessToken",
             res.data.response.accessToken,
           );
-          // const data = {
-          //   nickname: res.data.response.nickname,
-          //   email: res.data.response.email,
-          //   bio: res.data.response.bio,
-          //   profile: res.data.response.profile,
-          //   accessToken: res.data.response.accessToken,
-          // };
-          // dispatch(SetUserInfo(data));
           window.location.href = `http://localhost:3000`;
         }
       })
