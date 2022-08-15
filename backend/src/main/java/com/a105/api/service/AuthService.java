@@ -87,11 +87,11 @@ public class AuthService {
 
         userRepository.save(user);
 
-        if(!file.isEmpty()) {
-            return userService.uploadProfileImage(user.getId(), file);
-        }
+        if(file == null || file.isEmpty())
+            return UserInfoResponse.fromEntity(user);
 
-        return UserInfoResponse.fromEntity(user);
+        return userService.uploadProfileImage(user.getId(), file);
+
     }
 
 

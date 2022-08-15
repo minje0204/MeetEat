@@ -7,7 +7,6 @@ import com.a105.api.response.NicknameResponse;
 import com.a105.api.response.ResponseCode;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.api.service.UserService;
-import com.a105.exception.BadRequestException;
 import com.a105.security.CurrentUser;
 import com.a105.security.UserPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
