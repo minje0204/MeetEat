@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { Button } from "@mui/material";
+import Axios from "utils/axios/Axios";
 
 export default function SaveTableImage() {
   const myTable = useRef(null);
@@ -26,20 +27,12 @@ export default function SaveTableImage() {
   ));
 
   const onCapture = () => {
-    const timestamp = Date.now();
     html2canvas(myTable.current).then(canvas => {
-      console.log(canvas.toDataURL("image/png"));
-      onSaveAs(canvas.toDataURL("image/png"), `${timestamp}.png`);
+      const url = canvas.toDataURL("image/png");
+      Axios.post("/tray", { conferenceId: 2, base64: url }) // conferenceID 받아오는 부분 작성해야 함
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     });
-
-    const onSaveAs = (url, filename) => {
-      var link = document.createElement("a");
-      document.body.appendChild(link);
-      link.href = url;
-      link.download = filename;
-      link.click();
-      document.body.removeChild(link);
-    };
   };
   return (
     <StyledWrapper>

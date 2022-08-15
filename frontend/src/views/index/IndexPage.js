@@ -4,8 +4,10 @@ import burgershop from "assets/img/burgershop.png";
 import restaurant from "assets/img/restaurant.png";
 import restaurant_2 from "assets/img/restaurant_2.png";
 import { Link } from "react-router-dom";
+// import { useSelector } from "react-redux";
 
 export default function IndexPage() {
+  console.log(window.sessionStorage.getItem("nickname"));
   const restaurantList = [
     { id: "1", source: restaurant },
     { id: "2", source: restaurant_2 },

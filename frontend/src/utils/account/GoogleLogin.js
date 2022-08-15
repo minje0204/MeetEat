@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export default function GoogleLogin() {
-  const client_id = "add here";
+  const client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   const redirectURI = encodeURI("http://localhost:3000/login/google");
   const state = encodeURI("http://localhost:3000/");
   const scope =
