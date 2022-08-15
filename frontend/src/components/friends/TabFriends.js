@@ -24,7 +24,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography component={'span'}>{children}</Typography>
+          <Typography component={"span"}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -40,13 +40,13 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 };
 function a22yProps(index) {
   return {
     id: `sub-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 };
 
@@ -100,19 +100,55 @@ export default function TabFriends() {
     <StyledWrapper>
       <div id="friend-dialog">
         <Box sx={{ width: "100%", bgcolor: "#FFEF82" }}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered indicatorColor="secondary" textColor="secondary">
-            <Tab label="밥친구 요청" {...a11yProps(0)} sx={{fontSize: 20, fontFamily: "Jua"}} />
-            <Tab label="밥친구 목록" {...a11yProps(1)} sx={{fontSize: 20, fontFamily: "Jua"}} />
-            <Tab label="밥친구 검색" {...a11yProps(2)} sx={{fontSize: 20, fontFamily: "Jua"}} />
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            centered
+            indicatorColor="secondary"
+            textColor="secondary"
+          >
+            <Tab
+              label="밥친구 요청"
+              {...a11yProps(0)}
+              sx={{ fontSize: 20, fontFamily: "Jua" }}
+            />
+            <Tab
+              label="밥친구 목록"
+              {...a11yProps(1)}
+              sx={{ fontSize: 20, fontFamily: "Jua" }}
+            />
+            <Tab
+              label="밥친구 검색"
+              {...a11yProps(2)}
+              sx={{ fontSize: 20, fontFamily: "Jua" }}
+            />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
           <div id="friend-request">
-            <Tabs id="subtab" value={subValue} onChange={subHandleChange} aria-label="basic tabs example" centered sx={{ p:1 }} indicatorColor="" textColor="inherit">
-              <Tab label="받은 요청" {...a22yProps(0)} sx={{fontSize: 20, fontFamily: "Jua"}} />
-              <Tab label="보낸 요청" {...a22yProps(1)} sx={{fontSize: 20, fontFamily: "Jua"}} />
+            <Tabs
+              id="subtab"
+              value={subValue}
+              onChange={subHandleChange}
+              aria-label="basic tabs example"
+              centered
+              sx={{ p: 1 }}
+              indicatorColor=""
+              textColor="inherit"
+            >
+              <Tab
+                label="받은 요청"
+                {...a22yProps(0)}
+                sx={{ fontSize: 20, fontFamily: "Jua" }}
+              />
+              <Tab
+                label="보낸 요청"
+                {...a22yProps(1)}
+                sx={{ fontSize: 20, fontFamily: "Jua" }}
+              />
             </Tabs>
-            <hr id="horizon-line"/>
+            <hr id="horizon-line" />
             <TabPanel id="subtab-detail" value={subValue} index={0}>
               <div id="request-example-1"></div>
               <div id="request-example-1"></div>
@@ -150,12 +186,12 @@ const StyledWrapper = styled.div`
   #friend-dialog {
     width: 450px;
     height: 580px;
-    border: 6px dashed #EFD345;
+    border: 6px dashed #efd345;
     overflow: auto;
   }
   #friend-request {
-    width:100%;
-    display:flex;
+    width: 100%;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -178,11 +214,11 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
-    border: 4px solid #EFD345;
+    border: 4px solid #efd345;
     border-radius: 20px;
   }
   #subtab {
-    color: #82954B;
+    color: #82954b;
     margin-top: 15px;
   }
   #subtab-detail {
@@ -207,7 +243,7 @@ const StyledWrapper = styled.div`
     width: 100%;
     border: 0;
     height: 1px;
-    background-color: #E2E2E2;
+    background-color: #e2e2e2;
   }
   #friend-list {
     overflow: auto;
@@ -219,7 +255,7 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
-    border: 4px solid #EFD345;
+    border: 4px solid #efd345;
     border-radius: 20px;
   }
   #result-list {

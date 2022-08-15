@@ -1,87 +1,139 @@
 import styled from "@emotion/styled";
-import Button from "@mui/material/Button";
-import burgershop from "assets/img/burgershop.png";
-import restaurant from "assets/img/restaurant.png";
-import restaurant_2 from "assets/img/restaurant_2.png";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function IndexPage() {
   const restaurantList = [
-    { id: "1", source: restaurant },
-    { id: "2", source: restaurant_2 },
-    { id: "3", source: burgershop },
+    {
+      id: "1",
+      source: "/images/index_page/restaurant_1.png",
+      door_open: "/images/index_page/door1_open.png",
+      door_closed: "/images/index_page/door1_closed.png",
+    },
+    {
+      id: "2",
+      source: "/images/index_page/restaurant_2.png",
+      door_open: "/images/index_page/door2_open.png",
+      door_closed: "/images/index_page/door2_closed.png",
+    },
+    {
+      id: "3",
+      source: "/images/index_page/restaurant_3.png",
+      door_open: "/images/index_page/door3_open.png",
+      door_closed: "/images/index_page/door3_closed.png",
+    },
   ];
-  /* axios 샘플 코드
-  useEffect(() => {
-    let idx = 1;
-    Axios.get(`/user/${idx}`).then(data => {
-      console.log(data);
-    });
-  }, []);
-  */
+  const [open, setOpen] = useState(0);
+
   const listItems = restaurantList.map((e, idx) => (
-    <Link to={"/restaurant/" + e.id} key={`restaurant${e.id}`}>
-      <div id="image-box">
-        <img
-          src={e.source}
-          width="450px"
-          height="450px"
-          id="image"
-          alt={`restaurant-img-${idx}`}
-        ></img>
-        <Button id="restaurant-name" variant="text">
-          식당 {e.id}
-        </Button>
+    <div
+      className={`image-container image-container${e.id}`}
+      key={`restaurant${e.id}`}
+    >
+      <div
+        id="image-box"
+        onMouseOver={() => setOpen(e.id)}
+        onMouseOut={() => setOpen(0)}
+      >
+        <Link to={"/restaurant/" + e.id}>
+          <img src={e.source} id="image" alt={`restaurant-img-${idx}`}></img>
+
+          <img
+            src={e.door_open}
+            className={`door${e.id}_open door`}
+            alt="door"
+            style={{ display: open === e.id ? "block" : "none" }}
+          ></img>
+
+          <img
+            src={e.door_closed}
+            className={`door${e.id}_closed door`}
+            alt="door"
+            style={{ display: open !== e.id ? "block" : "none" }}
+          ></img>
+        </Link>
       </div>
-    </Link>
+    </div>
   ));
   return (
     <StyledWrapper>
-      <div id=""></div>
       <div id="restaurant-list">{listItems}</div>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
-  height: 90vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  a {
-    text-decoration: none;
+cursor: url("/images/cursor_image.png"), auto;
+img {
+  cursor: url("/images/cursor_image.png"), auto;
+  
+}
+  
+.door {
+  position: absolute;
+  z-index: 100;
+}
+  .door1_open {
+    bottom: -5.5%;
+    width: 20%;
+    left: 60%;
   }
-
+  .door1_closed {
+    bottom: 1.9%;
+    width: 20%;
+    left: 60%;
+  }
+  .door2_open {
+    bottom: -9%;
+    width: 26%;
+    left: 37%;
+  }
+  .door2_closed {
+    bottom: 1.3%;
+    width: 26%;
+    left: 37%;
+  }
+  .door3_open {
+    bottom: -8.1%;
+    width: 26%;
+    left: 38%;
+  }
+  .door3_closed {
+    bottom: 3.3%;
+    width: 26%;
+    left: 38%;
+  }
+  #restaurant-list {
+    min-width: 904px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 3rem 3rem 0  3rem;
+  }
+  .image-container1 {
+    
+    width: 35%;
+    position: relative;
+  }
+  .image-container2 {
+    width: 32%;
+    position: relative;
+  }
+  .image-container3 {
+    width: 44%;
+    position: relative;
+  }
+  #image-box {
+    width: 100%;
+  }
+  #image {
+    width: 100%;
+  }
   button {
     font-family: "Jua";
     font-size: 32px;
     color: black;
   }
-
-  #restaurant-list {
-    width: 80vw;
-    display: flex;
-    justify-content: space-between;
-  }
-  #image-box {
-    display: flex-column;
-    align-items: center;
-    justify-content: center;
-  }
-  #image {
-    max-width: 90%;
-    max-height: 80%;
-    -webkit-filter: brightness(90%);
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-  }
-  #image:hover {
-    -webkit-filter: brightness(110%);
   }
   #restaurant-name {
     width: 100%;

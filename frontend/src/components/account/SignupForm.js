@@ -7,37 +7,49 @@ import ProfileImage from "./ProfileImage";
 import { Link } from "react-router-dom";
 import Nickname from "./Nickname";
 import Axios from "utils/axios/Axios";
+import { toUpper } from "lodash";
 
 export default function SignupForm() {
-  const [Image, setImage] = useState(
-    "/images/profile_image/default_profile.png",
-  );
+  const [Image, setImage] = useState("");
 
   const [nickname, setNickname] = useState("");
   const [checkedNickname, setCheckedNickname] = useState("");
   const [validNickname, setValidNickname] = useState(false);
   const isValid = value => setValidNickname(value);
 
-  const [selfMessage, setSelfMessage] = useState("");
-  const selfMessageInput = e => setSelfMessage(e.target.value);
+  const [bio, setBio] = useState("");
+  const bioInput = e => setBio(e.target.value);
   let params = new URL(document.location).searchParams;
   const email = params.get("email");
+  const provider = params.get("provider");
 
   const signupPost = () => {
     if (!validNickname) {
-      alert("유효하지 않은 별명입니다. ");
+      alert("유효하지 않은 닉네임입니다. ");
     } else if (!checkedNickname || nickname !== checkedNickname) {
-      alert("별명 중복확인이 필요합니다. ");
+      console.log(checkedNickname);
+      alert("닉네임 중복확인이 필요합니다. ");
     } else {
+      const bodyFormData = new FormData();
+      console.log(bodyFormData);
       const data = {
         email: email,
         nickname: checkedNickname,
-        self_message: selfMessage,
-        profile_image: Image,
+        bio: bio,
+        provider: toUpper(`${provider}`),
       };
-      console.log(data);
-      Axios.post(`/auth/signup`, {
-        data: data,
+      console.log(`${provider}`);
+      const blobData = new Blob([JSON.stringify(data)], {
+        type: "application/json",
+      });
+      bodyFormData.append("data", blobData);
+      bodyFormData.append("file", Image);
+
+      Axios.post("/auth/signup", bodyFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
+        },
       })
         .then(res => {
           console.log(res);
@@ -52,7 +64,7 @@ export default function SignupForm() {
       <div className="form-container">
         <h2>회원정보 입력</h2>
         <div className="wide-p">프로필 사진</div>
-        <ProfileImage Image={Image} setImage={setImage}></ProfileImage>
+        <ProfileImage setImage={setImage}></ProfileImage>
 
         <div className="form-row">
           <p>이메일 </p>
@@ -65,14 +77,16 @@ export default function SignupForm() {
           validNickname={validNickname}
           isValid={isValid}
         ></Nickname>
-        <p id="nickname-alert">별명은 2~8글자 한글, 영문, 숫자만 가능합니다</p>
+        <p id="nickname-alert">
+          닉네임은 2~6글자 한글, 영문, 숫자만 가능합니다
+        </p>
         <div className="wide-p">
           자기 소개
-          <span id="text-length">{`<${selfMessage.length}/40>`}</span>
+          <span id="text-length">{`<${bio.length}/40>`}</span>
         </div>
         <div className="form-row">
           <TextField
-            onChange={selfMessageInput}
+            onChange={bioInput}
             onInput={e => CheckLength(e, 40)}
             fullWidth
             id="fullWidth"
