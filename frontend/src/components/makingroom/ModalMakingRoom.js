@@ -22,8 +22,6 @@ export default function ModalMakingRoom(props) {
   const [userName, setUserName] = useState("");
   /* eslint-disable-next-line */
   const [peopleValue, setPeopleValue] = useState("");
-  // const [joinRequest, setJoinRequest] = useState(0);
-  let joinRequest = 0;
   const [titleValue, setTitleValue] = useState("");
   const [peopleLimitValue, setPeopleLimitValue] = useState("");
 
@@ -69,17 +67,6 @@ export default function ModalMakingRoom(props) {
           />
         </div>
       ) : (
-        // <StyledWrapperLink>
-        //   <Link
-        //     to={`/restaurant/${restaurantId}/conference/${tableInfo.id}`}
-        //     state={{
-        //       title: tableInfo.title,
-        //       peopleLimit: tableInfo.maxUserNum,
-        //       userName: user_nickname,
-        //     }}
-        //     id="link"
-        //     onClick={joinRoom}
-        //   >
         <div id="image-box" onClick={joinRoom}>
           <div id="roomtitle-box">
             <img src={roomtitle} alt="방제목" id="roomtitle-img" />
@@ -102,8 +89,6 @@ export default function ModalMakingRoom(props) {
             <img src={table_alone} alt="테이블" id="table" />
           )}
         </div>
-        //   </Link>
-        // </StyledWrapperLink>
       )}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ fontFamily: "Jua", fontSize: 22 }}>
