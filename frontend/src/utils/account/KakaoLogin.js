@@ -2,7 +2,9 @@ import styled from "styled-components";
 
 export default function KakaoLogin() {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_CLIENT_ID;
-  const REDIRECT_URI = encodeURI("http://localhost:3000/login/kakao");
+  const REDIRECT_URI = encodeURI(
+    `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/login/kakao`,
+  );
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   return (

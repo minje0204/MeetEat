@@ -4,11 +4,12 @@ import LoginModal from "components/account/LoginModal";
 import ProfileIcon from "components/account/ProfileIcon";
 
 export default function Menu() {
+  const logged = window.sessionStorage.getItem("logged");
   return (
     <StyledWrapper>
-      <ModalFriends />
-      <LoginModal />
-      <ProfileIcon />
+      {logged ? <ModalFriends /> : ""}
+      {!logged ? <LoginModal /> : ""}
+      {logged ? <ProfileIcon /> : ""}
     </StyledWrapper>
   );
 }
