@@ -12,15 +12,40 @@ import table_full from "assets/img/table_full.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import roomtitle from "assets/img/roomtitle.png";
+import Axios from "utils/axios/Axios";
+import { useSelector } from "react-redux";
 
 export default function ModalMakingRoom(props) {
-  const { tableNum, restaurantId, title, maxUserNum, currentUserNum } = props;
+  const { restaurantId, tableInfo } = props;
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("");
   /* eslint-disable-next-line */
   const [peopleValue, setPeopleValue] = useState("");
+  // const [joinRequest, setJoinRequest] = useState(0);
+  let joinRequest = 0;
   const [titleValue, setTitleValue] = useState("");
   const [peopleLimitValue, setPeopleLimitValue] = useState("");
+  const user_nickname = useSelector(state => state.user.loggedInfo.nickname);
+
+  const joinRoom = event => {
+    Axios.get(`/restaurant/${restaurantId}/conference/${tableInfo.id}`)
+      // .then(response => {
+      //   // setJoinRequest(response.data.status);
+      //   joinRequest = response.data.status;
+      // })
+      // .then(() => {
+      //   if (joinRequest !== 200) event.preventDefault();
+      // })
+      // .catch(error => {
+      //   event.preventDefault();
+      // });
+      .then(resposne => {
+        if (resposne.data.status == 200) var link = document.createElement("a");
+        document.body.appendChild(link);
+        link.href = `/restaurant/${restaurantId}/conference/${tableInfo.id}`;
+        link.click();
+      });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,51 +57,66 @@ export default function ModalMakingRoom(props) {
 
   return (
     <StyledWrapper>
-      <div id="image-box">
-        <div id="roomtitle-box" onClick={handleClickOpen}>
-          <img src={roomtitle} alt="방제목" id="roomtitle-img" />
-          <div id="roomtitle-text">
-            <div id="roomtitle-text-number-people">
-              <div id="roomtitle-text-number">{tableNum}번 테이블</div>
-              <div id="roomtitle-text-people">
-                ({currentUserNum}/{maxUserNum})
-              </div>
+      {!tableInfo.currentUserNum ? (
+        <div id="image-box">
+          <div id="roomtitle-box" onClick={handleClickOpen}>
+            <img src={roomtitle} alt="방제목" id="roomtitle-img" />
+            <div id="roomtitle-text">
+              <div id="roomtitle-text-default">빈 테이블</div>
             </div>
-            {/* 16글자까지 */}
-            <div id="roomtitle-text-title">{title}</div>
           </div>
-        </div>
-        {!currentUserNum ? (
           <img
             src={table_empty}
             alt="테이블"
             onClick={handleClickOpen}
             id="table"
           />
-        ) : currentUserNum === maxUserNum ? (
-          <img
-            src={table_full}
-            alt="테이블"
-            onClick={handleClickOpen}
-            id="table"
-          />
-        ) : (
-          <img
-            src={table_alone}
-            alt="테이블"
-            onClick={handleClickOpen}
-            id="table"
-          />
-        )}
-      </div>
+        </div>
+      ) : (
+        // <StyledWrapperLink>
+        //   <Link
+        //     to={`/restaurant/${restaurantId}/conference/${tableInfo.id}`}
+        //     state={{
+        //       title: tableInfo.title,
+        //       peopleLimit: tableInfo.maxUserNum,
+        //       userName: user_nickname,
+        //     }}
+        //     id="link"
+        //     onClick={joinRoom}
+        //   >
+        <div id="image-box" onClick={joinRoom}>
+          <div id="roomtitle-box">
+            <img src={roomtitle} alt="방제목" id="roomtitle-img" />
+            <div id="roomtitle-text">
+              <div id="roomtitle-text-number-people">
+                <div id="roomtitle-text-number">
+                  {tableInfo.position}번 테이블
+                </div>
+                <div id="roomtitle-text-people">
+                  ({tableInfo.currentUserNum}/{tableInfo.maxUserNum})
+                </div>
+              </div>
+              {/* 16글자까지 */}
+              <div id="roomtitle-text-title">{tableInfo.title}</div>
+            </div>
+          </div>
+          {tableInfo.currentUserNum === tableInfo.maxUserNum ? (
+            <img src={table_full} alt="테이블" id="table" />
+          ) : (
+            <img src={table_alone} alt="테이블" id="table" />
+          )}
+        </div>
+        //   </Link>
+        // </StyledWrapperLink>
+      )}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ fontFamily: "Jua", fontSize: 22 }}>
-          {tableNum}번 테이블 만들기
+          {tableInfo.position}번 테이블 만들기
         </DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ fontFamily: "Jua", fontSize: 18 }}>
-            {tableNum}번 테이블에 합석할 사람들을 위해, 테이블 제목과 인원을
-            설정해주세요.
+            {tableInfo.position}번 테이블에 합석할 사람들을 위해, 테이블 제목과
+            인원을 설정해주세요.
           </DialogContentText>
           <TextField
             autoFocus
@@ -119,7 +159,7 @@ export default function ModalMakingRoom(props) {
           <Button onClick={makeRoom}>
             <StyledWrapperLink>
               <Link
-                to={`/restaurant/${restaurantId}/conference/${tableNum}`}
+                to={`/restaurant/${restaurantId}/conference/${tableInfo.position}`}
                 state={{
                   title: titleValue,
                   peopleLimit: peopleLimitValue,
@@ -173,6 +213,12 @@ const StyledWrapper = styled.div`
   #roomtitle-text-title {
     width: 100%;
     height: 70%;
+  }
+  #roomtitle-text-default {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 100%);
   }
   #table {
     cursor: pointer;
