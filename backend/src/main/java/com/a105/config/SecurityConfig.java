@@ -28,13 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
             .antMatchers("/h2-console/**", "/favicon.ico")
             .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**",
-                "/swagger/**");
+                "/swagger/**")
+            .antMatchers("/groupcall/**", "/conference/**");
     }
-//    @Override
-//    public void configure(WebSecurity web) {
-//        web.ignoring()
-//            .antMatchers("**");// Todo: wss 테스트위해서 임시 세팅
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

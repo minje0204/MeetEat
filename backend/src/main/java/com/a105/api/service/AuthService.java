@@ -10,6 +10,7 @@ import com.a105.domain.oauth2.AuthorizationNaverDto;
 import com.a105.domain.user.User;
 import com.a105.domain.user.UserRepository;
 import com.a105.domain.user.UserRole;
+import com.a105.exception.BadRequestException;
 import com.a105.security.jwt.AuthToken;
 import com.a105.security.jwt.AuthTokenProvider;
 import com.a105.security.oauth2.OAuth2GoogleUtil;
@@ -77,6 +78,10 @@ public class AuthService {
 
     @Transactional
     public UserInfoResponse registerNewUser(SignupRequest signupRequest, MultipartFile file){
+        if(userRepository.findByEmailAndProvider(signupRequest.getEmail(), AuthProvider.valueOf(signupRequest.getProvider())).isPresent()){
+            throw new BadRequestException("이미 있는 회원입니다.");
+        }
+
         User user = User.builder()
             .email(signupRequest.getEmail())
             .nickname(signupRequest.getNickname())
