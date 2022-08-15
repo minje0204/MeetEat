@@ -1,6 +1,4 @@
 import Axios from "utils/axios/Axios";
-// import { useDispatch } from "react-redux";
-// import { SetUserInfo } from "modules/user";
 import { useParams } from "react-router-dom";
 
 export default function Login() {

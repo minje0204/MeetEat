@@ -78,7 +78,7 @@ export default function SignupForm() {
           isValid={isValid}
         ></Nickname>
         <p id="nickname-alert">
-          닉네임은 2~8글자 한글, 영문, 숫자만 가능합니다
+          닉네임은 2~6글자 한글, 영문, 숫자만 가능합니다
         </p>
         <div className="wide-p">
           자기 소개

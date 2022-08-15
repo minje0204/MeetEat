@@ -8,7 +8,7 @@ export default function NicknameFilter(e) {
       return false;
     }
   }
-  if (nickname.length < 2 || nickname.length > 8) {
+  if (nickname.length < 2 || nickname.length > 6) {
     return false;
   }
   return true;

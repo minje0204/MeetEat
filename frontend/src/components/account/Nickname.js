@@ -16,13 +16,13 @@ export default function Nickname(props) {
       nickname: nickname,
     })
       .then(res => {
-        if (res.data.response) {
+        if (res.data.response.exists) {
           //true인 경우 중복 닉네임 있음
           alert("이미 사용중인 닉네임입니다.");
         } else {
           console.log(res);
           alert("사용 가능한 닉네임입니다");
-          setCheckedNickname(nickname);
+          setCheckedNickname(res.data.response.nickname);
         }
       })
       .catch(err => console.log(err));
@@ -37,9 +37,8 @@ export default function Nickname(props) {
             isValid(NicknameFilter(e));
           }}
           error={Boolean(nickname && !validNickname)}
-          onInput={e => CheckLength(e, 8)}
+          onInput={e => CheckLength(e, 6)}
           required
-          inputProps={{ maxLength: "40" }}
           id="nickname-input"
           label="필수 입력 항목"
         />
