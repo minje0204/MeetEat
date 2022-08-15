@@ -29,7 +29,7 @@ export default function SaveTableImage() {
   const onCapture = () => {
     html2canvas(myTable.current).then(canvas => {
       const url = canvas.toDataURL("image/png");
-      Axios.post("/table", { data: url })
+      Axios.post("/tray", { conferenceId: 2, base64: url }) // conferenceID 받아오는 부분 작성해야 함
         .then(res => console.log(res))
         .catch(err => console.log(err));
     });
