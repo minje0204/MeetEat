@@ -4,43 +4,56 @@ import ModalMakingRoom from "components/makingroom/ModalMakingRoom";
 import React from "react";
 import { Link } from "react-router-dom";
 import Door from "components/conference/Door";
-import axios from "axios";
+import Axios from "utils/axios/Axios";
+import { useEffect, useState } from "react";
 
 export default function RestaurantPage() {
   let params = useParams();
-  let tableList = [
-    { id: "1" },
-    { id: "2" },
-    { id: "3" },
-    { id: "4" },
-    { id: "5" },
-    { id: "6" },
-    { id: "7" },
-    { id: "8" },
-  ];
-  axios
-    .get(`http://localhost:8080/restaurant`)
-    .then(res => {
-      console.log(res);
-      tableList = res.response;
-    })
-    .catch(err => {
-      console.log(err);
-      alert("방 정보를 불러올 수 없습니다.");
-    });
+  const [tableList, setTableList] = useState([]);
+
+  function onload(data) {
+    let onTableList = [
+      { id: "1" },
+      { id: "2" },
+      { id: "3" },
+      { id: "4" },
+      { id: "5" },
+      { id: "6" },
+      { id: "7" },
+      { id: "8" },
+    ];
+    for (let i = 0; i < data.length; i++) {
+      let table = data[i];
+      onTableList[table.position - 1] = {
+        ...onTableList[table.position - 1],
+        title: table.title,
+        maxUserNum: table.maxUserNum,
+        currentUserNum: table.currentUserNum,
+      };
+    }
+    setTableList(onTableList);
+  }
+
+  useEffect(() => {
+    Axios.get(`/restaurant/${encodeURI(params.restaurant_id)}`)
+      .then(response => onload(response.data))
+      .catch(e => console.log(e));
+  }, []);
+
   const listItems = tableList.map(e => (
     <ModalMakingRoom
       tableNum={e.id}
       restaurantId={params.restaurant_id}
+      title={e.title}
+      maxUserNum={e.maxUserNum}
+      currentUserNum={e.currentUserNum}
       key={`table${e.id}`}
     ></ModalMakingRoom>
   ));
 
   return (
     <StyledWrapper>
-      <div id="restaurant-name">
-        {`[ ${params.restaurant_id}번 식당 ]`}
-      </div>
+      <div id="restaurant-name">{`[ ${params.restaurant_id}번 식당 ]`}</div>
       <div id="table-list">{listItems}</div>
       <div id="exit">
         <Link to={"/"}>
@@ -59,7 +72,7 @@ const StyledWrapper = styled.div`
     height: 2vh;
     font-family: "Jua";
     font-size: 20px;
-    color: #82954B;
+    color: #82954b;
   }
   #table-list {
     height: 85vh;
