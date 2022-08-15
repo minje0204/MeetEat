@@ -22,10 +22,13 @@ public class ConferenceService {
 
     public List<ConferenceListResponse> getConferenceList(int restaurant) {
         List<ConferenceListResponse> list = new ArrayList<>();
-        List<Conference> activeConferenceList = getActiveConferenceList(restaurant);
+        List<Conference> findByRestaurant = conferenceRepository.findByRestaurant(restaurant);
         for (Conference conference :
-            activeConferenceList) {
-            list.add(getConference(conference.getId()));
+            findByRestaurant) {
+            Long conferenceId = conference.getId();
+            if (getCurrentUserNum(conferenceId) > 0) {
+                list.add(getConference(conferenceId));
+            }
         }
         return list;
     }
@@ -66,7 +69,7 @@ public class ConferenceService {
     public boolean checkConferenceDuplicate(int restaurant, int position) {
         Conference conference = conferenceRepository.findByRestaurantAndPosition(restaurant,
             position);
-        if (conference == null) {
+        if (conference == null || getCurrentUserNum(conference.getId()) == 0) {
             return false;
         }
         return conference.getCallEndTime() == null;
@@ -74,14 +77,14 @@ public class ConferenceService {
 
     public Conference joinConference(Long conferenceId, Long userId) {
         Conference conference = getConferenceFromId(conferenceId);
-        if (conference == null || conference.getCallEndTime() != null) {
+        if (conference == null || getCurrentUserNum(conferenceId) == 0) {
             throw new BadRequestException("종료된 테이블입니다.");
         }
         if (conference.getMaxUserNum() <= getCurrentUserNum(conferenceId)) {
             throw new BadRequestException("테이블에 빈 좌석이 없습니다.");
         }
         if (userConferenceService.checkUserConferenceDuplicate(conferenceId, userId)) {
-            throw new BadRequestException("이미 이용중인 테이블입니다.");
+            throw new BadRequestException("이미 참여중인 테이블입니다.");
         }
         userConferenceService.joinConference(conferenceId, userId);
         return conference;
