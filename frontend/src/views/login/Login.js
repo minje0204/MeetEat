@@ -50,7 +50,7 @@ export default function Login() {
           //   accessToken: res.data.response.accessToken,
           // };
           // dispatch(SetUserInfo(data));
-          // window.location.href = `http://localhost:3000`;
+          window.location.href = `http://localhost:3000`;
         }
       })
       .catch(err => {
