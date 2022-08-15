@@ -1,7 +1,7 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import backbutton from "assets/img/backbutton.png";
@@ -29,57 +29,66 @@ export default function ProfileDialog() {
     setOpenDetail(false);
   };
 
-  const tablealbumlist = testinput.slice(0).reverse().map((e) => (
-    <div key={`table${e.id}`}>
-      <div id="example-table" onClick={clickDetail}></div>
-      <ProfileDialogDetail open={openDetail} onClose={detailClose} />
-      { e.id }번째 식탁 - { e.date }
-    </div>
-  ));
-  
+  const tablealbumlist = testinput
+    .slice(0)
+    .reverse()
+    .map(e => (
+      <div key={`table${e.id}`}>
+        <div id="example-table" onClick={clickDetail}></div>
+        <ProfileDialogDetail open={openDetail} onClose={detailClose} />
+        {e.id}번째 식탁 - {e.date}
+      </div>
+    ));
+
   return (
     <>
-      <div onClick={handleClickOpen}>
-        프로필 보기
-      </div>
-      <Dialog
-        maxWidth="lg"
-        open={open}
-        onClose={handleClose}
-        >
+      <div onClick={handleClickOpen}>프로필 보기</div>
+      <Dialog maxWidth="lg" open={open} onClose={handleClose}>
         <StyledWrapper>
           <div id="return-exit">
-            <Link to={"/"}>
-              <Button id="btn" variant="outlined" onClick={handleClose} sx={{ fontFamily: "Jua", fontSize: 16, color: "black", ml: 3, backgroundColor: "#BABD42", borderColor: "#82954B" }}>
-                <img src={ backbutton } id="return-icon" alt="수정하기" />회원정보 수정하기
+            {/* <Link to="/user/edit">
+              <Button
+                id="btn"
+                variant="outlined"
+                onClick={handleClose}
+                sx={{
+                  fontFamily: "Jua",
+                  fontSize: 16,
+                  color: "black",
+                  ml: 3,
+                  backgroundColor: "#BABD42",
+                  borderColor: "#82954B",
+                }}
+              >
+                <img src={backbutton} id="return-icon" alt="수정하기" />
+                회원정보 수정하기
               </Button>
-            </Link>
-            <img src={ closebutton } id="exit-icon" alt="창닫기" onClick={handleClose}/>
+            </Link> */}
+            <img
+              src={closebutton}
+              id="exit-icon"
+              alt="창닫기"
+              onClick={handleClose}
+            />
           </div>
           <div id="myiconbox">
             <div id="myicon-layout">
-              <img src={ hotdog } id="myicon" alt="아이콘" />
+              <img src={hotdog} id="myicon" alt="아이콘" />
             </div>
           </div>
           <Box id="nickname-hello" component="form">
-            <div>
-              별명 : Nickname
-            </div>
-            <div>
-              소개 : 밥 먹자!!  
-            </div>
+            <div>별명 : Nickname</div>
+            <div>소개 : 밥 먹자!!</div>
           </Box>
-          <hr id="horizon-line"/>
+          <hr id="horizon-line" />
           <div id="album">
-            <div id="table-album">
-              {tablealbumlist}
-            </div>
+            <div id="table-album">{tablealbumlist}</div>
           </div>
         </StyledWrapper>
       </Dialog>
     </>
   );
-};
+}
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -88,7 +97,7 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
-  a{
+  a {
     text-decoration: none;
   }
   #return-exit {
@@ -100,7 +109,7 @@ const StyledWrapper = styled.div`
     align-items: center;
   }
   #btn:hover {
-    background-color: #82954B;
+    background-color: #82954b;
   }
   #return-icon {
     width: 30px;
@@ -114,7 +123,7 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
   }
-	#myiconbox {
+  #myiconbox {
     width: 100%;
     height: 15vh;
     display: flex;
@@ -132,7 +141,7 @@ const StyledWrapper = styled.div`
     justify-content: center;
     overflow: hidden;
   }
-	#myicon {
+  #myicon {
     width: 90%;
     height: 90%;
     object-fit: cover;
@@ -165,7 +174,12 @@ const StyledWrapper = styled.div`
     width: 1100px;
     border: 0;
     height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.75),
+      rgba(0, 0, 0, 0)
+    );
   }
   #album {
     width: 100%;
@@ -189,7 +203,7 @@ const StyledWrapper = styled.div`
     cursor: pointer;
   }
   #example-table:hover {
-    border: 3px solid #EFD345;
+    border: 3px solid #efd345;
     margin: 17px -3px;
   }
 `;

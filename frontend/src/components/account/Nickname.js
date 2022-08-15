@@ -28,28 +28,25 @@ export default function Nickname(props) {
       .catch(err => console.log(err));
   };
   return (
-    <StyledWrapper className="form-row">
-      <p>닉네임 </p>
-      <div className="nickname-input-group">
-        <TextField
-          onChange={e => {
-            nicknameInput(e);
-            isValid(NicknameFilter(e));
-          }}
-          error={Boolean(nickname && !validNickname)}
-          onInput={e => CheckLength(e, 6)}
-          required
-          id="nickname-input"
-          label="필수 입력 항목"
-        />
-        <Button
-          variant="contained"
-          onClick={checkNickname}
-          disabled={!validNickname}
-        >
-          중복 확인
-        </Button>
-      </div>
+    <StyledWrapper className="nickname-input-group">
+      <TextField
+        onChange={e => {
+          nicknameInput(e);
+          isValid(NicknameFilter(e));
+        }}
+        error={Boolean(nickname && !validNickname)}
+        onInput={e => CheckLength(e, 6)}
+        required
+        id="nickname-input"
+        label="필수 입력 항목"
+      />
+      <Button
+        variant="contained"
+        onClick={checkNickname}
+        disabled={!validNickname}
+      >
+        중복 확인
+      </Button>
     </StyledWrapper>
   );
 }

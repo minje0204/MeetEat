@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ProfileDialog from "components/profile/ProfileDialog";
+import { Link } from "react-router-dom";
 
 export default function ProfileIcon() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -42,12 +43,14 @@ export default function ProfileIcon() {
             <MenuItem sx={{ color: "black", fontFamily: "Jua" }}>
               <ProfileDialog />
             </MenuItem>
-            <MenuItem
-              onClick={handleClose}
-              sx={{ color: "black", fontFamily: "Jua" }}
-            >
-              개인정보 관리
-            </MenuItem>
+            <Link to="/user/edit">
+              <MenuItem
+                onClick={handleClose}
+                sx={{ color: "black", fontFamily: "Jua" }}
+              >
+                회원정보 수정
+              </MenuItem>
+            </Link>
             <MenuItem
               onClick={e => {
                 handleClose(e);

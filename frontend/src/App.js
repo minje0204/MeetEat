@@ -6,6 +6,7 @@ import RestaurantPage from "views/restaurant/RestaurantPage";
 import ConferencePage from "views/conference/ConferencePage";
 import SignUpPage from "views/signup/SignupPage";
 import Login from "views/login/Login";
+import UserEditPage from "views/user/UserEditPage";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
               />
               <Route path="signup" element={<SignUpPage />} />
               <Route path="login/:provider" element={<Login />} />
+              <Route path="user/edit" element={<UserEditPage />} />
             </Route>
           </Routes>
         </Suspense>

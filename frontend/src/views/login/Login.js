@@ -1,7 +1,8 @@
 import Axios from "utils/axios/Axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   let params = new URL(document.location).searchParams;
   const code = params.get("code");
   const provider = useParams().provider;
@@ -17,7 +18,15 @@ export default function Login() {
     })
       .then(res => {
         if (res.data.response.role === "ANONYMOUS") {
-          window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/signup?code=${code}&redirect_uri=${redirect_uri}&email=${res.data.response.email}&provider=${provider}`;
+          navigate("/signup", {
+            state: {
+              email: res.data.response.email,
+              code: code,
+              provider: provider,
+              redirect_uri: redirect_uri,
+            },
+          });
+          // window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/signup?code=${code}&redirect_uri=${redirect_uri}&email=${res.data.response.email}&provider=${provider}`;
         } else if (res.data.response.id) {
           console.log(res);
           localStorage.setItem("accessToken", res.data.response.accessToken);
@@ -33,7 +42,9 @@ export default function Login() {
             "accessToken",
             res.data.response.accessToken,
           );
-          window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
+          navigate("/", { replace: true });
+
+          // window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
         }
       })
       .catch(err => {
