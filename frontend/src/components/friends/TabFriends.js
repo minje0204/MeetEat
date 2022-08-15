@@ -4,10 +4,12 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import styled from "@emotion/styled";
 import SearchFriends from 'components/friends/SearchFriends';
 import SearchInputFriends from 'components/friends/SearchInputFriends';
 import MyFriends from 'components/friends/MyFriends';
+import Axios from "utils/axios/Axios";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,25 +42,60 @@ function a11yProps(index) {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
-}
+};
 function a22yProps(index) {
   return {
     id: `sub-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
-}
+};
 
 export default function TabFriends() {
   const [value, setValue] = React.useState(1);
   const [subValue, setSubValue] = React.useState(0);
+  const [searchValue, setSearchValue] = React.useState("nickname");
+  const [searchName, setSearchName] = React.useState('');
+  const [searchSign, setSearchSign] = React.useState(0);
+  const [searchResultList, setSearchResultList] = React.useState([]);
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   const subHandleChange = (event, newValue) => {
     setSubValue(newValue);
-  }
+  };
+  
+  React.useEffect(() => {
+    if (searchSign === 1){
+      setSearchSign(0)
+      Axios.get(`/user/search?${searchValue}=${searchName}`).then(res => {
+        setSearchResultList(res.data.response);
+      });
+    };
+  }, [searchValue, searchName, searchSign]);
 
+  const friendPlus = (idx) => {
+    Axios.post(`/friend/request/${idx}`)
+  };
+
+  const searchResult = searchResultList.map((e, idx) => (
+    <div id="who-each" key={`${idx}`}>
+      <div id="who-icon-nickname">
+        <div id="who-imgbox">
+          <img src={e.profile} id="image" alt={`사진 ${idx}`} />
+        </div>
+        <div id="nickname">
+          {e.nickname}
+        </div>
+      </div>
+      <div id="profile-menu">
+        <Button variant="outlined" id="profile" onClick={friendPlus(e.id)}>
+          밥친구 추가
+        </Button>
+      </div>
+    </div>
+  ));
+  
   return (
     <StyledWrapper>
       <div id="friend-dialog">
@@ -96,16 +133,12 @@ export default function TabFriends() {
         </TabPanel>
         <TabPanel value={value} index={2}>
           <div id="search">
-            <SearchFriends />
-            <SearchInputFriends />
+            <SearchFriends setSearchValue={setSearchValue} />
+            <SearchInputFriends setSearchName={setSearchName} setSearchSign={setSearchSign}/>
           </div>
           <hr id="horizon-line" />
-          <div id="search-result">
-            <div id="example-1"></div>
-            <div id="example-1"></div>
-            <div id="example-1"></div>
-            <div id="example-1"></div>
-            <div id="example-1"></div>
+          <div id="result-list">
+            { searchResult }
           </div>
         </TabPanel>
       </div>
@@ -163,10 +196,6 @@ const StyledWrapper = styled.div`
     width: 100%;
     height: 30%;
   }
-  #friend-list {
-    overflow: auto;
-    height: 530px;
-  }
   #search-result {
     width: 100%;
     display: flex;
@@ -180,6 +209,10 @@ const StyledWrapper = styled.div`
     height: 1px;
     background-color: #E2E2E2;
   }
+  #friend-list {
+    overflow: auto;
+    height: 530px;
+  }
   #example-1 {
     height: 70px;
     width: 90%;
@@ -188,5 +221,59 @@ const StyledWrapper = styled.div`
     margin: 10px 0;
     border: 4px solid #EFD345;
     border-radius: 20px;
+  }
+  #result-list {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #who-each {
+    height: 70px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    border: 4px solid #EFD345;
+    border-radius: 20px;
+  }
+  #who-icon-nickname {
+    font-family: "Jua";
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+  }
+  #who-imgbox {
+    height: 50px;
+    width: 50px;
+    margin: 0 10px;
+    border: 2px solid black;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  #image {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+  }
+  #profile-menu {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+  }
+  #profile {
+    margin-left: 10px;
+    padding: 2px 5px;
+    border-color: black;
+    font-family: "Jua";
+    font-size: 16px;
+    color: black;
+    background-color: #EFD345;
+    margin: 0 10px;
   }
 `;

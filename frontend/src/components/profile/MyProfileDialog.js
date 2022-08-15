@@ -10,7 +10,7 @@ import testinput from "components/profile/testinput";
 import ProfileDialogDetail from "components/profile/ProfileDialogDetail";
 import Axios from "utils/axios/Axios";
 
-export default function ProfileDialog() {
+export default function MyProfileDialog() {
   const [open, setOpen] = React.useState(false);
   const [openDetail, setOpenDetail] = React.useState(false);
   const [myProfileInfo, setMyProfileInfo] = React.useState([]);
@@ -29,7 +29,7 @@ export default function ProfileDialog() {
   };
 
   React.useEffect(() => {
-    Axios.get(`/user/2`).then(res => {
+    Axios.get(`/user/me`).then(res => {
       setMyProfileInfo(res.data.response)
     });
   }, []);
@@ -97,7 +97,7 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
-  a{
+  a {
     text-decoration: none;
   }
   #return-exit {

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import hotdog from "assets/img/hotdog.png"
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import ProfileDialog from "components/profile/ProfileDialog";
+import MyProfileDialog from "components/profile/MyProfileDialog";
 
 export default function ProfileIcon() {
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -31,7 +31,7 @@ export default function ProfileIcon() {
       >
 			<StyledWrapperLink>
 				<MenuItem sx={{ color: "black", fontFamily: "Jua" }}>
-					<ProfileDialog />
+					<MyProfileDialog />
 				</MenuItem>
 				<MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>개인정보 관리</MenuItem>
 				<MenuItem onClick={handleClose} sx={{ color: "#FF0063", fontFamily: "Jua" }}>로그아웃</MenuItem>
