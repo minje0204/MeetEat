@@ -43,3 +43,4 @@ out/
 
 ### Setting ###
 src/main/resources/application.yml
+src/main/resources/keystore.p12
