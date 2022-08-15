@@ -23,11 +23,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AuthTokenProvider authTokenProvider;
-
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-            .antMatchers("**");// Todo: wss 테스트위해서 임시 세팅
+            .antMatchers("/h2-console/**", "/favicon.ico")
+            .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**",
+                "/swagger/**")
+            .antMatchers("/groupcall/**", "/conference/**");
     }
 
     @Override
@@ -37,7 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
             .authorizeRequests()
-            .antMatchers("/auth/**").permitAll()
+            .antMatchers("/**").permitAll()
+//            .antMatchers("/auth/**", "/user/exists/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .headers()

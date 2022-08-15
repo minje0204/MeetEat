@@ -2,6 +2,7 @@ package com.a105.api.service;
 
 import com.a105.api.request.UserBioRequest;
 import com.a105.api.request.UserNicknameRequest;
+import com.a105.api.response.NicknameResponse;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.domain.user.User;
 import com.a105.domain.user.UserRepository;
@@ -57,8 +58,9 @@ public class UserService {
         return userInfos;
     }
 
-    public boolean checkDuplicateNickname(String nickname) {
-        return userRepository.findOneByNickname(nickname);
+    public NicknameResponse checkDuplicateNickname(String nickname) {
+        NicknameResponse nicknameResponse = NicknameResponse.of(nickname, userRepository.findOneByNickname(nickname));
+        return nicknameResponse;
     }
 
     @Transactional
