@@ -7,12 +7,14 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import table_empty from "assets/img/table_empty.svg";
+import table_alone from "assets/img/table_alone.svg";
+import table_full from "assets/img/table_full.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import roomtitle from "assets/img/roomtitle.png";
 
 export default function ModalMakingRoom(props) {
-  const { tableNum, restaurantId } = props;
+  const { tableNum, restaurantId, title, maxUserNum, currentUserNum } = props;
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("");
   /* eslint-disable-next-line */
@@ -28,36 +30,49 @@ export default function ModalMakingRoom(props) {
   };
   const makeRoom = () => {};
 
-  /* eslint-disable-next-line */
-  const tableList = [
-    { id: "1", peopleValue: "", peopleLimitValue: "", titleValue: "" },
-    { id: "2", peopleValue: "", peopleLimitValue: "", titleValue: "" },
-    { id: "3", peopleValue: "", peopleLimitValue: "", titleValue: "" },
-    { id: "4", peopleValue: "", peopleLimitValue: "", titleValue: "" },
-    { id: "5", peopleValue: "", peopleLimitValue: "", titleValue: "" },
-    { id: "6", peopleValue: "", peopleLimitValue: "", titleValue: "" },
-    { id: "7", peopleValue: "", peopleLimitValue: "", titleValue: "" },
-    { id: "8", peopleValue: "", peopleLimitValue: "", titleValue: "" },
-  ];
-
   return (
     <StyledWrapper>
       <div id="image-box">
         <div id="roomtitle-box" onClick={handleClickOpen}>
-          <img src={roomtitle} alt="방제목" id="roomtitle-img"/>
+          <img src={roomtitle} alt="방제목" id="roomtitle-img" />
           <div id="roomtitle-text">
             <div id="roomtitle-text-number-people">
-              <div id="roomtitle-text-number">{ tableNum }번방</div>
-              <div id="roomtitle-text-people">(2명/6명)</div>
+              <div id="roomtitle-text-number">{tableNum}번 테이블</div>
+              <div id="roomtitle-text-people">
+                ({currentUserNum}/{maxUserNum})
+              </div>
             </div>
             {/* 16글자까지 */}
-            <div id="roomtitle-text-title">"오늘 밥 같이 먹을 사람 있나요?"</div>
+            <div id="roomtitle-text-title">{title}</div>
           </div>
         </div>
-        <img src={table_empty} alt="테이블" onClick={handleClickOpen} id="table" />
+        {!currentUserNum ? (
+          <img
+            src={table_empty}
+            alt="테이블"
+            onClick={handleClickOpen}
+            id="table"
+          />
+        ) : currentUserNum === maxUserNum ? (
+          <img
+            src={table_full}
+            alt="테이블"
+            onClick={handleClickOpen}
+            id="table"
+          />
+        ) : (
+          <img
+            src={table_alone}
+            alt="테이블"
+            onClick={handleClickOpen}
+            id="table"
+          />
+        )}
       </div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{ fontFamily: "Jua", fontSize: 22 }}>{tableNum}번 테이블 만들기</DialogTitle>
+        <DialogTitle sx={{ fontFamily: "Jua", fontSize: 22 }}>
+          {tableNum}번 테이블 만들기
+        </DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ fontFamily: "Jua", fontSize: 18 }}>
             {tableNum}번 테이블에 합석할 사람들을 위해, 테이블 제목과 인원을
@@ -95,14 +110,24 @@ export default function ModalMakingRoom(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} sx={{ fontFamily: "Jua", fontSize: 16, color: "inherit" }}>닫기</Button>
+          <Button
+            onClick={handleClose}
+            sx={{ fontFamily: "Jua", fontSize: 16, color: "inherit" }}
+          >
+            닫기
+          </Button>
           <Button onClick={makeRoom}>
             <StyledWrapperLink>
               <Link
                 to={`/restaurant/${restaurantId}/conference/${tableNum}`}
-                state={{ title: titleValue, peopleLimit: peopleLimitValue, userName }}
+                state={{
+                  title: titleValue,
+                  peopleLimit: peopleLimitValue,
+                  userName,
+                }}
                 id="link"
-              >만들기
+              >
+                만들기
               </Link>
             </StyledWrapperLink>
           </Button>
@@ -140,12 +165,12 @@ const StyledWrapper = styled.div`
     left: 5%;
     font-family: "Jua";
   }
-  #roomtitle-text-number-people{
+  #roomtitle-text-number-people {
     height: 30%;
     display: flex;
     justify-content: space-between;
   }
-  #roomtitle-text-title{
+  #roomtitle-text-title {
     width: 100%;
     height: 70%;
   }

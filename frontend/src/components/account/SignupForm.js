@@ -6,7 +6,7 @@ import { CheckLength } from "utils/filters/CheckLength";
 import ProfileImage from "./ProfileImage";
 import { Link } from "react-router-dom";
 import Nickname from "./Nickname";
-import axios from "axios";
+import Axios from "utils/axios/Axios";
 
 export default function SignupForm() {
   const [Image, setImage] = useState(
@@ -36,10 +36,9 @@ export default function SignupForm() {
         profile_image: Image,
       };
       console.log(data);
-      axios
-        .post(`http://localhost:8080/auth/signup`, {
-          data: data,
-        })
+      Axios.post(`/auth/signup`, {
+        data: data,
+      })
         .then(res => {
           console.log(res);
         })

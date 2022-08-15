@@ -1,4 +1,4 @@
-import axios from "axios";
+import Axios from "utils/axios/Axios";
 import { useDispatch } from "react-redux";
 import { SetUserInfo } from "modules/user";
 import { useParams } from "react-router-dom";
@@ -7,25 +7,24 @@ export default function Login() {
   let params = new URL(document.location).searchParams;
   const code = params.get("code");
   const provider = useParams().provider;
-  const redirect_uri = `http://localhost:3000/login/${provider}`;
+  const redirect_uri = `/login/${provider}`;
 
   const dispatch = useDispatch();
 
   if (code != null) {
-    axios
-      .get(`http://localhost:8080/login/oauth2/code/${provider}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${code}`,
-        },
-        params: { code: code, redirect_uri: redirect_uri },
-      })
+    Axios.get(`/login/oauth2/code/${provider}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${code}`,
+      },
+      params: { code: code, redirect_uri: redirect_uri },
+    })
       .then(res => {
         if (res.data.response.role === "ANONYMOUS") {
           window.location.href = `http://localhost:3000/signup?code=${code}&redirect_uri=${redirect_uri}&email=${res.data.response.email}`;
         } else {
-          localStorage.setItem("jwt-token", res.data.response.accessToken);
-          axios.defaults.headers.common[
+          localStorage.setItem("accessToken", res.data.response.accessToken);
+          Axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${res.data.response.accessToken}`;
           const data = {
@@ -36,7 +35,6 @@ export default function Login() {
             accessToken: res.data.response.accessToken,
           };
           dispatch(SetUserInfo(data));
-          // state에 user 정보 저장
           window.location.href = `http://localhost:3000`;
         }
       })
