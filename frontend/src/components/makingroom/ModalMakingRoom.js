@@ -13,9 +13,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import roomtitle from "assets/img/roomtitle.png";
 import Axios from "utils/axios/Axios";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function ModalMakingRoom(props) {
+  const navigate = useNavigate();
   const { restaurantId, tableInfo } = props;
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("");
@@ -25,26 +26,21 @@ export default function ModalMakingRoom(props) {
   let joinRequest = 0;
   const [titleValue, setTitleValue] = useState("");
   const [peopleLimitValue, setPeopleLimitValue] = useState("");
-  const user_nickname = useSelector(state => state.user.loggedInfo.nickname);
 
   const joinRoom = event => {
-    Axios.get(`/restaurant/${restaurantId}/conference/${tableInfo.id}`)
-      // .then(response => {
-      //   // setJoinRequest(response.data.status);
-      //   joinRequest = response.data.status;
-      // })
-      // .then(() => {
-      //   if (joinRequest !== 200) event.preventDefault();
-      // })
-      // .catch(error => {
-      //   event.preventDefault();
-      // });
-      .then(resposne => {
-        if (resposne.data.status == 200) var link = document.createElement("a");
-        document.body.appendChild(link);
-        link.href = `/restaurant/${restaurantId}/conference/${tableInfo.id}`;
-        link.click();
-      });
+    Axios.get(`/restaurant/${restaurantId}/conference/${tableInfo.id}`).then(
+      resposne => {
+        if (resposne.data.status == 200) {
+          navigate(`/restaurant/${restaurantId}/conference/${tableInfo.id}`, {
+            state: {
+              title: tableInfo.title,
+              peopleLimit: tableInfo.maxUserNum,
+              userName: sessionStorage.getItem("nickname"),
+            },
+          });
+        }
+      },
+    );
   };
 
   const handleClickOpen = () => {
