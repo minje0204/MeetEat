@@ -14,6 +14,11 @@ export default function ProfileIcon() {
     setAnchorEl(null);
   };
 
+  const logOut = () => {
+    window.sessionStorage.clear();
+    localStorage.clear();
+    window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
+  };
   return (
     <StyledWrapper>
       <div id="imgbox">
@@ -44,7 +49,10 @@ export default function ProfileIcon() {
               개인정보 관리
             </MenuItem>
             <MenuItem
-              onClick={handleClose}
+              onClick={e => {
+                handleClose(e);
+                logOut();
+              }}
               sx={{ color: "#FF0063", fontFamily: "Jua" }}
             >
               로그아웃
