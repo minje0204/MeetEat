@@ -3,7 +3,7 @@ import styled from "styled-components";
 export default function GoogleLogin() {
   const client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   const redirectURI = encodeURI(
-    `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}`,
+    `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/login/google`,
   );
   const state = encodeURI("random_state");
   const scope =

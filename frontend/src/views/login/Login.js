@@ -7,9 +7,8 @@ export default function Login() {
   let params = new URL(document.location).searchParams;
   const code = params.get("code");
   const provider = useParams().provider;
-  const redirect_uri = `http://localhost:3000/login/${provider}`;
+  const redirect_uri = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/login/${provider}`;
   console.log(code);
-  // const dispatch = useDispatch();
   if (code != null) {
     Axios.get(`/auth/login/${provider}`, {
       headers: {
@@ -36,7 +35,7 @@ export default function Login() {
             "accessToken",
             res.data.response.accessToken,
           );
-          window.location.href = `http://localhost:3000`;
+          window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
         }
       })
       .catch(err => {
