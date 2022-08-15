@@ -12,7 +12,7 @@ export const ClearUserInfo = () => ({
 });
 
 const initialState = {
-  loggedInfo: { nickname: "", email: "", bio: "", profile: "" },
+  loggedInfo: { nickname: "", email: "", bio: "", profile: "", id: null },
   logged: false,
   accessToken: "",
 };
@@ -24,7 +24,8 @@ export default function user(state = initialState, action) {
     case SET_USER_INFO:
       return {
         ...state,
-        logggedInfo: {
+        loggedInfo: {
+          id: action.data.id,
           nickname: action.data.nickname,
           email: action.data.email,
           bio: action.data.bio,

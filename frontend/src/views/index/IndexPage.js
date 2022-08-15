@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function IndexPage() {
+  console.log(window.sessionStorage.getItem("nickname"));
   const restaurantList = [
     {
       id: "1",
