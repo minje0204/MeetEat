@@ -8,19 +8,22 @@ import Axios from "utils/axios/Axios";
 import Nickname from "./Nickname";
 
 export default function EditForm() {
-  const profile = sessionStorage.getItem("profile");
   const myBio = sessionStorage.getItem("bio");
   const [Image, setImage] = useState("");
   const [preview, setPreview] = useState(
-    profile ? profile : "/images/profile_image/default_profile.png",
+    "/images/profile_image/default_profile.png",
   );
-
+  let email;
   const [nickname, setNickname] = useState("");
   const [checkedNickname, setCheckedNickname] = useState("");
   const [validNickname, setValidNickname] = useState(false);
   const isValid = value => setValidNickname(value);
-  const email = sessionStorage.getItem("email");
   const [bio, setBio] = useState(myBio);
+  Axios.get("user/me").then(res => {
+    console.log(res);
+    setPreview(res.data.response.profile);
+    email = sessionStorage.getItem("email");
+  });
   const bioInput = e => setBio(e.target.value);
 
   const profileEditHandler = e => {

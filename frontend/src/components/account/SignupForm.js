@@ -8,10 +8,9 @@ import { Link } from "react-router-dom";
 import Nickname from "./Nickname";
 import Axios from "utils/axios/Axios";
 import { toUpper } from "lodash";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function SignupForm() {
-  const navigate = useNavigate();
   const location = useLocation();
 
   const [Image, setImage] = useState("");
@@ -27,7 +26,9 @@ export default function SignupForm() {
   const [bio, setBio] = useState("");
   const bioInput = e => setBio(e.target.value);
   const email = location.state.email;
-  const provider = location.state.email;
+  const provider = location.state.provider;
+  const code = location.state.code;
+  const redirect_uri = location.state.redirect_uri;
 
   const signupPost = () => {
     if (!validNickname) {
@@ -58,7 +59,40 @@ export default function SignupForm() {
         .then(res => {
           console.log(res);
           // 회원가입 시 바로 로그인 되게 변경
-          navigate("/");
+          Axios.get(`/auth/login/${provider}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${code}`,
+            },
+            params: { code: code, redirect_uri: redirect_uri },
+          }).then(res => {
+            if (res.data.response.id) {
+              console.log(res);
+              localStorage.setItem(
+                "accessToken",
+                res.data.response.accessToken,
+              );
+              Axios.defaults.headers.common[
+                "Authorization"
+              ] = `Bearer ${res.data.response.accessToken}`;
+              window.sessionStorage.setItem("logged", true);
+              window.sessionStorage.setItem(
+                "nickname",
+                res.data.response.nickname,
+              );
+              window.sessionStorage.setItem("email", res.data.response.email);
+              window.sessionStorage.setItem("bio", res.data.response.bio);
+              window.sessionStorage.setItem(
+                "profile",
+                res.data.response.profile,
+              );
+              window.sessionStorage.setItem(
+                "accessToken",
+                res.data.response.accessToken,
+              );
+              window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
+            }
+          });
         })
         .catch(err => {
           console.log(err);

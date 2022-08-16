@@ -42,9 +42,7 @@ export default function Login() {
             "accessToken",
             res.data.response.accessToken,
           );
-          navigate("/", { replace: true });
-
-          // window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
+          window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
         }
       })
       .catch(err => {
