@@ -32,13 +32,13 @@ export default function RestaurantPage() {
       };
     }
     setTableList(onTableList);
-  }
+  };
 
   useEffect(() => {
     Axios.get(`/restaurant/${encodeURI(params.restaurant_id)}`)
       .then(response => onload(response.data))
       .catch(e => console.log(e));
-  }, []);
+  }, [params.restaurant_id]);
 
   const listItems = tableList.map(e => (
     <ModalMakingRoom

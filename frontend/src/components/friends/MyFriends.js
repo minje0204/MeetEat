@@ -1,16 +1,24 @@
 import * as React from 'react';
 import styled from "styled-components";
 import Button from '@mui/material/Button';
-import testinput from 'components/friends/testinput';
 import option from 'assets/img/option.png';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Axios from "utils/axios/Axios";
+import FriendsProfileDialog from 'components/profile/FriendsProfileDialog';
 
-function FriendslistOption(props) {
-  const { open, onClose, anchorEl } = props;
+function FriendsListOption(props) {
+  const { open, onClose, anchorEl, idx } = props;
   const handleClose = () => {
     onClose();
-  }
+  };
+  const HandleDelete = () => {
+    React.useEffect(() => {
+      Axios.delete(`/friend/${idx}`);
+    });
+    onClose();
+  };
+  
   return(
     <Menu
       id="basic-menu"
@@ -23,14 +31,14 @@ function FriendslistOption(props) {
       PaperProps={{ style: { boxShadow: 'none', border: '3px solid #EFD345', borderRadius: '10px', backgroundColor: '#FFEF82' } }}
     >
       <MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>친구 위치보기</MenuItem>
-      <MenuItem onClick={handleClose} sx={{ color: "#FF0063", fontFamily: "Jua" }}>친구 삭제하기</MenuItem>
+      <MenuItem onClick={HandleDelete} sx={{ color: "#FF0063", fontFamily: "Jua" }}>친구 삭제하기</MenuItem>
     </Menu>
   );
 };
 
-
 export default function MyFriends() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [friendsWithMe, setFriendsWithMe] = React.useState([]);
   const openOption = Boolean(anchorEl);
   const clickOption = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,20 +47,39 @@ export default function MyFriends() {
     setAnchorEl(null);
   };
 
-  const friendslist = testinput.map((e, idx) => (
+  function truefriends(data) {
+    const dataList = [];
+    for (let i = 0; i < data.length; i++) {
+      let user = data[i];
+      if (user.status === 1) {
+        dataList.push(user);
+      };
+    };
+    setFriendsWithMe(dataList);
+  };
+
+  React.useEffect(() => {
+    Axios.get(`/friend`).then(res => {
+      truefriends(res.data.response);
+    });
+  }, []);
+
+  const friendsList = friendsWithMe.map((e, idx) => (
     <div id="friend-each" key={`${idx}`}>
       <div id="icon-nickname">
         <div id="imgbox">
-          <img src={e.avatar} id="image" alt={`avatar-img-${idx}`} />
+          <img src={e.friendInfo.profile} id="image" alt={`사진 ${idx}`} />
         </div>
         <div id="nickname">
-          {e.nickname}
+          {e.friendInfo.nickname}
         </div>
       </div>
       <div id="profile-menu">
-        <Button variant="outlined" id="profile">프로필 보기</Button>
+        <Button variant="outlined" id="profile">
+          <FriendsProfileDialog who={e.friendInfo.id}/>
+        </Button>
         <img src={option} onClick={clickOption} width="20px" height="20px" id="option" alt="메뉴" />
-        <FriendslistOption open={openOption} anchorEl={anchorEl} onClose={closeOption} />
+        <FriendsListOption open={openOption} anchorEl={anchorEl} onClose={closeOption} idx={e.friendInfo.id} />
       </div>
     </div>
   ));
@@ -60,7 +87,7 @@ export default function MyFriends() {
   return (
     <StyledWrapper>
       <div id="friend-whole">
-        { friendslist }
+        { friendsList }
       </div>
     </StyledWrapper>
   );

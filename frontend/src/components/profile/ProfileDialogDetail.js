@@ -19,10 +19,10 @@ export default function ProfileDialogDetail(props) {
           <div id="body">
             <div id="example-table" />
             <div id="text">
-              <div>
+              <div id="room-title">
               방제목 : 우리 함께 밥 먹을까요?
               </div>
-              <div>
+              <div id="date">
               날짜 : 2022년 08월 17일 19시 18분
               </div>
             </div>
@@ -84,11 +84,14 @@ const StyledWrapper = styled.div`
     font-family: "Jua";
     font-size: 24px;
   }
+  #date {
+    font-size: 20px;
+  }
   #horizon-line {
     width: 457.75px;
     border: 0;
-    height: 1px;
-    background-color: #E2E2E2;
+    height: 1.5px;
+    background-color: #EFD345;
   }
   #footer {
     width: 100%;
