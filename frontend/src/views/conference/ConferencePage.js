@@ -29,7 +29,10 @@ export default function ConferencePage() {
   });
 
   const leaveRoom = () => {
-    Axios.patch(`/restaurant/conference/${conferenceId}`, conferenceId);
+    Axios.patch(
+      `/restaurant/conference/${encodeURI(conferenceId)}`,
+      conferenceId,
+    );
   };
 
   useEffect(() => {
@@ -39,7 +42,7 @@ export default function ConferencePage() {
       room: title,
     };
     handleClickSendMessage(message);
-    Axios.get(`/restaurant/conference/${conferenceId}`);
+    Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`);
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (

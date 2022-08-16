@@ -25,20 +25,22 @@ export default function ModalMakingRoom(props) {
   const [peopleLimitValue, setPeopleLimitValue] = useState("");
 
   const joinRoom = () => {
-    Axios.get(`/restaurant/conference/${conferenceId}`).then(response => {
-      if (response.data.status == 200) {
-        navigate(`/restaurant/conference/${conferenceId}`, {
-          state: {
-            title: tableInfo.title,
-            peopleLimit: tableInfo.maxUserNum,
-            userName: sessionStorage.getItem("nickname"),
-            conferenceId,
-            restaurantId,
-            position: tableInfo.position,
-          },
-        });
-      }
-    });
+    Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).then(
+      response => {
+        if (response.data.status == 200) {
+          navigate(`/restaurant/conference/${conferenceId}`, {
+            state: {
+              title: tableInfo.title,
+              peopleLimit: tableInfo.maxUserNum,
+              userName: sessionStorage.getItem("nickname"),
+              conferenceId,
+              restaurantId,
+              position: tableInfo.position,
+            },
+          });
+        }
+      },
+    );
   };
 
   const handleClickOpen = () => {
@@ -56,7 +58,7 @@ export default function ModalMakingRoom(props) {
       alert("인원은 2~6 숫자만 가능합니다");
       return;
     }
-    Axios.post(`/restaurant/${restaurantId}`, {
+    Axios.post(`/restaurant/${encodeURI(restaurantId)}`, {
       title: titleValue,
       maxUserNum: peopleLimitValue,
       position: tableInfo.position,
