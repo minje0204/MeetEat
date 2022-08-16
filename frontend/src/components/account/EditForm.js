@@ -14,7 +14,11 @@ export default function EditForm() {
     "/images/profile_image/default_profile.png",
   );
   let email;
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useState(
+    sessionStorage.getItem("nickname") === null
+      ? ""
+      : sessionStorage.getItem("nickname"),
+  );
   const [checkedNickname, setCheckedNickname] = useState("");
   const [validNickname, setValidNickname] = useState(false);
   const isValid = value => setValidNickname(value);
