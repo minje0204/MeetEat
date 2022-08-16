@@ -2,7 +2,7 @@
 
 <center>
 
-![logo](/readme_assets/logo.png)
+![logo](/readme_assets/logo2.png)
 
 # **밋 잇 (MEET EAT)**
 
