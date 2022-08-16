@@ -13,6 +13,7 @@ let onParticipantLeft;
 let receiveVideoResponse;
 let onChat;
 let hostChanged;
+let onReceiveTable;
 var interval;
 
 const onMessage = message => {
@@ -49,6 +50,9 @@ const onMessage = message => {
       break;
     case "hostChanged":
       hostChanged(parsedMessage.host);
+      break;
+    case "receiveTable":
+      onReceiveTable(parsedMessage);
       break;
     default:
       console.error("Unrecognized message", parsedMessage);
@@ -142,6 +146,10 @@ const UseSocket = ({ name, setNum }) => {
     setRtcPeer(participant.rtcPeer);
 
     msg.data.forEach(receiveVideo); // 돌면서 참가자 모두 영상 수신
+  };
+
+  onReceiveTable = function (msg) {
+    console.log(msg);
   };
 
   onChat = function (msg) {

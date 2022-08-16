@@ -2,16 +2,28 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MoveItem, RemoveItem } from "modules/table";
+import { useSocketContext } from "components/socket/SocketContext";
+import { useConferenceContext } from "components/conference/ConferenceContext";
 
 export default function ItemsOnTable(props) {
   const myMenu = useSelector(state => state.table.present.tableList); // 해당 state가 변할 때 마다 현재 컴포넌트를 리렌더링함.
-
+  const { sendMessage } = useSocketContext();
+  const { userName, roomTitle } = useConferenceContext();
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    let msg = {
+      id: "updateTable",
+      name: userName,
+      room: roomTitle,
+      data: myMenu,
+    };
+    sendMessage(msg);
+  }, [myMenu]);
   const getStartX = value => {
     setStartX(value);
   };
@@ -59,6 +71,8 @@ export default function ItemsOnTable(props) {
           deltaY: deltaY,
         }),
       );
+      let msg = {};
+      // sendMessage(msg);
     }
   };
   const menuRender = myMenu.map((menu, index) => (

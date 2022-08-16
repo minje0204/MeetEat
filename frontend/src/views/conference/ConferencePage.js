@@ -10,6 +10,8 @@ import SwitchVideo from "components/conference/SwitchVideo";
 import Chatting from "components/conference/Chatting";
 import Door from "components/conference/Door";
 import { Link } from "react-router-dom";
+import { SocketContextProvider } from "components/socket/SocketContext";
+import { ConferenceContextProvider } from "components/conference/ConferenceContext";
 import Axios from "utils/axios/Axios";
 
 export default function ConferencePage() {
@@ -18,7 +20,6 @@ export default function ConferencePage() {
   const { title, peopleLimit, userName, conferenceId, restaurantId, position } =
     location.state;
   const [num, setNum] = useState(1);
-
   const { handleClickSendMessage, rtcPeer, host } = UseSocket({
     name: location.state.userName,
     setNum,
@@ -57,28 +58,32 @@ export default function ConferencePage() {
   );
 
   return (
-    <StyledWrapper>
-      <div id="table-name">
-        {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
-      </div>
-      <TableSlide conferenceId={conferenceId} />
-      {roomGuestList}
-      <div id="footer">
-        <Link to={"/restaurant/" + restaurantId} onClick={leaveRoom}>
-          <Door />
-        </Link>
-        <div id="switch">
-          <SwitchMic value={{ rtcPeer: rtcPeer }}></SwitchMic>
-          <SwitchVideo value={{ rtcPeer: rtcPeer }}></SwitchVideo>
-        </div>
-        <div id="chatting">
-          <Chatting
-            handleClickSendMessage={handleClickSendMessage}
-            value={{ room: title, name: userName }}
-          ></Chatting>
-        </div>
-      </div>
-    </StyledWrapper>
+    <SocketContextProvider sendMessage={handleClickSendMessage}>
+      <ConferenceContextProvider name={userName} title={title}>
+        <StyledWrapper>
+          <div id="table-name">
+            {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
+          </div>
+          <TableSlide conferenceId={conferenceId} />
+          {roomGuestList}
+          <div id="footer">
+            <Link to={"/restaurant/" + restaurantId} onClick={leaveRoom}>
+              <Door />
+            </Link>
+            <div id="switch">
+              <SwitchMic value={{ rtcPeer: rtcPeer }}></SwitchMic>
+              <SwitchVideo value={{ rtcPeer: rtcPeer }}></SwitchVideo>
+            </div>
+            <div id="chatting">
+              <Chatting
+                handleClickSendMessage={handleClickSendMessage}
+                value={{ room: title, name: userName }}
+              ></Chatting>
+            </div>
+          </div>
+        </StyledWrapper>
+      </ConferenceContextProvider>
+    </SocketContextProvider>
   );
 }
 const StyledWrapper = styled.div`
