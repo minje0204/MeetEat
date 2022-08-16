@@ -4,79 +4,114 @@ import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { CheckLength } from "utils/filters/CheckLength";
 import ProfileImage from "./ProfileImage";
-import { Link } from "react-router-dom";
-import Nickname from "./Nickname";
 import Axios from "utils/axios/Axios";
-import { toUpper } from "lodash";
-import { useLocation } from "react-router-dom";
+import Nickname from "./Nickname";
 
-export default function SignupForm() {
-  const location = useLocation();
-
+export default function EditForm() {
+  const myBio = sessionStorage.getItem("bio");
   const [Image, setImage] = useState("");
   const [preview, setPreview] = useState(
     "/images/profile_image/default_profile.png",
   );
-
+  let email;
   const [nickname, setNickname] = useState("");
   const [checkedNickname, setCheckedNickname] = useState("");
   const [validNickname, setValidNickname] = useState(false);
   const isValid = value => setValidNickname(value);
-
-  const [bio, setBio] = useState("");
+  const [bio, setBio] = useState(myBio);
+  Axios.get("user/me").then(res => {
+    console.log(res);
+    if (res.data.response.profile !== null) {
+      setPreview(res.data.response.profile);
+    }
+    email = res.data.response.email;
+  });
   const bioInput = e => setBio(e.target.value);
-  const email = location.state.email;
-  const provider = location.state.provider;
-  const code = location.state.code;
-  const redirect_uri = location.state.redirect_uri;
 
-  const signupPost = () => {
+  const profileEditHandler = e => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("file", Image);
+    Axios.patch("/user/profile", bodyFormData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+      },
+    })
+      .then(res => {
+        console.log(res);
+        sessionStorage.setItem("profile", res.data.response.profile);
+        alert("프로필 사진이 변경되었습니다.");
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const profileDeleteHandler = e => {
+    Axios.delete("/user/profile")
+      .then(res => {
+        console.log(res);
+        sessionStorage.setItem("profile", "");
+        alert("프로필 사진이 삭제되었습니다.");
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const nicknameEditHandler = e => {
     if (!validNickname) {
       alert("유효하지 않은 닉네임입니다. ");
     } else if (!checkedNickname || nickname !== checkedNickname) {
-      console.log(checkedNickname);
       alert("닉네임 중복확인이 필요합니다. ");
     } else {
-      const bodyFormData = new FormData();
-      const data = {
-        email: email,
-        nickname: checkedNickname,
-        bio: bio,
-        provider: toUpper(`${provider}`),
-      };
-      const blobData = new Blob([JSON.stringify(data)], {
-        type: "application/json",
-      });
-      bodyFormData.append("data", blobData);
-      bodyFormData.append("file", Image);
-
-      Axios.post("/auth/signup", bodyFormData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Accept: "application/json",
-        },
-      })
+      Axios.patch("/user/nickname", { nickname: checkedNickname })
         .then(res => {
           console.log(res);
-          // 회원가입 시 바로 로그인 되게 변경
+          sessionStorage.setItem("nickname", "");
+          alert("닉네임이 변경되었습니다.");
         })
         .catch(err => {
           console.log(err);
         });
-      window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
     }
+  };
+  const bioEditHandler = e => {
+    Axios.patch("/user/bio", { bio: bio })
+      .then(res => {
+        console.log(res);
+        sessionStorage.setItem("bio", "");
+        alert("자기 소개가 변경되었습니다.");
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   return (
     <StyledWrapper>
       <div className="form-container">
-        <h2>회원정보 입력</h2>
+        <h2>회원정보 수정</h2>
         <div className="wide-p">프로필 사진</div>
         <ProfileImage
           setImage={setImage}
           preview={preview}
           setPreview={setPreview}
         ></ProfileImage>
-
+        <div className="button-group">
+          <Button
+            disabled={!Image}
+            variant="contained"
+            className="btn-wide"
+            onClick={profileEditHandler}
+          >
+            사진 저장
+          </Button>
+          <Button
+            variant="contained"
+            className="btn-wide"
+            onClick={profileDeleteHandler}
+          >
+            사진 삭제
+          </Button>
+        </div>
         <div className="form-row">
           <p>이메일 </p>
           <p className="personal-data">{email}</p>
@@ -94,6 +129,15 @@ export default function SignupForm() {
         <p id="nickname-alert">
           닉네임은 2~6글자 한글, 영문, 숫자만 가능합니다
         </p>
+        <div className="button-group">
+          <Button
+            variant="contained"
+            className="btn-wide"
+            onClick={nicknameEditHandler}
+          >
+            닉네임 저장
+          </Button>
+        </div>
         <div className="wide-p">
           자기 소개
           <span id="text-length">{`<${bio.length}/40>`}</span>
@@ -104,18 +148,18 @@ export default function SignupForm() {
             onInput={e => CheckLength(e, 40)}
             fullWidth
             id="fullWidth"
+            defaultValue={myBio}
             placeholder="자기소개를 입력해주세요."
           />
         </div>
         <div className="button-group">
-          <Button variant="contained" className="btn-wide" onClick={signupPost}>
-            저장
+          <Button
+            variant="contained"
+            className="btn-wide"
+            onClick={bioEditHandler}
+          >
+            자기소개 저장
           </Button>
-          <Link to="/">
-            <Button variant="contained" className="btn-wide" id="signup-cancel">
-              회원가입 취소
-            </Button>
-          </Link>
         </div>
       </div>
     </StyledWrapper>
@@ -123,6 +167,14 @@ export default function SignupForm() {
 }
 
 const StyledWrapper = styled.div`
+  .button-group {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 0 0;
+  }
+  .btn-wide {
+    width: 14rem;
+  }
   #nickname-alert {
     font-size: 1rem;
     margin: 0;
@@ -176,11 +228,6 @@ const StyledWrapper = styled.div`
     flex-direction: column;
   }
 
-  .button-group {
-    display: flex;
-    justify-content: space-between;
-    margin: 2rem 0;
-  }
   button {
     font-family: "Jua";
     font-size: 1.5rem;
@@ -200,9 +247,5 @@ const StyledWrapper = styled.div`
   button:hover {
     box-shadow: none;
     background-color: #82954b;
-  }
-
-  .btn-wide {
-    width: 14rem;
   }
 `;
