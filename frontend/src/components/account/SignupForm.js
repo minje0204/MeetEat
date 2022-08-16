@@ -34,7 +34,6 @@ export default function SignupForm() {
     if (!validNickname) {
       alert("유효하지 않은 닉네임입니다. ");
     } else if (!checkedNickname || nickname !== checkedNickname) {
-      console.log(checkedNickname);
       alert("닉네임 중복확인이 필요합니다. ");
     } else {
       const bodyFormData = new FormData();
@@ -76,7 +75,6 @@ export default function SignupForm() {
           preview={preview}
           setPreview={setPreview}
         ></ProfileImage>
-
         <div className="form-row">
           <p>이메일 </p>
           <p className="personal-data">{email}</p>

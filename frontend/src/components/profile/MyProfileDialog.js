@@ -30,6 +30,7 @@ export default function MyProfileDialog() {
 
   React.useEffect(() => {
     Axios.get(`/user/me`).then(res => {
+      console.log(res);
       setMyProfileInfo(res.data.response);
     });
   }, []);

@@ -21,7 +21,6 @@ export default function Nickname(props) {
           //true인 경우 중복 닉네임 있음
           alert("이미 사용중인 닉네임입니다.");
         } else {
-          console.log(res);
           alert("사용 가능한 닉네임입니다");
           setCheckedNickname(res.data.response.nickname);
         }
