@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import * as React from 'react';
-import ToggleButton from '@mui/material/ToggleButton';
+import * as React from "react";
+import ToggleButton from "@mui/material/ToggleButton";
 
 export default function StandaloneToggleButton(props) {
   const [selected, setSelected] = React.useState(false);
-  const options = ['비디오 시작', '비디오 중지'];
+  const options = ["비디오 중지", "비디오 시작"];
   const [value, setValue] = React.useState(options[0]);
-  const {rtcPeer} = props.value;
+  const { rtcPeer } = props.value;
 
   return (
     <StyledWrapper>
@@ -16,10 +16,10 @@ export default function StandaloneToggleButton(props) {
         onChange={() => {
           setSelected(!selected);
           setValue(selected === true ? options[0] : options[1]);
-          rtcPeer.videoEnabled = !rtcPeer.videoEnabled
+          rtcPeer.videoEnabled = !rtcPeer.videoEnabled;
         }}
-        sx={{ width: 120, p:0.5}}
-        id={ value === options[0] ? "btn" : "btn-clicked" }
+        sx={{ width: 120, p: 0.5 }}
+        id={value === options[0] ? "btn" : "btn-clicked"}
       >
         {value}
       </ToggleButton>
@@ -29,18 +29,18 @@ export default function StandaloneToggleButton(props) {
 
 const StyledWrapper = styled.div`
   #btn {
-    background-color: #FFC3C3;
+    background-color: #ffc3c3;
     font-family: "Jua";
     font-size: 16px;
     color: black;
     border-radius: 10%;
-    border: 2px solid #FF8C8C;
+    border: 2px solid #ff8c8c;
   }
   #btn-clicked {
-    background-color: #FF8C8C;
+    background-color: #ff8c8c;
     font-family: "Jua";
     font-size: 16px;
     border-radius: 10%;
-    border: 2px solid #FF5D5D;
+    border: 2px solid #ff5d5d;
   }
 `;
