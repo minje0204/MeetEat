@@ -26,6 +26,12 @@ public final class ResponseMessage {
     public static final String DECLINE_RECEIVED_REQUEST = "받은 친구 요청 거절 성공";
     public static final String ACCEPT_RECEIVED_REQUEST = "받은 친구 요청 수락 성공";
     public static final String CANCEL_SENT_REQUEST = "보낸 친구 요청 취소 성공";
+    public static final String GET_RESTAURANT = "식당 조회 성공";
+
+    // Conference 관련 응답
+    public static final String JOIN_CONFERENCE = "회의 입장 성공";
+    public static final String CREATE_CONFERENCE = "회의 생성 성공";
+    public static final String LEAVE_CONFERENCE = "회의 나가기 성공";
 
     // Tray
     public static final String UPLOAD_TRAY_IMAGE = "식탁 이미지 업로드 성공";
