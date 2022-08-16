@@ -2,7 +2,7 @@ export const constraints = {
   audio: true,
   video: {
     mandatory: {
-      maxWidth: 320,
+      maxHeight: 100,
       maxFrameRate: 15,
       minFrameRate: 15,
     },

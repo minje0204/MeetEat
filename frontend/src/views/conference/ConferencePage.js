@@ -10,17 +10,27 @@ import SwitchVideo from "components/conference/SwitchVideo";
 import Chatting from "components/conference/Chatting";
 import Door from "components/conference/Door";
 import { Link } from "react-router-dom";
+import Axios from "utils/axios/Axios";
 
 export default function ConferencePage() {
   let params = useParams();
   const location = useLocation();
-  const { title, peopleLimit, userName } = location.state;
+  const { title, peopleLimit, userName, conferenceId, restaurantId, position } =
+    location.state;
   const [num, setNum] = useState(1);
 
   const { handleClickSendMessage, rtcPeer, host } = UseSocket({
     name: location.state.userName,
     setNum,
   });
+
+  const handleExit = window.addEventListener("beforeunload", function (e) {
+    leaveRoom();
+  });
+
+  const leaveRoom = () => {
+    Axios.patch(`/restaurant/conference/${conferenceId}`, conferenceId);
+  };
 
   useEffect(() => {
     let message = {
@@ -29,17 +39,15 @@ export default function ConferencePage() {
       room: title,
     };
     handleClickSendMessage(message);
+    Axios.get(`/restaurant/conference/${conferenceId}`);
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (
     <div id={Number(peopleLimit) === 4 ? `room_guest_row_4` : `room_guest_row`}>
       {_.range(0, peopleLimit).map((_, idx) => (
         <div id={`roomguest-chatting-${idx}`}>
-          <RoomGuest 
-          key={`roomGuest-${idx}`} idx={idx} 
-          value={{host}}
-          />
-          <div id="chatting-balloon" style={{display:'none'}}></div>
+          <RoomGuest key={`roomGuest-${idx}`} idx={idx} value={{ host }} />
+          <div id="chatting-balloon" style={{ display: "none" }}></div>
         </div>
       ))}
     </div>
@@ -48,26 +56,22 @@ export default function ConferencePage() {
   return (
     <StyledWrapper>
       <div id="table-name">
-        {`[ ${params.restaurant_id}번 식당 - ${params.conf_id}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
+        {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
       </div>
       <TableSlide />
       {roomGuestList}
       <div id="footer">
-        <Link to={"/restaurant/" + params.restaurant_id}>
+        <Link to={"/restaurant/" + restaurantId} onClick={leaveRoom}>
           <Door />
         </Link>
         <div id="switch">
-          <SwitchMic
-            value={{rtcPeer: rtcPeer}}>
-          </SwitchMic>
-          <SwitchVideo
-            value={{rtcPeer: rtcPeer}}>
-          </SwitchVideo>
+          <SwitchMic value={{ rtcPeer: rtcPeer }}></SwitchMic>
+          <SwitchVideo value={{ rtcPeer: rtcPeer }}></SwitchVideo>
         </div>
         <div id="chatting">
           <Chatting
             handleClickSendMessage={handleClickSendMessage}
-            value={{room: title, name: userName}}
+            value={{ room: title, name: userName }}
           ></Chatting>
         </div>
       </div>

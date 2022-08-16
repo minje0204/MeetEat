@@ -21,7 +21,7 @@ export default function App() {
                 element={<RestaurantPage />}
               />
               <Route
-                path="restaurant/:restaurant_id/conference/:conf_id"
+                path="restaurant/conference/:conf_id"
                 element={<ConferencePage />}
               />
               <Route path="signup" element={<SignUpPage />} />

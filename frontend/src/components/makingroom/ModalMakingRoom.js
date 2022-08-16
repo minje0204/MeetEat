@@ -9,8 +9,7 @@ import TextField from "@mui/material/TextField";
 import table_empty from "assets/img/table_empty.svg";
 import table_alone from "assets/img/table_alone.svg";
 import table_full from "assets/img/table_full.svg";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import roomtitle from "assets/img/roomtitle.png";
 import Axios from "utils/axios/Axios";
 import { useNavigate } from "react-router-dom";
@@ -21,24 +20,25 @@ export default function ModalMakingRoom(props) {
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("");
   /* eslint-disable-next-line */
-  const [peopleValue, setPeopleValue] = useState("");
+  const [conferenceId, setConferenceId] = useState("");
   const [titleValue, setTitleValue] = useState("");
   const [peopleLimitValue, setPeopleLimitValue] = useState("");
 
-  const joinRoom = event => {
-    Axios.get(`/restaurant/${restaurantId}/conference/${tableInfo.id}`).then(
-      resposne => {
-        if (resposne.data.status == 200) {
-          navigate(`/restaurant/${restaurantId}/conference/${tableInfo.id}`, {
-            state: {
-              title: tableInfo.title,
-              peopleLimit: tableInfo.maxUserNum,
-              userName: sessionStorage.getItem("nickname"),
-            },
-          });
-        }
-      },
-    );
+  const joinRoom = () => {
+    Axios.get(`/restaurant/conference/${conferenceId}`).then(response => {
+      if (response.data.status == 200) {
+        navigate(`/restaurant/conference/${conferenceId}`, {
+          state: {
+            title: tableInfo.title,
+            peopleLimit: tableInfo.maxUserNum,
+            userName: sessionStorage.getItem("nickname"),
+            conferenceId,
+            restaurantId,
+            position: tableInfo.position,
+          },
+        });
+      }
+    });
   };
 
   const handleClickOpen = () => {
@@ -47,7 +47,40 @@ export default function ModalMakingRoom(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  const makeRoom = () => {};
+  const makeRoom = () => {
+    if (!titleValue) {
+      alert("제목을 입력해 주세요");
+      return;
+    }
+    if (peopleLimitValue < 2 || peopleLimitValue > 6) {
+      alert("인원은 2~6 숫자만 가능합니다");
+      return;
+    }
+    Axios.post(`/restaurant/${restaurantId}`, {
+      title: titleValue,
+      maxUserNum: peopleLimitValue,
+      position: tableInfo.position,
+      restaurantId: restaurantId,
+    }).then(response => {
+      if (response.data.status == 200) {
+        setConferenceId(response.data.response.id);
+        navigate(`/restaurant/conference/${response.data.response.id}`, {
+          state: {
+            title: titleValue,
+            peopleLimit: peopleLimitValue,
+            userName: sessionStorage.getItem("nickname"),
+            conferenceId: response.data.response.id,
+            restaurantId,
+            position: tableInfo.position,
+          },
+        });
+      }
+    });
+  };
+
+  useEffect(() => {
+    setConferenceId(tableInfo.id);
+  }, []);
 
   return (
     <StyledWrapper>
@@ -110,14 +143,6 @@ export default function ModalMakingRoom(props) {
             onChange={e => setTitleValue(e.target.value)}
           />
           <TextField
-            margin="dense"
-            id="user-name"
-            label="이름"
-            type="text"
-            variant="standard"
-            onChange={e => setUserName(e.target.value)}
-          />
-          <TextField
             id="standard-number"
             label="인원 수 ( 2 ~ 6명 )"
             margin="dense"
@@ -125,7 +150,6 @@ export default function ModalMakingRoom(props) {
             InputLabelProps={{
               shrink: true,
             }}
-            style={{ marginLeft: "50px" }}
             variant="standard"
             onChange={e => setPeopleLimitValue(e.target.value)}
           />
@@ -137,20 +161,11 @@ export default function ModalMakingRoom(props) {
           >
             닫기
           </Button>
-          <Button onClick={makeRoom}>
-            <StyledWrapperLink>
-              <Link
-                to={`/restaurant/${restaurantId}/conference/${tableInfo.position}`}
-                state={{
-                  title: titleValue,
-                  peopleLimit: peopleLimitValue,
-                  userName,
-                }}
-                id="link"
-              >
-                만들기
-              </Link>
-            </StyledWrapperLink>
+          <Button
+            onClick={makeRoom}
+            sx={{ fontFamily: "Jua", fontSize: 16, color: "inherit" }}
+          >
+            만들기
           </Button>
         </DialogActions>
       </Dialog>
