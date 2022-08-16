@@ -73,7 +73,7 @@ export default function Modal(props) {
             <Button onClick={handleClose}>닫기</Button>
             <Button>
               <Link
-                to={`/restaurant/${restaurantId}/conference/${tableNum}`}
+                to={`/restaurant/conference/${tableNum}`}
                 state={{ title: titleValue, people: peopleValue, userName }}
                 id="link"
               >
