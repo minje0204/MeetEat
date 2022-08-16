@@ -1,11 +1,9 @@
-# README
-
 <center>
 
-![logo](/readme_assets/logo2.png)
+
 
 # **밋 잇 (MEET EAT)**
-
+![logo](/readme_assets/logo2.png)
 </center>
 
 ---
