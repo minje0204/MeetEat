@@ -89,16 +89,18 @@ export default function TabFriends() {
         }
       }
     }
-    Axios.get("friend/waiting")
-      .then(res => setReceivedFriendRequest(res.data.response))
-      .catch(err => console.log(err));
+    // Axios.get(`/friend/waiting`)
+    //   .then(res => setReceivedFriendRequest(res.data.response))
+    //   .catch(err => console.log(err));
     setReceivedFriendRequest(receivedRequestList);
     setsendFriendRequest(sendRequestList);
   }
 
   React.useEffect(() => {
-    Axios.get(`/friend`).then(res => {
-      requestList(res.data.response);
+    Axios.get(`/friend/waiting`).then(res => {
+      requestList(res.data.response).catch(err => {
+        console.log(err);
+      })
     });
   }, []);
 
@@ -138,8 +140,8 @@ export default function TabFriends() {
     </div>
   ));
 
-  const friendReceiveYes = () => {
-    Axios.patch(`/friend/received/accept`, { data: "" });
+  const friendReceiveYes = (idx) => {
+    Axios.patch(`/friend/received/accept`, { id: {idx} });
   };
 
   const friendPlus = idx => {
