@@ -1,8 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import ProfileDialog from "components/profile/ProfileDialog";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MyProfileDialog from "components/profile/MyProfileDialog";
 
 export default function ProfileIcon() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -35,7 +35,7 @@ export default function ProfileIcon() {
         >
           <StyledWrapperLink>
             <MenuItem sx={{ color: "black", fontFamily: "Jua" }}>
-              <ProfileDialog />
+              <MyProfileDialog />
             </MenuItem>
             <MenuItem
               onClick={handleClose}

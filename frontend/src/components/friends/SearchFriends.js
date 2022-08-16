@@ -4,9 +4,17 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 const options = ['닉네임', '이메일'];
 
-export default function SearchFriends() {
+export default function SearchFriends(props) {
+  const { setSearchValue } = props;
   const [value, setValue] = React.useState(options[0]);
-  const [inputValue, setInputValue] = React.useState('');
+
+  React.useEffect(() => {
+    if (value === options[0]){
+      setSearchValue('nickname');
+    } else if (value === options[1]){
+      setSearchValue('email');
+    }
+  });
 
   return (
     <Autocomplete
@@ -14,10 +22,6 @@ export default function SearchFriends() {
       value={value}
       onChange={(event, newValue) => {
         setValue(newValue);
-      }}
-      inputValue={inputValue}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue);
       }}
       id="controllable-states-demo"
       options={options}

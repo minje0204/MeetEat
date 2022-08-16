@@ -5,7 +5,9 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-export default function SearchInputFriends() {
+export default function SearchInputFriends(props) {
+  const { setSearchName, setSearchSign } = props;
+  
   return (
       <Paper
         component="span"
@@ -16,9 +18,10 @@ export default function SearchInputFriends() {
           sx={{ flex: 1, fontSize: 20, fontFamily: "Jua", ml: 2 }}
           placeholder="입력해 주세요."
           inputProps={{ 'aria-label': 'input' }}
+          onChange={e => setSearchName(e.target.value)}
         />
         <Divider component="span" sx={{ height: 28 }} orientation="vertical" />
-        <IconButton component="span" type="submit" sx={{ p: '10px' }} aria-label="search">
+        <IconButton onClick={() => setSearchSign(1)} component="span" type="submit" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
         </IconButton>
       </Paper>

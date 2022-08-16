@@ -6,22 +6,21 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import backbutton from "assets/img/backbutton.png";
 import closebutton from "assets/img/closebutton.png";
-import hotdog from "assets/img/hotdog.png";
 import testinput from "components/profile/testinput";
 import ProfileDialogDetail from "components/profile/ProfileDialogDetail";
+import Axios from "utils/axios/Axios";
 
-export default function ProfileDialog() {
+export default function MyProfileDialog() {
   const [open, setOpen] = React.useState(false);
   const [openDetail, setOpenDetail] = React.useState(false);
+  const [myProfileInfo, setMyProfileInfo] = React.useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
-
   const clickDetail = () => {
     setOpenDetail(true);
   };
@@ -29,9 +28,15 @@ export default function ProfileDialog() {
     setOpenDetail(false);
   };
 
+  React.useEffect(() => {
+    Axios.get(`/user/me`).then(res => {
+      setMyProfileInfo(res.data.response)
+    });
+  }, []);
+
   const tablealbumlist = testinput.slice(0).reverse().map((e) => (
     <div key={`table${e.id}`}>
-      <div id="example-table" onClick={clickDetail}></div>
+      <div id="example-table" onClick={clickDetail} />
       <ProfileDialogDetail open={openDetail} onClose={detailClose} />
       { e.id }번째 식탁 - { e.date }
     </div>
@@ -50,23 +55,27 @@ export default function ProfileDialog() {
         <StyledWrapper>
           <div id="return-exit">
             <Link to={"/"}>
-              <Button id="btn" variant="outlined" onClick={handleClose} sx={{ fontFamily: "Jua", fontSize: 16, color: "black", ml: 3, backgroundColor: "#BABD42", borderColor: "#82954B" }}>
-                <img src={ backbutton } id="return-icon" alt="수정하기" />회원정보 수정하기
+              <Button id="btn"
+                variant="outlined"
+                onClick={handleClose}
+                sx={{ fontFamily: "Jua", fontSize: 16, color: "black", ml: 3, backgroundColor: "#BABD42", borderColor: "#82954B" }}
+                >
+                <img id="return-icon" src={ backbutton } alt="수정하기" />회원정보 수정하기
               </Button>
             </Link>
             <img src={ closebutton } id="exit-icon" alt="창닫기" onClick={handleClose}/>
           </div>
           <div id="myiconbox">
             <div id="myicon-layout">
-              <img src={ hotdog } id="myicon" alt="아이콘" />
+              <img src={ myProfileInfo.profile } id="myicon" alt="아이콘" />
             </div>
           </div>
           <Box id="nickname-hello" component="form">
             <div>
-              별명 : Nickname
+              별명 : { myProfileInfo.nickname }
             </div>
             <div>
-              소개 : 밥 먹자!!  
+              소개 : { myProfileInfo.bio }
             </div>
           </Box>
           <hr id="horizon-line"/>
@@ -88,10 +97,12 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
-  a{
+  a {
     text-decoration: none;
   }
   #return-exit {
+    position: sticky;
+    top: 30px;
     width: 100%;
     height: 10px;
     margin: 40px 20px;
