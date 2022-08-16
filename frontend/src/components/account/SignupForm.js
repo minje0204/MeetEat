@@ -59,44 +59,11 @@ export default function SignupForm() {
         .then(res => {
           console.log(res);
           // 회원가입 시 바로 로그인 되게 변경
-          Axios.get(`/auth/login/${provider}`, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${code}`,
-            },
-            params: { code: code, redirect_uri: redirect_uri },
-          }).then(res => {
-            if (res.data.response.id) {
-              console.log(res);
-              localStorage.setItem(
-                "accessToken",
-                res.data.response.accessToken,
-              );
-              Axios.defaults.headers.common[
-                "Authorization"
-              ] = `Bearer ${res.data.response.accessToken}`;
-              window.sessionStorage.setItem("logged", true);
-              window.sessionStorage.setItem(
-                "nickname",
-                res.data.response.nickname,
-              );
-              window.sessionStorage.setItem("email", res.data.response.email);
-              window.sessionStorage.setItem("bio", res.data.response.bio);
-              window.sessionStorage.setItem(
-                "profile",
-                res.data.response.profile,
-              );
-              window.sessionStorage.setItem(
-                "accessToken",
-                res.data.response.accessToken,
-              );
-              window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
-            }
-          });
         })
         .catch(err => {
           console.log(err);
         });
+      window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
     }
   };
   return (
