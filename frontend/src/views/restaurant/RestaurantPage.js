@@ -13,41 +13,33 @@ export default function RestaurantPage() {
 
   function onload(data) {
     let onTableList = [
-      { id: "1" },
-      { id: "2" },
-      { id: "3" },
-      { id: "4" },
-      { id: "5" },
-      { id: "6" },
-      { id: "7" },
-      { id: "8" },
+      { position: "1" },
+      { position: "2" },
+      { position: "3" },
+      { position: "4" },
+      { position: "5" },
+      { position: "6" },
+      { position: "7" },
+      { position: "8" },
     ];
     for (let i = 0; i < data.length; i++) {
       let table = data[i];
-      onTableList[table.position - 1] = {
-        ...onTableList[table.position - 1],
-        title: table.title,
-        maxUserNum: table.maxUserNum,
-        currentUserNum: table.currentUserNum,
-      };
+      onTableList[table.position - 1] = table;
     }
     setTableList(onTableList);
   };
 
   useEffect(() => {
     Axios.get(`/restaurant/${encodeURI(params.restaurant_id)}`)
-      .then(response => onload(response.data))
+      .then(response => onload(response.data.response))
       .catch(e => console.log(e));
   }, [params.restaurant_id]);
 
   const listItems = tableList.map(e => (
     <ModalMakingRoom
-      tableNum={e.id}
       restaurantId={params.restaurant_id}
-      title={e.title}
-      maxUserNum={e.maxUserNum}
-      currentUserNum={e.currentUserNum}
-      key={`table${e.id}`}
+      tableInfo={e}
+      key={`table${e.position}`}
     ></ModalMakingRoom>
   ));
 

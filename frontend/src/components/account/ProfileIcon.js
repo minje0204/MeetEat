@@ -1,8 +1,9 @@
 import * as React from "react";
 import styled from "styled-components";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import MyProfileDialog from "components/profile/MyProfileDialog";
+import { Link } from "react-router-dom";
 
 export default function ProfileIcon() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -13,12 +14,21 @@ export default function ProfileIcon() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const profile = window.sessionStorage.getItem("profile");
+  const logOut = () => {
+    window.sessionStorage.clear();
+    localStorage.clear();
+    window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
+  };
   return (
     <StyledWrapper>
       <div id="imgbox">
         <img
-          src={window.sessionStorage.getItem("profile")}
+          src={
+            profile !== "null"
+              ? profile
+              : "/images/profile_image/default_profile.png"
+          }
           id="icon"
           alt="아이콘"
           onClick={handleClick}
@@ -37,14 +47,19 @@ export default function ProfileIcon() {
             <MenuItem sx={{ color: "black", fontFamily: "Jua" }}>
               <MyProfileDialog />
             </MenuItem>
+            <Link to="/user/edit">
+              <MenuItem
+                onClick={handleClose}
+                sx={{ color: "black", fontFamily: "Jua" }}
+              >
+                회원정보 수정
+              </MenuItem>
+            </Link>
             <MenuItem
-              onClick={handleClose}
-              sx={{ color: "black", fontFamily: "Jua" }}
-            >
-              개인정보 관리
-            </MenuItem>
-            <MenuItem
-              onClick={handleClose}
+              onClick={e => {
+                handleClose(e);
+                logOut();
+              }}
               sx={{ color: "#FF0063", fontFamily: "Jua" }}
             >
               로그아웃
@@ -70,8 +85,8 @@ const StyledWrapper = styled.div`
     overflow: hidden;
   }
   #icon {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 `;
