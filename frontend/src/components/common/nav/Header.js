@@ -32,8 +32,8 @@ const StyledWrapper = styled.div`
     color: #82954B;
   }
   img {
-    width: 50px;
-    height: 45px;
+    width: 80px;
+    height: 50px;
     display: inline-block;
   }
   #logo {
@@ -41,13 +41,16 @@ const StyledWrapper = styled.div`
     font-weight: 100;
     text-align: center;
     align-items: center;
-    width: 150px;
+    width: 170px;
   }
   #logo_meeteat {
     font-family: "Jua";
-    font-size: 48px;
-    margin-top: 12px;
-    width: 100px;
+    font-size: 36px;
+    width: 70px;
+    height: 50px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
   }
   #container {
     height: 6vh;
