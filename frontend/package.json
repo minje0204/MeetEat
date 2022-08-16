@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "react-use-websocket": "^4.2.0"
   }
 }
