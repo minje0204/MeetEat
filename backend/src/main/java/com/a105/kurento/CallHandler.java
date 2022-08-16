@@ -19,6 +19,7 @@ package com.a105.kurento;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import org.kurento.client.IceCandidate;
@@ -90,10 +91,27 @@ public class CallHandler extends TextWebSocketHandler {
             case "kickOut":
                 kickOut(jsonMessage);
                 break;
+            case "updateTable":
+                updateTable(jsonMessage);
+                break;
             default:
                 System.out.println(jsonMessage.getAsString());
                 break;
         }
+    }
+
+    private void updateTable(JsonObject params) {
+        System.out.println(params);
+        final String roomName = params.get("room").getAsString();
+        System.out.println("1");
+        final String name = params.get("name").getAsString();
+        System.out.println("2");
+        final JsonArray data = params.get("data").getAsJsonArray();
+        System.out.println("3");
+        log.info("PARTICIPANT {}: trying to updating table with {} in room {}", name, data,
+            roomName);
+        Room room = roomManager.getRoom(roomName);
+        room.sendTable(name, data);
     }
 
     private void sendChat(JsonObject params) {
@@ -111,7 +129,7 @@ public class CallHandler extends TextWebSocketHandler {
         final String kick = params.get("kick").getAsString();
         log.info("room {} HOST {}: trying to kick {} out", roomName, name, kick);
         Room room = roomManager.getRoom(roomName);
-        if (!room.getHost().equals(name)){
+        if (!room.getHost().equals(name)) {
             log.info("permission denied : attempt to kick out");
             return;
         }
@@ -125,7 +143,7 @@ public class CallHandler extends TextWebSocketHandler {
         final String change = params.get("change").getAsString();
         log.info("room {} HOST {}: trying to change the host to {}", roomName, name, change);
         Room room = roomManager.getRoom(roomName);
-        if (!room.getHost().equals(name)){
+        if (!room.getHost().equals(name)) {
             log.info("permission denied : attempt to change host");
             return;
         }
@@ -145,8 +163,9 @@ public class CallHandler extends TextWebSocketHandler {
         log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
 
         Room room = roomManager.getRoom(roomName);
-        if (room.getHost() == null)
+        if (room.getHost() == null) {
             room.changeHost(name);
+        }
         final UserSession user = room.join(name, session);
         registry.register(user);
 //        log.info("PARTICIPANT {}: joined {} host is {}", name, roomName, room.getHost());

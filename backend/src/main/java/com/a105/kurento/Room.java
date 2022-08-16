@@ -56,7 +56,7 @@ public class Room implements Closeable {
         this.host = host;
     }
 
-    public void changeHost(String name){
+    public void changeHost(String name) {
         setHost(name);
         final JsonObject hostChanged = new JsonObject();
         hostChanged.addProperty("id", "hostChanged");
@@ -70,6 +70,7 @@ public class Room implements Closeable {
             }
         }
     }
+
     public void sendChat(String name, String chat) {
         final JsonObject sendChat = new JsonObject();
         sendChat.addProperty("id", "chat");
@@ -78,6 +79,21 @@ public class Room implements Closeable {
         for (final UserSession participant : participants.values()) {
             try {
                 participant.sendMessage(sendChat);
+            } catch (final IOException e) {
+                log.debug("ROOM {}: participant {} could not be notified", name,
+                    participant.getName(), e);
+            }
+        }
+    }
+
+    public void sendTable(String name, JsonArray data) {
+        final JsonObject sendTable = new JsonObject();
+        sendTable.addProperty("id", "receiveTable");
+        sendTable.addProperty("name", name);
+        sendTable.addProperty("data", data.toString());
+        for (final UserSession participant : participants.values()) {
+            try {
+                participant.sendMessage(sendTable);
             } catch (final IOException e) {
                 log.debug("ROOM {}: participant {} could not be notified", name,
                     participant.getName(), e);
