@@ -57,6 +57,8 @@ export default function TabFriends() {
   const [searchName, setSearchName] = React.useState('');
   const [searchSign, setSearchSign] = React.useState(0);
   const [searchResultList, setSearchResultList] = React.useState([]);
+  const [receivedFriendRequest, setReceivedFriendRequest] = React.useState([]);
+  const [sendFriendRequest, setsendFriendRequest] = React.useState([]);
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -67,15 +69,78 @@ export default function TabFriends() {
   
   React.useEffect(() => {
     if (searchSign === 1){
-      setSearchSign(0)
+      setSearchSign(0);
       Axios.get(`/user/search?${searchValue}=${searchName}`).then(res => {
         setSearchResultList(res.data.response);
       });
     };
   }, [searchValue, searchName, searchSign]);
 
+  function requestList(data) {
+    const receivedRequestList = [];
+    const sendRequestList = [];
+    for (let i = 0; i < data.length; i++) {
+      let user = data[i];
+      if (user.status === 0) {
+        if (user.received === true){
+          receivedRequestList.push(user);
+        } else if (user.received === false){
+          sendRequestList.push(user);
+        }
+      };
+    };
+    setReceivedFriendRequest(receivedRequestList);
+    setsendFriendRequest(sendRequestList);
+  };
+
+  React.useEffect(() => {
+    Axios.get(`/friend`).then(res => {
+      requestList(res.data.response);
+    });
+  }, []);
+
+  const receivedRequestResult = receivedFriendRequest.map((e, idx) => (
+    <div id="who-each" key={`received-${idx}`}>
+      <div id="who-icon-nickname">
+        <div id="who-imgbox">
+          <img src={e.friendInfo.profile} id="image" alt={`사진 ${idx}`} />
+        </div>
+        <div id="nickname">
+          {e.friendInfo.nickname}
+        </div>
+      </div>
+      <div id="profile-menu">
+        <Button variant="outlined" id="profile" onClick={event => friendReceiveYes(e.id)}>
+          밥친구 수락
+        </Button>
+      </div>
+    </div>
+  ));
+
+  const sendRequestResult = sendFriendRequest.map((e, idx) => (
+    <div id="who-each" key={`received-${idx}`}>
+      <div id="who-icon-nickname">
+        <div id="who-imgbox">
+          <img src={e.friendInfo.profile} id="image" alt={`사진 ${idx}`} />
+        </div>
+        <div id="nickname">
+          {e.friendInfo.nickname}
+        </div>
+      </div>
+      <div id="profile-menu">
+        <Button variant="outlined" id="profile">
+          요청 취소
+        </Button>
+      </div>
+    </div>
+  ));
+
+  const friendReceiveYes = () => {
+    Axios.patch(`/friend/received/accept`);
+  };
+
   const friendPlus = (idx) => {
-    Axios.post(`/friend/request/${idx}`)
+    Axios.post(`/friend/request/${idx}`);
   };
 
   const searchResult = searchResultList.map((e, idx) => (
@@ -150,15 +215,10 @@ export default function TabFriends() {
             </Tabs>
             <hr id="horizon-line" />
             <TabPanel id="subtab-detail" value={subValue} index={0}>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
+              { receivedRequestResult }
             </TabPanel>
             <TabPanel id="subtab-detail" value={subValue} index={1}>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
+              { sendRequestResult }
             </TabPanel>
           </div>
         </TabPanel>
