@@ -10,7 +10,7 @@ export default function Nickname(props) {
     props;
 
   const nicknameInput = e => setNickname(e.target.value);
-
+  const myNickname = sessionStorage.getItem("nickname");
   const checkNickname = () => {
     Axios.get(`/user/exists/${nickname}`, {
       nickname: nickname,
@@ -38,13 +38,14 @@ export default function Nickname(props) {
         error={Boolean(nickname && !validNickname)}
         onInput={e => CheckLength(e, 6)}
         required
+        defaultValue={nickname}
         id="nickname-input"
         label="필수 입력 항목"
       />
       <Button
         variant="contained"
         onClick={checkNickname}
-        disabled={!validNickname}
+        disabled={!validNickname || myNickname === nickname}
       >
         중복 확인
       </Button>
