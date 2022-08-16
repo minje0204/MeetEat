@@ -1,32 +1,40 @@
-import { useState } from "react";
-import TextField from "@mui/material/TextField";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
-import { CheckLength } from "utils/filters/CheckLength";
 import ProfileImage from "./ProfileImage";
 import Axios from "utils/axios/Axios";
 import Nickname from "./Nickname";
+import BioInput from "./BioInput";
 
 export default function EditForm() {
   const myBio = sessionStorage.getItem("bio");
   const [Image, setImage] = useState("");
+  const [email, setEmail] = useState("");
   const [preview, setPreview] = useState(
     "/images/profile_image/default_profile.png",
   );
-  let email;
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useState(
+    sessionStorage.getItem("nickname") === null
+      ? ""
+      : sessionStorage.getItem("nickname"),
+  );
   const [checkedNickname, setCheckedNickname] = useState("");
   const [validNickname, setValidNickname] = useState(false);
   const isValid = value => setValidNickname(value);
   const [bio, setBio] = useState(myBio);
-  Axios.get("user/me").then(res => {
-    console.log(res);
-    if (res.data.response.profile !== null) {
-      setPreview(res.data.response.profile);
-    }
-    email = res.data.response.email;
-  });
-  const bioInput = e => setBio(e.target.value);
+  useEffect(() => {
+    Axios.get("user/me").then(res => {
+      console.log(res);
+      if (res.data.response.profile !== null) {
+        setPreview(res.data.response.profile);
+        setCheckedNickname(res.data.response.nickname);
+        setNickname(res.data.response.nickname);
+        setValidNickname(true);
+        setBio(res.data.response.bio);
+        setEmail(res.data.response.email);
+      }
+    });
+  }, []);
 
   const profileEditHandler = e => {
     const bodyFormData = new FormData();
@@ -66,7 +74,7 @@ export default function EditForm() {
       Axios.patch("/user/nickname", { nickname: checkedNickname })
         .then(res => {
           console.log(res);
-          sessionStorage.setItem("nickname", "");
+          sessionStorage.setItem("nickname", res.data.response.nickname);
           alert("닉네임이 변경되었습니다.");
         })
         .catch(err => {
@@ -78,7 +86,7 @@ export default function EditForm() {
     Axios.patch("/user/bio", { bio: bio })
       .then(res => {
         console.log(res);
-        sessionStorage.setItem("bio", "");
+        sessionStorage.setItem("bio", res.data.response.bio);
         alert("자기 소개가 변경되었습니다.");
       })
       .catch(err => {
@@ -143,14 +151,7 @@ export default function EditForm() {
           <span id="text-length">{`<${bio.length}/40>`}</span>
         </div>
         <div className="form-row">
-          <TextField
-            onChange={bioInput}
-            onInput={e => CheckLength(e, 40)}
-            fullWidth
-            id="fullWidth"
-            defaultValue={myBio}
-            placeholder="자기소개를 입력해주세요."
-          />
+          <BioInput bio={bio} setBio={setBio}></BioInput>
         </div>
         <div className="button-group">
           <Button
