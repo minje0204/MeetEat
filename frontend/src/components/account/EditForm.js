@@ -21,8 +21,10 @@ export default function EditForm() {
   const [bio, setBio] = useState(myBio);
   Axios.get("user/me").then(res => {
     console.log(res);
-    setPreview(res.data.response.profile);
-    email = sessionStorage.getItem("email");
+    if (res.data.response.profile !== null) {
+      setPreview(res.data.response.profile);
+    }
+    email = res.data.response.email;
   });
   const bioInput = e => setBio(e.target.value);
 
@@ -95,11 +97,12 @@ export default function EditForm() {
         ></ProfileImage>
         <div className="button-group">
           <Button
+            disabled={!Image}
             variant="contained"
             className="btn-wide"
             onClick={profileEditHandler}
           >
-            사진 변경
+            사진 저장
           </Button>
           <Button
             variant="contained"
@@ -132,7 +135,7 @@ export default function EditForm() {
             className="btn-wide"
             onClick={nicknameEditHandler}
           >
-            닉네임 변경
+            닉네임 저장
           </Button>
         </div>
         <div className="wide-p">
@@ -155,7 +158,7 @@ export default function EditForm() {
             className="btn-wide"
             onClick={bioEditHandler}
           >
-            자기소개 변경
+            자기소개 저장
           </Button>
         </div>
       </div>

@@ -14,7 +14,7 @@ export default function ProfileIcon() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const profile = window.sessionStorage.getItem("profile");
   const logOut = () => {
     window.sessionStorage.clear();
     localStorage.clear();
@@ -24,7 +24,11 @@ export default function ProfileIcon() {
     <StyledWrapper>
       <div id="imgbox">
         <img
-          src={window.sessionStorage.getItem("profile")}
+          src={
+            profile !== "null"
+              ? profile
+              : "/images/profile_image/default_profile.png"
+          }
           id="icon"
           alt="아이콘"
           onClick={handleClick}
@@ -81,8 +85,8 @@ const StyledWrapper = styled.div`
     overflow: hidden;
   }
   #icon {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 `;
