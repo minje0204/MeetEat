@@ -1,12 +1,16 @@
 package com.a105.api.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.util.IOUtils;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +74,22 @@ public class AwsS3Service {
         String fileUrl = putS3(fileObj, dirFileName);
         fileObj.delete();
         return distributionDomain + dirFileName;
+    }
+
+    public List<String> listObjects(String folderName){
+        List<String> objectKeys = new ArrayList<>();
+
+        ObjectListing objects = s3Client.listObjects(bucket, folderName);
+        do{
+            for(S3ObjectSummary objectSummary : objects.getObjectSummaries()){
+                if(objectSummary.getSize() > 0){
+                    objectKeys.add(objectSummary.getKey());
+                }
+            }
+            objects = s3Client.listNextBatchOfObjects(objects);
+        } while(objects.isTruncated());
+
+        return objectKeys;
     }
 
     public byte[] downloadFile(String fileName) {

@@ -29,4 +29,7 @@ public final class ResponseMessage {
 
     // Tray
     public static final String UPLOAD_TRAY_IMAGE = "식탁 이미지 업로드 성공";
+    public static final String GET_TRAY_ITEMS = "식탁 아이템 가져오기 성공";
+
 }
+
