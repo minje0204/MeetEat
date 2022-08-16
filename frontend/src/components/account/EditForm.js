@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
@@ -19,13 +19,15 @@ export default function EditForm() {
   const [validNickname, setValidNickname] = useState(false);
   const isValid = value => setValidNickname(value);
   const [bio, setBio] = useState(myBio);
-  Axios.get("user/me").then(res => {
-    console.log(res);
-    if (res.data.response.profile !== null) {
-      setPreview(res.data.response.profile);
-    }
-    email = res.data.response.email;
-  });
+  useEffect(() => {
+    Axios.get("user/me").then(res => {
+      console.log(res);
+      if (res.data.response.profile !== null) {
+        setPreview(res.data.response.profile);
+      }
+      email = res.data.response.email;
+    });
+  }, []);
   const bioInput = e => setBio(e.target.value);
 
   const profileEditHandler = e => {
