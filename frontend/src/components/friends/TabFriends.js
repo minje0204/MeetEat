@@ -89,7 +89,7 @@ export default function TabFriends() {
         </div>
       </div>
       <div id="profile-menu">
-        <Button variant="outlined" id="profile" onClick={friendPlus(e.id)}>
+        <Button variant="outlined" id="profile" onClick={event => friendPlus(e.id)}>
           밥친구 추가
         </Button>
       </div>
