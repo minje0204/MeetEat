@@ -8,13 +8,14 @@ import Axios from "utils/axios/Axios";
 import FriendsProfileDialog from "components/profile/FriendsProfileDialog";
 
 function FriendsListOption(props) {
-  const { open, onClose, anchorEl, idx } = props;
+  const { open, onClose, anchorEl, truefriends, idx } = props;
   const handleClose = () => {
     onClose();
   };
-  const HandleDelete = () => {
-    React.useEffect(() => {
-      Axios.delete(`/friend/${idx}`);
+  const HandleDelete = (idx) => {
+    Axios.delete(`/friend/${idx}`);
+    Axios.get(`/friend`).then(res => {
+      truefriends(res.data.response);
     });
     onClose();
   };
@@ -44,7 +45,7 @@ function FriendsListOption(props) {
         친구 위치보기
       </MenuItem>
       <MenuItem
-        onClick={HandleDelete}
+        onClick={event => HandleDelete(idx)}
         sx={{ color: "#FF0063", fontFamily: "Jua" }}
       >
         친구 삭제하기
@@ -105,6 +106,7 @@ export default function MyFriends() {
           open={openOption}
           anchorEl={anchorEl}
           onClose={closeOption}
+          truefriend={truefriends}
           idx={e.friendInfo.id}
         />
       </div>

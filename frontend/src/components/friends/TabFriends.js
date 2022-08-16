@@ -95,10 +95,8 @@ export default function TabFriends() {
 
   React.useEffect(() => {
     Axios.get(`/friend/waiting`).then(res => {
-      requestList(res.data.response).catch(err => {
-        console.log(err);
+      requestList(res.data.response)
       });
-    });
   }, []);
 
   const receivedRequestResult = receivedFriendRequest.map((e, idx) => (
