@@ -5,7 +5,8 @@ import styled from "styled-components";
 import { Button } from "@mui/material";
 import Axios from "utils/axios/Axios";
 
-export default function SaveTableImage() {
+export default function SaveTableImage(props) {
+  const { conferenceId } = props;
   const myTable = useRef(null);
   const myMenu = useSelector(state => state.table.present.tableList);
 
@@ -29,7 +30,7 @@ export default function SaveTableImage() {
   const onCapture = () => {
     html2canvas(myTable.current).then(canvas => {
       const url = canvas.toDataURL("image/png");
-      Axios.post("/tray", { conferenceId: 2, base64: url }) // conferenceID 받아오는 부분 작성해야 함
+      Axios.post("/tray", { conferenceId: conferenceId, base64: url })
         .then(res => console.log(res))
         .catch(err => console.log(err));
     });

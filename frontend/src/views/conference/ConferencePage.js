@@ -61,7 +61,7 @@ export default function ConferencePage() {
       <div id="table-name">
         {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
       </div>
-      <TableSlide />
+      <TableSlide conferenceId={conferenceId} />
       {roomGuestList}
       <div id="footer">
         <Link to={"/restaurant/" + restaurantId} onClick={leaveRoom}>
@@ -84,9 +84,9 @@ export default function ConferencePage() {
 const StyledWrapper = styled.div`
   min-width: 1500px;
   #table-name {
-    position: fixed;
+    position: absolute;
     top: 4vh;
-    margin-left: 160px;
+    margin-left: 200px;
     height: 2vh;
     font-family: "Jua";
     font-size: 20px;
