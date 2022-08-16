@@ -89,9 +89,6 @@ export default function TabFriends() {
         }
       }
     }
-    // Axios.get(`/friend/waiting`)
-    //   .then(res => setReceivedFriendRequest(res.data.response))
-    //   .catch(err => console.log(err));
     setReceivedFriendRequest(receivedRequestList);
     setsendFriendRequest(sendRequestList);
   }
@@ -100,7 +97,7 @@ export default function TabFriends() {
     Axios.get(`/friend/waiting`).then(res => {
       requestList(res.data.response).catch(err => {
         console.log(err);
-      })
+      });
     });
   }, []);
 
@@ -133,15 +130,29 @@ export default function TabFriends() {
         <div id="nickname">{e.friendInfo.nickname}</div>
       </div>
       <div id="profile-menu">
-        <Button variant="outlined" id="profile">
+        <Button
+          variant="outlined"
+          id="profile"
+          onClick={event => friendSendCancle(e.id)}
+        >
           요청 취소
         </Button>
       </div>
     </div>
   ));
 
-  const friendReceiveYes = (idx) => {
-    Axios.patch(`/friend/received/accept`, { id: {idx} });
+  const friendReceiveYes = idx => {
+    Axios.patch(`/friend/received/accept`, { id: idx });
+    Axios.get(`/friend/waiting`).then(res => {
+      requestList(res.data.response)
+    });
+  };
+
+  const friendSendCancle = idx => {
+    Axios.delete(`/sent/cancel`, { id: idx });
+    Axios.get(`/friend/waiting`).then(res => {
+      requestList(res.data.response)
+    });
   };
 
   const friendPlus = idx => {

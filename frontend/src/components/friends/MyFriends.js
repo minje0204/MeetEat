@@ -1,11 +1,11 @@
-import * as React from 'react';
+import * as React from "react";
 import styled from "styled-components";
-import Button from '@mui/material/Button';
-import option from 'assets/img/option.png';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Button from "@mui/material/Button";
+import option from "assets/img/option.png";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import Axios from "utils/axios/Axios";
-import FriendsProfileDialog from 'components/profile/FriendsProfileDialog';
+import FriendsProfileDialog from "components/profile/FriendsProfileDialog";
 
 function FriendsListOption(props) {
   const { open, onClose, anchorEl, idx } = props;
@@ -18,29 +18,46 @@ function FriendsListOption(props) {
     });
     onClose();
   };
-  
-  return(
+
+  return (
     <Menu
       id="basic-menu"
       open={open}
       anchorEl={anchorEl}
       onClose={handleClose}
       MenuListProps={{
-        'aria-labelledby': 'basic-button',
+        "aria-labelledby": "basic-button",
       }}
-      PaperProps={{ style: { boxShadow: 'none', border: '3px solid #EFD345', borderRadius: '10px', backgroundColor: '#FFEF82' } }}
+      PaperProps={{
+        style: {
+          boxShadow: "none",
+          border: "3px solid #EFD345",
+          borderRadius: "10px",
+          backgroundColor: "#FFEF82",
+        },
+      }}
     >
-      <MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>친구 위치보기</MenuItem>
-      <MenuItem onClick={HandleDelete} sx={{ color: "#FF0063", fontFamily: "Jua" }}>친구 삭제하기</MenuItem>
+      <MenuItem
+        onClick={handleClose}
+        sx={{ color: "black", fontFamily: "Jua" }}
+      >
+        친구 위치보기
+      </MenuItem>
+      <MenuItem
+        onClick={HandleDelete}
+        sx={{ color: "#FF0063", fontFamily: "Jua" }}
+      >
+        친구 삭제하기
+      </MenuItem>
     </Menu>
   );
-};
+}
 
 export default function MyFriends() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [friendsWithMe, setFriendsWithMe] = React.useState([]);
   const openOption = Boolean(anchorEl);
-  const clickOption = (event) => {
+  const clickOption = event => {
     setAnchorEl(event.currentTarget);
   };
   const closeOption = () => {
@@ -53,10 +70,10 @@ export default function MyFriends() {
       let user = data[i];
       if (user.status === 1) {
         dataList.push(user);
-      };
-    };
+      }
+    }
     setFriendsWithMe(dataList);
-  };
+  }
 
   React.useEffect(() => {
     Axios.get(`/friend`).then(res => {
@@ -70,31 +87,39 @@ export default function MyFriends() {
         <div id="imgbox">
           <img src={e.friendInfo.profile} id="image" alt={`사진 ${idx}`} />
         </div>
-        <div id="nickname">
-          {e.friendInfo.nickname}
-        </div>
+        <div id="nickname">{e.friendInfo.nickname}</div>
       </div>
       <div id="profile-menu">
         <Button variant="outlined" id="profile">
-          <FriendsProfileDialog who={e.friendInfo.id}/>
+          <FriendsProfileDialog who={e.friendInfo.id} />
         </Button>
-        <img src={option} onClick={clickOption} width="20px" height="20px" id="option" alt="메뉴" />
-        <FriendsListOption open={openOption} anchorEl={anchorEl} onClose={closeOption} idx={e.friendInfo.id} />
+        <img
+          src={option}
+          onClick={clickOption}
+          width="20px"
+          height="20px"
+          id="option"
+          alt="메뉴"
+        />
+        <FriendsListOption
+          open={openOption}
+          anchorEl={anchorEl}
+          onClose={closeOption}
+          idx={e.friendInfo.id}
+        />
       </div>
     </div>
   ));
 
   return (
     <StyledWrapper>
-      <div id="friend-whole">
-        { friendsList }
-      </div>
+      <div id="friend-whole">{friendsList}</div>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
-  #friend-whole{
+  #friend-whole {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -105,7 +130,7 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
-    border: 4px solid #EFD345;
+    border: 4px solid #efd345;
     border-radius: 20px;
   }
   #icon-nickname {
@@ -143,7 +168,7 @@ const StyledWrapper = styled.div`
     font-family: "Jua";
     font-size: 16px;
     color: black;
-    background-color: #EFD345;
+    background-color: #efd345;
   }
   #option {
     margin: 0 10px;
