@@ -1,14 +1,14 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import styled from "@emotion/styled";
-import SearchFriends from 'components/friends/SearchFriends';
-import SearchInputFriends from 'components/friends/SearchInputFriends';
-import MyFriends from 'components/friends/MyFriends';
+import SearchFriends from "components/friends/SearchFriends";
+import SearchInputFriends from "components/friends/SearchInputFriends";
+import MyFriends from "components/friends/MyFriends";
 import Axios from "utils/axios/Axios";
 
 function TabPanel(props) {
@@ -42,40 +42,112 @@ function a11yProps(index) {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
-};
+}
 function a22yProps(index) {
   return {
     id: `sub-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
-};
+}
 
 export default function TabFriends() {
   const [value, setValue] = React.useState(1);
   const [subValue, setSubValue] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState("nickname");
-  const [searchName, setSearchName] = React.useState('');
+  const [searchName, setSearchName] = React.useState("");
   const [searchSign, setSearchSign] = React.useState(0);
   const [searchResultList, setSearchResultList] = React.useState([]);
-  
+  const [receivedFriendRequest, setReceivedFriendRequest] = React.useState([]);
+  const [sendFriendRequest, setsendFriendRequest] = React.useState([]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   const subHandleChange = (event, newValue) => {
     setSubValue(newValue);
   };
-  
+
   React.useEffect(() => {
-    if (searchSign === 1){
-      setSearchSign(0)
+    if (searchSign === 1) {
+      setSearchSign(0);
       Axios.get(`/user/search?${searchValue}=${searchName}`).then(res => {
         setSearchResultList(res.data.response);
       });
-    };
+    }
   }, [searchValue, searchName, searchSign]);
 
-  const friendPlus = (idx) => {
+  function requestList(data) {
+    const receivedRequestList = [];
+    const sendRequestList = [];
+    for (let i = 0; i < data.length; i++) {
+      let user = data[i];
+      if (user.status === 0) {
+        if (user.received === true) {
+          receivedRequestList.push(user);
+        } else if (user.received === false) {
+          sendRequestList.push(user);
+        }
+      }
+    }
+    // Axios.get(`/friend/waiting`)
+    //   .then(res => setReceivedFriendRequest(res.data.response))
+    //   .catch(err => console.log(err));
+    setReceivedFriendRequest(receivedRequestList);
+    setsendFriendRequest(sendRequestList);
+  }
+
+  React.useEffect(() => {
+    Axios.get(`/friend/waiting`).then(res => {
+      requestList(res.data.response).catch(err => {
+        console.log(err);
+      })
+    });
+  }, []);
+
+  const receivedRequestResult = receivedFriendRequest.map((e, idx) => (
+    <div id="who-each" key={`received-${idx}`}>
+      <div id="who-icon-nickname">
+        <div id="who-imgbox">
+          <img src={e.friendInfo.profile} id="image" alt={`사진 ${idx}`} />
+        </div>
+        <div id="nickname">{e.friendInfo.nickname}</div>
+      </div>
+      <div id="profile-menu">
+        <Button
+          variant="outlined"
+          id="profile"
+          onClick={event => friendReceiveYes(e.id)}
+        >
+          밥친구 수락
+        </Button>
+      </div>
+    </div>
+  ));
+
+  const sendRequestResult = sendFriendRequest.map((e, idx) => (
+    <div id="who-each" key={`received-${idx}`}>
+      <div id="who-icon-nickname">
+        <div id="who-imgbox">
+          <img src={e.friendInfo.profile} id="image" alt={`사진 ${idx}`} />
+        </div>
+        <div id="nickname">{e.friendInfo.nickname}</div>
+      </div>
+      <div id="profile-menu">
+        <Button variant="outlined" id="profile">
+          요청 취소
+        </Button>
+      </div>
+    </div>
+  ));
+
+  const friendReceiveYes = (idx) => {
+    Axios.patch(`/friend/received/accept`, { id: {idx} });
+  };
+
+  const friendPlus = idx => {
     Axios.post(`/friend/request/${idx}`)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   };
 
   const searchResult = searchResultList.map((e, idx) => (
@@ -84,18 +156,20 @@ export default function TabFriends() {
         <div id="who-imgbox">
           <img src={e.profile} id="image" alt={`사진 ${idx}`} />
         </div>
-        <div id="nickname">
-          {e.nickname}
-        </div>
+        <div id="nickname">{e.nickname}</div>
       </div>
       <div id="profile-menu">
-        <Button variant="outlined" id="profile" onClick={friendPlus(e.id)}>
+        <Button
+          variant="outlined"
+          id="profile"
+          onClick={event => friendPlus(e.id)}
+        >
           밥친구 추가
         </Button>
       </div>
     </div>
   ));
-  
+
   return (
     <StyledWrapper>
       <div id="friend-dialog">
@@ -150,15 +224,10 @@ export default function TabFriends() {
             </Tabs>
             <hr id="horizon-line" />
             <TabPanel id="subtab-detail" value={subValue} index={0}>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
+              {receivedRequestResult}
             </TabPanel>
             <TabPanel id="subtab-detail" value={subValue} index={1}>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
+              {sendRequestResult}
             </TabPanel>
           </div>
         </TabPanel>
@@ -170,12 +239,13 @@ export default function TabFriends() {
         <TabPanel value={value} index={2}>
           <div id="search">
             <SearchFriends setSearchValue={setSearchValue} />
-            <SearchInputFriends setSearchName={setSearchName} setSearchSign={setSearchSign}/>
+            <SearchInputFriends
+              setSearchName={setSearchName}
+              setSearchSign={setSearchSign}
+            />
           </div>
           <hr id="horizon-line" />
-          <div id="result-list">
-            { searchResult }
-          </div>
+          <div id="result-list">{searchResult}</div>
         </TabPanel>
       </div>
     </StyledWrapper>
@@ -271,7 +341,7 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
-    border: 4px solid #EFD345;
+    border: 4px solid #efd345;
     border-radius: 20px;
   }
   #who-icon-nickname {
@@ -309,7 +379,7 @@ const StyledWrapper = styled.div`
     font-family: "Jua";
     font-size: 16px;
     color: black;
-    background-color: #EFD345;
+    background-color: #efd345;
     margin: 0 10px;
   }
 `;
