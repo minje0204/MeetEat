@@ -23,6 +23,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import java.io.Closeable;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -56,7 +60,7 @@ public class Room implements Closeable {
         this.host = host;
     }
 
-    public void changeHost(String name){
+    public void changeHost(String name) {
         setHost(name);
         final JsonObject hostChanged = new JsonObject();
         hostChanged.addProperty("id", "hostChanged");
@@ -70,6 +74,7 @@ public class Room implements Closeable {
             }
         }
     }
+
     public void sendChat(String name, String chat) {
         final JsonObject sendChat = new JsonObject();
         sendChat.addProperty("id", "chat");
@@ -100,20 +105,35 @@ public class Room implements Closeable {
         this.close();
     }
 
-    public UserSession join(String userName, WebSocketSession session) throws IOException {
+    public UserSession join(String userName, WebSocketSession session, String userId)
+        throws IOException {
         log.info("ROOM {}: adding participant {}", this.name, userName);
         final UserSession participant = new UserSession(userName, this.name, session,
-            this.pipeline);
+            this.pipeline, userId);
         joinRoom(participant);
         participants.put(participant.getName(), participant);
         sendParticipantNames(participant);
         return participant;
     }
 
-    public void leave(UserSession user) throws IOException {
+    public void leave(UserSession user) throws IOException, ClassNotFoundException, SQLException {
         log.debug("PARTICIPANT {}: Leaving room {}", user.getName(), this.name);
         this.removeParticipant(user.getName());
         user.close();
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/a105",
+            "root", "admin");
+        PreparedStatement pstmt = con.prepareStatement(
+            "update user_conference set action = 1 where user_id = " + user.getUserId()
+                + " and conference_id = " + name);
+        pstmt.execute();
+        if (getParticipants().isEmpty()) {
+            pstmt = con.prepareStatement(
+                "update conference set call_end_time = now() where id = " + name);
+            pstmt.execute();
+        }
+        pstmt.close();
+        con.close();
     }
 
     private Collection<String> joinRoom(UserSession newParticipant) throws IOException {

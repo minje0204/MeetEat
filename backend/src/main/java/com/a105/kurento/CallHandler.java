@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import java.io.IOException;
+import java.sql.SQLException;
 import org.kurento.client.IceCandidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,7 +106,7 @@ public class CallHandler extends TextWebSocketHandler {
         room.sendChat(name, chat);
     }
 
-    private void kickOut(JsonObject params) throws IOException {
+    private void kickOut(JsonObject params) throws IOException, SQLException, ClassNotFoundException {
         final String roomName = params.get("room").getAsString();
         final String name = params.get("name").getAsString();
         final String kick = params.get("kick").getAsString();
@@ -142,17 +143,19 @@ public class CallHandler extends TextWebSocketHandler {
     private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
         final String roomName = params.get("room").getAsString();
         final String name = params.get("name").getAsString();
+        final String userId = params.get("userId").getAsString();
         log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
 
         Room room = roomManager.getRoom(roomName);
         if (room.getHost() == null)
             room.changeHost(name);
-        final UserSession user = room.join(name, session);
+        final UserSession user = room.join(name, session, userId);
         registry.register(user);
 //        log.info("PARTICIPANT {}: joined {} host is {}", name, roomName, room.getHost());
     }
 
-    private void leaveRoom(UserSession user) throws IOException {
+    private void leaveRoom(UserSession user)
+        throws IOException, SQLException, ClassNotFoundException {
         final Room room = roomManager.getRoom(user.getRoomName());
         room.leave(user);
         if (room.getParticipants().isEmpty()) {
