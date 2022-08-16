@@ -77,7 +77,7 @@ public class AuthService {
     }
 
     @Transactional
-    public UserInfoResponse registerNewUser(SignupRequest signupRequest, MultipartFile file){
+    public AuthResponse registerNewUser(SignupRequest signupRequest, MultipartFile file){
         if(userRepository.findByEmailAndProvider(signupRequest.getEmail(), AuthProvider.valueOf(signupRequest.getProvider())).isPresent()){
             throw new BadRequestException("이미 있는 회원입니다.");
         }
@@ -92,11 +92,13 @@ public class AuthService {
 
         userRepository.save(user);
 
-        if(file == null || file.isEmpty())
-            return UserInfoResponse.fromEntity(user);
+        if(file != null && !file.isEmpty()){
+            userService.uploadProfileImage(user.getId(), file);
+        }
 
-        return userService.uploadProfileImage(user.getId(), file);
-
+        String accessToken = authTokenProvider.createToken(user.getId()).getToken();
+        AuthResponse authResponse = AuthResponse.of(user.getEmail(), user.getNickname(), user.getProvider());
+        return AuthResponse.toUser(authResponse, user, UserRole.USER, accessToken);
     }
 
 
