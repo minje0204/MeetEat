@@ -24,12 +24,15 @@ public class FriendInfoResponse {
     @Schema(description = "요청 수신 여부", example = "true", allowableValues = {"true", "false"})
     private boolean received;
 
+    private Long conferenceId;
+
     public static FriendInfoResponse fromEntity(User user, FriendshipDto friendship){
         return FriendInfoResponse.builder()
             .friendInfo(UserInfoResponse.fromEntity(user))
             .id(friendship.getId())
             .status(friendship.getStatus())
             .received(friendship.isReceived())
+            .conferenceId(friendship.getConferenceId())
             .build();
     }
 
