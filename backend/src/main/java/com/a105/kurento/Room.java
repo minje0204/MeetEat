@@ -92,6 +92,21 @@ public class Room implements Closeable {
         }
     }
 
+    public void sendTable(String name, JsonArray data) {
+        final JsonObject sendTable = new JsonObject();
+        sendTable.addProperty("id", "receiveTable");
+        sendTable.addProperty("name", name);
+        sendTable.addProperty("data", data.toString());
+        for (final UserSession participant : participants.values()) {
+            try {
+                participant.sendMessage(sendTable);
+            } catch (final IOException e) {
+                log.debug("ROOM {}: participant {} could not be notified", name,
+                    participant.getName(), e);
+            }
+        }
+    }
+
     public String getName() {
         return name;
     }
