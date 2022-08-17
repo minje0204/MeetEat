@@ -27,23 +27,42 @@ export default function ConferencePage() {
   });
 
   const handleLeave = () => {
-    rtcPeer.dispose();
+    Axios.patch(
+      `/restaurant/conference/${encodeURI(conferenceId)}`,
+      conferenceId,
+    );
+    window.sessionStorage.setItem("conferencePermission", false);
+    navigate(`/restaurant/${restaurantId}`, {
+      params: {
+        restaurantId,
+      },
+    });
   };
 
-  function handleError(err) {
-    if (err.response.status == 404) {
-      navigate(`/restaurant/${restaurantId}`, {
-        params: {
-          restaurantId,
-        },
-      });
+  function getPermission() {
+    if (sessionStorage.getItem("conferencePermission") === "false") {
+      handleLeave();
     }
+    Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).catch(
+      err => {
+        if (err.response.status === 404) {
+          handleLeave();
+        }
+      },
+    );
   }
 
   window.onbeforeunload = function () {
-    return "";
+    Axios.patch(
+      `/restaurant/conference/${encodeURI(conferenceId)}`,
+      conferenceId,
+    );
+    window.sessionStorage.setItem("conferencePermission", false);
+    return;
   };
-
+  useEffect(() => {
+    getPermission();
+  }, []);
   useEffect(() => {
     let message = {
       id: "joinRoom",
@@ -52,10 +71,9 @@ export default function ConferencePage() {
       userId: sessionStorage.getItem("id"),
     };
     handleClickSendMessage(message);
-    Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).catch(err =>
-      handleError(err),
-    );
-    return () => {};
+    return () => {
+      handleLeave();
+    };
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (
@@ -77,7 +95,7 @@ export default function ConferencePage() {
       <TableSlide />
       {roomGuestList}
       <div id="footer">
-        <Link to={"/restaurant/" + restaurantId} onClick={handleLeave}>
+        <Link to={"/restaurant/" + restaurantId}>
           <Door />
         </Link>
         <div id="switch">
