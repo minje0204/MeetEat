@@ -27,6 +27,7 @@ export default function ConferencePage() {
     setNum,
     setTableData,
   });
+  const peopleLimitNum = Number(peopleLimit);
 
   const handleLeave = () => {
     Axios.patch(
@@ -85,28 +86,78 @@ export default function ConferencePage() {
           <div id="table-name">
             {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
           </div>
-          <TableSlide conferenceId={conferenceId} />
-          <div
-            id={
-              Number(peopleLimit) === 4 ? `room_guest_row_4` : `room_guest_row`
-            }
-          >
-            {_.range(0, peopleLimit).map((_, idx) => {
-              return (
-                <div
-                  id={`roomguest-chatting-${idx}`}
-                  key={`roomGuest-div-${idx}`}
-                >
-                  <RoomGuest
-                    key={`roomGuest-${idx}`}
-                    idx={idx}
-                    value={{ host }}
-                    tableData={tableData.id === idx ? tableData.data : null}
-                  />
-                  <div id="chatting-balloon" style={{ display: "none" }}></div>
+          <div id={"cam-container"}>
+            <TableSlide conferenceId={conferenceId} />
+            {peopleLimitNum > 3 ? (
+              <div className="cam-column">
+                <div className="cam-row">
+                  {_.range(0, parseInt((peopleLimitNum + 1) / 2)).map(
+                    (_, idx) => (
+                      <div
+                        className="roomguest-chatting"
+                        id={`roomguest-chatting-${idx}`}
+                      >
+                        <RoomGuest
+                          key={`roomGuest-${idx}`}
+                          idx={idx}
+                          value={{ host }}
+                        />
+                        <div
+                          id="chatting-balloon"
+                          style={{ display: "none" }}
+                        ></div>
+                      </div>
+                    ),
+                  )}
                 </div>
-              );
-            })}
+                <div className="cam-row">
+                  {_.range(
+                    parseInt((peopleLimitNum + 1) / 2),
+                    peopleLimitNum,
+                  ).map((_, idx) => (
+                    <div
+                      className="roomguest-chatting"
+                      id={`roomguest-chatting-${
+                        idx + parseInt((peopleLimitNum + 1) / 2)
+                      }`}
+                    >
+                      <RoomGuest
+                        key={`roomGuest-${
+                          idx + parseInt((peopleLimitNum + 1) / 2)
+                        }`}
+                        idx={idx + parseInt((peopleLimitNum + 1) / 2)}
+                        value={{ host }}
+                      />
+                      <div
+                        id="chatting-balloon"
+                        style={{ display: "none" }}
+                      ></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div id={`room_guest_row`}>
+                <div className="cam-row">
+                  {_.range(0, peopleLimitNum).map((_, idx) => (
+                    <div
+                      className="roomguest-chatting"
+                      id={`roomguest-chatting-${idx}`}
+                    >
+                      <RoomGuest
+                        key={`roomGuest-${idx}`}
+                        idx={idx}
+                        value={{ host }}
+                      />
+                      <div
+                        id="chatting-balloon"
+                        style={{ display: "none" }}
+                      ></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           <div id="footer">
             <Link to={"/restaurant/" + restaurantId}>
@@ -129,33 +180,27 @@ export default function ConferencePage() {
   );
 }
 const StyledWrapper = styled.div`
+  #cam-container {
+    min-height: 600px;
+  }
+  .cam-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+  }
+  .cam-row {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 50px;
+  }
   min-width: 1500px;
   #table-name {
-    position: fixed;
-    top: 4vh;
-    margin-left: 160px;
-    height: 2vh;
+    display: block;
+    margin: 14px 0 0 160px;
     font-family: "Jua";
     font-size: 20px;
     color: #82954b;
-  }
-  #room_guest_row {
-    height: 80vh;
-    margin: 0 5vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    align-content: center;
-  }
-  #room_guest_row_4 {
-    height: 80vh;
-    margin: 0 5vw;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    align-content: center;
   }
   #footer {
     display: flex;
@@ -171,6 +216,8 @@ const StyledWrapper = styled.div`
     width: 300px;
   }
   #chatting-balloon {
+    right: -10px;
+    top: 0;
     position: absolute;
     width: 100px;
     min-height: 40px;
@@ -193,10 +240,8 @@ const StyledWrapper = styled.div`
     top: 10px;
     left: -15px;
   }
-  #roomguest-chatting {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-start;
+  .roomguest-chatting {
+    margin: 0 2rem;
+    position: relative;
   }
 `;
