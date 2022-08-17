@@ -61,7 +61,7 @@ export default function ConferencePage() {
       <div id="table-name">
         {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
       </div>
-      <TableSlide conferenceId={conferenceId} />
+      <TableSlide />
       {roomGuestList}
       <div id="footer">
         <Link to={"/restaurant/" + restaurantId} onClick={leaveRoom}>
@@ -84,9 +84,9 @@ export default function ConferencePage() {
 const StyledWrapper = styled.div`
   min-width: 1500px;
   #table-name {
-    position: absolute;
+    position: fixed;
     top: 4vh;
-    margin-left: 200px;
+    margin-left: 160px;
     height: 2vh;
     font-family: "Jua";
     font-size: 20px;
@@ -117,39 +117,28 @@ const StyledWrapper = styled.div`
     height: 7vh;
   }
   #switch {
-<<<<<<< HEAD
     background-color: #fc6677;
-=======
->>>>>>> f1b3797dd28fbfe1b0f24cf07b48bd6010ba371f
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     width: 300px;
   }
-<<<<<<< HEAD
   #chatting-balloon {
-    position:absolute;
-    width:100px;
-    height:auto;
-    min-height:30px;
-    margin-top:50px;
-    background:#d6feff;
-=======
-<<<<<<< HEAD
-  #chatting {
-=======
-  #chatting-ballon {
     position: absolute;
     width: 100px;
     min-height: 40px;
     height: auto;
     margin-top: 50px;
     background: #d6feff;
->>>>>>> 972e9de0daa3e41d60e8b8c9c3db41307e8181b8
     border-radius: 10px;
     font-family: "Jua";
+    white-space: normal;
+    word-break:break-word;
+    text-align: center;
+    
   }
   #chatting-balloon:after {
+    
     border-top:15px solid #d6feff;
     border-left: 15px solid transparent;
     border-right: 0px solid transparent;
@@ -164,6 +153,5 @@ const StyledWrapper = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     align-items: flex-start;
->>>>>>> f1b3797dd28fbfe1b0f24cf07b48bd6010ba371f
   }
 `;
