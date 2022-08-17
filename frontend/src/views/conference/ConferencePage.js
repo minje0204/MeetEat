@@ -192,7 +192,7 @@ const StyledWrapper = styled.div`
   .cam-row {
     display: flex;
     justify-content: space-evenly;
-    margin: 0 50px;
+    margin: auto 50px;
   }
   min-width: 1500px;
   #table-name {

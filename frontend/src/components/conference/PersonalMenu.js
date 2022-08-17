@@ -17,7 +17,9 @@ export default function PersonalMenu(props) {
     setAnchorEl(null);
   };
   const handleAudio = () => {
-    video.muted = !video.muted;
+    if (video) {
+      video.muted = !video.muted;
+    }
     handleClose();
   };
   const handleVideo = () => {
@@ -72,13 +74,14 @@ export default function PersonalMenu(props) {
           onClick={handleAudio}
           sx={{ color: "black", fontFamily: "Jua" }}
         >
-          음소거 하기
+          {video && (video.muted ? "음소거 해제" : "음소거 하기")}
+          {!video && "음소거"}
         </MenuItem>
         <MenuItem
           onClick={handleVideo}
           sx={{ color: "black", fontFamily: "Jua" }}
         >
-          {videoStatus ? "비디오 끄기" : "비디오 켜기"}
+          {videoStatus ? "비디오 숨기기" : "비디오 보이기"}
         </MenuItem>
         {/* 방장일 경우 아래 내용 추가 */}
         {/* <MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>방장 넘기기</MenuItem>
