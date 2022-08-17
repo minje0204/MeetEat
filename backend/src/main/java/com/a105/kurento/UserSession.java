@@ -50,15 +50,17 @@ public class UserSession implements Closeable {
     private final String roomName;
     private final WebRtcEndpoint outgoingMedia;
     private final ConcurrentMap<String, WebRtcEndpoint> incomingMedia = new ConcurrentHashMap<>();
+    private final String userId;
 
     public UserSession(final String name, String roomName, final WebSocketSession session,
-        MediaPipeline pipeline) {
+        MediaPipeline pipeline, final String userId) {
 
         this.pipeline = pipeline;
         this.name = name;
         this.session = session;
         this.roomName = roomName;
         this.outgoingMedia = new WebRtcEndpoint.Builder(pipeline).build();
+        this.userId = userId;
 
         this.outgoingMedia.addIceCandidateFoundListener(
             new EventListener<IceCandidateFoundEvent>() {
@@ -86,6 +88,9 @@ public class UserSession implements Closeable {
 
     public String getName() {
         return name;
+    }
+    public String getUserId(){
+        return userId;
     }
 
     public WebSocketSession getSession() {

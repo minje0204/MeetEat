@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import com.a105.domain.friendship.Friendship;
 import com.a105.security.CurrentUser;
 import com.a105.security.UserPrincipal;
 import java.util.List;
