@@ -38,7 +38,7 @@ public class UserService {
     }
 
     public List<UserInfoResponse> searchByEmailOrNickname(String email, String nickname){
-        if(email == "" && nickname == ""){
+        if(email.length() == 0 && nickname.length() == 0){
             throw new BadRequestException("No Search Keyword");
         }
         List<UserInfoResponse> userInfos = new ArrayList<>();
