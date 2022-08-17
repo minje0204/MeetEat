@@ -20,9 +20,11 @@ export default function ConferencePage() {
   const { title, peopleLimit, userName, conferenceId, restaurantId, position } =
     location.state;
   const [num, setNum] = useState(1);
+  const [tableData, setTableData] = useState({ id: null, data: null });
   const { handleClickSendMessage, rtcPeer, host } = UseSocket({
     name: location.state.userName,
     setNum,
+    setTableData,
   });
 
   const handleExit = window.addEventListener("beforeunload", function (e) {
@@ -46,17 +48,6 @@ export default function ConferencePage() {
     Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`);
   }, [title, userName, handleClickSendMessage]);
 
-  const roomGuestList = (
-    <div id={Number(peopleLimit) === 4 ? `room_guest_row_4` : `room_guest_row`}>
-      {_.range(0, peopleLimit).map((_, idx) => (
-        <div id={`roomguest-chatting-${idx}`}>
-          <RoomGuest key={`roomGuest-${idx}`} idx={idx} value={{ host }} />
-          <div id="chatting-balloon" style={{ display: "none" }}></div>
-        </div>
-      ))}
-    </div>
-  );
-
   return (
     <SocketContextProvider sendMessage={handleClickSendMessage}>
       <ConferenceContextProvider name={userName} title={title}>
@@ -65,7 +56,28 @@ export default function ConferencePage() {
             {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
           </div>
           <TableSlide conferenceId={conferenceId} />
-          {roomGuestList}
+          <div
+            id={
+              Number(peopleLimit) === 4 ? `room_guest_row_4` : `room_guest_row`
+            }
+          >
+            {_.range(0, peopleLimit).map((_, idx) => {
+              return (
+                <div
+                  id={`roomguest-chatting-${idx}`}
+                  key={`roomGuest-div-${idx}`}
+                >
+                  <RoomGuest
+                    key={`roomGuest-${idx}`}
+                    idx={idx}
+                    value={{ host }}
+                    tableData={tableData.id === idx ? tableData.data : null}
+                  />
+                  <div id="chatting-balloon" style={{ display: "none" }}></div>
+                </div>
+              );
+            })}
+          </div>
           <div id="footer">
             <Link to={"/restaurant/" + restaurantId} onClick={leaveRoom}>
               <Door />

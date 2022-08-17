@@ -58,7 +58,7 @@ const onMessage = message => {
       console.error("Unrecognized message", parsedMessage);
   }
 };
-const UseSocket = ({ name, setNum }) => {
+const UseSocket = ({ name, setNum, setTableData }) => {
   /* eslint-disable no-unused-vars */
   const [messageHistory, setMessageHistory] = useState([]);
   /* eslint-disable no-unused-vars */
@@ -149,7 +149,9 @@ const UseSocket = ({ name, setNum }) => {
   };
 
   onReceiveTable = function (msg) {
-    console.log(msg);
+    let user = participants[msg.name].idx;
+    let data = JSON.parse(msg.data);
+    setTableData({ id: user, data: data });
   };
 
   onChat = function (msg) {
