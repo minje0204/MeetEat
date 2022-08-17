@@ -86,4 +86,16 @@ const StyledWrapper = styled.div`
   }
   .item-tab {
   }
+
+  .MuiTab-root{
+    font-family:"Jua";
+    color:#babd42
+  }
+  .MuiTab-root.Mui-selected{
+    font-size: 18px;
+    color:#82954b;
+  }
+  .MuiTabs-indicator{
+    background-color:#82954b;
+  }
 `;
