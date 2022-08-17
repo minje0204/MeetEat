@@ -13,7 +13,10 @@ function FriendsListOption(props) {
     onClose();
   };
   const HandleDelete = (idx) => {
-    Axios.delete(`/friend/${idx}`);
+    console.log(idx)
+    Axios.delete(`/friend/delete/${idx}`).then(res => {
+      console.log(res);
+    });
     Axios.get(`/friend`).then(res => {
       truefriends(res.data.response);
     });
@@ -106,7 +109,7 @@ export default function MyFriends() {
           open={openOption}
           anchorEl={anchorEl}
           onClose={closeOption}
-          truefriend={truefriends}
+          truefriends={truefriends}
           idx={e.friendInfo.id}
         />
       </div>
