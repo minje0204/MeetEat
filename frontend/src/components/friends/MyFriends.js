@@ -232,7 +232,7 @@ const StyledWrapper = styled.div`
     position: relative;
     top: 75%;
     left: 78%;
-    background-color: #white;
+    background-color: grey;
     border-radius: 50%;
     border: 1.6px solid black;
   }

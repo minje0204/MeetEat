@@ -4,17 +4,18 @@ import Menu from "components/common/nav/Menu";
 import { Link } from "react-router-dom";
 
 const Header = () => {
-
   return (
     <StyledWrapper>
       <div id="container">
-        <Link to="/">
-          <div id="logo">
-            <img src={logoimage} alt="로고" />
-            <div id="logo_meeteat">밋잇</div>
-          </div>
-        </Link>
-        <Menu />
+        <div id="flex-box">
+          <Link to="/">
+            <div id="logo">
+              <img src={logoimage} alt="로고" />
+              <div id="logo_meeteat">밋잇</div>
+            </div>
+          </Link>
+          <Menu />
+        </div>
       </div>
     </StyledWrapper>
   );
@@ -26,10 +27,10 @@ const StyledWrapper = styled.div`
   a {
     text-decoration: none;
     color: #000000;
-    text-shadow : 0 1px 0 #CCC, 0 2px 0 #C9C9C9, 0 3px 0 #BBB;
+    text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb;
   }
   a:hover {
-    color: #82954B;
+    color: #82954b;
   }
   img {
     width: 80px;
@@ -45,23 +46,20 @@ const StyledWrapper = styled.div`
   }
   #logo_meeteat {
     font-family: "Jua";
-    font-size: 36px;
-    width: 70px;
-    height: 50px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
+    font-size: 48px;
+    width: 100px;
+    text-align: center;
   }
   #container {
-    height: 6vh;
-    max-height: 6vh;
     padding: 2vh;
-    position: static;
+    position: ;
+    display: block;
+  }
+  #flex-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
     text-align: center;
   }
-  position: static;
   width: 100%;
 `;

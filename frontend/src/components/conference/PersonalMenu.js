@@ -78,7 +78,7 @@ export default function PersonalMenu(props) {
           onClick={handleVideo}
           sx={{ color: "black", fontFamily: "Jua" }}
         >
-          비디오 끄기
+          {videoStatus ? "비디오 끄기" : "비디오 켜기"}
         </MenuItem>
         {/* 방장일 경우 아래 내용 추가 */}
         {/* <MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>방장 넘기기</MenuItem>

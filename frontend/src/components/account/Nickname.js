@@ -34,7 +34,7 @@ export default function Nickname(props) {
           nicknameInput(e);
           isValid(NicknameFilter(e));
         }}
-        error={Boolean(nickname && !validNickname)}
+        error={Boolean(nickname && !validNickname && myNickname !== nickname)}
         onInput={e => CheckLength(e, 6)}
         required
         defaultValue={nickname}

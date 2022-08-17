@@ -34,6 +34,7 @@ const StyledWrapper = styled.div`
     align-items: center;
   }
   h1 {
+    font-family: "Jua";
     text-align: center;
   }
   span {

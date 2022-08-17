@@ -13,6 +13,7 @@ let onParticipantLeft;
 let receiveVideoResponse;
 let onChat;
 let hostChanged;
+let onReceiveTable;
 var interval;
 
 const onMessage = message => {
@@ -50,11 +51,14 @@ const onMessage = message => {
     case "hostChanged":
       hostChanged(parsedMessage.host);
       break;
+    case "receiveTable":
+      onReceiveTable(parsedMessage);
+      break;
     default:
       console.error("Unrecognized message", parsedMessage);
   }
 };
-const UseSocket = ({ name, setNum }) => {
+const UseSocket = ({ name, setNum, setTableData }) => {
   /* eslint-disable no-unused-vars */
   const [messageHistory, setMessageHistory] = useState([]);
   /* eslint-disable no-unused-vars */
@@ -142,6 +146,12 @@ const UseSocket = ({ name, setNum }) => {
     setRtcPeer(participant.rtcPeer);
 
     msg.data.forEach(receiveVideo); // 돌면서 참가자 모두 영상 수신
+  };
+
+  onReceiveTable = function (msg) {
+    let user = participants[msg.name].idx;
+    let data = JSON.parse(msg.data);
+    setTableData({ id: user, data: data });
   };
 
   onChat = function (msg) {
