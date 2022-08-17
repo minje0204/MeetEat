@@ -67,10 +67,10 @@ export default function ConferencePage() {
   useEffect(() => {
     if (!rtcPeer) return;
     return () => {
-      console.log(rtcPeer);
-      handleLeave();
+      rtcPeer.dispose();
     };
   }, [rtcPeer]);
+
   useEffect(() => {
     let message = {
       id: "joinRoom",
