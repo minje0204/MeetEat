@@ -47,8 +47,8 @@ public class AuthController {
 
     @PostMapping(value = "/signup", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> registerNewUser(@RequestPart("data") SignupRequest signupRequest, @RequestPart(required = false) MultipartFile file){
-        UserInfoResponse userInfoResponse = authService.registerNewUser(signupRequest, file);
-        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, SIGN_UP, userInfoResponse));
+        AuthResponse authResponse = authService.registerNewUser(signupRequest, file);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, SIGN_UP, authResponse));
     }
 
     @GetMapping("/info")

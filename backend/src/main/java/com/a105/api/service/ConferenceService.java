@@ -22,7 +22,7 @@ public class ConferenceService {
 
     public List<ConferenceListResponse> getConferenceList(int restaurant) {
         List<ConferenceListResponse> list = new ArrayList<>();
-        List<Conference> findByRestaurant = conferenceRepository.findByRestaurant(restaurant);
+        List<Conference> findByRestaurant = getActiveConferenceList(restaurant);
         for (Conference conference :
             findByRestaurant) {
             Long conferenceId = conference.getId();
@@ -78,10 +78,10 @@ public class ConferenceService {
     public Conference joinConference(Long conferenceId, Long userId) {
         Conference conference = getConferenceFromId(conferenceId);
         if (conference == null || getCurrentUserNum(conferenceId) == 0) {
-            throw new BadRequestException("종료된 테이블입니다.");
+            throw new ResourceNotFoundException("종료된 테이블입니다.", "id", conferenceId);
         }
         if (conference.getMaxUserNum() <= getCurrentUserNum(conferenceId)) {
-            throw new BadRequestException("테이블에 빈 좌석이 없습니다.");
+            throw new ResourceNotFoundException("테이블에 빈 좌석이 없습니다.", "id", conferenceId);
         }
         if (userConferenceService.checkUserConferenceDuplicate(conferenceId, userId)) {
             throw new BadRequestException("이미 참여중인 테이블입니다.");
