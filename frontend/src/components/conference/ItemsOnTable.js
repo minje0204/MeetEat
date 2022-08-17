@@ -76,8 +76,6 @@ export default function ItemsOnTable(props) {
           deltaY: deltaY,
         }),
       );
-      let msg = {};
-      // sendMessage(msg);
     }
   };
   const menuRender = myMenu.map((menu, index) => (
