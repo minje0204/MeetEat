@@ -161,9 +161,7 @@ export default function TabFriends() {
       .then(alert("밥친구 요청을 보냈습니다."))
   };
 
-  const friendPlusButton = () => {
-    Axios.get(`friend/waiting`)
-  }
+
 
   const searchResult = searchResultList.map((e, idx) => (
     <div id="who-each" key={`${idx}`}>
