@@ -82,7 +82,7 @@ export default function ItemTabPanel(props) {
                     onDragStart={dragStartHandler}
                     onDrag={dragHandler}
                     onDragEnd={dragEndHandler}
-                    src={item.imageurl}
+                    src={item.imageUrl}
                     alt={item.name}
                     {...other}
                   ></img>
