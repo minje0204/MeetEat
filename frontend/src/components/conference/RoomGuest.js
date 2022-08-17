@@ -68,11 +68,9 @@ const StyledWrapper = styled.div`
     top: -15px;
   }
   .personal {
-    width: 305.5px;
-    height: 250px;
     display: flex-column;
     align-items: center;
-    margin: 20px 110px 20px 50px;
+    margin: 1rem;
   }
   #personal_header {
     width: 240px;
