@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function ConferencePage() {
   const navigate = useNavigate();
-  let params = useParams();
   const location = useLocation();
   const { title, peopleLimit, userName, conferenceId, restaurantId, position } =
     location.state;
@@ -164,9 +163,8 @@ const StyledWrapper = styled.div`
     border-radius: 10px;
     font-family: "Jua";
     white-space: normal;
-    word-break:break-word;
+    word-break: break-word;
     text-align: center;
-    
   }
   #chatting-balloon:after {
     border-top: 15px solid #d6feff;
