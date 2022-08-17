@@ -11,8 +11,11 @@ import Chatting from "components/conference/Chatting";
 import Door from "components/conference/Door";
 import { Link } from "react-router-dom";
 import Axios from "utils/axios/Axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ConferencePage() {
+  const navigate = useNavigate();
+  let params = useParams();
   const location = useLocation();
   const { title, peopleLimit, userName, conferenceId, restaurantId, position } =
     location.state;
@@ -23,25 +26,54 @@ export default function ConferencePage() {
     setNum,
   });
 
-  const handleExit = window.addEventListener("beforeunload", function (e) {
-    leaveRoom();
-  });
-
-  const leaveRoom = () => {
+  const handleLeave = () => {
     Axios.patch(
       `/restaurant/conference/${encodeURI(conferenceId)}`,
       conferenceId,
     );
+    window.sessionStorage.setItem("conferencePermission", false);
+    navigate(`/restaurant/${restaurantId}`, {
+      params: {
+        restaurantId,
+      },
+    });
   };
 
+  function getPermission() {
+    if (sessionStorage.getItem("conferencePermission") === "false") {
+      handleLeave();
+    }
+    Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).catch(
+      err => {
+        if (err.response.status === 404) {
+          handleLeave();
+        }
+      },
+    );
+  }
+
+  window.onbeforeunload = function () {
+    Axios.patch(
+      `/restaurant/conference/${encodeURI(conferenceId)}`,
+      conferenceId,
+    );
+    window.sessionStorage.setItem("conferencePermission", false);
+    return;
+  };
+  useEffect(() => {
+    getPermission();
+  }, []);
   useEffect(() => {
     let message = {
       id: "joinRoom",
       name: userName,
-      room: title,
+      room: conferenceId,
+      userId: sessionStorage.getItem("id"),
     };
     handleClickSendMessage(message);
-    Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`);
+    return () => {
+      handleLeave();
+    };
   }, [title, userName, handleClickSendMessage]);
 
   const roomGuestList = (
@@ -60,10 +92,10 @@ export default function ConferencePage() {
       <div id="table-name">
         {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
       </div>
-      <TableSlide conferenceId={conferenceId} />
+      <TableSlide />
       {roomGuestList}
       <div id="footer">
-        <Link to={"/restaurant/" + restaurantId} onClick={leaveRoom}>
+        <Link to={"/restaurant/" + restaurantId}>
           <Door />
         </Link>
         <div id="switch">
@@ -83,9 +115,9 @@ export default function ConferencePage() {
 const StyledWrapper = styled.div`
   min-width: 1500px;
   #table-name {
-    position: absolute;
+    position: fixed;
     top: 4vh;
-    margin-left: 200px;
+    margin-left: 160px;
     height: 2vh;
     font-family: "Jua";
     font-size: 20px;
@@ -122,8 +154,7 @@ const StyledWrapper = styled.div`
     align-items: center;
     width: 300px;
   }
-
-  #chatting-ballon {
+  #chatting-balloon {
     position: absolute;
     width: 100px;
     min-height: 40px;
@@ -132,6 +163,10 @@ const StyledWrapper = styled.div`
     background: #d6feff;
     border-radius: 10px;
     font-family: "Jua";
+    white-space: normal;
+    word-break:break-word;
+    text-align: center;
+    
   }
   #chatting-balloon:after {
     border-top: 15px solid #d6feff;
