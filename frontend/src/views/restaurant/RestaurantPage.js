@@ -1,13 +1,26 @@
 import styled from "@emotion/styled";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ModalMakingRoom from "components/makingroom/ModalMakingRoom";
 import React from "react";
 import { Link } from "react-router-dom";
 import Door from "components/conference/Door";
 import Axios from "utils/axios/Axios";
 import { useEffect, useState } from "react";
+import Header from "components/common/nav/Header";
+import { isLogin } from "utils/account/GetAccess";
 
 export default function RestaurantPage() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isLogin()) {
+      alert("로그인이 필요합니다. ");
+      navigate("/", {
+        state: {
+          login: false,
+        },
+      });
+    }
+  }, []);
   let params = useParams();
   const [tableList, setTableList] = useState([]);
 
@@ -33,7 +46,7 @@ export default function RestaurantPage() {
     Axios.get(`/restaurant/${encodeURI(params.restaurant_id)}`)
       .then(response => onload(response.data.response))
       .catch(e => console.log(e));
-  }, []);
+  }, [params.restaurant_id]);
 
   const listItems = tableList.map(e => (
     <ModalMakingRoom
@@ -45,6 +58,7 @@ export default function RestaurantPage() {
 
   return (
     <StyledWrapper>
+      <Header></Header>
       <div id="restaurant-name">{`[ ${params.restaurant_id}번 식당 ]`}</div>
       <div id="table-list">{listItems}</div>
       <div id="exit">
@@ -58,9 +72,9 @@ export default function RestaurantPage() {
 
 const StyledWrapper = styled.div`
   #restaurant-name {
-    position: fixed;
+    position: absolute;
     top: 4vh;
-    margin-left: 160px;
+    margin-left: 200px;
     height: 2vh;
     font-family: "Jua";
     font-size: 20px;

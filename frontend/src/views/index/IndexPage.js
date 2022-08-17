@@ -1,8 +1,18 @@
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Header from "components/common/nav/Header";
 
 export default function IndexPage() {
+  const location = useLocation();
+  useEffect(() => {
+    if (location.state) {
+      var { login } = location.state;
+      if (!login) {
+        login = true;
+      }
+    }
+  }, []);
   const restaurantList = [
     {
       id: "1",
@@ -57,22 +67,25 @@ export default function IndexPage() {
   ));
   return (
     <StyledWrapper>
-      <div id="restaurant-list">{listItems}</div>
+      <Header />
+      <div className="container">
+        <div id="restaurant-list">{listItems}</div>
+      </div>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
-cursor: url("/images/cursor_image.png"), auto;
-img {
-  cursor: url("/images/cursor_image.png"), auto;
-  
-}
-  
-.door {
-  position: absolute;
-  z-index: 100;
-}
+  #restaurant-list img {
+    cursor: url("/images/cursor_image.png"), auto;
+  }
+  .container {
+    display: block;
+  }
+  .door {
+    position: absolute;
+    z-index: 100;
+  }
   .door1_open {
     bottom: -5.5%;
     width: 20%;
@@ -104,14 +117,14 @@ img {
     left: 38%;
   }
   #restaurant-list {
+    cursor: url("/images/cursor_image.png"), auto;
     min-width: 904px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 3rem 3rem 0  3rem;
+    padding: 6rem 3rem 0 3rem;
   }
   .image-container1 {
-    
     width: 35%;
     position: relative;
   }
@@ -127,15 +140,6 @@ img {
     width: 100%;
   }
   #image {
-    width: 100%;
-  }
-  button {
-    font-family: "Jua";
-    font-size: 32px;
-    color: black;
-  }
-  }
-  #restaurant-name {
     width: 100%;
   }
 `;

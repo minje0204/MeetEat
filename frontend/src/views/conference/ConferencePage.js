@@ -4,27 +4,30 @@ import TableSlide from "components/conference/TableSlide";
 import UseSocket from "hooks/UseSocket";
 import _ from "lodash";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SwitchMic from "components/conference/SwitchMic";
 import SwitchVideo from "components/conference/SwitchVideo";
 import Chatting from "components/conference/Chatting";
 import Door from "components/conference/Door";
 import { Link } from "react-router-dom";
+import { SocketContextProvider } from "components/socket/SocketContext";
+import { ConferenceContextProvider } from "components/conference/ConferenceContext";
 import Axios from "utils/axios/Axios";
 import { useNavigate } from "react-router-dom";
 
 export default function ConferencePage() {
   const navigate = useNavigate();
-  let params = useParams();
   const location = useLocation();
   const { title, peopleLimit, userName, conferenceId, restaurantId, position } =
     location.state;
   const [num, setNum] = useState(1);
-
+  const [tableData, setTableData] = useState({ id: null, data: null });
   const { handleClickSendMessage, rtcPeer, host } = UseSocket({
     name: location.state.userName,
     setNum,
+    setTableData,
   });
+  const peopleLimitNum = Number(peopleLimit);
 
   const handleLeave = () => {
     Axios.patch(
@@ -77,70 +80,128 @@ export default function ConferencePage() {
     };
   }, [userName, handleClickSendMessage]);
 
-  const roomGuestList = (
-    <div id={Number(peopleLimit) === 4 ? `room_guest_row_4` : `room_guest_row`}>
-      {_.range(0, peopleLimit).map((_, idx) => (
-        <div id={`roomguest-chatting-${idx}`}>
-          <RoomGuest key={`roomGuest-${idx}`} idx={idx} value={{ host }} />
-          <div id="chatting-balloon" style={{ display: "none" }}></div>
-        </div>
-      ))}
-    </div>
-  );
-
   return (
-    <StyledWrapper>
-      <div id="table-name">
-        {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
-      </div>
-      <TableSlide />
-      {roomGuestList}
-      <div id="footer">
-        <Link to={"/restaurant/" + restaurantId}>
-          <Door />
-        </Link>
-        <div id="switch">
-          <SwitchMic value={{ rtcPeer: rtcPeer }}></SwitchMic>
-          <SwitchVideo value={{ rtcPeer: rtcPeer }}></SwitchVideo>
-        </div>
-        <div id="chatting">
-          <Chatting
-            handleClickSendMessage={handleClickSendMessage}
-            value={{ room: title, name: userName }}
-          ></Chatting>
-        </div>
-      </div>
-    </StyledWrapper>
+    <SocketContextProvider sendMessage={handleClickSendMessage}>
+      <ConferenceContextProvider name={userName} title={title}>
+        <StyledWrapper>
+          <div id="table-name">
+            {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
+          </div>
+          <div id={"cam-container"}>
+            <TableSlide conferenceId={conferenceId} />
+            {peopleLimitNum > 3 ? (
+              <div className="cam-column">
+                <div className="cam-row">
+                  {_.range(0, parseInt((peopleLimitNum + 1) / 2)).map(
+                    (_, idx) => (
+                      <div
+                        className="roomguest-chatting"
+                        id={`roomguest-chatting-${idx}`}
+                      >
+                        <RoomGuest
+                          key={`roomGuest-${idx}`}
+                          idx={idx}
+                          value={{ host }}
+                        />
+                        <div
+                          id="chatting-balloon"
+                          style={{ display: "none" }}
+                        ></div>
+                      </div>
+                    ),
+                  )}
+                </div>
+                <div className="cam-row">
+                  {_.range(
+                    parseInt((peopleLimitNum + 1) / 2),
+                    peopleLimitNum,
+                  ).map((_, idx) => (
+                    <div
+                      className="roomguest-chatting"
+                      id={`roomguest-chatting-${
+                        idx + parseInt((peopleLimitNum + 1) / 2)
+                      }`}
+                    >
+                      <RoomGuest
+                        key={`roomGuest-${
+                          idx + parseInt((peopleLimitNum + 1) / 2)
+                        }`}
+                        idx={idx + parseInt((peopleLimitNum + 1) / 2)}
+                        value={{ host }}
+                      />
+                      <div
+                        id="chatting-balloon"
+                        style={{ display: "none" }}
+                      ></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div id={`room_guest_row`}>
+                <div className="cam-row">
+                  {_.range(0, peopleLimitNum).map((_, idx) => (
+                    <div
+                      className="roomguest-chatting"
+                      id={`roomguest-chatting-${idx}`}
+                    >
+                      <RoomGuest
+                        key={`roomGuest-${idx}`}
+                        idx={idx}
+                        value={{ host }}
+                      />
+                      <div
+                        id="chatting-balloon"
+                        style={{ display: "none" }}
+                      ></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          <div id="footer">
+            <Link to={"/restaurant/" + restaurantId}>
+              <Door />
+            </Link>
+            <div id="switch">
+              <SwitchMic value={{ rtcPeer: rtcPeer }}></SwitchMic>
+              <SwitchVideo value={{ rtcPeer: rtcPeer }}></SwitchVideo>
+            </div>
+            <div id="chatting">
+              <Chatting
+                handleClickSendMessage={handleClickSendMessage}
+                value={{ room: conferenceId, name: userName }}
+              ></Chatting>
+            </div>
+          </div>
+        </StyledWrapper>
+      </ConferenceContextProvider>
+    </SocketContextProvider>
   );
 }
 const StyledWrapper = styled.div`
+  #cam-container {
+    min-height: 600px;
+  }
+  .cam-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+  }
+  .cam-row {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 50px;
+  }
   min-width: 1500px;
   #table-name {
-    position: fixed;
-    top: 4vh;
-    margin-left: 160px;
-    height: 2vh;
+    display: block;
+    margin: 14px 0 0 160px;
     font-family: "Jua";
     font-size: 20px;
-    color: #82954B;
-  }
-  #room_guest_row {
-    height: 80vh;
-    margin: 0 5vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    align-content: center;
-  }
-  #room_guest_row_4 {
-    height: 80vh;
-    margin: 0 5vw;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    align-content: center;
+    color: #82954b;
   }
   #footer {
     display: flex;
@@ -149,40 +210,29 @@ const StyledWrapper = styled.div`
     height: 7vh;
   }
   #switch {
-<<<<<<< HEAD
     background-color: #fc6677;
-=======
->>>>>>> f1b3797dd28fbfe1b0f24cf07b48bd6010ba371f
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     width: 300px;
   }
-<<<<<<< HEAD
   #chatting-balloon {
-    position:absolute;
-    width:100px;
-    height:auto;
-    min-height:30px;
-    margin-top:50px;
-    background:#d6feff;
-=======
-<<<<<<< HEAD
-  #chatting {
-=======
-  #chatting-ballon {
+    right: -10px;
+    top: 0;
     position: absolute;
     width: 100px;
     min-height: 40px;
     height: auto;
     margin-top: 50px;
     background: #d6feff;
->>>>>>> 972e9de0daa3e41d60e8b8c9c3db41307e8181b8
     border-radius: 10px;
     font-family: "Jua";
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
   }
   #chatting-balloon:after {
-    border-top:15px solid #d6feff;
+    border-top: 15px solid #d6feff;
     border-left: 15px solid transparent;
     border-right: 0px solid transparent;
     border-bottom: 0px solid transparent;
@@ -191,11 +241,8 @@ const StyledWrapper = styled.div`
     top: 10px;
     left: -15px;
   }
-  #roomguest-chatting {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-start;
->>>>>>> f1b3797dd28fbfe1b0f24cf07b48bd6010ba371f
+  .roomguest-chatting {
+    margin: 0 2rem;
+    position: relative;
   }
 `;

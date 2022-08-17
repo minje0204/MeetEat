@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import GoogleLogin from "utils/account/GoogleLogin";
 import KakaoLogin from "utils/account/KakaoLogin";
-import NaverLogin from "utils/account/NaverLogin";
 
 export default function ModalContent(props) {
   return (
@@ -13,25 +12,29 @@ export default function ModalContent(props) {
       ></i>
       <div className="social-login-container">
         <h1> 밋잇</h1>
-        <h1> 로고이미지</h1>
+        <img src="/images/logo2_480.png" alt="logo.png" id="logo-image"></img>
         <hr></hr>
         <span>간편 로그인</span>
       </div>
       <div className="container">
         <GoogleLogin></GoogleLogin>
         <KakaoLogin></KakaoLogin>
-        <NaverLogin></NaverLogin>
       </div>
     </StyledWrapper>
   );
 }
 const StyledWrapper = styled.div`
+  #logo-image {
+    width: 240px;
+    margin: 10px 0 40px 0;
+  }
   .social-login-container {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   h1 {
+    font-family: "Jua";
     text-align: center;
   }
   span {

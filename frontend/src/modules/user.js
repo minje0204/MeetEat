@@ -25,7 +25,6 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         loggedInfo: {
-          id: action.data.id,
           nickname: action.data.nickname,
           email: action.data.email,
           bio: action.data.bio,

@@ -10,12 +10,13 @@ export default function Nickname(props) {
     props;
 
   const nicknameInput = e => setNickname(e.target.value);
-
+  const myNickname = sessionStorage.getItem("nickname");
   const checkNickname = () => {
     Axios.get(`/user/exists/${nickname}`, {
       nickname: nickname,
     })
       .then(res => {
+        console.log(res);
         if (res.data.response.exists) {
           //true인 경우 중복 닉네임 있음
           alert("이미 사용중인 닉네임입니다.");
@@ -28,28 +29,26 @@ export default function Nickname(props) {
       .catch(err => console.log(err));
   };
   return (
-    <StyledWrapper className="form-row">
-      <p>닉네임 </p>
-      <div className="nickname-input-group">
-        <TextField
-          onChange={e => {
-            nicknameInput(e);
-            isValid(NicknameFilter(e));
-          }}
-          error={Boolean(nickname && !validNickname)}
-          onInput={e => CheckLength(e, 6)}
-          required
-          id="nickname-input"
-          label="필수 입력 항목"
-        />
-        <Button
-          variant="contained"
-          onClick={checkNickname}
-          disabled={!validNickname}
-        >
-          중복 확인
-        </Button>
-      </div>
+    <StyledWrapper className="nickname-input-group">
+      <TextField
+        onChange={e => {
+          nicknameInput(e);
+          isValid(NicknameFilter(e));
+        }}
+        error={Boolean(nickname && !validNickname && myNickname !== nickname)}
+        onInput={e => CheckLength(e, 6)}
+        required
+        defaultValue={nickname}
+        id="nickname-input"
+        label="필수 입력 항목"
+      />
+      <Button
+        variant="contained"
+        onClick={checkNickname}
+        disabled={!validNickname || myNickname === nickname}
+      >
+        중복 확인
+      </Button>
     </StyledWrapper>
   );
 }

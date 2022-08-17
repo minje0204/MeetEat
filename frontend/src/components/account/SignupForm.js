@@ -8,9 +8,15 @@ import { Link } from "react-router-dom";
 import Nickname from "./Nickname";
 import Axios from "utils/axios/Axios";
 import { toUpper } from "lodash";
+import { useLocation } from "react-router-dom";
 
 export default function SignupForm() {
+  const location = useLocation();
+
   const [Image, setImage] = useState("");
+  const [preview, setPreview] = useState(
+    "/images/profile_image/default_profile.png",
+  );
 
   const [nickname, setNickname] = useState("");
   const [checkedNickname, setCheckedNickname] = useState("");
@@ -19,9 +25,10 @@ export default function SignupForm() {
 
   const [bio, setBio] = useState("");
   const bioInput = e => setBio(e.target.value);
-  let params = new URL(document.location).searchParams;
-  const email = params.get("email");
-  const provider = params.get("provider");
+  const email = location.state.email;
+  const provider = location.state.provider;
+  const code = location.state.code;
+  const redirect_uri = location.state.redirect_uri;
 
   const signupPost = () => {
     if (!validNickname) {
@@ -31,14 +38,12 @@ export default function SignupForm() {
       alert("닉네임 중복확인이 필요합니다. ");
     } else {
       const bodyFormData = new FormData();
-      console.log(bodyFormData);
       const data = {
         email: email,
         nickname: checkedNickname,
         bio: bio,
         provider: toUpper(`${provider}`),
       };
-      console.log(`${provider}`);
       const blobData = new Blob([JSON.stringify(data)], {
         type: "application/json",
       });
@@ -52,7 +57,20 @@ export default function SignupForm() {
         },
       })
         .then(res => {
-          console.log(res);
+          localStorage.setItem("accessToken", res.data.response.accessToken);
+          Axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${res.data.response.accessToken}`;
+          window.sessionStorage.setItem("logged", true);
+          window.sessionStorage.setItem("nickname", res.data.response.nickname);
+          window.sessionStorage.setItem("email", res.data.response.email);
+          window.sessionStorage.setItem("bio", res.data.response.bio);
+          window.sessionStorage.setItem("profile", res.data.response.profile);
+          window.sessionStorage.setItem(
+            "accessToken",
+            res.data.response.accessToken,
+          );
+          window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
         })
         .catch(err => {
           console.log(err);
@@ -64,19 +82,26 @@ export default function SignupForm() {
       <div className="form-container">
         <h2>회원정보 입력</h2>
         <div className="wide-p">프로필 사진</div>
-        <ProfileImage setImage={setImage}></ProfileImage>
+        <ProfileImage
+          setImage={setImage}
+          preview={preview}
+          setPreview={setPreview}
+        ></ProfileImage>
 
         <div className="form-row">
           <p>이메일 </p>
           <p className="personal-data">{email}</p>
         </div>
-        <Nickname
-          nickname={nickname}
-          setNickname={setNickname}
-          setCheckedNickname={setCheckedNickname}
-          validNickname={validNickname}
-          isValid={isValid}
-        ></Nickname>
+        <div className="form-row">
+          <p>닉네임 </p>
+          <Nickname
+            nickname={nickname}
+            setNickname={setNickname}
+            setCheckedNickname={setCheckedNickname}
+            validNickname={validNickname}
+            isValid={isValid}
+          ></Nickname>
+        </div>
         <p id="nickname-alert">
           닉네임은 2~6글자 한글, 영문, 숫자만 가능합니다
         </p>

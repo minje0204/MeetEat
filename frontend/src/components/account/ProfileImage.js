@@ -3,10 +3,8 @@ import { useState } from "react";
 import styled from "styled-components";
 
 export default function ProfileImage(props) {
-  const { setImage } = props;
-  const [preview, setPreview] = useState(
-    "/images/profile_image/default_profile.png",
-  );
+  const { setImage, preview, setPreview } = props;
+
   const fileInput = useRef(null);
 
   const onChange = e => {
