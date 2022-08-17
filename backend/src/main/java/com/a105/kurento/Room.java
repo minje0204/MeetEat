@@ -21,6 +21,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.sql.Connection;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import javax.annotation.PreDestroy;
+
 import org.kurento.client.Continuation;
 import org.kurento.client.MediaPipeline;
 import org.slf4j.Logger;
@@ -122,11 +124,8 @@ public class Room implements Closeable {
         user.close();
         Class.forName("org.mariadb.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/a105",
-            "root", "admin");
-        PreparedStatement pstmt = con.prepareStatement(
-            "update user_conference set action = 1 where user_id = " + user.getUserId()
-                + " and conference_id = " + name);
-        pstmt.execute();
+            "root", "meeteat1234");
+        PreparedStatement pstmt = null;
         if (getParticipants().isEmpty()) {
             pstmt = con.prepareStatement(
                 "update conference set call_end_time = now() where id = " + name);
