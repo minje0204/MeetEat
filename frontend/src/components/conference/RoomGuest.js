@@ -6,9 +6,19 @@ import crown from "assets/img/crown.png";
 import { useEffect, useState } from "react";
 
 export default function RoomGuest(props) {
-  const { idx } = props;
+  const { idx, tableData } = props;
   const { host } = props.value;
   const [isHost, setIsHost] = useState("");
+  const [myMenu, setMyMenu] = useState(null);
+
+  useEffect(() => {
+    if (!tableData) {
+      setMyMenu(null);
+      return;
+    }
+    setMyMenu(tableData);
+  }, [tableData]);
+
   useEffect(() => {
     let target = document.querySelector(
       `#personal-${idx} #personal_id`,
@@ -46,7 +56,7 @@ export default function RoomGuest(props) {
         <div id="personalCam"></div>
         {/* 식탁의 규격은 305.5*130 */}
         {/* <div id="personal_table"></div> */}
-        <PersonalTable></PersonalTable>
+        <PersonalTable myMenu={myMenu} isMine={idx === 0}></PersonalTable>
       </div>
     </StyledWrapper>
   );
