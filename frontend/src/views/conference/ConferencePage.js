@@ -43,13 +43,6 @@ export default function ConferencePage() {
     if (sessionStorage.getItem("conferencePermission") === "false") {
       handleLeave();
     }
-    Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).catch(
-      err => {
-        if (err.response.status === 404) {
-          handleLeave();
-        }
-      },
-    );
   }
 
   window.onbeforeunload = function () {
