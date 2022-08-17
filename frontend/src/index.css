@@ -1,6 +1,11 @@
-@font-face {
+/* @font-face {
   font-family: "Jua";
   src: url("assets/fonts/Jua-Regular.ttf");
+} */
+
+@font-face {
+    font-family: 'Jua';
+    src: url("assets/fonts/IM_Hyemin-Bold.ttf");
 }
 
 body {
