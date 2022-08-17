@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import {
+  CONFERENCEPAGE_TABLE_WIDTH,
+  CONFERENCEPAGE_TABLE_HEIGHT,
+  TABLE_AREA_TABLE_WIDTH,
+  TABLE_AREA_TABLE_HEIGHT,
+} from "utils/conference/constants";
 
 export default function PersonalTable(props) {
   const { myMenu: myMenyProps, isMine } = props;
@@ -29,10 +35,17 @@ export default function PersonalTable(props) {
         draggable={"false"}
         style={{
           position: "absolute",
-          width: (menu.width * 305.5) / 940, //회의페이지 식탁
-          height: (menu.height * 130) / 400,
-          left: ((menu.left - menu.width / 2) * 305.5) / 940, //아이템 중앙 기준
-          top: ((menu.top - menu.height / 2) * 130) / 400, //아이템 중앙 기준
+          width:
+            (menu.width * CONFERENCEPAGE_TABLE_WIDTH) / TABLE_AREA_TABLE_WIDTH, //회의페이지 식탁
+          height:
+            (menu.height * CONFERENCEPAGE_TABLE_HEIGHT) /
+            TABLE_AREA_TABLE_HEIGHT,
+          left:
+            ((menu.left - menu.width / 2) * CONFERENCEPAGE_TABLE_WIDTH) /
+            TABLE_AREA_TABLE_WIDTH, //아이템 중앙 기준
+          top:
+            ((menu.top - menu.height / 2) * CONFERENCEPAGE_TABLE_HEIGHT) /
+            TABLE_AREA_TABLE_HEIGHT, //아이템 중앙 기준
           margin: 0,
         }}
       ></img>
