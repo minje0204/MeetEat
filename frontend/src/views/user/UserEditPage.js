@@ -1,5 +1,11 @@
 import EditForm from "components/account/EditForm";
+import Header from "components/common/nav/Header";
 
 export default function UserEditPage() {
-  return <EditForm></EditForm>;
+  return (
+    <div>
+      <Header />
+      <EditForm></EditForm>;
+    </div>
+  );
 }

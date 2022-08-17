@@ -4,7 +4,7 @@ import TableSlide from "components/conference/TableSlide";
 import UseSocket from "hooks/UseSocket";
 import _ from "lodash";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SwitchMic from "components/conference/SwitchMic";
 import SwitchVideo from "components/conference/SwitchVideo";
 import Chatting from "components/conference/Chatting";
@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function ConferencePage() {
   const navigate = useNavigate();
-  let params = useParams();
   const location = useLocation();
   const { title, peopleLimit, userName, conferenceId, restaurantId, position } =
     location.state;
@@ -180,6 +179,9 @@ const StyledWrapper = styled.div`
     background: #d6feff;
     border-radius: 10px;
     font-family: "Jua";
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
   }
   #chatting-balloon:after {
     border-top: 15px solid #d6feff;
