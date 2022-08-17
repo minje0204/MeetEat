@@ -42,15 +42,18 @@ function Participant(name, idx) {
   container.appendChild(video);
   container.appendChild(span);
   container.onclick = switchContainerClass;
-  document
-    .querySelector(`#personal-${idx} #personalCam`)
-    .appendChild(container);
+  let personalCam = document.querySelector(`#personal-${idx} #personalCam`);
+  console.log(personalCam.offsetHeight);
+  console.log(personalCam.offsetWidth);
+  personalCam.appendChild(container);
 
   document.querySelector(`#personal-${idx} #personal_id`).innerText = name;
 
   video.id = "video-" + name;
   video.autoplay = true;
   video.controls = false;
+  video.style.width = `${personalCam.offsetWidth}px`;
+  video.style.height = `${personalCam.offsetHeight}px`;
 
   this.getElement = function () {
     return container;
