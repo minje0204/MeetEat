@@ -210,7 +210,6 @@ const StyledWrapper = styled.div`
     height: 7vh;
   }
   #switch {
-    background-color: #fc6677;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
