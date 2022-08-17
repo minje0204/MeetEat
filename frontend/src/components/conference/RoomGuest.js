@@ -53,6 +53,10 @@ export default function RoomGuest(props) {
 }
 
 const StyledWrapper = styled.div`
+  video {
+    position: absolute;
+    top: -15px;
+  }
   .personal {
     width: 305.5px;
     height: 250px;
@@ -69,8 +73,10 @@ const StyledWrapper = styled.div`
     align-items: center;
   }
   #personalCam {
+    overflow: hidden;
+    position: relative;
     width: 240px;
-    height: 100px;
+    height: 150px;
     margin: auto;
     border-radius: 5px;
     background-color: gray;

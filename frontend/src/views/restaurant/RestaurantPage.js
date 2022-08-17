@@ -27,7 +27,7 @@ export default function RestaurantPage() {
       onTableList[table.position - 1] = table;
     }
     setTableList(onTableList);
-  };
+  }
 
   useEffect(() => {
     Axios.get(`/restaurant/${encodeURI(params.restaurant_id)}`)
@@ -58,9 +58,9 @@ export default function RestaurantPage() {
 
 const StyledWrapper = styled.div`
   #restaurant-name {
-    position: fixed;
+    position: absolute;
     top: 4vh;
-    margin-left: 160px;
+    margin-left: 200px;
     height: 2vh;
     font-family: "Jua";
     font-size: 20px;

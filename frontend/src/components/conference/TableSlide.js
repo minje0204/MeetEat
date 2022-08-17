@@ -8,7 +8,8 @@ import { useDispatch } from "react-redux";
 import { GetBoundary } from "modules/box";
 import UndoTableCustom from "./UndoTableCustom";
 
-export default function TableSlide() {
+export default function TableSlide(props) {
+  const { conferenceId } = props;
   const [checked, setChecked] = useState(false);
 
   const dispatch = useDispatch();
@@ -79,7 +80,7 @@ export default function TableSlide() {
               ></TableArea>
               <div className="button-group">
                 <UndoTableCustom></UndoTableCustom>
-                <SaveTableImage></SaveTableImage>
+                <SaveTableImage conferenceId={conferenceId}></SaveTableImage>
               </div>
             </div>
           </div>
@@ -108,6 +109,7 @@ const StyledWrapper = styled.div`
     cursor: pointer;
   }
   h3 {
+    font-family: "Jua";
     writing-mode: vertical-rl;
     margin: auto;
   }

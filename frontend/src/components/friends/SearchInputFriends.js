@@ -7,6 +7,12 @@ import SearchIcon from '@mui/icons-material/Search';
 
 export default function SearchInputFriends(props) {
   const { setSearchName, setSearchSign } = props;
+
+  function onKeyDown(e) {
+    if(e.keyCode === 13){
+      setSearchSign(1);
+   }
+  }
   
   return (
       <Paper
@@ -19,6 +25,7 @@ export default function SearchInputFriends(props) {
           placeholder="입력해 주세요."
           inputProps={{ 'aria-label': 'input' }}
           onChange={e => setSearchName(e.target.value)}
+          onKeyDown={onKeyDown}
         />
         <Divider component="span" sx={{ height: 28 }} orientation="vertical" />
         <IconButton onClick={() => setSearchSign(1)} component="span" type="submit" sx={{ p: '10px' }} aria-label="search">
