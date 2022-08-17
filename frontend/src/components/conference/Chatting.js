@@ -16,9 +16,9 @@ export default function Chatting(props) {
     setChatting({ ...chatting, [prop]: event.target.value });
   };
 
-  const options = ['모두에게', '귓속말 하기'];
-  const [value, setValue] = React.useState(options[0]);
-  const [inputValue, setInputValue] = React.useState('');
+  // const options = ['모두에게', '귓속말 하기'];
+  // const [value, setValue] = React.useState(options[0]);
+  // const [inputValue, setInputValue] = React.useState('');
   
   const handleChatMessage = (event) => {
     event.preventDefault();
@@ -41,7 +41,7 @@ export default function Chatting(props) {
 
   return (
     <StyleWrapper>
-      <Autocomplete
+      {/* <Autocomplete
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
@@ -54,7 +54,7 @@ export default function Chatting(props) {
         options={options}
         sx={{ width: 200 }}
         renderInput={params => <TextField {...params} />}
-      />
+      /> */}
       <FormControl fullWidth sx={{ width: 700 }}>
         <InputLabel htmlFor="outlined-adornment-amount" />
         <OutlinedInput
