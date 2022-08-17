@@ -78,7 +78,6 @@ export default function IndexPage() {
 const StyledWrapper = styled.div`
   #restaurant-list img {
     cursor: url("/images/cursor_image.png"), auto;
-    
   }
   .container {
     display: block;
@@ -123,10 +122,9 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 6rem 3rem 0  3rem;
+    padding: 6rem 3rem 0 3rem;
   }
   .image-container1 {
-    
     width: 35%;
     position: relative;
   }
@@ -142,10 +140,6 @@ const StyledWrapper = styled.div`
     width: 100%;
   }
   #image {
-    width: 100%;
-  }
-  }
-  #restaurant-name {
     width: 100%;
   }
 `;
