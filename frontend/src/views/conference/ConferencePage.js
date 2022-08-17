@@ -91,22 +91,30 @@ export default function ConferencePage() {
               Number(peopleLimit) === 4 ? `room_guest_row_4` : `room_guest_row`
             }
           >
-            {_.range(0, peopleLimit).map((_, idx) => {
-              return (
-                <div
-                  id={`roomguest-chatting-${idx}`}
-                  key={`roomGuest-div-${idx}`}
-                >
+            <div className="first-row">
+              {_.range(0, parseInt(peopleLimit / 2)).map((_, idx) => (
+                <div id={`roomguest-chatting-${idx}`}>
                   <RoomGuest
                     key={`roomGuest-${idx}`}
                     idx={idx}
                     value={{ host }}
-                    tableData={tableData.id === idx ? tableData.data : null}
                   />
                   <div id="chatting-balloon" style={{ display: "none" }}></div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+            <div className="first-row">
+              {_.range(parseInt(peopleLimit / 2), peopleLimit).map((_, idx) => (
+                <div id={`roomguest-chatting-${idx}`}>
+                  <RoomGuest
+                    key={`roomGuest-${idx}`}
+                    idx={idx}
+                    value={{ host }}
+                  />
+                  <div id="chatting-balloon" style={{ display: "none" }}></div>
+                </div>
+              ))}
+            </div>
           </div>
           <div id="footer">
             <Link to={"/restaurant/" + restaurantId}>
@@ -129,21 +137,20 @@ export default function ConferencePage() {
   );
 }
 const StyledWrapper = styled.div`
+  .first-row {
+    display: flex;
+  }
   min-width: 1500px;
   #table-name {
-    position: fixed;
-    top: 4vh;
-    margin-left: 160px;
-    height: 2vh;
+    display: block;
+    margin: 14px 0 0 160px;
     font-family: "Jua";
     font-size: 20px;
     color: #82954b;
   }
   #room_guest_row {
-    height: 80vh;
-    margin: 0 5vh;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     align-content: center;
