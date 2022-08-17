@@ -7,6 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Axios from "utils/axios/Axios";
 import FriendsProfileDialog from "components/profile/FriendsProfileDialog";
 import { useNavigate } from "react-router-dom";
+import default_profile from "assets/img/default_profile.png"
 
 function FriendsListOption(props) {
   const { open, onClose, anchorEl, truefriends, conferenceId, idx } = props;
@@ -14,7 +15,7 @@ function FriendsListOption(props) {
   const handleClose = () => {
     onClose();
   };
-  const HandleDelete = (idx) => {
+  const HandleDelete = idx => {
     Axios.delete(`/friend/delete/${idx}`).then(() => {
       Axios.get(`/friend`).then(res => {
         truefriends(res.data.response);
@@ -22,7 +23,7 @@ function FriendsListOption(props) {
     });
     onClose();
   };
-  const GoToFriend = (conferenceId) => {
+  const GoToFriend = conferenceId => {
     console.log(conferenceId);
     Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).then(
       response => {
@@ -42,7 +43,7 @@ function FriendsListOption(props) {
           alert("요청하신 식탁은 입장이 불가능해요.");
         }
       },
-    )
+    );
   };
 
   return (
@@ -63,18 +64,20 @@ function FriendsListOption(props) {
         },
       }}
     >
-      <MenuItem
-        onClick={handleClose}
-        sx={{ color: "black", fontFamily: "Jua" }}
-      >
-        친구 위치보기
-      </MenuItem>
-      <MenuItem
-        onClick={event => GoToFriend(conferenceId)}
-        sx={{ color: "black", fontFamily: "Jua" }}
-      >
-        친구 따라가기
-      </MenuItem>
+      {conferenceId == null ? (
+        <MenuItem disabled
+          sx={{ color: "grey", fontFamily: "Jua" }}
+        >
+          친구 따라가기
+        </MenuItem>
+      ) : (
+        <MenuItem
+          onClick={event => GoToFriend(conferenceId)}
+          sx={{ color: "black", fontFamily: "Jua" }}
+        >
+          친구 따라가기
+        </MenuItem>
+      )}
       <MenuItem
         onClick={event => HandleDelete(idx)}
         sx={{ color: "#FF0063", fontFamily: "Jua" }}
@@ -105,12 +108,12 @@ export default function MyFriends() {
       }
     }
     setFriendsWithMe(dataList);
-    console.log(dataList);
   }
 
   React.useEffect(() => {
     Axios.get(`/friend`).then(res => {
       truefriends(res.data.response);
+      console.log(res.data.response);
     });
   }, []);
 
@@ -119,9 +122,21 @@ export default function MyFriends() {
       <div id="icon-nickname">
         <div id="imgsquare">
           <div id="imgbox">
-            <img src={e.friendInfo.profile} id="image" alt={`사진 ${idx}`} />
+            <img
+              src={
+                e.friendInfo.profile !== null
+                  ? e.friendInfo.profile
+                  : default_profile
+              }
+              id="image"
+              alt={`사진 ${idx}`}
+            />
           </div>
-          {e.conferenceId == null ? (<div id="status-offline" />) : (<div id="status-online" />)}
+          {e.conferenceId == null ? (
+            <div id="status-offline" />
+          ) : (
+            <div id="status-online" />
+          )}
         </div>
         <div id="nickname">{e.friendInfo.nickname}</div>
       </div>
@@ -215,7 +230,7 @@ const StyledWrapper = styled.div`
     background-color: #efd345;
   }
   #option {
-    margin: 0 10px;
+    margin-right: 10px;
     cursor: pointer;
   }
   #status-online {

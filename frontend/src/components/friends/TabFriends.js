@@ -10,7 +10,7 @@ import SearchFriends from "components/friends/SearchFriends";
 import SearchInputFriends from "components/friends/SearchInputFriends";
 import MyFriends from "components/friends/MyFriends";
 import Axios from "utils/axios/Axios";
-
+import default_profile from "assets/img/default_profile.png";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -96,15 +96,23 @@ export default function TabFriends() {
 
   React.useEffect(() => {
     Axios.get(`/friend/waiting`).then(res => {
-      requestList(res.data.response)
-      });
+      requestList(res.data.response);
+    });
   }, []);
 
   const receivedRequestResult = receivedFriendRequest.map((e, idx) => (
     <div id="who-each" key={`received-${idx}`}>
       <div id="who-icon-nickname">
         <div id="who-imgbox">
-          <img src={e.friendInfo.profile} id="image" alt={`사진 ${idx}`} />
+          <img
+            src={
+              e.friendInfo.profile !== null
+                ? e.friendInfo.profile
+                : default_profile
+            }
+            id="image"
+            alt={`사진 ${idx}`}
+          />
         </div>
         <div id="nickname">{e.friendInfo.nickname}</div>
       </div>
@@ -124,7 +132,15 @@ export default function TabFriends() {
     <div id="who-each" key={`received-${idx}`}>
       <div id="who-icon-nickname">
         <div id="who-imgbox">
-          <img src={e.friendInfo.profile} id="image" alt={`사진 ${idx}`} />
+          <img
+            src={
+              e.friendInfo.profile !== null
+                ? e.friendInfo.profile
+                : default_profile
+            }
+            id="image"
+            alt={`사진 ${idx}`}
+          />
         </div>
         <div id="nickname">{e.friendInfo.nickname}</div>
       </div>
@@ -141,35 +157,40 @@ export default function TabFriends() {
   ));
 
   const friendReceiveYes = idx => {
-    Axios.patch(`/friend/received/accept`, { id: idx }).then(()=>{
+    Axios.patch(`/friend/received/accept`, { id: idx }).then(() => {
       Axios.get(`/friend/waiting`).then(res => {
-        requestList(res.data.response)
+        requestList(res.data.response);
       });
     });
   };
 
   const friendSendCancle = idx => {
-    Axios.delete(`/friend/sent/cancel`, {data: { id: idx }}).then(() => {
+    Axios.delete(`/friend/sent/cancel`, { data: { id: idx } }).then(() => {
       Axios.get(`/friend/waiting`).then(res => {
-        requestList(res.data.response)
+        requestList(res.data.response);
       });
     });
   };
 
   const friendPlus = idx => {
     Axios.post(`/friend/request/${idx}`)
-      .then(alert("밥친구 요청을 보냈습니다.")).then(() => {
+      .then(alert("밥친구 요청을 보냈습니다."))
+      .then(() => {
         Axios.get(`/friend/waiting`).then(res => {
-          requestList(res.data.response)
-        })
-      })
+          requestList(res.data.response);
+        });
+      });
   };
 
   const searchResult = searchResultList.map((e, idx) => (
     <div id="who-each" key={`${idx}`}>
       <div id="who-icon-nickname">
         <div id="who-imgbox">
-          <img src={e.profile} id="image" alt={`사진 ${idx}`} />
+          <img
+            src={e.profile !== null ? e.profile : default_profile}
+            id="image"
+            alt={`사진 ${idx}`}
+          />
         </div>
         <div id="nickname">{e.nickname}</div>
       </div>
