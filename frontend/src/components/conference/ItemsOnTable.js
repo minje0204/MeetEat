@@ -1,17 +1,34 @@
-import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
-import { useState } from "react";
+import { useConferenceContext } from "components/conference/ConferenceContext";
+import { useSocketContext } from "components/socket/SocketContext";
+import { isObject } from "lodash";
 import { MoveItem, RemoveItem } from "modules/table";
+import { useEffect, useState, useRef } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 
 export default function ItemsOnTable(props) {
   const myMenu = useSelector(state => state.table.present.tableList); // 해당 state가 변할 때 마다 현재 컴포넌트를 리렌더링함.
-
+  const { sendMessage } = useSocketContext();
+  const { userName, roomTitle } = useConferenceContext();
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
   const dispatch = useDispatch();
-
+  const notInitialRender = useRef(false);
+  useEffect(() => {
+    let msg = {
+      id: "updateTable",
+      name: userName,
+      room: roomTitle,
+      data: myMenu,
+    };
+    if (notInitialRender.current) {
+      sendMessage(msg);
+    } else {
+      notInitialRender.current = true;
+    }
+  }, [myMenu]);
   const getStartX = value => {
     setStartX(value);
   };
