@@ -38,9 +38,11 @@ function FriendsListOption(props) {
               position: response.data.response.position,
             },
           });
+        } else {
+          alert("요청하신 식탁은 입장이 불가능해요.");
         }
       },
-    ).catch(alert("요청하신 식탁은 입장이 불가능해요."));
+    )
   };
 
   return (
