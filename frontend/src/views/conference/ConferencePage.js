@@ -4,7 +4,7 @@ import TableSlide from "components/conference/TableSlide";
 import UseSocket from "hooks/UseSocket";
 import _ from "lodash";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SwitchMic from "components/conference/SwitchMic";
 import SwitchVideo from "components/conference/SwitchVideo";
 import Chatting from "components/conference/Chatting";
@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 import Axios from "utils/axios/Axios";
 
 export default function ConferencePage() {
-  let params = useParams();
   const location = useLocation();
   const { title, peopleLimit, userName, conferenceId, restaurantId, position } =
     location.state;
@@ -90,7 +89,7 @@ const StyledWrapper = styled.div`
     height: 2vh;
     font-family: "Jua";
     font-size: 20px;
-    color: #82954B;
+    color: #82954b;
   }
   #room_guest_row {
     height: 80vh;
@@ -117,27 +116,13 @@ const StyledWrapper = styled.div`
     height: 7vh;
   }
   #switch {
-<<<<<<< HEAD
     background-color: #fc6677;
-=======
->>>>>>> f1b3797dd28fbfe1b0f24cf07b48bd6010ba371f
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     width: 300px;
   }
-<<<<<<< HEAD
-  #chatting-balloon {
-    position:absolute;
-    width:100px;
-    height:auto;
-    min-height:30px;
-    margin-top:50px;
-    background:#d6feff;
-=======
-<<<<<<< HEAD
-  #chatting {
-=======
+
   #chatting-ballon {
     position: absolute;
     width: 100px;
@@ -145,12 +130,11 @@ const StyledWrapper = styled.div`
     height: auto;
     margin-top: 50px;
     background: #d6feff;
->>>>>>> 972e9de0daa3e41d60e8b8c9c3db41307e8181b8
     border-radius: 10px;
     font-family: "Jua";
   }
   #chatting-balloon:after {
-    border-top:15px solid #d6feff;
+    border-top: 15px solid #d6feff;
     border-left: 15px solid transparent;
     border-right: 0px solid transparent;
     border-bottom: 0px solid transparent;
@@ -164,6 +148,5 @@ const StyledWrapper = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     align-items: flex-start;
->>>>>>> f1b3797dd28fbfe1b0f24cf07b48bd6010ba371f
   }
 `;
