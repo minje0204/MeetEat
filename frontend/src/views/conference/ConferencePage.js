@@ -49,6 +49,7 @@ export default function ConferencePage() {
   }, [title, userName, handleClickSendMessage]);
 
   return (
+<<<<<<< Updated upstream
     <SocketContextProvider sendMessage={handleClickSendMessage}>
       <ConferenceContextProvider name={userName} title={title}>
         <StyledWrapper>
@@ -96,6 +97,30 @@ export default function ConferencePage() {
         </StyledWrapper>
       </ConferenceContextProvider>
     </SocketContextProvider>
+=======
+    <StyledWrapper>
+      <div id="table-name">
+        {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
+      </div>
+      <TableSlide />
+      {roomGuestList}
+      <div id="footer">
+        <Link to={"/restaurant/" + restaurantId}>
+          <Door />
+        </Link>
+        <div id="switch">
+          <SwitchMic value={{ rtcPeer: rtcPeer }}></SwitchMic>
+          <SwitchVideo value={{ rtcPeer: rtcPeer }}></SwitchVideo>
+        </div>
+        <div id="chatting">
+          <Chatting
+            handleClickSendMessage={handleClickSendMessage}
+            value={{ room: conferenceId, name: userName }}
+          ></Chatting>
+        </div>
+      </div>
+    </StyledWrapper>
+>>>>>>> Stashed changes
   );
 }
 const StyledWrapper = styled.div`
@@ -107,7 +132,7 @@ const StyledWrapper = styled.div`
     height: 2vh;
     font-family: "Jua";
     font-size: 20px;
-    color: #82954B;
+    color: #82954b;
   }
   #room_guest_row {
     height: 80vh;
@@ -165,9 +190,18 @@ const StyledWrapper = styled.div`
 >>>>>>> 972e9de0daa3e41d60e8b8c9c3db41307e8181b8
     border-radius: 10px;
     font-family: "Jua";
+<<<<<<< Updated upstream
   }
   #chatting-balloon:after {
     border-top:15px solid #d6feff;
+=======
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+  }
+  #chatting-balloon:after {
+    border-top: 15px solid #d6feff;
+>>>>>>> Stashed changes
     border-left: 15px solid transparent;
     border-right: 0px solid transparent;
     border-bottom: 0px solid transparent;
