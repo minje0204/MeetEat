@@ -1,10 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
-import backbutton from "assets/img/backbutton.png";
 import closebutton from "assets/img/closebutton.png";
 import testinput from "components/profile/testinput";
 import ProfileDialogDetail from "components/profile/ProfileDialogDetail";
@@ -30,7 +27,6 @@ export default function MyProfileDialog() {
 
   React.useEffect(() => {
     Axios.get(`/user/me`).then(res => {
-      console.log(res);
       setMyProfileInfo(res.data.response);
     });
   }, []);
@@ -52,24 +48,6 @@ export default function MyProfileDialog() {
       <Dialog maxWidth="lg" open={open} onClose={handleClose}>
         <StyledWrapper>
           <div id="return-exit">
-            <Link to={"/"}>
-              <Button
-                id="btn"
-                variant="outlined"
-                onClick={handleClose}
-                sx={{
-                  fontFamily: "Jua",
-                  fontSize: 16,
-                  color: "black",
-                  ml: 3,
-                  backgroundColor: "#BABD42",
-                  borderColor: "#82954B",
-                }}
-              >
-                <img id="return-icon" src={backbutton} alt="수정하기" />
-                회원정보 수정하기
-              </Button>
-            </Link>
             <img
               src={closebutton}
               id="exit-icon"

@@ -158,10 +158,12 @@ export default function TabFriends() {
 
   const friendPlus = idx => {
     Axios.post(`/friend/request/${idx}`)
-      .then(alert("밥친구 요청을 보냈습니다."))
+      .then(alert("밥친구 요청을 보냈습니다.")).then(() => {
+        Axios.get(`/friend/waiting`).then(res => {
+          requestList(res.data.response)
+        })
+      })
   };
-
-
 
   const searchResult = searchResultList.map((e, idx) => (
     <div id="who-each" key={`${idx}`}>

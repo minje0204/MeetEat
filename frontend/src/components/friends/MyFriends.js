@@ -6,21 +6,41 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Axios from "utils/axios/Axios";
 import FriendsProfileDialog from "components/profile/FriendsProfileDialog";
+import { useNavigate } from "react-router-dom";
 
 function FriendsListOption(props) {
-  const { open, onClose, anchorEl, truefriends, idx } = props;
+  const { open, onClose, anchorEl, truefriends, conferenceId, idx } = props;
+  const navigate = useNavigate();
   const handleClose = () => {
     onClose();
   };
   const HandleDelete = (idx) => {
-    console.log(idx)
-    Axios.delete(`/friend/delete/${idx}`).then(res => {
-      console.log(res);
-    });
-    Axios.get(`/friend`).then(res => {
-      truefriends(res.data.response);
+    Axios.delete(`/friend/delete/${idx}`).then(() => {
+      Axios.get(`/friend`).then(res => {
+        truefriends(res.data.response);
+      });
     });
     onClose();
+  };
+  const GoToFriend = (conferenceId) => {
+    Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).then(
+      response => {
+      console.log(conferenceId);
+        if (response.data.status === 200) {
+          window.sessionStorage.setItem("conferencePermission", true);
+          navigate(`/restaurant/conference/${conferenceId}`, {
+            state: {
+              title: response.data.response.title,
+              peopleLimit: response.data.response.maxUserNum,
+              userName: sessionStorage.getItem("nickname"),
+              conferenceId,
+              restaurantId: response.data.response.restaurant,
+              position: response.data.response.position,
+            },
+          });
+        }
+      },
+    );
   };
 
   return (
@@ -46,6 +66,12 @@ function FriendsListOption(props) {
         sx={{ color: "black", fontFamily: "Jua" }}
       >
         친구 위치보기
+      </MenuItem>
+      <MenuItem
+        onClick={event => GoToFriend(conferenceId)}
+        sx={{ color: "black", fontFamily: "Jua" }}
+      >
+        친구 따라가기
       </MenuItem>
       <MenuItem
         onClick={event => HandleDelete(idx)}
@@ -79,6 +105,8 @@ export default function MyFriends() {
     setFriendsWithMe(dataList);
   }
 
+  
+
   React.useEffect(() => {
     Axios.get(`/friend`).then(res => {
       truefriends(res.data.response);
@@ -88,8 +116,11 @@ export default function MyFriends() {
   const friendsList = friendsWithMe.map((e, idx) => (
     <div id="friend-each" key={`${idx}`}>
       <div id="icon-nickname">
-        <div id="imgbox">
-          <img src={e.friendInfo.profile} id="image" alt={`사진 ${idx}`} />
+        <div id="imgsquare">
+          <div id="imgbox">
+            <img src={e.friendInfo.profile} id="image" alt={`사진 ${idx}`} />
+          </div>
+          {e.conferenceId == null ? (<div id="status-offline" />) : (<div id="status-online" />)}
         </div>
         <div id="nickname">{e.friendInfo.nickname}</div>
       </div>
@@ -110,6 +141,7 @@ export default function MyFriends() {
           anchorEl={anchorEl}
           onClose={closeOption}
           truefriends={truefriends}
+          conferenceId={e.conferenceId}
           idx={e.friendInfo.id}
         />
       </div>
@@ -140,24 +172,30 @@ const StyledWrapper = styled.div`
   }
   #icon-nickname {
     font-family: "Jua";
-    font-size: 26px;
+    font-size: 24px;
     display: flex;
     align-items: center;
+  }
+  #imgsquare {
+    height: 50px;
+    width: 50px;
+    margin: 0 10px;
+    display: flex;
   }
   #imgbox {
     height: 50px;
     width: 50px;
-    margin: 0 10px;
     border: 2px solid black;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    position: absolute;
   }
   #image {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
   #profile-menu {
@@ -168,7 +206,7 @@ const StyledWrapper = styled.div`
   }
   #profile {
     margin-left: 10px;
-    padding: 2px 5px;
+    padding: 2px 2px;
     border-color: black;
     font-family: "Jua";
     font-size: 16px;
@@ -178,5 +216,25 @@ const StyledWrapper = styled.div`
   #option {
     margin: 0 10px;
     cursor: pointer;
+  }
+  #status-online {
+    width: 13px;
+    height: 13px;
+    position: relative;
+    top: 75%;
+    left: 78%;
+    background-color: #5bb318;
+    border-radius: 50%;
+    border: 1.6px solid black;
+  }
+  #status-offline {
+    width: 13px;
+    height: 13px;
+    position: relative;
+    top: 75%;
+    left: 78%;
+    background-color: #white;
+    border-radius: 50%;
+    border: 1.6px solid black;
   }
 `;
