@@ -28,6 +28,7 @@ export default function ModalMakingRoom(props) {
     Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).then(
       response => {
         if (response.data.status == 200) {
+          window.sessionStorage.setItem("conferencePermission", true);
           navigate(`/restaurant/conference/${conferenceId}`, {
             state: {
               title: tableInfo.title,
@@ -66,6 +67,7 @@ export default function ModalMakingRoom(props) {
     }).then(response => {
       if (response.data.status == 200) {
         setConferenceId(response.data.response.id);
+        window.sessionStorage.setItem("conferencePermission", true);
         navigate(`/restaurant/conference/${response.data.response.id}`, {
           state: {
             title: titleValue,
