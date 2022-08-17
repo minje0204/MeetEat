@@ -23,9 +23,9 @@ function FriendsListOption(props) {
     onClose();
   };
   const GoToFriend = (conferenceId) => {
+    console.log(conferenceId);
     Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).then(
       response => {
-      console.log(conferenceId);
         if (response.data.status === 200) {
           window.sessionStorage.setItem("conferencePermission", true);
           navigate(`/restaurant/conference/${conferenceId}`, {
@@ -40,7 +40,7 @@ function FriendsListOption(props) {
           });
         }
       },
-    );
+    ).catch(alert("요청하신 식탁은 입장이 불가능해요."));
   };
 
   return (
@@ -103,9 +103,8 @@ export default function MyFriends() {
       }
     }
     setFriendsWithMe(dataList);
+    console.log(dataList);
   }
-
-  
 
   React.useEffect(() => {
     Axios.get(`/friend`).then(res => {
