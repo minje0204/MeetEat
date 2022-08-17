@@ -110,7 +110,7 @@ export default function ConferencePage() {
             })}
           </div>
           <div id="footer">
-            <Link to={"/restaurant/" + restaurantId} onClick={leaveRoom}>
+            <Link to={"/restaurant/" + restaurantId}>
               <Door />
             </Link>
             <div id="switch">
