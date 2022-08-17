@@ -63,6 +63,14 @@ export default function ConferencePage() {
   useEffect(() => {
     getPermission();
   }, []);
+
+  useEffect(() => {
+    if (!rtcPeer) return;
+    return () => {
+      console.log(rtcPeer);
+      handleLeave();
+    };
+  }, [rtcPeer]);
   useEffect(() => {
     let message = {
       id: "joinRoom",
@@ -74,7 +82,7 @@ export default function ConferencePage() {
     return () => {
       handleLeave();
     };
-  }, [title, userName, handleClickSendMessage]);
+  }, [userName, handleClickSendMessage]);
 
   const roomGuestList = (
     <div id={Number(peopleLimit) === 4 ? `room_guest_row_4` : `room_guest_row`}>
