@@ -66,6 +66,14 @@ export default function ConferencePage() {
   useEffect(() => {
     getPermission();
   }, []);
+
+  useEffect(() => {
+    if (!rtcPeer) return;
+    return () => {
+      rtcPeer.dispose();
+    };
+  }, [rtcPeer]);
+
   useEffect(() => {
     let message = {
       id: "joinRoom",
@@ -77,7 +85,7 @@ export default function ConferencePage() {
     return () => {
       handleLeave();
     };
-  }, [title, userName, handleClickSendMessage]);
+  }, [userName, handleClickSendMessage]);
 
   return (
     <SocketContextProvider sendMessage={handleClickSendMessage}>
