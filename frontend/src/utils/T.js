@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import styled from "styled-components";
 
 const T = props => {
   const { name } = props;
@@ -23,20 +24,36 @@ const T = props => {
   };
 
   return (
-    <div
-      ref={refContainer}
-      className={
-        isPresentMainParticipant() ? PARTICIPANT_CLASS : PARTICIPANT_MAIN_CLASS
-      }
-      id={name}
-      onClick={switchContainerClass}
-    >
-      <video id={`video-${name}`} autoPlay="true" controls="false" />
-      <span>{name}</span>
-    </div>
+    <StyledWrapper>
+      <div
+        ref={refContainer}
+        className={
+          isPresentMainParticipant()
+            ? PARTICIPANT_CLASS
+            : PARTICIPANT_MAIN_CLASS
+        }
+        id={name}
+        onClick={switchContainerClass}
+      >
+        <video
+          controlsList="Fullscreen toggle"
+          className="cam-box"
+          id={`video-${name}`}
+          autoPlay="true"
+          controls="false"
+        />
+        <span>{name}</span>
+      </div>
+    </StyledWrapper>
   );
 };
 export default T;
 
 const PARTICIPANT_MAIN_CLASS = "participant main";
 const PARTICIPANT_CLASS = "participant";
+
+const StyledWrapper = styled.div`
+  .cam-box {
+    width: 100%;
+  }
+`;

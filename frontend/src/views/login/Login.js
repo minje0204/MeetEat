@@ -42,6 +42,7 @@ export default function Login() {
             "accessToken",
             res.data.response.accessToken,
           );
+          window.sessionStorage.setItem("id", res.data.response.id);
           window.location.href = `${process.env.REACT_APP_CLIENT_PROTOCOL}://${process.env.REACT_APP_CLIENT_URL}/`;
         }
       })
