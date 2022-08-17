@@ -123,7 +123,7 @@ public class Room implements Closeable {
         this.removeParticipant(user.getName());
         user.close();
         Class.forName("org.mariadb.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/a105",
+        Connection con = DriverManager.getConnection("jdbc:mariadb://mariadb:3306/a105?characterEncoding=UTF-8&serverTimezone=UTC",
             "root", "meeteat1234");
         PreparedStatement pstmt = null;
         if (getParticipants().isEmpty()) {
