@@ -100,6 +100,7 @@ export default function MyFriends() {
     const dataList = [];
     for (let i = 0; i < data.length; i++) {
       let user = data[i];
+
       if (user.status === 1) {
         dataList.push(user);
       }
@@ -113,6 +114,7 @@ export default function MyFriends() {
     });
   }, []);
 
+  // console.log(friendsWithMe[0].conferenceId);
   const friendsList = friendsWithMe.map((e, idx) => (
     <div id="friend-each" key={`${idx}`}>
       <div id="icon-nickname">

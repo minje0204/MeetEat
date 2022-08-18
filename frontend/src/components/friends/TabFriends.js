@@ -72,7 +72,6 @@ export default function TabFriends() {
     if (searchSign === 1) {
       setSearchSign(0);
       Axios.get(`/user/search?${searchValue}=${searchName}`).then(res => {
-        console.log(res.data.response);
         setSearchResultList(res.data.response);
       });
     }
