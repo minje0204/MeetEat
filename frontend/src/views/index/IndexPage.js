@@ -34,6 +34,7 @@ export default function IndexPage() {
     },
   ];
   const [open, setOpen] = useState(0);
+  
 
   const listItems = restaurantList.map((e, idx) => (
     <div
@@ -185,6 +186,7 @@ const StyledWrapper = styled.div`
     user-select: none;
     height: 0.5vh;
     max-height: 0.2vh;
+    margin: 20px 0px;
   }
   h1 span {
     display: inline-block;

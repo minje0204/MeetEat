@@ -73,12 +73,15 @@ export default function RestaurantPage() {
 }
 
 const StyledWrapper = styled.div`
+  overflow: hidden;
+  
   #restaurant-background {
     background-color: #faf0d7;
+    height:90vh;
   }
   #restaurant-name {
     position: absolute;
-    top: 4vh;
+    top: 5vh;
     margin-left: 200px;
     height: 2vh;
     font-family: "Jua";

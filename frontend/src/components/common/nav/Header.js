@@ -1,36 +1,47 @@
 import styled from "@emotion/styled";
 import logoimage from "assets/img/logo_transparent.png";
 import Menu from "components/common/nav/Menu";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const Header = () => {
+export default function Header() {
+  const location = useLocation();
+
   return (
     <StyledWrapper>
-      <div id="container">
-        <div id="flex-box">
-          <Link to="/">
-            <div id="logo">
-              <img src={logoimage} alt="로고" />
-              <div id="letter-box">
-                <div id="letter">밋잇</div>
+      <div id={location.pathname === "/" ? "header-background-blue" : "header-background-beige"}>
+        <div id="container">
+          <div id="flex-box">
+            <Link to="/">
+              <div id="logo">
+                <img src={logoimage} alt="로고" />
+                <div id="letter-box">
+                  <div id="letter">밋잇</div>
+                </div>
               </div>
-            </div>
-          </Link>
-          <Menu />
+            </Link>
+            <Menu />
+          </div>
         </div>
       </div>
     </StyledWrapper>
   );
 };
-export default Header;
 
 const StyledWrapper = styled.div`
-  min-width: 1000px;
-  height: 90px;
-  position: sticky;
-  top: 0;
-  width: 100%;
-  background-color: #e8f9fd;
+  #header-background-blue {
+    min-width: 1000px;
+    width: 100%;
+    height: 10vh;
+    position: sticky;
+    background-color: #e8f9fd;
+  }
+  #header-background-beige {
+    min-width: 1000px;
+    width: 100%;
+    height: 10vh;
+    position: sticky;
+    background-color: #faf0d7;
+  }
 
   a {
     text-decoration: none;
@@ -46,6 +57,7 @@ const StyledWrapper = styled.div`
     text-align: center;
     align-items: center;
     width: 200px;
+    height: 8vh;
   }
   img {
     width: 90px;
