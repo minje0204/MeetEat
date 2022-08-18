@@ -47,15 +47,17 @@ export default function PersonalMenu(props) {
 
   return (
     <StyledWrapper>
-      <img
-        src={menu_rounded}
-        width="20px"
-        height="20px"
-        id="option"
-        alt="메뉴"
-        onClick={handleClick}
-        aria-controls={open ? "basic-menu" : undefined}
-      />
+      {video && (
+        <img
+          src={menu_rounded}
+          width="20px"
+          height="20px"
+          id="option"
+          alt="메뉴"
+          onClick={handleClick}
+          aria-controls={open ? "basic-menu" : undefined}
+        />
+      )}
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -90,9 +92,6 @@ export default function PersonalMenu(props) {
         >
           {videoStatus ? "비디오 차단" : "비디오 차단 해제"}
         </MenuItem>
-        {/* 방장일 경우 아래 내용 추가 */}
-        {/* <MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>방장 넘기기</MenuItem>
-      <MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>강제 추방</MenuItem> */}
       </Menu>
     </StyledWrapper>
   );
