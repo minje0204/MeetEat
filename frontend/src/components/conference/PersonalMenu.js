@@ -75,12 +75,6 @@ export default function PersonalMenu(props) {
           onClick={handleClose}
           sx={{ color: "black", fontFamily: "Jua" }}
         >
-          귓속말 하기
-        </MenuItem>
-        <MenuItem
-          onClick={handleClose}
-          sx={{ color: "black", fontFamily: "Jua" }}
-        >
           친구 요청
         </MenuItem>
         <MenuItem

@@ -8,33 +8,31 @@ import Autocomplete from "@mui/material/Autocomplete";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 
 export default function Chatting(props) {
-  const [chatting, setChatting] = React.useState('');
-  const {handleClickSendMessage} = props;
-  const {room, name} = props.value;
+  const [chatting, setChatting] = React.useState("");
+  const { handleClickSendMessage } = props;
+  const { room, name } = props.value;
 
-  const handleChange = (prop) => (event) => {
+  const handleChange = prop => event => {
     setChatting({ ...chatting, [prop]: event.target.value });
   };
 
-  // const options = ['모두에게', '귓속말 하기'];
-  // const [value, setValue] = React.useState(options[0]);
-  // const [inputValue, setInputValue] = React.useState('');
-  
-  const handleChatMessage = (event) => {
+  const handleChatMessage = event => {
     event.preventDefault();
-    if(!chatting.amount){ return;}
+    if (!chatting.amount) {
+      return;
+    }
     let message = {
       id: "sendChat",
       name: name,
       room: room,
-      chat: chatting.amount
+      chat: chatting.amount,
     };
     handleClickSendMessage(message);
     chatting.amount = "";
-  }
+  };
 
   const handleKeypress = e => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleChatMessage(e);
     }
   };
@@ -59,14 +57,16 @@ export default function Chatting(props) {
         <InputLabel htmlFor="outlined-adornment-amount" />
         <OutlinedInput
           id="outlined-adornment-amount"
-          value={chatting.amount|| ''}
-          onChange={handleChange('amount')}
+          value={chatting.amount || ""}
+          onChange={handleChange("amount")}
           onKeyPress={handleKeypress}
         />
       </FormControl>
       <div>
-        <SendRoundedIcon sx={{ color: "#EFD345", fontSize: 40, ml: 0.5 }}
-          onClick={handleChatMessage} />
+        <SendRoundedIcon
+          sx={{ color: "#EFD345", fontSize: 40, ml: 0.5 }}
+          onClick={handleChatMessage}
+        />
       </div>
     </StyleWrapper>
   );
