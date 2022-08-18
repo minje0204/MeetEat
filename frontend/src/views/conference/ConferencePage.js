@@ -14,10 +14,14 @@ import { SocketContextProvider } from "components/socket/SocketContext";
 import { ConferenceContextProvider } from "components/conference/ConferenceContext";
 import Axios from "utils/axios/Axios";
 import { useNavigate } from "react-router-dom";
+import { Reset } from "modules/table";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ConferencePage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
+  const myMenu = useSelector(state => state.table.present.tableList);
   const { title, peopleLimit, userName, conferenceId, restaurantId, position } =
     location.state;
   const [num, setNum] = useState(1);
@@ -29,7 +33,6 @@ export default function ConferencePage() {
       setTableData,
     });
   const peopleLimitNum = Number(peopleLimit);
-  console.log(rtcPeer);
   const handleLeave = () => {
     Axios.patch(
       `/restaurant/conference/${encodeURI(conferenceId)}`,
@@ -64,6 +67,7 @@ export default function ConferencePage() {
   useEffect(() => {
     if (!rtcPeer) return;
     return () => {
+      dispatch(Reset());
       rtcPeer.dispose();
     };
   }, [rtcPeer]);

@@ -24,7 +24,6 @@ function FriendsListOption(props) {
     onClose();
   };
   const GoToFriend = conferenceId => {
-    console.log(conferenceId);
     Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).then(
       response => {
         if (response.data.status === 200) {
@@ -123,7 +122,6 @@ export default function MyFriends() {
     });
   }, []);
 
-  // console.log(friendsWithMe[0].conferenceId);
   const friendsList = friendsWithMe.map((e, idx) => (
     <div id="friend-each" key={`${idx}`}>
       <div id="icon-nickname">

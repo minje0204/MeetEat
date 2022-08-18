@@ -14,7 +14,6 @@ export default function ProfileImage(props) {
         e.target.files[0].type === "image/jpg" ||
         e.target.files[0].type === "image/jpeg"
       ) {
-        console.log(e.target.files[0]);
         setImage(e.target.files[0]);
         const reader = new FileReader();
         reader.onload = () => {

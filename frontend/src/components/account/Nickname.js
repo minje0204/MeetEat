@@ -17,7 +17,6 @@ export default function Nickname(props) {
       nickname: nickname,
     })
       .then(res => {
-        console.log(res);
         if (res.data.response.exists) {
           //true인 경우 중복 닉네임 있음
           toast.error("이미 사용중인 닉네임입니다.", {

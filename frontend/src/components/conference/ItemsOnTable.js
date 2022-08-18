@@ -1,8 +1,7 @@
 import { useConferenceContext } from "components/conference/ConferenceContext";
 import { useSocketContext } from "components/socket/SocketContext";
-import { isObject } from "lodash";
 import { MoveItem, RemoveItem } from "modules/table";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch, useSelector } from "react-redux";

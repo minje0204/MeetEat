@@ -25,7 +25,6 @@ export default function EditForm() {
   const [bio, setBio] = useState(myBio);
   useEffect(() => {
     Axios.get("user/me").then(res => {
-      console.log(res);
       if (res.data.response.profile !== null) {
         setPreview(res.data.response.profile);
         setCheckedNickname(res.data.response.nickname);
@@ -47,7 +46,6 @@ export default function EditForm() {
       },
     })
       .then(res => {
-        console.log(res);
         sessionStorage.setItem("profile", res.data.response.profile);
         toast.success("프로필 사진이 변경되었습니다.", {
           position: "bottom-right",
@@ -66,7 +64,6 @@ export default function EditForm() {
   const profileDeleteHandler = e => {
     Axios.delete("/user/profile")
       .then(res => {
-        console.log(res);
         sessionStorage.setItem("profile", "");
         toast.success("프로필 사진이 삭제되었습니다.", {
           position: "bottom-right",
@@ -106,7 +103,6 @@ export default function EditForm() {
     } else {
       Axios.patch("/user/nickname", { nickname: checkedNickname })
         .then(res => {
-          console.log(res);
           sessionStorage.setItem("nickname", res.data.response.nickname);
           toast.success("닉네임이 변경되었습니다.", {
             position: "bottom-right",
@@ -126,7 +122,6 @@ export default function EditForm() {
   const bioEditHandler = e => {
     Axios.patch("/user/bio", { bio: bio })
       .then(res => {
-        console.log(res);
         sessionStorage.setItem("bio", res.data.response.bio);
         toast.success("자기 소개가 변경되었습니다.", {
           position: "bottom-right",

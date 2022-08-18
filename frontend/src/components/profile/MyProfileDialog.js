@@ -37,7 +37,6 @@ export default function MyProfileDialog() {
 
   const fetchUserProfile = () => {
     Axios.get(`/user/me`).then(res => {
-      console.log(res.data.response);
       setMyProfileInfo(res.data.response);
     });
   };

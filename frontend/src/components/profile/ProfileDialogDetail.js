@@ -7,7 +7,6 @@ import Axios from "utils/axios/Axios";
 export default function ProfileDialogDetail(props) {
   const { open, onClose, id, fetchUserProfile, tableDetail } = props;
 
-  console.log(tableDetail);
   const handleClose = () => {
     onClose();
   };
