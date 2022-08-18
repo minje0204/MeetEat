@@ -44,7 +44,22 @@ function Participant(name, idx, userId) {
   container.appendChild(span);
   container.onclick = switchContainerClass;
   let personalCam = document.querySelector(`#personal-${idx} #personalCam`);
+  var statusText = document.createElement("div");
+  var audioBan = document.createElement("span");
+  var videoBan = document.createElement("span");
+  audioBan.id = "audioBan";
+  videoBan.id = "videoBan";
+  statusText.id = "statusText";
+  statusText.style.position = "absolute";
+  statusText.style.padding = "0.5rem";
+  videoBan.style.zIndex = 10;
+  videoBan.style.fontWeight = "bold";
+  audioBan.style.zIndex = 10;
+  audioBan.style.fontWeight = "bold";
+  statusText.appendChild(videoBan);
+  statusText.appendChild(audioBan);
   personalCam.innerHTML = "";
+  personalCam.appendChild(statusText);
   personalCam.appendChild(container);
 
   document.querySelector(`#personal-${idx} #personal_id`).innerText = name;
