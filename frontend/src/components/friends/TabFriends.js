@@ -56,8 +56,6 @@ export default function TabFriends() {
   const [value, setValue] = React.useState(1);
   const [subValue, setSubValue] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState("nickname");
-  const [searchName, setSearchName] = React.useState("");
-  const [searchSign, setSearchSign] = React.useState(0);
   const [searchResultList, setSearchResultList] = React.useState([]);
   const [receivedFriendRequest, setReceivedFriendRequest] = React.useState([]);
   const [sendFriendRequest, setsendFriendRequest] = React.useState([]);
@@ -68,15 +66,6 @@ export default function TabFriends() {
   const subHandleChange = (event, newValue) => {
     setSubValue(newValue);
   };
-
-  React.useEffect(() => {
-    if (searchSign === 1) {
-      setSearchSign(0);
-      Axios.get(`/user/search?${searchValue}=${searchName}`).then(res => {
-        setSearchResultList(res.data.response);
-      });
-    }
-  }, [searchValue, searchName, searchSign]);
 
   function requestList(data) {
     const receivedRequestList = [];
@@ -214,8 +203,9 @@ export default function TabFriends() {
           variant="outlined"
           id="profile"
           onClick={event => friendPlus(e.id)}
+          disabled={e.status === 0}
         >
-          밥친구 추가
+          {e.status === 0 ? `수락 대기중` : `밥친구 추가`}
         </Button>
       </div>
     </div>
@@ -295,8 +285,8 @@ export default function TabFriends() {
           <div id="search">
             <SearchFriends setSearchValue={setSearchValue} />
             <SearchInputFriends
-              setSearchName={setSearchName}
-              setSearchSign={setSearchSign}
+              searchValue={searchValue}
+              setSearchResultList={setSearchResultList}
             />
           </div>
           <hr id="horizon-line" />

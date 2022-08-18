@@ -4,15 +4,24 @@ import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import Axios from "utils/axios/Axios";
 
 export default function SearchInputFriends(props) {
-  const { setSearchName, setSearchSign } = props;
+  const { searchValue, setSearchResultList } = props;
+  const [searchName, setSearchName] = React.useState();
 
   function onKeyDown(e) {
     if (e.keyCode === 13) {
-      setSearchSign(1);
+      searchUser();
     }
   }
+
+  const searchUser = () => {
+    Axios.get(`/user/search?${searchValue}=${searchName}`).then(res => {
+      console.log(res.data.response);
+      setSearchResultList(res.data.response);
+    });
+  };
 
   return (
     <Paper
@@ -38,7 +47,7 @@ export default function SearchInputFriends(props) {
       />
       <Divider component="span" sx={{ height: 28 }} orientation="vertical" />
       <IconButton
-        onClick={() => setSearchSign(1)}
+        onClick={searchUser}
         component="span"
         type="submit"
         sx={{ p: "10px" }}
