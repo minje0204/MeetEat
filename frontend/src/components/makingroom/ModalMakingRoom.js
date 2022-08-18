@@ -14,21 +14,24 @@ import roomtitle from "assets/img/roomtitle.png";
 import Axios from "utils/axios/Axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 export default function ModalMakingRoom(props) {
   const navigate = useNavigate();
   const { restaurantId, tableInfo } = props;
   const [open, setOpen] = useState(false);
-  const [userName, setUserName] = useState("");
   /* eslint-disable-next-line */
+  const [userName, setUserName] = useState("");
   const [conferenceId, setConferenceId] = useState("");
   const [titleValue, setTitleValue] = useState("");
-  const [peopleLimitValue, setPeopleLimitValue] = useState("");
+  const [peopleLimitValue, setPeopleLimitValue] = useState(2);
+  const [highlightValue, setHighlightValue] = useState(2);
 
   const joinRoom = () => {
     Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`)
       .then(response => {
-        if (response.data.status == 200) {
+        if (response.data.status === 200) {
           window.sessionStorage.setItem("conferencePermission", true);
           navigate(`/restaurant/conference/${conferenceId}`, {
             state: {
@@ -63,6 +66,7 @@ export default function ModalMakingRoom(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
   const makeRoom = () => {
     if (!titleValue) {
       toast.error("제목을 입력해 주세요", {
@@ -77,7 +81,7 @@ export default function ModalMakingRoom(props) {
       return;
     }
     if (peopleLimitValue < 2 || peopleLimitValue > 6) {
-      toast.error("인원은 2~6 숫자만 가능합니다.", {
+      toast.error("최대 인원을 설정해 주세요", {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -95,7 +99,7 @@ export default function ModalMakingRoom(props) {
       restaurantId: restaurantId,
     })
       .then(response => {
-        if (response.data.status == 200) {
+        if (response.data.status === 200) {
           setConferenceId(response.data.response.id);
           window.sessionStorage.setItem("conferencePermission", true);
           navigate(`/restaurant/conference/${response.data.response.id}`, {
@@ -115,7 +119,7 @@ export default function ModalMakingRoom(props) {
 
   useEffect(() => {
     setConferenceId(tableInfo.id);
-  }, []);
+  }, [tableInfo.id]);
 
   return (
     <StyledWrapper>
@@ -176,8 +180,13 @@ export default function ModalMakingRoom(props) {
             fullWidth
             variant="standard"
             onChange={e => setTitleValue(e.target.value)}
+            InputProps={{
+              style: {
+                fontFamily: "Jua"
+              },
+            }}
           />
-          <TextField
+          {/* <TextField
             id="standard-number"
             label="인원 수 ( 2 ~ 6명 )"
             margin="dense"
@@ -187,7 +196,44 @@ export default function ModalMakingRoom(props) {
             }}
             variant="standard"
             onChange={e => setPeopleLimitValue(e.target.value)}
-          />
+          /> */}
+          <div id="max-people">
+            <DialogContentText sx={{ fontFamily: "Jua", fontSize: 13, mt:2 }}>
+              최대 인원
+            </DialogContentText>
+            <ToggleButtonGroup
+              value={highlightValue}
+              exclusive
+              onChange={(e, highlight) => {
+                setPeopleLimitValue(highlight);
+                setHighlightValue(highlight);
+              }}
+              aria-label="text alignment"
+              fullWidth={true}
+              color="primary"
+              InputProps={{
+                style: {
+                  fontFamily: "Jua",
+                },
+              }}
+            >
+              <ToggleButton value={2} aria-label="2명">
+                2명
+              </ToggleButton>
+              <ToggleButton value={3} aria-label="3명">
+                3명
+              </ToggleButton>
+              <ToggleButton value={4} aria-label="4명">
+                4명
+              </ToggleButton>
+              <ToggleButton value={5} aria-label="5명">
+                5명
+              </ToggleButton>
+              <ToggleButton value={6} aria-label="6명">
+                6명
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button
@@ -265,14 +311,7 @@ const StyledWrapper = styled.div`
   #table:hover {
     -webkit-filter: brightness(120%);
   }
-`;
-
-const StyledWrapperLink = styled.div`
-  #link {
-    text-decoration: none;
-    color: black;
-    font-family: "Jua";
-    font-size: 16px;
-    height: 28px;
+  #max-people {
+    display: flex;
   }
 `;
