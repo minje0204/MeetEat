@@ -64,9 +64,7 @@ function FriendsListOption(props) {
       }}
     >
       {conferenceId == null ? (
-        <MenuItem disabled
-          sx={{ color: "grey", fontFamily: "Jua" }}
-        >
+        <MenuItem disabled sx={{ color: "grey", fontFamily: "Jua" }}>
           친구 따라가기
         </MenuItem>
       ) : (
@@ -112,7 +110,6 @@ export default function MyFriends() {
   React.useEffect(() => {
     Axios.get(`/friend`).then(res => {
       truefriends(res.data.response);
-      console.log(res.data.response);
     });
   }, []);
 
@@ -165,7 +162,9 @@ export default function MyFriends() {
 
   return (
     <StyledWrapper>
-      <div id="friend-whole">{friendsList}</div>
+      <div id="friend-whole">
+        {friendsList.length === 0 ? "친구를 추가해주세요!" : friendsList}
+      </div>
     </StyledWrapper>
   );
 }
