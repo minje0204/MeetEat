@@ -24,6 +24,10 @@ export default Header;
 
 const StyledWrapper = styled.div`
   min-width: 1000px;
+  height: 90px;
+  position: sticky;
+  top: 0;
+  background-color: white;
   a {
     text-decoration: none;
     color: #000000;
@@ -52,7 +56,6 @@ const StyledWrapper = styled.div`
   }
   #container {
     padding: 2vh;
-    position: ;
     display: block;
   }
   #flex-box {
