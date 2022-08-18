@@ -1,9 +1,13 @@
 package com.a105.api.service;
 
 import com.a105.api.request.TrayRequest;
+import com.a105.api.response.TrayDetailResponse;
 import com.a105.api.response.TrayItemResponse;
+import com.a105.domain.conference.Conference;
+import com.a105.domain.conference.ConferenceRepository;
 import com.a105.domain.tray.Tray;
 import com.a105.domain.tray.TrayRepository;
+import com.a105.exception.ResourceNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +23,7 @@ public class TrayService {
     private String distributionDomain;
     private final AwsS3Service storageService;
     private final TrayRepository trayRepository;
+    private final ConferenceRepository conferenceRepository;
     public Tray saveTrayImage(Long userId, TrayRequest trayRequest){
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
@@ -42,6 +47,15 @@ public class TrayService {
 
         objectKeys.forEach(key -> trayItems.add(TrayItemResponse.of(key, distributionDomain)));
         return trayItems;
+    }
+
+    public TrayDetailResponse getTrayDetail(Long id){
+        Long conferenceId = trayRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Tray", "id", id))
+            .getConferenceId();
+        Conference conference = conferenceRepository.findById(conferenceId)
+            .orElseThrow(() -> new ResourceNotFoundException("Conference", "id", id));
+        return TrayDetailResponse.of(conference.getTitle(), conference.getCallStartTime().toString());
     }
 
 }

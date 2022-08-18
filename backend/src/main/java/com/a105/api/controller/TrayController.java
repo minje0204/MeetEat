@@ -3,6 +3,7 @@ package com.a105.api.controller;
 import com.a105.api.request.TrayRequest;
 import com.a105.api.response.DefaultResponse;
 import com.a105.api.response.ResponseCode;
+import com.a105.api.response.TrayDetailResponse;
 import com.a105.api.response.TrayItemResponse;
 import com.a105.api.service.TrayService;
 import com.a105.domain.tray.Tray;
@@ -12,6 +13,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +37,12 @@ public class TrayController {
     public ResponseEntity<?> getTrayItems(){
         List<TrayItemResponse> trayItems = trayService.listTrayItems();
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_TRAY_ITEMS, trayItems));
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getTrayDetail(@PathVariable Long id){
+        TrayDetailResponse trayDetailResponse = trayService.getTrayDetail(id);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_TRAY_DETAIL, trayDetailResponse));
     }
 
 }
