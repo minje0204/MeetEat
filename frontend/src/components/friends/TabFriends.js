@@ -60,7 +60,7 @@ export default function TabFriends() {
   const [searchResultList, setSearchResultList] = React.useState([]);
   const [receivedFriendRequest, setReceivedFriendRequest] = React.useState([]);
   const [sendFriendRequest, setsendFriendRequest] = React.useState([]);
-
+  const myNickname = sessionStorage.getItem("nickname");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -72,6 +72,7 @@ export default function TabFriends() {
     if (searchSign === 1) {
       setSearchSign(0);
       Axios.get(`/user/search?${searchValue}=${searchName}`).then(res => {
+        console.log(res.data.response);
         setSearchResultList(res.data.response);
       });
     }
@@ -187,7 +188,11 @@ export default function TabFriends() {
       <div id="who-icon-nickname">
         <div id="who-imgbox">
           <img
-            src={e.profile !== null ? e.profile :"/images/profile_image/default_profile.png"}
+            src={
+              e.profile !== null
+                ? e.profile
+                : "/images/profile_image/default_profile.png"
+            }
             id="image"
             alt={`사진 ${idx}`}
           />
@@ -260,10 +265,14 @@ export default function TabFriends() {
             </Tabs>
             <hr id="horizon-line" />
             <TabPanel id="subtab-detail" value={subValue} index={0}>
-              {receivedRequestResult}
+              {receivedRequestResult.length === 0
+                ? "받은 요청이 없어요!"
+                : receivedRequestResult}
             </TabPanel>
             <TabPanel id="subtab-detail" value={subValue} index={1}>
-              {sendRequestResult}
+              {sendRequestResult.length === 0
+                ? "보낸 요청이 없어요!"
+                : sendRequestResult}
             </TabPanel>
           </div>
         </TabPanel>
@@ -281,7 +290,38 @@ export default function TabFriends() {
             />
           </div>
           <hr id="horizon-line" />
-          <div id="result-list">{searchResult}</div>
+          <div id="result-list">
+            {searchResult.length === 0
+              ? "검색결과가 없어요!"
+              : searchResultList.map((e, idx) => (
+                  <div id="who-each" key={`${idx}`}>
+                    <div id="who-icon-nickname">
+                      <div id="who-imgbox">
+                        <img
+                          src={
+                            e.profile !== null
+                              ? e.profile
+                              : "/images/profile_image/default_profile.png"
+                          }
+                          id="image"
+                          alt={`사진 ${idx}`}
+                        />
+                      </div>
+                      <div id="nickname">{e.nickname}</div>
+                    </div>
+                    <div id="profile-menu">
+                      <Button
+                        variant="outlined"
+                        id="profile"
+                        onClick={event => friendPlus(e.id)}
+                        disabled={myNickname === e.nickname}
+                      >
+                        {myNickname === e.nickname ? `나` : `밥친구 추가`}
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+          </div>
         </TabPanel>
       </div>
     </StyledWrapper>
@@ -417,5 +457,8 @@ const StyledWrapper = styled.div`
     color: black;
     background-color: #efd345;
     margin: 0 10px;
+    :disabled {
+      background-color: gray;
+    }
   }
 `;
