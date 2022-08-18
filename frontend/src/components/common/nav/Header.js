@@ -24,6 +24,10 @@ export default Header;
 
 const StyledWrapper = styled.div`
   min-width: 1000px;
+  height: 90px;
+  position: sticky;
+  top: 0;
+  background-color: white;
   a {
     text-decoration: none;
     color: #000000;
@@ -33,8 +37,8 @@ const StyledWrapper = styled.div`
     color: #82954b;
   }
   img {
-    width: 50px;
-    height: 45px;
+    width: 80px;
+    height: 50px;
     display: inline-block;
   }
   #logo {
@@ -42,7 +46,7 @@ const StyledWrapper = styled.div`
     font-weight: 100;
     text-align: center;
     align-items: center;
-    width: 150px;
+    width: 170px;
   }
   #logo_meeteat {
     font-family: "Jua";
@@ -52,7 +56,6 @@ const StyledWrapper = styled.div`
   }
   #container {
     padding: 2vh;
-    position: ;
     display: block;
   }
   #flex-box {

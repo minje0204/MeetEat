@@ -25,7 +25,7 @@ export default function ProfileIcon() {
       <div id="imgbox">
         <img
           src={
-            profile !== "null"
+            profile && profile !== "null"
               ? profile
               : "/images/profile_image/default_profile.png"
           }
