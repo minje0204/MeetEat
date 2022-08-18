@@ -5,13 +5,18 @@ import Button from "@mui/material/Button";
 import Axios from "utils/axios/Axios";
 
 export default function ProfileDialogDetail(props) {
-  const { open, onClose } = props;
+  const { open, onClose, id, fetchUserProfile } = props;
 
   const handleClose = () => {
     onClose();
   };
   const handleDelete = () => {
-    // Axios.delete();
+    Axios.delete(`tray/${id}`)
+      .then(res => {
+        onClose();
+        fetchUserProfile();
+      })
+      .catch(e => console.log(e));
   };
 
   return (

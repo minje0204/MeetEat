@@ -1,10 +1,9 @@
-import * as React from "react";
+import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
-import styled from "@emotion/styled";
 import closebutton from "assets/img/closebutton.png";
-import testinput from "components/profile/testinput";
 import ProfileDialogDetail from "components/profile/ProfileDialogDetail";
+import * as React from "react";
 import Axios from "utils/axios/Axios";
 
 export default function MyProfileDialog() {
@@ -27,13 +26,17 @@ export default function MyProfileDialog() {
   };
 
   React.useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  const fetchUserProfile = () => {
     Axios.get(`/user/me`).then(res => {
       console.log(res.data.response);
       setMyProfileInfo(res.data.response);
     });
-  }, []);
+  };
 
-  console.log(myProfileInfo);
+  console.log(myProfileInfo?.trayAlbum);
   return (
     <>
       <div onClick={handleClickOpen}>프로필 보기</div>
@@ -76,6 +79,8 @@ export default function MyProfileDialog() {
                         <ProfileDialogDetail
                           open={openDetail}
                           onClose={detailClose}
+                          id={e.id}
+                          fetchUserProfile={fetchUserProfile}
                         />
                         {e.id}번째 식탁
                       </div>
