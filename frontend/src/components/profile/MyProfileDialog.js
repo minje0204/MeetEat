@@ -9,6 +9,7 @@ import Axios from "utils/axios/Axios";
 export default function MyProfileDialog() {
   const [open, setOpen] = React.useState(false);
   const [openDetail, setOpenDetail] = React.useState(false);
+  const [tableDetail, setTableDetail] = React.useState();
   const [myProfileInfo, setMyProfileInfo] = React.useState();
   const profile = window.sessionStorage.getItem("profile");
 
@@ -18,8 +19,13 @@ export default function MyProfileDialog() {
   const handleClose = () => {
     setOpen(false);
   };
-  const clickDetail = () => {
-    setOpenDetail(true);
+  const clickDetail = id => {
+    Axios.get(`tray/${id}`)
+      .then(({ data }) => {
+        setTableDetail(data.response);
+        setOpenDetail(true);
+      })
+      .catch(e => console.log(e));
   };
   const detailClose = () => {
     setOpenDetail(false);
@@ -36,7 +42,6 @@ export default function MyProfileDialog() {
     });
   };
 
-  console.log(myProfileInfo?.trayAlbum);
   return (
     <>
       <div onClick={handleClickOpen}>프로필 보기</div>
@@ -75,12 +80,16 @@ export default function MyProfileDialog() {
                   ? "앨범에 추억을 저장해보는건 어떨까요?"
                   : myProfileInfo.trayAlbum.map(e => (
                       <div key={`table${e.id}`}>
-                        <div id="example-table" onClick={clickDetail} />
+                        <div
+                          id="example-table"
+                          onClick={() => clickDetail(e.id)}
+                        />
                         <ProfileDialogDetail
                           open={openDetail}
                           onClose={detailClose}
                           id={e.id}
                           fetchUserProfile={fetchUserProfile}
+                          tableDetail={tableDetail}
                         />
                         {e.id}번째 식탁
                       </div>

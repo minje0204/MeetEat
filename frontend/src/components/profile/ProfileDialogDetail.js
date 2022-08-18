@@ -1,12 +1,13 @@
-import * as React from "react";
+import { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 import Axios from "utils/axios/Axios";
 
 export default function ProfileDialogDetail(props) {
-  const { open, onClose, id, fetchUserProfile } = props;
+  const { open, onClose, id, fetchUserProfile, tableDetail } = props;
 
+  console.log(tableDetail);
   const handleClose = () => {
     onClose();
   };
@@ -18,6 +19,14 @@ export default function ProfileDialogDetail(props) {
       })
       .catch(e => console.log(e));
   };
+
+  useEffect(() => {
+    Axios.get(`tray/${id}`)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(e => console.log(e));
+  }, []);
 
   return (
     <Dialog
@@ -40,8 +49,8 @@ export default function ProfileDialogDetail(props) {
           <div id="body">
             <div id="example-table" />
             <div id="text">
-              <div id="room-title">방제목 : 우리 함께 밥 먹을까요?</div>
-              <div id="date">날짜 : 2022년 08월 17일 19시 18분</div>
+              <div id="room-title">방제목 : {tableDetail?.conferenceTitle}</div>
+              <div id="date">날짜 : {tableDetail?.date}</div>
             </div>
             <div id="horizon-line" />
           </div>
