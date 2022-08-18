@@ -22,11 +22,12 @@ export default function ConferencePage() {
     location.state;
   const [num, setNum] = useState(1);
   const [tableData, setTableData] = useState({ id: null, data: null });
-  const { handleClickSendMessage, rtcPeer, host } = UseSocket({
-    name: location.state.userName,
-    setNum,
-    setTableData,
-  });
+  const { handleClickSendMessage, rtcPeer, host, resetParticipants } =
+    UseSocket({
+      name: location.state.userName,
+      setNum,
+      setTableData,
+    });
   const peopleLimitNum = Number(peopleLimit);
 
   const handleLeave = () => {
@@ -77,6 +78,7 @@ export default function ConferencePage() {
     handleClickSendMessage(message);
     return () => {
       handleLeave();
+      resetParticipants();
     };
   }, [userName, handleClickSendMessage]);
 
@@ -95,6 +97,7 @@ export default function ConferencePage() {
                   {_.range(0, parseInt((peopleLimitNum + 1) / 2)).map(
                     (_, idx) => (
                       <div
+                        key={idx}
                         className="roomguest-chatting"
                         id={`roomguest-chatting-${idx}`}
                       >
@@ -117,6 +120,7 @@ export default function ConferencePage() {
                     peopleLimitNum,
                   ).map((_, idx) => (
                     <div
+                      key={idx}
                       className="roomguest-chatting"
                       id={`roomguest-chatting-${
                         idx + parseInt((peopleLimitNum + 1) / 2)
@@ -142,6 +146,7 @@ export default function ConferencePage() {
                 <div className="cam-row">
                   {_.range(0, peopleLimitNum).map((_, idx) => (
                     <div
+                      key={idx}
                       className="roomguest-chatting"
                       id={`roomguest-chatting-${idx}`}
                     >

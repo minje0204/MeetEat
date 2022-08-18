@@ -26,9 +26,10 @@ const PARTICIPANT_CLASS = "participant";
  *                        The tag of the new element will be 'video<name>'
  * @return
  */
-function Participant(name, idx) {
+function Participant(name, idx, userId) {
   this.name = name;
   this.idx = idx;
+  this.userId = userId;
   var container = document.createElement("div");
   container.className = isPresentMainParticipant()
     ? PARTICIPANT_CLASS
@@ -43,8 +44,7 @@ function Participant(name, idx) {
   container.appendChild(span);
   container.onclick = switchContainerClass;
   let personalCam = document.querySelector(`#personal-${idx} #personalCam`);
-  console.log(personalCam.offsetHeight);
-  console.log(personalCam.offsetWidth);
+  personalCam.innerHTML = "";
   personalCam.appendChild(container);
 
   document.querySelector(`#personal-${idx} #personal_id`).innerText = name;
@@ -101,6 +101,7 @@ function Participant(name, idx) {
   Object.defineProperty(this, "rtcPeer", { writable: true });
 
   this.dispose = function () {
+    document.querySelector(`#personal-${idx} #personal_id`).innerText = "";
     console.log("Disposing participant " + this.name);
     this.rtcPeer.dispose();
     container.parentNode.removeChild(container);
