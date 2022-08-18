@@ -6,11 +6,12 @@ import ProfileDialogDetail from "components/profile/ProfileDialogDetail";
 import * as React from "react";
 import Axios from "utils/axios/Axios";
 
-export default function MyProfileDialog() {
+export default function ProfileDialog(props) {
+  const { userID } = props;
   const [open, setOpen] = React.useState(false);
   const [openDetail, setOpenDetail] = React.useState(false);
   const [tableDetail, setTableDetail] = React.useState();
-  const [myProfileInfo, setMyProfileInfo] = React.useState();
+  const [profileInfo, setProfileInfo] = React.useState();
   const profile = window.sessionStorage.getItem("profile");
 
   const handleClickOpen = () => {
@@ -36,15 +37,16 @@ export default function MyProfileDialog() {
   }, []);
 
   const fetchUserProfile = () => {
-    Axios.get(`/user/me`).then(res => {
-      setMyProfileInfo(res.data.response);
+    Axios.get(`/user/${userID}`).then(res => {
+      console.log(res);
+      setProfileInfo(res.data.response);
     });
   };
 
   return (
     <>
       <div onClick={handleClickOpen}>프로필 보기</div>
-      {myProfileInfo && (
+      {profileInfo && (
         <Dialog maxWidth="lg" open={open} onClose={handleClose}>
           <StyledWrapper>
             <div id="return-exit">
@@ -69,26 +71,36 @@ export default function MyProfileDialog() {
               </div>
             </div>
             <Box id="nickname-hello" component="form">
-              <div>별명 : {myProfileInfo.nickname}</div>
-              <div>소개 : {myProfileInfo.bio}</div>
+              <div>별명 : {profileInfo.nickname}</div>
+              <div>
+                {profileInfo.bio
+                  ? `소개 : ${profileInfo.bio}`
+                  : "등록된 자기소개가 없습니다."}
+              </div>
             </Box>
             <hr id="horizon-line" />
             <div id="album">
               <div id="table-album">
-                {myProfileInfo.trayAlbum.length === 0
+                {profileInfo.trayAlbum.length === 0
                   ? "앨범에 추억을 저장해보는건 어떨까요?"
-                  : myProfileInfo.trayAlbum.map(e => (
+                  : profileInfo.trayAlbum.map(e => (
                       <div key={`table${e.id}`}>
                         <div
                           id="example-table"
                           onClick={() => clickDetail(e.id)}
-                        />
+                        >
+                          <img
+                            src={e.image}
+                            className={"table-album-image"}
+                          ></img>
+                        </div>
                         <ProfileDialogDetail
                           open={openDetail}
                           onClose={detailClose}
                           id={e.id}
                           fetchUserProfile={fetchUserProfile}
                           tableDetail={tableDetail}
+                          imageSource={e.image}
                         />
                         {e.id}번째 식탁
                       </div>
@@ -109,6 +121,9 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
+  .table-album-image {
+    width: 100%;
+  }
   a {
     text-decoration: none;
   }
@@ -210,7 +225,7 @@ const StyledWrapper = styled.div`
     font-size: 17px;
   }
   #example-table {
-    background-color: rgb(185, 122, 86);
+    background-color: #888888;
     width: 305.5px;
     height: 130px;
     margin: 20px 0;
