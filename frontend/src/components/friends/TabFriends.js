@@ -176,7 +176,7 @@ export default function TabFriends() {
   const friendPlus = idx => {
     Axios.post(`/friend/request/${idx}`)
       .then(
-        toast.error("밥친구 요청을 보냈습니다.", {
+        toast.success("밥친구 요청을 보냈습니다.", {
           position: "bottom-right",
           autoClose: 1000,
           hideProgressBar: false,
