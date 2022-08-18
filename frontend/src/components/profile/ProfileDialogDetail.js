@@ -9,7 +9,7 @@ export default function ProfileDialogDetail(props) {
   const handleClose = () => {
     onClose();
   };
-  
+
   return (
     <Dialog id="dialog"onClose={handleClose} open={open} BackdropProps={{ invisible: true }} PaperProps={{ style: { boxShadow: 'none', border: '3px solid #EFD345', borderRadius: '10px', backgroundColor: '#FFEF82' } }}>
       <StyledWrapper>

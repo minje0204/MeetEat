@@ -11,6 +11,7 @@ export default function MyProfileDialog() {
   const [open, setOpen] = React.useState(false);
   const [openDetail, setOpenDetail] = React.useState(false);
   const [myProfileInfo, setMyProfileInfo] = React.useState([]);
+  const profile = window.sessionStorage.getItem("profile");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,7 +58,15 @@ export default function MyProfileDialog() {
           </div>
           <div id="myiconbox">
             <div id="myicon-layout">
-              <img src={myProfileInfo.profile} id="myicon" alt="아이콘" />
+              <img
+                src={
+                  profile && profile !== "null"
+                    ? profile
+                    : "/images/profile_image/default_profile.png"
+                }
+                id="myicon"
+                alt="사진"
+              />
             </div>
           </div>
           <Box id="nickname-hello" component="form">
@@ -128,8 +137,8 @@ const StyledWrapper = styled.div`
     overflow: hidden;
   }
   #myicon {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
   #nickname-hello {

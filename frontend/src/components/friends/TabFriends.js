@@ -10,7 +10,7 @@ import SearchFriends from "components/friends/SearchFriends";
 import SearchInputFriends from "components/friends/SearchInputFriends";
 import MyFriends from "components/friends/MyFriends";
 import Axios from "utils/axios/Axios";
-import default_profile from "assets/img/default_profile.png";
+// import default_profile from "assets/img/default_profile.png";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -108,7 +108,7 @@ export default function TabFriends() {
             src={
               e.friendInfo.profile !== null
                 ? e.friendInfo.profile
-                : default_profile
+                : "/images/profile_image/default_profile.png"
             }
             id="image"
             alt={`사진 ${idx}`}
@@ -136,7 +136,7 @@ export default function TabFriends() {
             src={
               e.friendInfo.profile !== null
                 ? e.friendInfo.profile
-                : default_profile
+                : "/images/profile_image/default_profile.png"
             }
             id="image"
             alt={`사진 ${idx}`}
@@ -187,7 +187,7 @@ export default function TabFriends() {
       <div id="who-icon-nickname">
         <div id="who-imgbox">
           <img
-            src={e.profile !== null ? e.profile : default_profile}
+            src={e.profile !== null ? e.profile :"/images/profile_image/default_profile.png"}
             id="image"
             alt={`사진 ${idx}`}
           />

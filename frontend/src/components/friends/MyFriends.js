@@ -7,7 +7,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Axios from "utils/axios/Axios";
 import FriendsProfileDialog from "components/profile/FriendsProfileDialog";
 import { useNavigate } from "react-router-dom";
-import default_profile from "assets/img/default_profile.png"
 
 function FriendsListOption(props) {
   const { open, onClose, anchorEl, truefriends, conferenceId, idx } = props;
@@ -126,7 +125,7 @@ export default function MyFriends() {
               src={
                 e.friendInfo.profile !== null
                   ? e.friendInfo.profile
-                  : default_profile
+                  : "/images/profile_image/default_profile.png"
               }
               id="image"
               alt={`사진 ${idx}`}
