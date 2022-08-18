@@ -104,11 +104,8 @@ public class CallHandler extends TextWebSocketHandler {
     private void updateTable(JsonObject params) {
         System.out.println(params);
         final String roomName = params.get("room").getAsString();
-        System.out.println("1");
         final String name = params.get("name").getAsString();
-        System.out.println("2");
         final JsonArray data = params.get("data").getAsJsonArray();
-        System.out.println("3");
         log.info("PARTICIPANT {}: trying to updating table with {} in room {}", name, data,
             roomName);
         Room room = roomManager.getRoom(roomName);
