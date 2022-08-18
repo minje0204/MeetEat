@@ -1,5 +1,6 @@
 import Axios from "utils/axios/Axios";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -50,6 +51,14 @@ export default function Login() {
         console.log(err);
       });
   } else {
-    alert("로그인 에러!");
+    toast.error("로그인 에러!", {
+      position: "bottom-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
   }
 }

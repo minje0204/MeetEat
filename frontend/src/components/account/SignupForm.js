@@ -1,14 +1,14 @@
-import { useState } from "react";
-import TextField from "@mui/material/TextField";
-import styled from "styled-components";
 import Button from "@mui/material/Button";
-import { CheckLength } from "utils/filters/CheckLength";
-import ProfileImage from "./ProfileImage";
-import { Link } from "react-router-dom";
-import Nickname from "./Nickname";
-import Axios from "utils/axios/Axios";
+import TextField from "@mui/material/TextField";
 import { toUpper } from "lodash";
-import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import Axios from "utils/axios/Axios";
+import { CheckLength } from "utils/filters/CheckLength";
+import Nickname from "./Nickname";
+import { toast } from "react-toastify";
+import ProfileImage from "./ProfileImage";
 
 export default function SignupForm() {
   const location = useLocation();
@@ -32,9 +32,25 @@ export default function SignupForm() {
 
   const signupPost = () => {
     if (!validNickname) {
-      alert("유효하지 않은 닉네임입니다. ");
+      toast.error("유효하지 않은 닉네임입니다.", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
     } else if (!checkedNickname || nickname !== checkedNickname) {
-      alert("닉네임 중복확인이 필요합니다. ");
+      toast.error("닉네임 중복확인이 필요합니다. ", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
     } else {
       const bodyFormData = new FormData();
       const data = {

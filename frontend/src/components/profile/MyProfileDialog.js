@@ -1,16 +1,16 @@
-import * as React from "react";
+import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
-import styled from "@emotion/styled";
 import closebutton from "assets/img/closebutton.png";
-import testinput from "components/profile/testinput";
 import ProfileDialogDetail from "components/profile/ProfileDialogDetail";
+import * as React from "react";
 import Axios from "utils/axios/Axios";
 
 export default function MyProfileDialog() {
   const [open, setOpen] = React.useState(false);
   const [openDetail, setOpenDetail] = React.useState(false);
-  const [myProfileInfo, setMyProfileInfo] = React.useState([]);
+  const [tableDetail, setTableDetail] = React.useState();
+  const [myProfileInfo, setMyProfileInfo] = React.useState();
   const profile = window.sessionStorage.getItem("profile");
 
   const handleClickOpen = () => {
@@ -19,66 +19,85 @@ export default function MyProfileDialog() {
   const handleClose = () => {
     setOpen(false);
   };
-  const clickDetail = () => {
-    setOpenDetail(true);
+  const clickDetail = id => {
+    Axios.get(`tray/${id}`)
+      .then(({ data }) => {
+        setTableDetail(data.response);
+        setOpenDetail(true);
+      })
+      .catch(e => console.log(e));
   };
   const detailClose = () => {
     setOpenDetail(false);
   };
 
   React.useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  const fetchUserProfile = () => {
     Axios.get(`/user/me`).then(res => {
       setMyProfileInfo(res.data.response);
     });
-  }, []);
-
-  const tablealbumlist = testinput
-    .slice(0)
-    .reverse()
-    .map(e => (
-      <div key={`table${e.id}`}>
-        <div id="example-table" onClick={clickDetail} />
-        <ProfileDialogDetail open={openDetail} onClose={detailClose} />
-        {e.id}번째 식탁 - {e.date}
-      </div>
-    ));
+  };
 
   return (
     <>
       <div onClick={handleClickOpen}>프로필 보기</div>
-      <Dialog maxWidth="lg" open={open} onClose={handleClose}>
-        <StyledWrapper>
-          <div id="return-exit">
-            <img
-              src={closebutton}
-              id="exit-icon"
-              alt="창닫기"
-              onClick={handleClose}
-            />
-          </div>
-          <div id="myiconbox">
-            <div id="myicon-layout">
+      {myProfileInfo && (
+        <Dialog maxWidth="lg" open={open} onClose={handleClose}>
+          <StyledWrapper>
+            <div id="return-exit">
               <img
-                src={
-                  profile && profile !== "null"
-                    ? profile
-                    : "/images/profile_image/default_profile.png"
-                }
-                id="myicon"
-                alt="사진"
+                src={closebutton}
+                id="exit-icon"
+                alt="창닫기"
+                onClick={handleClose}
               />
             </div>
-          </div>
-          <Box id="nickname-hello" component="form">
-            <div>별명 : {myProfileInfo.nickname}</div>
-            <div>소개 : {myProfileInfo.bio}</div>
-          </Box>
-          <hr id="horizon-line" />
-          <div id="album">
-            <div id="table-album">{tablealbumlist}</div>
-          </div>
-        </StyledWrapper>
-      </Dialog>
+            <div id="myiconbox">
+              <div id="myicon-layout">
+                <img
+                  src={
+                    profile && profile !== "null"
+                      ? profile
+                      : "/images/profile_image/default_profile.png"
+                  }
+                  id="myicon"
+                  alt="사진"
+                />
+              </div>
+            </div>
+            <Box id="nickname-hello" component="form">
+              <div>별명 : {myProfileInfo.nickname}</div>
+              <div>소개 : {myProfileInfo.bio}</div>
+            </Box>
+            <hr id="horizon-line" />
+            <div id="album">
+              <div id="table-album">
+                {myProfileInfo.trayAlbum.length === 0
+                  ? "앨범에 추억을 저장해보는건 어떨까요?"
+                  : myProfileInfo.trayAlbum.map(e => (
+                      <div key={`table${e.id}`}>
+                        <div
+                          id="example-table"
+                          onClick={() => clickDetail(e.id)}
+                        />
+                        <ProfileDialogDetail
+                          open={openDetail}
+                          onClose={detailClose}
+                          id={e.id}
+                          fetchUserProfile={fetchUserProfile}
+                          tableDetail={tableDetail}
+                        />
+                        {e.id}번째 식탁
+                      </div>
+                    ))}
+              </div>
+            </div>
+          </StyledWrapper>
+        </Dialog>
+      )}
     </>
   );
 }

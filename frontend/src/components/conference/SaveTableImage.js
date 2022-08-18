@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import Axios from "utils/axios/Axios";
+import { toast } from "react-toastify";
 
 export default function SaveTableImage(props) {
   const { conferenceId } = props;
@@ -31,8 +32,29 @@ export default function SaveTableImage(props) {
     html2canvas(myTable.current).then(canvas => {
       const url = canvas.toDataURL("image/png");
       Axios.post("/tray", { conferenceId: conferenceId, base64: url })
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+        .then(
+          toast.success("식탁이 앨범에 저장되었습니다.", {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored",
+          }),
+        )
+        .catch(err => {
+          console.log(err);
+          toast.error("오류 발생!", {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored",
+          });
+        });
     });
   };
   return (

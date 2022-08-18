@@ -7,6 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Axios from "utils/axios/Axios";
 import FriendsProfileDialog from "components/profile/FriendsProfileDialog";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function FriendsListOption(props) {
   const { open, onClose, anchorEl, truefriends, conferenceId, idx } = props;
@@ -23,7 +24,6 @@ function FriendsListOption(props) {
     onClose();
   };
   const GoToFriend = conferenceId => {
-    console.log(conferenceId);
     Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).then(
       response => {
         if (response.data.status === 200) {
@@ -39,7 +39,15 @@ function FriendsListOption(props) {
             },
           });
         } else {
-          alert("요청하신 식탁은 입장이 불가능해요.");
+          toast.error("요청하신 식탁은 입장이 불가능해요.", {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored",
+          });
         }
       },
     );

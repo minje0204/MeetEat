@@ -10,7 +10,6 @@ export default function RoomGuest(props) {
   const { host } = props.value;
   const [isHost, setIsHost] = useState("");
   const [myMenu, setMyMenu] = useState(null);
-
   useEffect(() => {
     if (!tableData) {
       setMyMenu(null);
@@ -60,6 +59,12 @@ export default function RoomGuest(props) {
         <div id="personalCam">
           <div id="emptySeat">빈 좌석</div>
         </div>
+        <div id="personalCam">
+          <div id="statusText">
+            <span id="audioBan"></span>
+            <span id="videoBan"></span>
+          </div>
+        </div>
         {/* 식탁의 규격은 305.5*130 */}
         {/* <div id="personal_table"></div> */}
         <PersonalTable myMenu={myMenu} isMine={idx === 0}></PersonalTable>
@@ -69,6 +74,18 @@ export default function RoomGuest(props) {
 }
 
 const StyledWrapper = styled.div`
+  #statusText {
+    position: absolute;
+    padding: 0.5rem;
+  }
+  #audioBan {
+    font-weight: bold;
+    z-index: 10;
+  }
+  #videoBan {
+    font-weight: bold;
+    z-index: 10;
+  }
   .personal {
     display: flex-column;
     align-items: center;

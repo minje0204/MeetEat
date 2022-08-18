@@ -8,8 +8,11 @@ export default function PersonalMenu(props) {
   const { idx, host } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const video = document.querySelector(`#personal-${idx} video`);
   const [videoStatus, setVideoStatus] = React.useState(true);
+  const video = document.querySelector(`#personal-${idx} video`);
+  const videoBan = document.querySelector(`#personal-${idx} #videoBan`);
+  const audioBan = document.querySelector(`#personal-${idx} #audioBan`);
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -17,14 +20,26 @@ export default function PersonalMenu(props) {
     setAnchorEl(null);
   };
   const handleAudio = () => {
-    video.muted = !video.muted;
+    if (video) {
+      video.muted = !video.muted;
+
+      if (video.muted) {
+        audioBan.innerText = "오디오 차단됨 \n";
+      } else {
+        console.log(audioBan);
+        audioBan.innerText = "";
+      }
+    }
     handleClose();
   };
-  const handleVideo = () => {
+  const handleVideo = idx => {
     if (videoStatus) {
       video.style.display = "none";
+      videoBan.innerText = "비디오 차단됨 \n";
     } else {
       video.style.display = "";
+
+      videoBan.innerText = "";
     }
     setVideoStatus(!videoStatus);
     handleClose();
@@ -60,25 +75,20 @@ export default function PersonalMenu(props) {
           onClick={handleClose}
           sx={{ color: "black", fontFamily: "Jua" }}
         >
-          귓속말 하기
-        </MenuItem>
-        <MenuItem
-          onClick={handleClose}
-          sx={{ color: "black", fontFamily: "Jua" }}
-        >
           친구 요청
         </MenuItem>
         <MenuItem
           onClick={handleAudio}
           sx={{ color: "black", fontFamily: "Jua" }}
         >
-          음소거 하기
+          {video && (video.muted ? "오디오 차단 해제" : "오디오 차단")}
+          {!video && "음소거"}
         </MenuItem>
         <MenuItem
           onClick={handleVideo}
           sx={{ color: "black", fontFamily: "Jua" }}
         >
-          {videoStatus ? "비디오 끄기" : "비디오 켜기"}
+          {videoStatus ? "비디오 차단" : "비디오 차단 해제"}
         </MenuItem>
         {/* 방장일 경우 아래 내용 추가 */}
         {/* <MenuItem onClick={handleClose} sx={{ color: "black", fontFamily: "Jua" }}>방장 넘기기</MenuItem>

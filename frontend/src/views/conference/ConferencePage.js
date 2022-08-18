@@ -14,10 +14,14 @@ import { SocketContextProvider } from "components/socket/SocketContext";
 import { ConferenceContextProvider } from "components/conference/ConferenceContext";
 import Axios from "utils/axios/Axios";
 import { useNavigate } from "react-router-dom";
+import { Reset } from "modules/table";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ConferencePage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
+  const myMenu = useSelector(state => state.table.present.tableList);
   const { title, peopleLimit, userName, conferenceId, restaurantId, position } =
     location.state;
   const [num, setNum] = useState(1);
@@ -29,7 +33,6 @@ export default function ConferencePage() {
       setTableData,
     });
   const peopleLimitNum = Number(peopleLimit);
-
   const handleLeave = () => {
     Axios.patch(
       `/restaurant/conference/${encodeURI(conferenceId)}`,
@@ -64,6 +67,7 @@ export default function ConferencePage() {
   useEffect(() => {
     if (!rtcPeer) return;
     return () => {
+      dispatch(Reset());
       rtcPeer.dispose();
     };
   }, [rtcPeer]);
@@ -84,7 +88,7 @@ export default function ConferencePage() {
 
   return (
     <SocketContextProvider sendMessage={handleClickSendMessage}>
-      <ConferenceContextProvider name={userName} title={title}>
+      <ConferenceContextProvider name={userName} title={conferenceId}>
         <StyledWrapper>
           <div id="table-name">
             {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
@@ -105,6 +109,9 @@ export default function ConferencePage() {
                           key={`roomGuest-${idx}`}
                           idx={idx}
                           value={{ host }}
+                          tableData={
+                            tableData.id === idx ? tableData.data : null
+                          }
                         />
                         <div
                           id="chatting-balloon"
@@ -154,6 +161,7 @@ export default function ConferencePage() {
                         key={`roomGuest-${idx}`}
                         idx={idx}
                         value={{ host }}
+                        tableData={tableData.id === idx ? tableData.data : null}
                       />
                       <div
                         id="chatting-balloon"
@@ -198,7 +206,7 @@ const StyledWrapper = styled.div`
   .cam-row {
     display: flex;
     justify-content: space-evenly;
-    margin: 0 50px;
+    margin: auto 50px;
   }
   min-width: 1500px;
   #table-name {

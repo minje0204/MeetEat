@@ -8,12 +8,21 @@ import Axios from "utils/axios/Axios";
 import { useEffect, useState } from "react";
 import Header from "components/common/nav/Header";
 import { isLogin } from "utils/account/GetAccess";
-
+import { toast } from "react-toastify";
 export default function RestaurantPage() {
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLogin()) {
-      alert("로그인이 필요합니다. ");
+      toast.error("🦄 로그인이 필요합니다. ", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+
       navigate("/", {
         state: {
           login: false,

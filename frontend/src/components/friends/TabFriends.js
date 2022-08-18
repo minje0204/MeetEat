@@ -11,6 +11,7 @@ import SearchInputFriends from "components/friends/SearchInputFriends";
 import MyFriends from "components/friends/MyFriends";
 import Axios from "utils/axios/Axios";
 // import default_profile from "assets/img/default_profile.png";
+import { toast } from "react-toastify";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -55,8 +56,6 @@ export default function TabFriends() {
   const [value, setValue] = React.useState(1);
   const [subValue, setSubValue] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState("nickname");
-  const [searchName, setSearchName] = React.useState("");
-  const [searchSign, setSearchSign] = React.useState(0);
   const [searchResultList, setSearchResultList] = React.useState([]);
   const [receivedFriendRequest, setReceivedFriendRequest] = React.useState([]);
   const [sendFriendRequest, setsendFriendRequest] = React.useState([]);
@@ -67,15 +66,6 @@ export default function TabFriends() {
   const subHandleChange = (event, newValue) => {
     setSubValue(newValue);
   };
-
-  React.useEffect(() => {
-    if (searchSign === 1) {
-      setSearchSign(0);
-      Axios.get(`/user/search?${searchValue}=${searchName}`).then(res => {
-        setSearchResultList(res.data.response);
-      });
-    }
-  }, [searchValue, searchName, searchSign]);
 
   function requestList(data) {
     const receivedRequestList = [];
@@ -172,9 +162,21 @@ export default function TabFriends() {
     });
   };
 
-  const friendPlus = idx => {
+  const friendPlus = (e, idx) => {
     Axios.post(`/friend/request/${idx}`)
-      .then(alert("밥친구 요청을 보냈습니다."))
+      .then(() => {
+        toast.success("밥친구 요청을 보냈습니다.", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        });
+        e.target.disabled = true;
+        e.target.innerText = `요청 대기중`;
+      })
       .then(() => {
         Axios.get(`/friend/waiting`).then(res => {
           requestList(res.data.response);
@@ -182,33 +184,9 @@ export default function TabFriends() {
       });
   };
 
-  const searchResult = searchResultList.map((e, idx) => (
-    <div id="who-each" key={`${idx}`}>
-      <div id="who-icon-nickname">
-        <div id="who-imgbox">
-          <img
-            src={
-              e.profile !== null
-                ? e.profile
-                : "/images/profile_image/default_profile.png"
-            }
-            id="image"
-            alt={`사진 ${idx}`}
-          />
-        </div>
-        <div id="nickname">{e.nickname}</div>
-      </div>
-      <div id="profile-menu">
-        <Button
-          variant="outlined"
-          id="profile"
-          onClick={event => friendPlus(e.id)}
-        >
-          밥친구 추가
-        </Button>
-      </div>
-    </div>
-  ));
+  React.useEffect(() => {
+    setSearchResultList([]);
+  }, [value]);
 
   return (
     <StyledWrapper>
@@ -284,13 +262,13 @@ export default function TabFriends() {
           <div id="search">
             <SearchFriends setSearchValue={setSearchValue} />
             <SearchInputFriends
-              setSearchName={setSearchName}
-              setSearchSign={setSearchSign}
+              searchValue={searchValue}
+              setSearchResultList={setSearchResultList}
             />
           </div>
           <hr id="horizon-line" />
           <div id="result-list">
-            {searchResult.length === 0
+            {searchResultList.length === 0
               ? "검색결과가 없어요!"
               : searchResultList.map((e, idx) => (
                   <div id="who-each" key={`${idx}`}>
@@ -312,10 +290,20 @@ export default function TabFriends() {
                       <Button
                         variant="outlined"
                         id="profile"
-                        onClick={event => friendPlus(e.id)}
-                        disabled={myNickname === e.nickname}
+                        onClick={event => friendPlus(event, e.id)}
+                        disabled={
+                          myNickname === e.nickname ||
+                          e.status === 0 ||
+                          e.status === 1
+                        }
                       >
-                        {myNickname === e.nickname ? `나` : `밥친구 추가`}
+                        {myNickname === e.nickname
+                          ? `나`
+                          : e.status === 0
+                          ? `요청 대기중`
+                          : e.status === 1
+                          ? `친구`
+                          : `밥친구 추가`}
                       </Button>
                     </div>
                   </div>
