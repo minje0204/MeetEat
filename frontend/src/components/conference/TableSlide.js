@@ -104,6 +104,7 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
     border-radius: 10px 0 0 10px;
+    z-index: 40;
   }
   .button:hover {
     cursor: pointer;
@@ -122,7 +123,7 @@ const StyledWrapper = styled.div`
     height: 200px;
     background: #ffef82;
     vertical-align: middle;
-
+    z-index: 40;
     border-radius: 10px 0 0 10px;
     display: flex;
     align-items: center;

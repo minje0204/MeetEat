@@ -29,7 +29,7 @@ export default function ConferencePage() {
       setTableData,
     });
   const peopleLimitNum = Number(peopleLimit);
-
+  console.log(rtcPeer);
   const handleLeave = () => {
     Axios.patch(
       `/restaurant/conference/${encodeURI(conferenceId)}`,
@@ -202,7 +202,7 @@ const StyledWrapper = styled.div`
   .cam-row {
     display: flex;
     justify-content: space-evenly;
-    margin: 0 50px;
+    margin: auto 50px;
   }
   min-width: 1500px;
   #table-name {
