@@ -25,8 +25,8 @@ export default function ModalMakingRoom(props) {
   const [peopleLimitValue, setPeopleLimitValue] = useState("");
 
   const joinRoom = () => {
-    Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`).then(
-      response => {
+    Axios.get(`/restaurant/conference/${encodeURI(conferenceId)}`)
+      .then(response => {
         if (response.data.status == 200) {
           window.sessionStorage.setItem("conferencePermission", true);
           navigate(`/restaurant/conference/${conferenceId}`, {
@@ -40,8 +40,12 @@ export default function ModalMakingRoom(props) {
             },
           });
         }
-      },
-    );
+      })
+      .catch(err => rejectMessage());
+  };
+
+  const rejectMessage = () => {
+    alert("요청하신 식탁은 입장이 불가능해요.");
   };
 
   const handleClickOpen = () => {
@@ -64,22 +68,24 @@ export default function ModalMakingRoom(props) {
       maxUserNum: peopleLimitValue,
       position: tableInfo.position,
       restaurantId: restaurantId,
-    }).then(response => {
-      if (response.data.status == 200) {
-        setConferenceId(response.data.response.id);
-        window.sessionStorage.setItem("conferencePermission", true);
-        navigate(`/restaurant/conference/${response.data.response.id}`, {
-          state: {
-            title: titleValue,
-            peopleLimit: peopleLimitValue,
-            userName: sessionStorage.getItem("nickname"),
-            conferenceId: response.data.response.id,
-            restaurantId,
-            position: tableInfo.position,
-          },
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.data.status == 200) {
+          setConferenceId(response.data.response.id);
+          window.sessionStorage.setItem("conferencePermission", true);
+          navigate(`/restaurant/conference/${response.data.response.id}`, {
+            state: {
+              title: titleValue,
+              peopleLimit: peopleLimitValue,
+              userName: sessionStorage.getItem("nickname"),
+              conferenceId: response.data.response.id,
+              restaurantId,
+              position: tableInfo.position,
+            },
+          });
+        }
+      })
+      .catch(err => rejectMessage());
   };
 
   useEffect(() => {

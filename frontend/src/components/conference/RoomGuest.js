@@ -47,13 +47,19 @@ export default function RoomGuest(props) {
             </div>
             <div id="personal_id"></div>
           </div>
-          <div>
-            <StyledWrapperLink>
-              <PersonalMenu idx={idx} host={host}></PersonalMenu>
-            </StyledWrapperLink>
-          </div>
+          {idx !== 0 ? (
+            <div>
+              <StyledWrapperLink>
+                <PersonalMenu idx={idx} host={host}></PersonalMenu>
+              </StyledWrapperLink>
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
-        <div id="personalCam"></div>
+        <div id="personalCam">
+          <div id="emptySeat">빈 좌석</div>
+        </div>
         {/* 식탁의 규격은 305.5*130 */}
         {/* <div id="personal_table"></div> */}
         <PersonalTable myMenu={myMenu} isMine={idx === 0}></PersonalTable>
@@ -97,6 +103,13 @@ const StyledWrapper = styled.div`
   }
   #crown {
     margin-right: 5px;
+  }
+  #emptySeat {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    font-family: "Jua";
+    font-size: 20px;
   }
 `;
 
