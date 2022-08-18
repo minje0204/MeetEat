@@ -114,7 +114,6 @@ export default function MyFriends() {
     });
   }, []);
 
-  // console.log(friendsWithMe[0].conferenceId);
   const friendsList = friendsWithMe.map((e, idx) => (
     <div id="friend-each" key={`${idx}`}>
       <div id="icon-nickname">
@@ -140,7 +139,7 @@ export default function MyFriends() {
       </div>
       <div id="profile-menu">
         <Button variant="outlined" id="profile">
-          <FriendsProfileDialog who={e.friendInfo.id} />
+          <FriendsProfileDialog who={e.friendInfo.id} friendIcon={e.friendInfo.profile} />
         </Button>
         <img
           src={option}

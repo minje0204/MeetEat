@@ -8,7 +8,7 @@ import ProfileDialogDetail from "components/profile/ProfileDialogDetail";
 import Axios from "utils/axios/Axios";
 
 export default function FriendsProfileDialog(props) {
-  const { who } = props;
+  const { who, friendIcon } = props;
   const [open, setOpen] = React.useState(false);
   const [openDetail, setOpenDetail] = React.useState(false);
   const [ProfileInfo, setProfileInfo] = React.useState([]);
@@ -45,33 +45,36 @@ export default function FriendsProfileDialog(props) {
       <div id="open-friend-profile" onClick={handleClickOpen}>
         프로필 보기
       </div>
-      <Dialog
-        maxWidth="lg"
-        open={open}
-        onClose={handleClose}
-        >
+      <Dialog maxWidth="lg" open={open} onClose={handleClose}>
         <StyledWrapper>
           <div id="return-exit">
-            <img src={ closebutton } id="exit-icon" alt="창닫기" onClick={handleClose}/>
+            <img
+              src={closebutton}
+              id="exit-icon"
+              alt="창닫기"
+              onClick={handleClose}
+            />
           </div>
           <div id="myiconbox">
             <div id="myicon-layout">
-              <img src={ ProfileInfo.profile } id="myicon" alt="아이콘" />
+              <img
+                src={
+                  friendIcon !== null
+                    ? friendIcon
+                    : "/images/profile_image/default_profile.png"
+                }
+                id="myicon"
+                alt={`사진`}
+              />
             </div>
           </div>
           <Box id="nickname-hello" component="form">
-            <div>
-              별명 : { ProfileInfo.nickname }
-            </div>
-            <div>
-              소개 : { ProfileInfo.bio }
-            </div>
+            <div>별명 : {ProfileInfo.nickname}</div>
+            <div>소개 : {ProfileInfo.bio}</div>
           </Box>
-          <hr id="horizon-line"/>
+          <hr id="horizon-line" />
           <div id="album">
-            <div id="table-album">
-              {tablealbumlist}
-            </div>
+            <div id="table-album">{tablealbumlist}</div>
           </div>
         </StyledWrapper>
       </Dialog>

@@ -20,7 +20,7 @@ export default function RestaurantPage() {
         },
       });
     }
-  }, []);
+  }, [navigate]);
   let params = useParams();
   const [tableList, setTableList] = useState([]);
 
@@ -58,19 +58,24 @@ export default function RestaurantPage() {
 
   return (
     <StyledWrapper>
-      <Header></Header>
+      <Header />
       <div id="restaurant-name">{`[ ${params.restaurant_id}번 식당 ]`}</div>
-      <div id="table-list">{listItems}</div>
-      <div id="exit">
-        <Link to={"/"}>
-          <Door />
-        </Link>
+      <div id="restaurant-background">
+        <div id="table-list">{listItems}</div>
+        <div id="exit">
+          <Link to={"/"}>
+            <Door />
+          </Link>
+        </div>
       </div>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
+  #restaurant-background {
+    background-color: #faf0d7;
+  }
   #restaurant-name {
     position: absolute;
     top: 4vh;

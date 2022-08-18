@@ -91,7 +91,6 @@ export default function IndexPage() {
           <span>요</span>
           <span>!</span>
         </h1>
-
         <div className="container">
           <div id="restaurant-list">{listItems}</div>
         </div>
@@ -102,9 +101,11 @@ export default function IndexPage() {
 
 const StyledWrapper = styled.div`
   max-height: 100vh;
+  overflow: hidden;
+
   #background-img {
-    height:900px;
-    min-height: 700px;
+    height: 100vh;
+    min-height: 100vh;
     background-image: url("/images/index_page/background.png");
     background-size: cover;
     width: 100vw;
@@ -113,6 +114,7 @@ const StyledWrapper = styled.div`
     cursor: url("/images/cursor_image.png"), auto;
   }
   .container {
+    overflow: hidden;
     display: block;
   }
   .door {
@@ -155,7 +157,7 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 6rem 3rem 0 3rem;
+    padding: 6rem 3rem;
   }
   .image-container1 {
     width: 35%;
@@ -182,6 +184,7 @@ const StyledWrapper = styled.div`
     font: bold 4vw/1.6 "Jua", sans-serif;
     user-select: none;
     height: 0.5vh;
+    max-height: 0.2vh;
   }
   h1 span {
     display: inline-block;
