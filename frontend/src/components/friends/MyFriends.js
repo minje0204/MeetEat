@@ -147,7 +147,7 @@ export default function MyFriends() {
       </div>
       <div id="profile-menu">
         <Button variant="outlined" id="profile">
-          <FriendsProfileDialog who={e.friendInfo.id} />
+          <FriendsProfileDialog who={e.friendInfo.id} friendIcon={e.friendInfo.profile} />
         </Button>
         <img
           src={option}

@@ -1,33 +1,48 @@
 import styled from "@emotion/styled";
-import logoimage from "assets/img/logo.png";
+import logoimage from "assets/img/logo_transparent.png";
 import Menu from "components/common/nav/Menu";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const Header = () => {
+export default function Header() {
+  const location = useLocation();
+
   return (
     <StyledWrapper>
-      <div id="container">
-        <div id="flex-box">
-          <Link to="/">
-            <div id="logo">
-              <img src={logoimage} alt="로고" />
-              <div id="logo_meeteat">밋잇</div>
-            </div>
-          </Link>
-          <Menu />
+      <div id={location.pathname === "/" ? "header-background-blue" : "header-background-beige"}>
+        <div id="container">
+          <div id="flex-box">
+            <Link to="/">
+              <div id="logo">
+                <img src={logoimage} alt="로고" />
+                <div id="letter-box">
+                  <div id="letter">밋잇</div>
+                </div>
+              </div>
+            </Link>
+            <Menu />
+          </div>
         </div>
       </div>
     </StyledWrapper>
   );
 };
-export default Header;
 
 const StyledWrapper = styled.div`
-  min-width: 1000px;
-  height: 90px;
-  position: sticky;
-  top: 0;
-  background-color: white;
+  #header-background-blue {
+    min-width: 1000px;
+    width: 100%;
+    height: 10vh;
+    position: sticky;
+    background-color: #e8f9fd;
+  }
+  #header-background-beige {
+    min-width: 1000px;
+    width: 100%;
+    height: 10vh;
+    position: sticky;
+    background-color: #faf0d7;
+  }
+
   a {
     text-decoration: none;
     color: #000000;
@@ -36,23 +51,18 @@ const StyledWrapper = styled.div`
   a:hover {
     color: #82954b;
   }
-  img {
-    width: 80px;
-    height: 50px;
-    display: inline-block;
-  }
   #logo {
     display: flex;
     font-weight: 100;
     text-align: center;
     align-items: center;
-    width: 170px;
+    width: 200px;
+    height: 8vh;
   }
-  #logo_meeteat {
-    font-family: "Jua";
-    font-size: 48px;
-    width: 100px;
-    text-align: center;
+  img {
+    width: 90px;
+    height: 60px;
+    display: inline-block;
   }
   #container {
     padding: 2vh;
@@ -64,5 +74,17 @@ const StyledWrapper = styled.div`
     align-items: center;
     text-align: center;
   }
-  width: 100%;
+  #letter-box {
+    font-family: "Jua";
+    font-size: 44px;
+    width: 100px;
+    text-shadow: 0 0.1em 20px #5bb318, 0.05em -0.03em 0 #5bb318,
+      0.05em 0.005em 0 #5bb318, 0em 0.08em 0 #5bb318, 0.05em 0.08em 0 #5bb318,
+      0px -0.03em 0 #5bb318, -0.03em -0.03em 0 #5bb318, -0.03em 0.08em 0 #5bb318,
+      -0.03em 0 0 #5bb318;
+  }
+  #letter {
+    display: inline-block;
+    color: #ffe898;
+  }
 `;
