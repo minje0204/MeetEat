@@ -5,8 +5,10 @@ import com.a105.api.request.UserNicknameRequest;
 import com.a105.api.response.DefaultResponse;
 import com.a105.api.response.NicknameResponse;
 import com.a105.api.response.ResponseCode;
+import com.a105.api.response.SearchResponse;
 import com.a105.api.response.UserInfoResponse;
 import com.a105.api.service.UserService;
+import com.a105.domain.user.UserSearchDto;
 import com.a105.security.CurrentUser;
 import com.a105.security.UserPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,16 +57,16 @@ public class UserController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "모든 사용자 정보 조회 성공", content = @Content(array = @ArraySchema( schema = @Schema(implementation = UserInfoResponse.class))))
     })
-    public ResponseEntity<?> searchUser(@RequestParam(required = false) String email,
+    public ResponseEntity<?> searchUser(@CurrentUser UserPrincipal userPrincipal, @RequestParam(required = false) String email,
         @RequestParam(required = false) String nickname) {
-        List<UserInfoResponse> userInfos;
+        List<SearchResponse> userInfos;
         if(email == null || email.length() == 0){
             email = "";
         }
         if(nickname == null || nickname.length() == 0){
             nickname = "";
         }
-        userInfos = userService.searchByEmailOrNickname(email, nickname);
+        userInfos = userService.searchByEmailOrNickname(userPrincipal.getId(), email, nickname);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, SEARCH_USER, userInfos));
     }
 
