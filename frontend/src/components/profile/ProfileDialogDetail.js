@@ -5,7 +5,8 @@ import Button from "@mui/material/Button";
 import Axios from "utils/axios/Axios";
 
 export default function ProfileDialogDetail(props) {
-  const { open, onClose, id, fetchUserProfile, tableDetail } = props;
+  const { open, onClose, id, fetchUserProfile, tableDetail, imageSource } =
+    props;
 
   const handleClose = () => {
     onClose();
@@ -46,7 +47,9 @@ export default function ProfileDialogDetail(props) {
         <div id="container">
           <div id="header"></div>
           <div id="body">
-            <div id="example-table" />
+            <div id="example-table">
+              <img src={imageSource} className={"table-album-image"}></img>
+            </div>
             <div id="text">
               <div id="room-title">방제목 : {tableDetail?.conferenceTitle}</div>
               <div id="date">날짜 : {tableDetail?.date}</div>
@@ -64,6 +67,9 @@ export default function ProfileDialogDetail(props) {
 }
 
 const StyledWrapper = styled.div`
+  .table-album-image {
+    width: 100%;
+  }
   #container {
     width: 500px;
     height: 500px;
@@ -95,7 +101,7 @@ const StyledWrapper = styled.div`
     align-items: center;
   }
   #example-table {
-    background-color: rgb(185, 122, 86);
+    background-color: #888888;
     width: 457.75px;
     height: 195px;
   }
