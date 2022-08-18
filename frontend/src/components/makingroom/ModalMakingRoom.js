@@ -180,11 +180,6 @@ export default function ModalMakingRoom(props) {
             fullWidth
             variant="standard"
             onChange={e => setTitleValue(e.target.value)}
-            InputProps={{
-              style: {
-                fontFamily: "Jua"
-              },
-            }}
           />
           {/* <TextField
             id="standard-number"
@@ -198,7 +193,7 @@ export default function ModalMakingRoom(props) {
             onChange={e => setPeopleLimitValue(e.target.value)}
           /> */}
           <div id="max-people">
-            <DialogContentText sx={{ fontFamily: "Jua", fontSize: 13, mt:2 }}>
+            <DialogContentText sx={{ fontFamily: "Jua", fontSize: 13, mt: 2 }}>
               최대 인원
             </DialogContentText>
             <ToggleButtonGroup
@@ -211,11 +206,6 @@ export default function ModalMakingRoom(props) {
               aria-label="text alignment"
               fullWidth={true}
               color="primary"
-              InputProps={{
-                style: {
-                  fontFamily: "Jua",
-                },
-              }}
             >
               <ToggleButton value={2} aria-label="2명">
                 2명
