@@ -19,7 +19,7 @@ export default function Door() {
 const StyledWrapper = styled.div`
   #cont {
     position: absolute;
-    top: 89%;
+    top: 85%;
     width: 45px;
     height: 75px;
     margin: 0 auto 15px;
