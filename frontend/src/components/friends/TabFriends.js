@@ -162,9 +162,9 @@ export default function TabFriends() {
     });
   };
 
-  const friendPlus = idx => {
+  const friendPlus = (e, idx) => {
     Axios.post(`/friend/request/${idx}`)
-      .then(
+      .then(() => {
         toast.success("밥친구 요청을 보냈습니다.", {
           position: "bottom-right",
           autoClose: 1000,
@@ -173,8 +173,10 @@ export default function TabFriends() {
           pauseOnHover: true,
           draggable: true,
           theme: "colored",
-        }),
-      )
+        });
+        e.target.disabled = true;
+        e.target.innerText = `요청 대기중`;
+      })
       .then(() => {
         Axios.get(`/friend/waiting`).then(res => {
           requestList(res.data.response);
@@ -182,34 +184,9 @@ export default function TabFriends() {
       });
   };
 
-  const searchResult = searchResultList.map((e, idx) => (
-    <div id="who-each" key={`${idx}`}>
-      <div id="who-icon-nickname">
-        <div id="who-imgbox">
-          <img
-            src={
-              e.profile !== null
-                ? e.profile
-                : "/images/profile_image/default_profile.png"
-            }
-            id="image"
-            alt={`사진 ${idx}`}
-          />
-        </div>
-        <div id="nickname">{e.nickname}</div>
-      </div>
-      <div id="profile-menu">
-        <Button
-          variant="outlined"
-          id="profile"
-          onClick={event => friendPlus(e.id)}
-          disabled={e.status === 0}
-        >
-          {e.status === 0 ? `수락 대기중` : `밥친구 추가`}
-        </Button>
-      </div>
-    </div>
-  ));
+  React.useEffect(() => {
+    setSearchResultList([]);
+  }, [value]);
 
   return (
     <StyledWrapper>
@@ -291,7 +268,7 @@ export default function TabFriends() {
           </div>
           <hr id="horizon-line" />
           <div id="result-list">
-            {searchResult.length === 0
+            {searchResultList.length === 0
               ? "검색결과가 없어요!"
               : searchResultList.map((e, idx) => (
                   <div id="who-each" key={`${idx}`}>
@@ -313,10 +290,20 @@ export default function TabFriends() {
                       <Button
                         variant="outlined"
                         id="profile"
-                        onClick={event => friendPlus(e.id)}
-                        disabled={myNickname === e.nickname}
+                        onClick={event => friendPlus(event, e.id)}
+                        disabled={
+                          myNickname === e.nickname ||
+                          e.status === 0 ||
+                          e.status === 1
+                        }
                       >
-                        {myNickname === e.nickname ? `나` : `밥친구 추가`}
+                        {myNickname === e.nickname
+                          ? `나`
+                          : e.status === 0
+                          ? `요청 대기중`
+                          : e.status === 1
+                          ? `친구`
+                          : `밥친구 추가`}
                       </Button>
                     </div>
                   </div>
