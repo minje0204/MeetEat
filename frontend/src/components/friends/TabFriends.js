@@ -1,15 +1,16 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import styled from "@emotion/styled";
-import SearchFriends from 'components/friends/SearchFriends';
-import SearchInputFriends from 'components/friends/SearchInputFriends';
-import MyFriends from 'components/friends/MyFriends';
+import SearchFriends from "components/friends/SearchFriends";
+import SearchInputFriends from "components/friends/SearchInputFriends";
+import MyFriends from "components/friends/MyFriends";
 import Axios from "utils/axios/Axios";
+// import default_profile from "assets/img/default_profile.png";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,60 +43,173 @@ function a11yProps(index) {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
-};
+}
 function a22yProps(index) {
   return {
     id: `sub-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
-};
+}
 
 export default function TabFriends() {
   const [value, setValue] = React.useState(1);
   const [subValue, setSubValue] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState("nickname");
-  const [searchName, setSearchName] = React.useState('');
+  const [searchName, setSearchName] = React.useState("");
   const [searchSign, setSearchSign] = React.useState(0);
   const [searchResultList, setSearchResultList] = React.useState([]);
-  
+  const [receivedFriendRequest, setReceivedFriendRequest] = React.useState([]);
+  const [sendFriendRequest, setsendFriendRequest] = React.useState([]);
+  const myNickname = sessionStorage.getItem("nickname");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   const subHandleChange = (event, newValue) => {
     setSubValue(newValue);
   };
-  
+
   React.useEffect(() => {
-    if (searchSign === 1){
-      setSearchSign(0)
+    if (searchSign === 1) {
+      setSearchSign(0);
       Axios.get(`/user/search?${searchValue}=${searchName}`).then(res => {
         setSearchResultList(res.data.response);
       });
-    };
+    }
   }, [searchValue, searchName, searchSign]);
 
-  const friendPlus = (idx) => {
+  function requestList(data) {
+    const receivedRequestList = [];
+    const sendRequestList = [];
+    for (let i = 0; i < data.length; i++) {
+      let user = data[i];
+      if (user.status === 0) {
+        if (user.received === true) {
+          receivedRequestList.push(user);
+        } else if (user.received === false) {
+          sendRequestList.push(user);
+        }
+      }
+    }
+    setReceivedFriendRequest(receivedRequestList);
+    setsendFriendRequest(sendRequestList);
+  }
+
+  React.useEffect(() => {
+    Axios.get(`/friend/waiting`).then(res => {
+      requestList(res.data.response);
+    });
+  }, []);
+
+  const receivedRequestResult = receivedFriendRequest.map((e, idx) => (
+    <div id="who-each" key={`received-${idx}`}>
+      <div id="who-icon-nickname">
+        <div id="who-imgbox">
+          <img
+            src={
+              e.friendInfo.profile !== null
+                ? e.friendInfo.profile
+                : "/images/profile_image/default_profile.png"
+            }
+            id="image"
+            alt={`사진 ${idx}`}
+          />
+        </div>
+        <div id="nickname">{e.friendInfo.nickname}</div>
+      </div>
+      <div id="profile-menu">
+        <Button
+          variant="outlined"
+          id="profile"
+          onClick={event => friendReceiveYes(e.id)}
+        >
+          밥친구 수락
+        </Button>
+      </div>
+    </div>
+  ));
+
+  const sendRequestResult = sendFriendRequest.map((e, idx) => (
+    <div id="who-each" key={`received-${idx}`}>
+      <div id="who-icon-nickname">
+        <div id="who-imgbox">
+          <img
+            src={
+              e.friendInfo.profile !== null
+                ? e.friendInfo.profile
+                : "/images/profile_image/default_profile.png"
+            }
+            id="image"
+            alt={`사진 ${idx}`}
+          />
+        </div>
+        <div id="nickname">{e.friendInfo.nickname}</div>
+      </div>
+      <div id="profile-menu">
+        <Button
+          variant="outlined"
+          id="profile"
+          onClick={event => friendSendCancle(e.id)}
+        >
+          요청 취소
+        </Button>
+      </div>
+    </div>
+  ));
+
+  const friendReceiveYes = idx => {
+    Axios.patch(`/friend/received/accept`, { id: idx }).then(() => {
+      Axios.get(`/friend/waiting`).then(res => {
+        requestList(res.data.response);
+      });
+    });
+  };
+
+  const friendSendCancle = idx => {
+    Axios.delete(`/friend/sent/cancel`, { data: { id: idx } }).then(() => {
+      Axios.get(`/friend/waiting`).then(res => {
+        requestList(res.data.response);
+      });
+    });
+  };
+
+  const friendPlus = idx => {
     Axios.post(`/friend/request/${idx}`)
+      .then(alert("밥친구 요청을 보냈습니다."))
+      .then(() => {
+        Axios.get(`/friend/waiting`).then(res => {
+          requestList(res.data.response);
+        });
+      });
   };
 
   const searchResult = searchResultList.map((e, idx) => (
     <div id="who-each" key={`${idx}`}>
       <div id="who-icon-nickname">
         <div id="who-imgbox">
-          <img src={e.profile} id="image" alt={`사진 ${idx}`} />
+          <img
+            src={
+              e.profile !== null
+                ? e.profile
+                : "/images/profile_image/default_profile.png"
+            }
+            id="image"
+            alt={`사진 ${idx}`}
+          />
         </div>
-        <div id="nickname">
-          {e.nickname}
-        </div>
+        <div id="nickname">{e.nickname}</div>
       </div>
       <div id="profile-menu">
-        <Button variant="outlined" id="profile" onClick={event => friendPlus(e.id)}>
+        <Button
+          variant="outlined"
+          id="profile"
+          onClick={event => friendPlus(e.id)}
+        >
           밥친구 추가
         </Button>
       </div>
     </div>
   ));
-  
+
   return (
     <StyledWrapper>
       <div id="friend-dialog">
@@ -150,15 +264,14 @@ export default function TabFriends() {
             </Tabs>
             <hr id="horizon-line" />
             <TabPanel id="subtab-detail" value={subValue} index={0}>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
+              {receivedRequestResult.length === 0
+                ? "받은 요청이 없어요!"
+                : receivedRequestResult}
             </TabPanel>
             <TabPanel id="subtab-detail" value={subValue} index={1}>
-              <div id="request-example-1"></div>
-              <div id="request-example-1"></div>
+              {sendRequestResult.length === 0
+                ? "보낸 요청이 없어요!"
+                : sendRequestResult}
             </TabPanel>
           </div>
         </TabPanel>
@@ -170,11 +283,43 @@ export default function TabFriends() {
         <TabPanel value={value} index={2}>
           <div id="search">
             <SearchFriends setSearchValue={setSearchValue} />
-            <SearchInputFriends setSearchName={setSearchName} setSearchSign={setSearchSign}/>
+            <SearchInputFriends
+              setSearchName={setSearchName}
+              setSearchSign={setSearchSign}
+            />
           </div>
           <hr id="horizon-line" />
           <div id="result-list">
-            { searchResult }
+            {searchResult.length === 0
+              ? "검색결과가 없어요!"
+              : searchResultList.map((e, idx) => (
+                  <div id="who-each" key={`${idx}`}>
+                    <div id="who-icon-nickname">
+                      <div id="who-imgbox">
+                        <img
+                          src={
+                            e.profile !== null
+                              ? e.profile
+                              : "/images/profile_image/default_profile.png"
+                          }
+                          id="image"
+                          alt={`사진 ${idx}`}
+                        />
+                      </div>
+                      <div id="nickname">{e.nickname}</div>
+                    </div>
+                    <div id="profile-menu">
+                      <Button
+                        variant="outlined"
+                        id="profile"
+                        onClick={event => friendPlus(e.id)}
+                        disabled={myNickname === e.nickname}
+                      >
+                        {myNickname === e.nickname ? `나` : `밥친구 추가`}
+                      </Button>
+                    </div>
+                  </div>
+                ))}
           </div>
         </TabPanel>
       </div>
@@ -271,7 +416,7 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
-    border: 4px solid #EFD345;
+    border: 4px solid #efd345;
     border-radius: 20px;
   }
   #who-icon-nickname {
@@ -309,7 +454,10 @@ const StyledWrapper = styled.div`
     font-family: "Jua";
     font-size: 16px;
     color: black;
-    background-color: #EFD345;
+    background-color: #efd345;
     margin: 0 10px;
+    :disabled {
+      background-color: gray;
+    }
   }
 `;

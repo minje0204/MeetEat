@@ -1,10 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
-import backbutton from "assets/img/backbutton.png";
 import closebutton from "assets/img/closebutton.png";
 import testinput from "components/profile/testinput";
 import ProfileDialogDetail from "components/profile/ProfileDialogDetail";
@@ -14,6 +11,7 @@ export default function MyProfileDialog() {
   const [open, setOpen] = React.useState(false);
   const [openDetail, setOpenDetail] = React.useState(false);
   const [myProfileInfo, setMyProfileInfo] = React.useState([]);
+  const profile = window.sessionStorage.getItem("profile");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -51,24 +49,6 @@ export default function MyProfileDialog() {
       <Dialog maxWidth="lg" open={open} onClose={handleClose}>
         <StyledWrapper>
           <div id="return-exit">
-            <Link to={"/"}>
-              <Button
-                id="btn"
-                variant="outlined"
-                onClick={handleClose}
-                sx={{
-                  fontFamily: "Jua",
-                  fontSize: 16,
-                  color: "black",
-                  ml: 3,
-                  backgroundColor: "#BABD42",
-                  borderColor: "#82954B",
-                }}
-              >
-                <img id="return-icon" src={backbutton} alt="수정하기" />
-                회원정보 수정하기
-              </Button>
-            </Link>
             <img
               src={closebutton}
               id="exit-icon"
@@ -78,7 +58,15 @@ export default function MyProfileDialog() {
           </div>
           <div id="myiconbox">
             <div id="myicon-layout">
-              <img src={myProfileInfo.profile} id="myicon" alt="아이콘" />
+              <img
+                src={
+                  profile && profile !== "null"
+                    ? profile
+                    : "/images/profile_image/default_profile.png"
+                }
+                id="myicon"
+                alt="사진"
+              />
             </div>
           </div>
           <Box id="nickname-hello" component="form">
@@ -149,8 +137,8 @@ const StyledWrapper = styled.div`
     overflow: hidden;
   }
   #myicon {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
   #nickname-hello {

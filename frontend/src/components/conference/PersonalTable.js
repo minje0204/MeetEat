@@ -23,7 +23,8 @@ export default function PersonalTable(props) {
   useEffect(() => {
     if (isMine) setMenuList(myMenu);
   }, [myMenu]);
-  const box = useSelector(state => state.box.box);
+
+  console.log(myMenyProps);
   const menuRender = menuList.map((menu, index) => {
     return (
       <img

@@ -105,6 +105,7 @@ const UseSocket = ({ name, setNum, setTableData }) => {
     var participant = participants[request.name];
     participant.dispose();
     delete participants[request.name];
+    setNum(Object.keys(participants).length);
   };
 
   receiveVideoResponse = result => {
@@ -119,7 +120,7 @@ const UseSocket = ({ name, setNum, setTableData }) => {
 
   onExistingParticipants = function (msg) {
     setHost(msg.host);
-    let participant = new Participant(name, 0); //나 자신
+    let participant = new Participant(name, 0, msg.userId); //나 자신
     setNum(Object.keys(participants).length + 1);
     participants[name] = participant;
     let video = participant.getVideoElement();
@@ -195,7 +196,21 @@ const UseSocket = ({ name, setNum, setTableData }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { handleClickSendMessage, readyState, rtcPeer, host };
+  const resetParticipants = () => {
+    let keys = Object.keys(participants);
+    for (let i = 1; i < keys.length; i++) {
+      delete participants[keys[i]];
+    }
+    setNum(1);
+  };
+
+  return {
+    handleClickSendMessage,
+    readyState,
+    rtcPeer,
+    host,
+    resetParticipants,
+  };
 };
 
 export default UseSocket;
