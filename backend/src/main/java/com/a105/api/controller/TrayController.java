@@ -12,6 +12,7 @@ import com.a105.security.UserPrincipal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,12 @@ public class TrayController {
     public ResponseEntity<?> getTrayDetail(@PathVariable Long id){
         TrayDetailResponse trayDetailResponse = trayService.getTrayDetail(id);
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_TRAY_DETAIL, trayDetailResponse));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteTray(@CurrentUser UserPrincipal userPrincipal, @PathVariable Long id){
+        trayService.deleteTray(userPrincipal.getId(), id);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, DELETE_TRAY));
     }
 
 }

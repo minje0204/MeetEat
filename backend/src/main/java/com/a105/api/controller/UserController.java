@@ -125,4 +125,10 @@ public class UserController {
         return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_CURRENT_USER, userInfo));
     }
 
+    @GetMapping("/nickname/{nickname}")
+    public ResponseEntity<?> getUserByNickname(@PathVariable String nickname){
+        UserInfoResponse userInfo = userService.findByNickname(nickname);
+        return ResponseEntity.ok().body(DefaultResponse.of(ResponseCode.OK, GET_USER_BY_NICKNAME, userInfo));
+    }
+
 }

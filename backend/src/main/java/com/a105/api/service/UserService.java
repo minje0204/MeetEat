@@ -51,7 +51,7 @@ public class UserService {
     }
 
     public NicknameResponse checkDuplicateNickname(String nickname) {
-        NicknameResponse nicknameResponse = NicknameResponse.of(nickname, userRepository.findOneByNickname(nickname));
+        NicknameResponse nicknameResponse = NicknameResponse.of(nickname, userRepository.findOneByNickname(nickname) != null);
         return nicknameResponse;
     }
 
@@ -95,6 +95,11 @@ public class UserService {
         storageService.deleteFile(dirFileName);
 
         return uploadProfileImage(id, file);
+    }
+
+    public UserInfoResponse findByNickname(String nickname){
+        User user = userRepository.findOneByNickname(nickname);
+        return UserInfoResponse.fromEntity(user);
     }
 
 
