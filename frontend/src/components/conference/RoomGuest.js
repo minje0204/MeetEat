@@ -97,7 +97,7 @@ const StyledWrapper = styled.div`
     overflow: hidden;
     position: relative;
     width: 300px;
-    height: 250px;
+    height: 225px;
     margin: auto;
     border-radius: 5px;
     background-color: gray;
