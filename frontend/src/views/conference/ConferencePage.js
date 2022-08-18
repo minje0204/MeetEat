@@ -84,7 +84,7 @@ export default function ConferencePage() {
 
   return (
     <SocketContextProvider sendMessage={handleClickSendMessage}>
-      <ConferenceContextProvider name={userName} title={title}>
+      <ConferenceContextProvider name={userName} title={conferenceId}>
         <StyledWrapper>
           <div id="table-name">
             {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
@@ -105,6 +105,9 @@ export default function ConferencePage() {
                           key={`roomGuest-${idx}`}
                           idx={idx}
                           value={{ host }}
+                          tableData={
+                            tableData.id === idx ? tableData.data : null
+                          }
                         />
                         <div
                           id="chatting-balloon"
@@ -154,6 +157,7 @@ export default function ConferencePage() {
                         key={`roomGuest-${idx}`}
                         idx={idx}
                         value={{ host }}
+                        tableData={tableData.id === idx ? tableData.data : null}
                       />
                       <div
                         id="chatting-balloon"
