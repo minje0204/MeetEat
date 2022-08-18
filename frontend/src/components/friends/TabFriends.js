@@ -176,15 +176,16 @@ export default function TabFriends() {
   const friendPlus = idx => {
     Axios.post(`/friend/request/${idx}`)
       .then(
-      toast.error("밥친구 요청을 보냈습니다.", {
-        position: "bottom-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "colored",
-      });)
+        toast.error("밥친구 요청을 보냈습니다.", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        }),
+      )
       .then(() => {
         Axios.get(`/friend/waiting`).then(res => {
           requestList(res.data.response);
