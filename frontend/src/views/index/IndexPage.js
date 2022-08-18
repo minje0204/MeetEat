@@ -12,7 +12,7 @@ export default function IndexPage() {
         login = true;
       }
     }
-  }, []);
+  }, [location.state]);
   const restaurantList = [
     {
       id: "1",
@@ -67,15 +67,48 @@ export default function IndexPage() {
   ));
   return (
     <StyledWrapper>
-      <Header />
-      <div className="container">
-        <div id="restaurant-list">{listItems}</div>
+      <div id="background-img">
+        <Header />
+        <h1>
+          <span>함</span>
+          <span>께</span>
+          <span>하</span>
+          <span>고</span>
+          <span>ㅤ</span>
+          <span>싶</span>
+          <span>은</span>
+          <span>ㅤ</span>
+          <span>식</span>
+          <span>당</span>
+          <span>을</span>
+          <span>ㅤ</span>
+          <span>클</span>
+          <span>릭</span>
+          <span>해</span>
+          <span>ㅤ</span>
+          <span>주</span>
+          <span>세</span>
+          <span>요</span>
+          <span>!</span>
+        </h1>
+
+        <div className="container">
+          <div id="restaurant-list">{listItems}</div>
+        </div>
       </div>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
+  max-height: 100vh;
+  #background-img {
+    height:900px;
+    min-height: 700px;
+    background-image: url("/images/index_page/background.png");
+    background-size: cover;
+    width: 100vw;
+  }
   #restaurant-list img {
     cursor: url("/images/cursor_image.png"), auto;
   }
@@ -141,5 +174,127 @@ const StyledWrapper = styled.div`
   }
   #image {
     width: 100%;
+  }
+
+  h1 {
+    display: flex;
+    justify-content: center;
+    font: bold 4vw/1.6 "Jua", sans-serif;
+    user-select: none;
+    height: 0.5vh;
+  }
+  h1 span {
+    display: inline-block;
+    animation: float 1.4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: none;
+    }
+    33% {
+      transform: translateY(-0.5px) rotate(-1deg);
+    }
+    66% {
+      transform: translateY(0.5px) rotate(1deg);
+    }
+  }
+  h1:hover span {
+    animation: bounce 1s;
+  }
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translate(0);
+    }
+    25% {
+      transform: rotateX(20deg) translateY(2px) rotate(-3deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(3deg) scale(1.1);
+    }
+  }
+
+  span:nth-of-type(4n) {
+    color: hsl(70, 50%, 50%);
+    text-shadow: 1px 1px hsl(70, 45%, 45%), 2px 2px hsl(70, 45%, 45%),
+      3px 3px hsl(70, 45%, 45%), 4px 4px hsl(70, 35%, 50%);
+  }
+  span:nth-of-type(4n-1) {
+    color: hsl(50, 80%, 50%);
+    text-shadow: 1px 1px hsl(50, 70%, 45%), 2px 2px hsl(50, 70%, 45%),
+      3px 3px hsl(50, 70%, 45%), 4px 4px hsl(50, 70%, 50%);
+  }
+  span:nth-of-type(4n-2) {
+    color: hsl(15, 90%, 70%);
+    text-shadow: 1px 1px hsl(15, 80%, 60%), 2px 2px hsl(15, 80%, 60%),
+      3px 3px hsl(15, 80%, 60%), 4px 4px hsl(14, 90%, 70%);
+  }
+  span:nth-of-type(4n-3) {
+    color: hsl(348, 75%, 68%);
+    text-shadow: 1px 1px hsl(348, 65%, 63%), 2px 2px hsl(348, 65%, 63%),
+      3px 3px hsl(348, 65%, 63%), 4px 4px hsl(348, 55%, 68%);
+  }
+
+  h1 span:nth-of-type(2) {
+    animation-delay: 0.05s;
+  }
+  h1 span:nth-of-type(3) {
+    animation-delay: 0.1s;
+  }
+  h1 span:nth-of-type(4) {
+    animation-delay: 0.15s;
+  }
+  h1 span:nth-of-type(5) {
+    width: 1.5vw;
+    animation-delay: 0.2s;
+  }
+  h1 span:nth-of-type(6) {
+    animation-delay: 0.25s;
+  }
+  h1 span:nth-of-type(7) {
+    animation-delay: 0.3s;
+  }
+  h1 span:nth-of-type(8) {
+    width: 1.5vw;
+    animation-delay: 0.35s;
+  }
+  h1 span:nth-of-type(9) {
+    animation-delay: 0.4s;
+  }
+  h1 span:nth-of-type(10) {
+    animation-delay: 0.45s;
+  }
+  h1 span:nth-of-type(11) {
+    animation-delay: 0.5s;
+  }
+  h1 span:nth-of-type(12) {
+    width: 1.5vw;
+    animation-delay: 0.55s;
+  }
+  h1 span:nth-of-type(13) {
+    animation-delay: 0.6s;
+  }
+  h1 span:nth-of-type(14) {
+    animation-delay: 0.65s;
+  }
+  h1 span:nth-of-type(15) {
+    animation-delay: 0.7s;
+  }
+  h1 span:nth-of-type(16) {
+    width: 1.2vw;
+    animation-delay: 0.75s;
+  }
+  h1 span:nth-of-type(17) {
+    animation-delay: 0.8s;
+  }
+  h1 span:nth-of-type(18) {
+    animation-delay: 0.85s;
+  }
+  h1 span:nth-of-type(19) {
+    animation-delay: 0.9s;
+  }
+  h1 span:nth-of-type(20) {
+    animation-delay: 0.95s;
   }
 `;
