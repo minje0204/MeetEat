@@ -5,6 +5,7 @@ import ProfileImage from "./ProfileImage";
 import Axios from "utils/axios/Axios";
 import Nickname from "./Nickname";
 import BioInput from "./BioInput";
+import { toast } from "react-toastify";
 
 export default function EditForm() {
   const myBio = sessionStorage.getItem("bio");
@@ -48,7 +49,15 @@ export default function EditForm() {
       .then(res => {
         console.log(res);
         sessionStorage.setItem("profile", res.data.response.profile);
-        alert("프로필 사진이 변경되었습니다.");
+        toast.success("프로필 사진이 변경되었습니다.", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        });
       })
       .catch(err => {
         console.log(err);
@@ -59,7 +68,15 @@ export default function EditForm() {
       .then(res => {
         console.log(res);
         sessionStorage.setItem("profile", "");
-        alert("프로필 사진이 삭제되었습니다.");
+        toast.success("프로필 사진이 삭제되었습니다.", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        });
       })
       .catch(err => {
         console.log(err);
@@ -67,15 +84,39 @@ export default function EditForm() {
   };
   const nicknameEditHandler = e => {
     if (!validNickname) {
-      alert("유효하지 않은 닉네임입니다. ");
+      toast.error("유효하지 않은 닉네임입니다.", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
     } else if (!checkedNickname || nickname !== checkedNickname) {
-      alert("닉네임 중복확인이 필요합니다. ");
+      toast.error("닉네임 중복확인이 필요합니다.", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
     } else {
       Axios.patch("/user/nickname", { nickname: checkedNickname })
         .then(res => {
           console.log(res);
           sessionStorage.setItem("nickname", res.data.response.nickname);
-          alert("닉네임이 변경되었습니다.");
+          toast.success("닉네임이 변경되었습니다.", {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored",
+          });
         })
         .catch(err => {
           console.log(err);
@@ -87,7 +128,15 @@ export default function EditForm() {
       .then(res => {
         console.log(res);
         sessionStorage.setItem("bio", res.data.response.bio);
-        alert("자기 소개가 변경되었습니다.");
+        toast.success("자기 소개가 변경되었습니다.", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        });
       })
       .catch(err => {
         console.log(err);

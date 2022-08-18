@@ -10,7 +10,7 @@ import Axios from "utils/axios/Axios";
 export default function MyProfileDialog() {
   const [open, setOpen] = React.useState(false);
   const [openDetail, setOpenDetail] = React.useState(false);
-  const [myProfileInfo, setMyProfileInfo] = React.useState([]);
+  const [myProfileInfo, setMyProfileInfo] = React.useState();
   const profile = window.sessionStorage.getItem("profile");
 
   const handleClickOpen = () => {
@@ -28,57 +28,63 @@ export default function MyProfileDialog() {
 
   React.useEffect(() => {
     Axios.get(`/user/me`).then(res => {
+      console.log(res.data.response);
       setMyProfileInfo(res.data.response);
     });
   }, []);
 
-  const tablealbumlist = testinput
-    .slice(0)
-    .reverse()
-    .map(e => (
-      <div key={`table${e.id}`}>
-        <div id="example-table" onClick={clickDetail} />
-        <ProfileDialogDetail open={openDetail} onClose={detailClose} />
-        {e.id}번째 식탁 - {e.date}
-      </div>
-    ));
-
+  console.log(myProfileInfo);
   return (
     <>
       <div onClick={handleClickOpen}>프로필 보기</div>
-      <Dialog maxWidth="lg" open={open} onClose={handleClose}>
-        <StyledWrapper>
-          <div id="return-exit">
-            <img
-              src={closebutton}
-              id="exit-icon"
-              alt="창닫기"
-              onClick={handleClose}
-            />
-          </div>
-          <div id="myiconbox">
-            <div id="myicon-layout">
+      {myProfileInfo && (
+        <Dialog maxWidth="lg" open={open} onClose={handleClose}>
+          <StyledWrapper>
+            <div id="return-exit">
               <img
-                src={
-                  profile && profile !== "null"
-                    ? profile
-                    : "/images/profile_image/default_profile.png"
-                }
-                id="myicon"
-                alt="사진"
+                src={closebutton}
+                id="exit-icon"
+                alt="창닫기"
+                onClick={handleClose}
               />
             </div>
-          </div>
-          <Box id="nickname-hello" component="form">
-            <div>별명 : {myProfileInfo.nickname}</div>
-            <div>소개 : {myProfileInfo.bio}</div>
-          </Box>
-          <hr id="horizon-line" />
-          <div id="album">
-            <div id="table-album">{tablealbumlist}</div>
-          </div>
-        </StyledWrapper>
-      </Dialog>
+            <div id="myiconbox">
+              <div id="myicon-layout">
+                <img
+                  src={
+                    profile && profile !== "null"
+                      ? profile
+                      : "/images/profile_image/default_profile.png"
+                  }
+                  id="myicon"
+                  alt="사진"
+                />
+              </div>
+            </div>
+            <Box id="nickname-hello" component="form">
+              <div>별명 : {myProfileInfo.nickname}</div>
+              <div>소개 : {myProfileInfo.bio}</div>
+            </Box>
+            <hr id="horizon-line" />
+            <div id="album">
+              <div id="table-album">
+                {myProfileInfo.trayAlbum.length === 0
+                  ? "앨범에 추억을 저장해보는건 어떨까요?"
+                  : myProfileInfo.trayAlbum.map(e => (
+                      <div key={`table${e.id}`}>
+                        <div id="example-table" onClick={clickDetail} />
+                        <ProfileDialogDetail
+                          open={openDetail}
+                          onClose={detailClose}
+                        />
+                        {e.id}번째 식탁
+                      </div>
+                    ))}
+              </div>
+            </div>
+          </StyledWrapper>
+        </Dialog>
+      )}
     </>
   );
 }

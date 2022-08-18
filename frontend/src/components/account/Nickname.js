@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { CheckLength } from "utils/filters/CheckLength";
+import { toast } from "react-toastify";
 
 export default function Nickname(props) {
   const { nickname, setNickname, validNickname, isValid, setCheckedNickname } =
@@ -19,9 +20,25 @@ export default function Nickname(props) {
         console.log(res);
         if (res.data.response.exists) {
           //true인 경우 중복 닉네임 있음
-          alert("이미 사용중인 닉네임입니다.");
+          toast.error("이미 사용중인 닉네임입니다.", {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored",
+          });
         } else {
-          alert("사용 가능한 닉네임입니다");
+          toast.success("사용 가능한 닉네임입니다.", {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored",
+          });
           setCheckedNickname(res.data.response.nickname);
         }
       })

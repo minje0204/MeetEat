@@ -12,10 +12,13 @@ import SignUpPage from "views/signup/SignupPage";
 import Login from "views/login/Login";
 import UserEditPage from "views/user/UserEditPage";
 import { isLogin } from "utils/account/GetAccess";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 export default function App() {
   return (
     <>
+      <ToastContainer></ToastContainer>
       <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
