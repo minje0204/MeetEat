@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import roomtitle from "assets/img/roomtitle.png";
 import Axios from "utils/axios/Axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function ModalMakingRoom(props) {
   const navigate = useNavigate();
@@ -45,7 +46,15 @@ export default function ModalMakingRoom(props) {
   };
 
   const rejectMessage = () => {
-    alert("요청하신 식탁은 입장이 불가능해요.");
+    toast.error("요청하신 식탁은 입장이 불가능해요.", {
+      position: "bottom-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
   };
 
   const handleClickOpen = () => {
@@ -56,11 +65,27 @@ export default function ModalMakingRoom(props) {
   };
   const makeRoom = () => {
     if (!titleValue) {
-      alert("제목을 입력해 주세요");
+      toast.error("제목을 입력해 주세요", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
       return;
     }
     if (peopleLimitValue < 2 || peopleLimitValue > 6) {
-      alert("인원은 2~6 숫자만 가능합니다");
+      toast.error("인원은 2~6 숫자만 가능합니다.", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
       return;
     }
     Axios.post(`/restaurant/${encodeURI(restaurantId)}`, {

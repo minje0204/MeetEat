@@ -11,6 +11,7 @@ import SearchInputFriends from "components/friends/SearchInputFriends";
 import MyFriends from "components/friends/MyFriends";
 import Axios from "utils/axios/Axios";
 // import default_profile from "assets/img/default_profile.png";
+import { toast } from "react-toastify";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -174,7 +175,16 @@ export default function TabFriends() {
 
   const friendPlus = idx => {
     Axios.post(`/friend/request/${idx}`)
-      .then(alert("밥친구 요청을 보냈습니다."))
+      .then(
+      toast.error("밥친구 요청을 보냈습니다.", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });)
       .then(() => {
         Axios.get(`/friend/waiting`).then(res => {
           requestList(res.data.response);
