@@ -23,7 +23,7 @@ export default function ItemsOnTable(props) {
       data: myMenu,
     };
     if (notInitialRender.current) {
-      // sendMessage(msg);
+      sendMessage(msg);
     } else {
       notInitialRender.current = true;
     }
