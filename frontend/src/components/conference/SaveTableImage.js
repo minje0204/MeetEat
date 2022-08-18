@@ -43,8 +43,9 @@ export default function SaveTableImage(props) {
             theme: "colored",
           }),
         )
-        .catch(
-          toast.error("오류발생!", {
+        .catch(err => {
+          console.log(err);
+          toast.error("오류 발생!", {
             position: "bottom-right",
             autoClose: 1000,
             hideProgressBar: false,
@@ -52,8 +53,8 @@ export default function SaveTableImage(props) {
             pauseOnHover: true,
             draggable: true,
             theme: "colored",
-          }),
-        );
+          });
+        });
     });
   };
   return (
