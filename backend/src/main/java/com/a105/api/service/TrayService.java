@@ -7,6 +7,7 @@ import com.a105.domain.conference.Conference;
 import com.a105.domain.conference.ConferenceRepository;
 import com.a105.domain.tray.Tray;
 import com.a105.domain.tray.TrayRepository;
+import com.a105.exception.BadRequestException;
 import com.a105.exception.ResourceNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,12 +51,22 @@ public class TrayService {
     }
 
     public TrayDetailResponse getTrayDetail(Long id){
-        Long conferenceId = trayRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Tray", "id", id))
-            .getConferenceId();
+        Long conferenceId = findById(id).getConferenceId();
         Conference conference = conferenceRepository.findById(conferenceId)
             .orElseThrow(() -> new ResourceNotFoundException("Conference", "id", id));
         return TrayDetailResponse.of(conference.getTitle(), conference.getCallStartTime().toString());
+    }
+
+    public Tray findById(Long id){
+        return trayRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tray", "id", id));
+    }
+
+    public void deleteTray(Long userId, Long id){
+        Tray tray = findById(id);
+        if(!tray.getUserId().equals(userId)){
+            throw new BadRequestException("해당 사용자의 식탁이 아닙니다.");
+        }
+        trayRepository.delete(tray);
     }
 
 }
