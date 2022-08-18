@@ -10,6 +10,7 @@ export default function ProfileDialog(props) {
   const { userID } = props;
   const [open, setOpen] = React.useState(false);
   const [openDetail, setOpenDetail] = React.useState(false);
+  const [detailIndex, setDetailIndex] = React.useState();
   const [tableDetail, setTableDetail] = React.useState();
   const [profileInfo, setProfileInfo] = React.useState();
   const profile = window.sessionStorage.getItem("profile");
@@ -20,8 +21,10 @@ export default function ProfileDialog(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  const clickDetail = id => {
-    Axios.get(`tray/${id}`)
+  const clickDetail = (e, index) => {
+    setDetailIndex(index);
+    setOpenDetail(true);
+    Axios.get(`tray/${e.id}`)
       .then(({ data }) => {
         setTableDetail(data.response);
         setOpenDetail(true);
@@ -38,7 +41,6 @@ export default function ProfileDialog(props) {
 
   const fetchUserProfile = () => {
     Axios.get(`/user/${userID}`).then(res => {
-      console.log(res);
       setProfileInfo(res.data.response);
     });
   };
@@ -83,30 +85,30 @@ export default function ProfileDialog(props) {
               <div id="table-album">
                 {profileInfo.trayAlbum.length === 0
                   ? "앨범에 추억을 저장해보는건 어떨까요?"
-                  : profileInfo.trayAlbum.map(e => (
-                      <div key={`table${e.id}`}>
+                  : profileInfo.trayAlbum.map((e, idx) => (
+                      <div key={`table${e.id}`} id={`table${e.id}`}>
                         <div
                           id="example-table"
-                          onClick={() => clickDetail(e.id)}
+                          onClick={() => clickDetail(e, idx)}
                         >
                           <img
                             src={e.image}
                             className={"table-album-image"}
                           ></img>
                         </div>
-                        <ProfileDialogDetail
-                          open={openDetail}
-                          onClose={detailClose}
-                          id={e.id}
-                          fetchUserProfile={fetchUserProfile}
-                          tableDetail={tableDetail}
-                          imageSource={e.image}
-                        />
                         {e.id}번째 식탁
                       </div>
                     ))}
               </div>
             </div>
+            <ProfileDialogDetail
+              open={openDetail}
+              onClose={detailClose}
+              index={detailIndex}
+              fetchUserProfile={fetchUserProfile}
+              profileInfo={profileInfo}
+              tableDetail={tableDetail}
+            />
           </StyledWrapper>
         </Dialog>
       )}
