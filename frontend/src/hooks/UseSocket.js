@@ -105,7 +105,7 @@ const UseSocket = ({ name, setNum, setTableData }) => {
     var participant = participants[request.name];
     participant.dispose();
     delete participants[request.name];
-    setNum(Object.keys(participants).length - 1);
+    setNum(Object.keys(participants).length);
   };
 
   receiveVideoResponse = result => {
