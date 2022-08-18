@@ -211,9 +211,9 @@ const StyledWrapper = styled.div`
   min-width: 1500px;
   #table-name {
     display: block;
-    margin: 14px 0 0 160px;
+    margin: 14px 0 0 14px;
     font-family: "Jua";
-    font-size: 20px;
+    font-size: 24px;
     color: #82954b;
   }
   #footer {

@@ -21,7 +21,7 @@ export default function RoomGuest(props) {
   useEffect(() => {
     let target = document.querySelector(
       `#personal-${idx} #personal_id`,
-    ).innerText;
+      ).innerText;
     if (!target) {
       setIsHost("none");
       return;
