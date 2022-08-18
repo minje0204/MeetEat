@@ -28,7 +28,7 @@ export default function ConferencePage() {
     setTableData,
   });
   const peopleLimitNum = Number(peopleLimit);
-
+  console.log(rtcPeer);
   const handleLeave = () => {
     Axios.patch(
       `/restaurant/conference/${encodeURI(conferenceId)}`,
