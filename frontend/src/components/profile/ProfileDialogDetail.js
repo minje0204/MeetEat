@@ -1,32 +1,51 @@
-import { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 import Axios from "utils/axios/Axios";
+import { toast } from "react-toastify";
 
 export default function ProfileDialogDetail(props) {
-  const { open, onClose, id, fetchUserProfile, tableDetail, imageSource } =
+  const { open, onClose, index, fetchUserProfile, profileInfo, tableDetail } =
     props;
-
+  const trayID =
+    profileInfo && profileInfo.trayAlbum[index]
+      ? profileInfo.trayAlbum[index].id
+      : "";
+  const imageSource =
+    profileInfo && profileInfo.trayAlbum[index]
+      ? profileInfo.trayAlbum[index].image
+      : "";
+  const userID = sessionStorage.getItem("id");
   const handleClose = () => {
     onClose();
   };
   const handleDelete = () => {
-    Axios.delete(`tray/${id}`)
+    Axios.delete(`tray/${trayID}`)
       .then(res => {
+        toast.success("식탁 앨범이 삭제되었습니다.", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        });
         onClose();
         fetchUserProfile();
       })
-      .catch(e => console.log(e));
+      .catch(e =>
+        toast.error("오류 발생!", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        }),
+      );
   };
-
-  useEffect(() => {
-    Axios.get(`tray/${id}`)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(e => console.log(e));
-  }, []);
 
   return (
     <Dialog
@@ -57,7 +76,11 @@ export default function ProfileDialogDetail(props) {
             <div id="horizon-line" />
           </div>
           <div id="footer">
-            <Button onClick={handleDelete}>삭제하기</Button>
+            {`${profileInfo.id}` === userID ? (
+              <Button onClick={handleDelete}>삭제하기</Button>
+            ) : (
+              ""
+            )}
             <Button onClick={handleClose}>창 닫기</Button>
           </div>
         </div>
