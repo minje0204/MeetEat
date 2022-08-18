@@ -5,7 +5,7 @@ import option from "assets/img/option.png";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Axios from "utils/axios/Axios";
-import FriendsProfileDialog from "components/profile/FriendsProfileDialog";
+import ProfileDialog from "components/profile/ProfileDialog";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -147,7 +147,7 @@ export default function MyFriends() {
       </div>
       <div id="profile-menu">
         <Button variant="outlined" id="profile">
-          <FriendsProfileDialog who={e.friendInfo.id} friendIcon={e.friendInfo.profile} />
+          <ProfileDialog userID={e.friendInfo.id} />
         </Button>
         <img
           src={option}

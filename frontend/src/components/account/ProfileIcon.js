@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import MyProfileDialog from "components/profile/MyProfileDialog";
+import ProfileDialog from "components/profile/ProfileDialog";
 import { Link } from "react-router-dom";
 
 export default function ProfileIcon() {
@@ -15,6 +15,7 @@ export default function ProfileIcon() {
     setAnchorEl(null);
   };
   const profile = window.sessionStorage.getItem("profile");
+  const userID = window.sessionStorage.getItem("id");
   const logOut = () => {
     window.sessionStorage.clear();
     localStorage.clear();
@@ -45,7 +46,7 @@ export default function ProfileIcon() {
         >
           <StyledWrapperLink>
             <MenuItem sx={{ color: "black", fontFamily: "Jua" }}>
-              <MyProfileDialog />
+              <ProfileDialog userID={userID} />
             </MenuItem>
             <Link to="/user/edit">
               <MenuItem
