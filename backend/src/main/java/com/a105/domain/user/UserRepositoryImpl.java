@@ -13,14 +13,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Boolean findOneByNickname(String nickname){
+    public User findOneByNickname(String nickname){
         QUser user = QUser.user;
-        Integer exists = jpaQueryFactory.selectOne()
-            .from(user)
+        return jpaQueryFactory.selectFrom(user)
             .where(user.nickname.eq(nickname))
             .fetchFirst();
-
-        return exists != null;
     }
 
     @Override
