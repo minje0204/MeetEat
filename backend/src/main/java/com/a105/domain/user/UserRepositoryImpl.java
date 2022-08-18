@@ -1,5 +1,6 @@
 package com.a105.domain.user;
 
+import com.a105.domain.friendship.QFriendship;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -23,28 +24,15 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
 
     @Override
-    public List<User> search(String email, String nickname){
+    public List<UserSearchDto> search(Long userId, String email, String nickname){
         QUser user = QUser.user;
-        List<User> users = jpaQueryFactory.selectFrom(user)
+        QFriendship friendship = QFriendship.friendship;
+        List<UserSearchDto> users = jpaQueryFactory.select(new QUserSearchDto(user.id, friendship.status.coalesce(-1)))
+            .from(user)
+                .leftJoin(friendship)
+                .on((user.id.eq(friendship.senderId).and(friendship.receiverId.eq(userId)))
+                    .or((user.id.eq(friendship.receiverId).and(friendship.senderId.eq(userId)))))
             .where(startsWithEmail(email), startsWithNickname(nickname))
-            .fetch();
-        return users;
-    }
-
-    @Override
-    public List<User> searchByEmail(String email) {
-        QUser user = QUser.user;
-        List<User> users = jpaQueryFactory.selectFrom(user)
-            .where(user.email.contains(email))
-            .fetch();
-        return users;
-    }
-
-    @Override
-    public List<User> searchByNickname(String nickname) {
-        QUser user = QUser.user;
-        List<User> users = jpaQueryFactory.selectFrom(user)
-            .where(user.nickname.contains(nickname))
             .fetch();
         return users;
     }
