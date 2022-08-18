@@ -77,41 +77,45 @@ export default function ItemsOnTable(props) {
       );
     }
   };
-  const menuRender = myMenu.map((menu, index) => (
-    <div
-      className="on-table"
-      key={`tableitem-${index}`}
-      index={index}
-      style={{
-        position: "absolute",
-        width: menu.width,
-        height: menu.height,
-        top: menu.top - menu.height / 2, //아이템 중앙 기준
-        left: menu.left - menu.width / 2, //아이템 중앙 기준
-        backgroundImage: `url(${menu.imageurl})`,
-        margin: 0,
-      }}
-      draggable="true"
-      onDragStart={e => {
-        dragStartHandler(e);
-      }}
-      onDrag={e => {
-        props.isDragging(true);
-        dragHandler(e);
-      }}
-      onDragEnd={e => {
-        dragEndHandler(e);
-        props.isDragging(false);
-      }}
-    >
-      <i
-        className="fa-solid fa-circle-minus"
-        onClick={() => {
-          dispatch(RemoveItem(index));
+  const menuRender = myMenu ? (
+    myMenu.map((menu, index) => (
+      <div
+        className="on-table"
+        key={`tableitem-${index}`}
+        index={index}
+        style={{
+          position: "absolute",
+          width: menu.width,
+          height: menu.height,
+          top: menu.top - menu.height / 2, //아이템 중앙 기준
+          left: menu.left - menu.width / 2, //아이템 중앙 기준
+          backgroundImage: `url(${menu.imageurl})`,
+          margin: 0,
         }}
-      ></i>
-    </div>
-  ));
+        draggable="true"
+        onDragStart={e => {
+          dragStartHandler(e);
+        }}
+        onDrag={e => {
+          props.isDragging(true);
+          dragHandler(e);
+        }}
+        onDragEnd={e => {
+          dragEndHandler(e);
+          props.isDragging(false);
+        }}
+      >
+        <i
+          className="fa-solid fa-circle-minus"
+          onClick={() => {
+            dispatch(RemoveItem(index));
+          }}
+        ></i>
+      </div>
+    ))
+  ) : (
+    <div></div>
+  );
   return (
     <StyledWrapper>
       <DndProvider backend={HTML5Backend}> {menuRender}</DndProvider>
