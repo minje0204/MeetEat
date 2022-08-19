@@ -1,12 +1,20 @@
-import * as React from 'react';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import * as React from "react";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
-const options = ['닉네임', '이메일'];
+const options = ["닉네임", "이메일"];
 
-export default function SearchFriends() {
+export default function SearchFriends(props) {
+  const { setSearchValue } = props;
   const [value, setValue] = React.useState(options[0]);
-  const [inputValue, setInputValue] = React.useState('');
+
+  React.useEffect(() => {
+    if (value === options[0]) {
+      setSearchValue("nickname");
+    } else if (value === options[1]) {
+      setSearchValue("email");
+    }
+  }, [value]);
 
   return (
     <Autocomplete
@@ -15,14 +23,10 @@ export default function SearchFriends() {
       onChange={(event, newValue) => {
         setValue(newValue);
       }}
-      inputValue={inputValue}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue);
-      }}
       id="controllable-states-demo"
       options={options}
       sx={{ width: 140 }}
-      renderInput={(params) => <TextField {...params} label="검색 방법" />}
+      renderInput={params => <TextField {...params} label="검색 방법" />}
     />
   );
 }

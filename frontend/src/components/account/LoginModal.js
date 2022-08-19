@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import styled from "styled-components";
-// import ModalContent from "./ModalConetent";
+import ModalContent from "./ModalContent";
 
 const style = {
   position: "absolute",
@@ -24,7 +24,9 @@ export default function LoginModal() {
 
   return (
     <StyledWrapper>
-      <Button onClick={handleOpen}>로그인</Button>
+      <Button onClick={handleOpen} sx={{ border: 1 }}>
+        로그인
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -32,7 +34,7 @@ export default function LoginModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {/* <ModalContent handleClose={handleClose}></ModalContent> */}
+          <ModalContent handleClose={handleClose}></ModalContent>
         </Box>
       </Modal>
     </StyledWrapper>
@@ -45,14 +47,13 @@ const StyledWrapper = styled.div`
   }
 
   button {
-    font-family: "BlackHanSans";
-    font-size: 1rem;
+    font-family: "Jua";
+    font-size: 24px;
     color: black;
     padding: 0em 0.5em;
-    border: 1px 1px 1px 1px;
-    border-color: #e2dcc8;
+    border: 1px line #e2dcc8;
     margin: 0px 4px;
-    background-color: #fcf8e8;
+    background-color: #ffef82;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
     transition: top 0.01s linear;
   }

@@ -1,17 +1,33 @@
-import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
-import { useState } from "react";
+import { useConferenceContext } from "components/conference/ConferenceContext";
+import { useSocketContext } from "components/socket/SocketContext";
 import { MoveItem, RemoveItem } from "modules/table";
+import { useEffect, useRef, useState } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 
 export default function ItemsOnTable(props) {
-  const myMenu = useSelector(state => state.table.tableList); // 해당 state가 변할 때 마다 현재 컴포넌트를 리렌더링함.
-
+  const myMenu = useSelector(state => state.table.present.tableList); // 해당 state가 변할 때 마다 현재 컴포넌트를 리렌더링함.
+  const { sendMessage } = useSocketContext();
+  const { userName, roomTitle } = useConferenceContext();
   const [startX, setStartX] = useState(0);
   const [startY, setStartY] = useState(0);
   const dispatch = useDispatch();
-
+  const notInitialRender = useRef(false);
+  useEffect(() => {
+    let msg = {
+      id: "updateTable",
+      name: userName,
+      room: roomTitle,
+      data: myMenu,
+    };
+    if (notInitialRender.current) {
+      sendMessage(msg);
+    } else {
+      notInitialRender.current = true;
+    }
+  }, [myMenu]);
   const getStartX = value => {
     setStartX(value);
   };
@@ -23,7 +39,7 @@ export default function ItemsOnTable(props) {
     getStartY(e.clientY);
   };
 
-  const box = useSelector(state => state.table.box);
+  const box = useSelector(state => state.box.box);
   const dragHandler = e => {
     const deltaX = e.clientX - startX;
     const deltaY = e.clientY - startY;
@@ -61,42 +77,45 @@ export default function ItemsOnTable(props) {
       );
     }
   };
-  const menuRender = myMenu.map((menu, index) => (
-    <div
-      className="on-table"
-      key={`tableitem-${index}`}
-      index={index}
-      style={{
-        position: "absolute",
-        width: menu.width,
-        height: menu.height,
-        top: menu.top - menu.height / 2, //아이템 중앙 기준
-        left: menu.left - menu.width / 2, //아이템 중앙 기준
-        backgroundImage: `url(${menu.imageurl})`,
-        margin: 0,
-      }}
-      draggable="true"
-      onDragStart={e => {
-        dragStartHandler(e);
-      }}
-      onDrag={e => {
-        props.isDragging(true);
-        dragHandler(e);
-      }}
-      onDragEnd={e => {
-        dragEndHandler(e);
-        props.isDragging(false);
-      }}
-    >
-      <i
-        className="fa-solid fa-circle-minus"
-        onClick={() => {
-          console.log(index);
-          dispatch(RemoveItem(index));
+  const menuRender = myMenu ? (
+    myMenu.map((menu, index) => (
+      <div
+        className="on-table"
+        key={`tableitem-${index}`}
+        index={index}
+        style={{
+          position: "absolute",
+          width: menu.width,
+          height: menu.height,
+          top: menu.top - menu.height / 2, //아이템 중앙 기준
+          left: menu.left - menu.width / 2, //아이템 중앙 기준
+          backgroundImage: `url(${menu.imageurl})`,
+          margin: 0,
         }}
-      ></i>
-    </div>
-  ));
+        draggable="true"
+        onDragStart={e => {
+          dragStartHandler(e);
+        }}
+        onDrag={e => {
+          props.isDragging(true);
+          dragHandler(e);
+        }}
+        onDragEnd={e => {
+          dragEndHandler(e);
+          props.isDragging(false);
+        }}
+      >
+        <i
+          className="fa-solid fa-circle-minus"
+          onClick={() => {
+            dispatch(RemoveItem(index));
+          }}
+        ></i>
+      </div>
+    ))
+  ) : (
+    <div></div>
+  );
   return (
     <StyledWrapper>
       <DndProvider backend={HTML5Backend}> {menuRender}</DndProvider>

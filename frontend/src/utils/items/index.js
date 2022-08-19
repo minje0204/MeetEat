@@ -1,52 +1,78 @@
-const tableItems = [
-  {
-    name: "steak",
-    type: "western",
-    imageurl: "/images/steak.png",
-  },
+import { useEffect } from "react";
+import Axios from "utils/axios/Axios";
+
+let tableItems = [
+  { name: "steak", type: "western", imageUrl: "/images/table_items/steak.png" },
   {
     name: "spoon_silver",
     type: "silverware",
-    imageurl: "/images/spoon_silver.png",
+    imageUrl: "/images/table_items/spoon_silver.png",
   },
   {
     name: "spoon_gold",
     type: "silverware",
-    imageurl: "/images/spoon_gold.png",
+    imageUrl: "/images/table_items/spoon_gold.png",
   },
   {
     name: "chopstick_silver",
     type: "silverware",
-    imageurl: "/images/chopstick_silver.png",
+    imageUrl: "/images/table_items/chopstick_silver.png",
   },
   {
     name: "chopstick_gold",
     type: "silverware",
-    imageurl: "/images/chopstick_gold.png",
+    imageUrl: "/images/table_items/chopstick_gold.png",
   },
   {
     name: "fork_silver",
     type: "silverware",
-    imageurl: "/images/fork_silver.png",
+    imageUrl: "/images/table_items/fork_silver.png",
   },
   {
     name: "fork_gold",
     type: "silverware",
-    imageurl: "/images/fork_gold.png",
+    imageUrl: "/images/table_items/fork_gold.png",
   },
   {
     name: "rice",
     type: "kfood",
-    imageurl: "/images/rice.png",
+    imageUrl: "/images/table_items/rice.png",
   },
-
-  // { name: "젓가락", type: "silverware" },
-  // { name: "김치", type: "kfood" },
-  // { name: "된장찌개", type: "kfood" },
-  // { name: "스시", type: "jfood" },
-  // { name: "돈까스", type: "jfood" },
-  // { name: "스테이크", type: "western" },
-  // { name: "피자", type: "western" },
+  {
+    name: "cup_noodle",
+    type: "kfood",
+    imageUrl: "/images/table_items/cup_noodle.png",
+  },
+  {
+    name: "kimbab",
+    type: "kfood",
+    imageUrl: "/images/table_items/kimbab.png",
+  },
+  {
+    name: "kimchi",
+    type: "kfood",
+    imageUrl: "/images/table_items/kimchi.png",
+  },
+  {
+    name: "egg_sushi",
+    type: "jfood",
+    imageUrl: "/images/table_items/egg_sushi.png",
+  },
+  {
+    name: "salmon_sushi",
+    type: "jfood",
+    imageUrl: "/images/table_items/salmon_sushi.png",
+  },
+  {
+    name: "shrimp_sushi",
+    type: "jfood",
+    imageUrl: "/images/table_items/shrimp_sushi.png",
+  },
+  {
+    name: "tuna_sushi",
+    type: "jfood",
+    imageUrl: "/images/table_items/tuna_sushi.png",
+  },
 ];
 
 const itemCatType = {
@@ -57,6 +83,9 @@ const itemCatType = {
 };
 
 const getItems = index => {
+  // Axios.get("/tray/items").then(res => {
+  //   tableItems = res.data.response;
+  // });
   let type = itemCatType[index];
   return tableItems.filter(item => item.type === type);
 };

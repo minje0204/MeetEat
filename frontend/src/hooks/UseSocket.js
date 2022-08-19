@@ -4,12 +4,17 @@ import useWebSocket from "react-use-websocket";
 import Participant from "utils/participant";
 import { constraints } from "utils/socket/video";
 const API_URL = process.env.REACT_APP_API_URL;
+const WS_PROTOCOL = process.env.REACT_APP_WS_PROTOCOL;
 const participants = {};
 
 let onExistingParticipants;
 let onNewParticipant;
 let onParticipantLeft;
 let receiveVideoResponse;
+let onChat;
+let hostChanged;
+let onReceiveTable;
+var interval;
 
 const onMessage = message => {
   let parsedMessage = JSON.parse(message.data);
@@ -17,6 +22,9 @@ const onMessage = message => {
   console.info(parsedMessage);
 
   switch (parsedMessage.id) {
+    case "chat":
+      onChat(parsedMessage);
+      break;
     case "existingParticipants":
       onExistingParticipants(parsedMessage);
       break;
@@ -40,20 +48,30 @@ const onMessage = message => {
         },
       );
       break;
+    case "hostChanged":
+      hostChanged(parsedMessage.host);
+      break;
+    case "receiveTable":
+      onReceiveTable(parsedMessage);
+      break;
     default:
       console.error("Unrecognized message", parsedMessage);
   }
 };
-const UseSocket = ({ name, setNum }) => {
+const UseSocket = ({ name, setNum, setTableData }) => {
   /* eslint-disable no-unused-vars */
   const [messageHistory, setMessageHistory] = useState([]);
   /* eslint-disable no-unused-vars */
-  const [socketUrl, setSocketUrl] = useState(`ws://${API_URL}/groupcall`);
+  const [socketUrl, setSocketUrl] = useState(
+    `${WS_PROTOCOL}://${API_URL}/groupcall`,
+  );
   const { sendMessage, lastMessage, readyState } = useWebSocket(
     socketUrl,
     onMessage,
   );
-
+  const [rtcPeer, setRtcPeer] = useState("");
+  const [host, setHost] = useState("");
+  // const [host, setHost] = useState("");
   onNewParticipant = request => {
     setNum(Object.keys(participants).length + 1);
     receiveVideo(request.name);
@@ -87,6 +105,7 @@ const UseSocket = ({ name, setNum }) => {
     var participant = participants[request.name];
     participant.dispose();
     delete participants[request.name];
+    setNum(Object.keys(participants).length);
   };
 
   receiveVideoResponse = result => {
@@ -100,7 +119,8 @@ const UseSocket = ({ name, setNum }) => {
   };
 
   onExistingParticipants = function (msg) {
-    let participant = new Participant(name, 0); //나 자신
+    setHost(msg.host);
+    let participant = new Participant(name, 0, msg.userId); //나 자신
     setNum(Object.keys(participants).length + 1);
     participants[name] = participant;
     let video = participant.getVideoElement();
@@ -124,8 +144,39 @@ const UseSocket = ({ name, setNum }) => {
       );
     });
 
+    setRtcPeer(participant.rtcPeer);
+
     msg.data.forEach(receiveVideo); // 돌면서 참가자 모두 영상 수신
   };
+
+  onReceiveTable = function (msg) {
+    let user = participants[msg.name].idx;
+    let data = JSON.parse(msg.data);
+    setTableData({ id: user, data: data });
+  };
+
+  onChat = function (msg) {
+    let name = msg.name;
+    let chat = msg.chat;
+    let idx = participants[name].idx;
+    let chattingballoon = document.querySelector(
+      `#roomguest-chatting-${idx} > #chatting-balloon`,
+    );
+    chattingballoon.innerText = chat;
+    chattingballoon.style = "display:true";
+    clearInterval(interval);
+    interval = setTimeout(() => {
+      chattingballoon.style = "display:none";
+    }, 3000);
+  };
+
+  function kickOut() {
+    let message = {
+      id: "kickOut",
+      name: name,
+    };
+    customSendMsg(message);
+  }
 
   const customSendMsg = msg => {
     let flag = msg.id === "joinRoom";
@@ -145,7 +196,21 @@ const UseSocket = ({ name, setNum }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { handleClickSendMessage, readyState };
+  const resetParticipants = () => {
+    let keys = Object.keys(participants);
+    for (let i = 1; i < keys.length; i++) {
+      delete participants[keys[i]];
+    }
+    setNum(1);
+  };
+
+  return {
+    handleClickSendMessage,
+    readyState,
+    rtcPeer,
+    host,
+    resetParticipants,
+  };
 };
 
 export default UseSocket;

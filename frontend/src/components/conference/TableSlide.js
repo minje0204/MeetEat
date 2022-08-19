@@ -5,9 +5,11 @@ import TableArea from "./TableArea";
 import styled from "styled-components";
 import SaveTableImage from "./SaveTableImage";
 import { useDispatch } from "react-redux";
-import { GetBoundary } from "modules/table";
+import { GetBoundary } from "modules/box";
+import UndoTableCustom from "./UndoTableCustom";
 
-export default function TableSlide() {
+export default function TableSlide(props) {
+  const { conferenceId } = props;
   const [checked, setChecked] = useState(false);
 
   const dispatch = useDispatch();
@@ -23,7 +25,7 @@ export default function TableSlide() {
 
   const table = useRef(null);
 
-  function getBoundary() {
+  function getBoundaryLocal() {
     if (table.current) {
       const box = table.current.getBoundingClientRect();
       const data = {
@@ -39,7 +41,7 @@ export default function TableSlide() {
   }
 
   window.addEventListener("resize", () => {
-    getBoundary();
+    getBoundaryLocal();
   });
 
   const handleChange = () => {
@@ -57,7 +59,7 @@ export default function TableSlide() {
         in={checked}
         mountOnEnter
         unmountOnExit
-        onEntered={getBoundary}
+        onEntered={getBoundaryLocal}
       >
         <div className="slide-container">
           <div className="button" onClick={handleChange}>
@@ -77,7 +79,8 @@ export default function TableSlide() {
                 isDragging={isDragging}
               ></TableArea>
               <div className="button-group">
-                <SaveTableImage></SaveTableImage>
+                <UndoTableCustom></UndoTableCustom>
+                <SaveTableImage conferenceId={conferenceId}></SaveTableImage>
               </div>
             </div>
           </div>
@@ -101,11 +104,13 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
     border-radius: 10px 0 0 10px;
+    z-index: 40;
   }
   .button:hover {
     cursor: pointer;
   }
   h3 {
+    font-family: "Jua";
     writing-mode: vertical-rl;
     margin: auto;
   }
@@ -118,7 +123,7 @@ const StyledWrapper = styled.div`
     height: 200px;
     background: #ffef82;
     vertical-align: middle;
-
+    z-index: 40;
     border-radius: 10px 0 0 10px;
     display: flex;
     align-items: center;

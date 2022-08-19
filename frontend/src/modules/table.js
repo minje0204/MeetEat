@@ -1,9 +1,9 @@
 // actions
 
-const ADD_ITEM = "todos/ADD_ITEM";
-const REMOVE_ITEM = "todos/REMOVE_ITEM";
-const MOVE_ITEM = "todos/MOVE_ITEM";
-const GET_BOUNDARY = "todos/GET_BOUNDARY";
+const ADD_ITEM = "table/ADD_ITEM";
+const REMOVE_ITEM = "table/REMOVE_ITEM";
+const MOVE_ITEM = "table/MOVE_ITEM";
+const RESET = "table/RESET";
 
 export const AddItem = data => ({
   type: ADD_ITEM,
@@ -17,9 +17,9 @@ export const MoveItem = data => ({
   type: MOVE_ITEM,
   data,
 });
-export const GetBoundary = data => ({
-  type: GET_BOUNDARY,
-  data,
+
+export const Reset = () => ({
+  type: RESET,
 });
 
 const initialState = { tableList: [] };
@@ -30,10 +30,6 @@ export default function table(state = initialState, action) {
   switch (action.type) {
     case ADD_ITEM:
       return { ...state, tableList: [...state.tableList, action.data] };
-
-    case GET_BOUNDARY:
-      return { ...state, box: action.data };
-
     case REMOVE_ITEM: {
       let newTableList = [...state.tableList];
       newTableList.splice(action.id, 1);
@@ -49,6 +45,9 @@ export default function table(state = initialState, action) {
       let newTableList = [...state.tableList];
       newTableList.splice(action.data.index, 1, newItem);
       return { ...state, tableList: [...newTableList] };
+    }
+    case RESET: {
+      return { tatableList: [] };
     }
     default:
       return state;
