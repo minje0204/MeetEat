@@ -47,7 +47,7 @@ export default function table(state = initialState, action) {
       return { ...state, tableList: [...newTableList] };
     }
     case RESET: {
-      return { tatableList: [] };
+      return initialState;
     }
     default:
       return state;
