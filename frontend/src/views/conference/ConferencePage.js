@@ -175,7 +175,7 @@ export default function ConferencePage() {
           </div>
           <div id="footer">
             <Link to={"/restaurant/" + restaurantId}>
-              <Door />
+              <Door id="exitdoor"/>
             </Link>
             <div id="switch">
               <SwitchMic value={{ rtcPeer: rtcPeer }}></SwitchMic>
@@ -194,8 +194,19 @@ export default function ConferencePage() {
   );
 }
 const StyledWrapper = styled.div`
+  background-color: #faf0d7;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: space-between;
+
   #cam-container {
     min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
   }
   .cam-column {
     display: flex;
@@ -218,9 +229,10 @@ const StyledWrapper = styled.div`
   }
   #footer {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-around;
-    height: 7vh;
+    height: 40px;
+    margin-bottom: 15px;
   }
   #switch {
     display: flex;
