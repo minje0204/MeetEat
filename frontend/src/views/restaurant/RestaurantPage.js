@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import Header from "components/common/nav/Header";
 import { isLogin } from "utils/account/GetAccess";
 import { toast } from "react-toastify";
+import restaurantName from "utils/conference/conferenceName";
+
 export default function RestaurantPage() {
   const navigate = useNavigate();
   useEffect(() => {
@@ -68,7 +70,9 @@ export default function RestaurantPage() {
   return (
     <StyledWrapper>
       <Header />
-      <div id="restaurant-name">{`[ ${params.restaurant_id}번 식당 ]`}</div>
+      <div id="restaurant-name">{`[ ${
+        restaurantName[params.restaurant_id]
+      } ]`}</div>
       <div id="restaurant-background">
         <div id="table-list">{listItems}</div>
         <div id="exit">
@@ -83,10 +87,10 @@ export default function RestaurantPage() {
 
 const StyledWrapper = styled.div`
   overflow: hidden;
-  
+
   #restaurant-background {
     background-color: #faf0d7;
-    height:90vh;
+    height: 90vh;
   }
   #restaurant-name {
     position: absolute;

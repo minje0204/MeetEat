@@ -11,22 +11,26 @@ export default function SaveTableImage(props) {
   const myTable = useRef(null);
   const myMenu = useSelector(state => state.table.present.tableList);
 
-  const menuRender = myMenu.map((menu, index) => (
-    <div
-      className="on-table"
-      key={`tableitem-${index}`}
-      index={index}
-      style={{
-        position: "absolute",
-        width: menu.width,
-        height: menu.height,
-        top: menu.top - menu.height / 2, //아이템 중앙 기준
-        left: menu.left - menu.width / 2, //아이템 중앙 기준
-        backgroundImage: `url(${menu.imageurl})`,
-        margin: 0,
-      }}
-    ></div>
-  ));
+  const menuRender = myMenu ? (
+    myMenu.map((menu, index) => (
+      <div
+        className="on-table"
+        key={`tableitem-${index}`}
+        index={index}
+        style={{
+          position: "absolute",
+          width: menu.width,
+          height: menu.height,
+          top: menu.top - menu.height / 2, //아이템 중앙 기준
+          left: menu.left - menu.width / 2, //아이템 중앙 기준
+          backgroundImage: `url(${menu.imageurl})`,
+          margin: 0,
+        }}
+      ></div>
+    ))
+  ) : (
+    <div></div>
+  );
 
   const onCapture = () => {
     html2canvas(myTable.current).then(canvas => {
