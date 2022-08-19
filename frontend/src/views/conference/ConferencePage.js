@@ -16,6 +16,7 @@ import Axios from "utils/axios/Axios";
 import { useNavigate } from "react-router-dom";
 import { Reset } from "modules/table";
 import { useDispatch, useSelector } from "react-redux";
+import restaurantName from "utils/conference/conferenceName";
 
 export default function ConferencePage() {
   const navigate = useNavigate();
@@ -91,7 +92,7 @@ export default function ConferencePage() {
       <ConferenceContextProvider name={userName} title={conferenceId}>
         <StyledWrapper>
           <div id="table-name">
-            {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
+            {`[ ${restaurantName[restaurantId]} - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
           </div>
           <div id={"cam-container"}>
             <TableSlide conferenceId={conferenceId} />
