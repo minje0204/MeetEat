@@ -16,6 +16,7 @@ import Axios from "utils/axios/Axios";
 import { useNavigate } from "react-router-dom";
 import { Reset } from "modules/table";
 import { useDispatch, useSelector } from "react-redux";
+import restaurantName from "utils/conference/conferenceName";
 
 export default function ConferencePage() {
   const navigate = useNavigate();
@@ -91,7 +92,7 @@ export default function ConferencePage() {
       <ConferenceContextProvider name={userName} title={conferenceId}>
         <StyledWrapper>
           <div id="table-name">
-            {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
+            {`[ ${restaurantName[restaurantId]} - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
           </div>
           <div id="table-label">
             <img id="circle-image" src="/images/circle.png" alt="circle"></img>
@@ -179,7 +180,7 @@ export default function ConferencePage() {
           </div>
           <div id="footer">
             <Link to={"/restaurant/" + restaurantId}>
-              <Door />
+              <Door id="exitdoor" />
             </Link>
             <div id="switch">
               <SwitchMic value={{ rtcPeer: rtcPeer }}></SwitchMic>
@@ -207,12 +208,23 @@ const StyledWrapper = styled.div`
     font-family: cursive;
     color: #cccccc;
   }
+  background-color: #faf0d7;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: space-between;
+
   #cam-container {
     min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   #table-label {
     position: absolute;
     margin-left: 1rem;
+    margin-top: 4rem;
   }
   #circle-image {
     width: 120px;
@@ -232,16 +244,17 @@ const StyledWrapper = styled.div`
   min-width: 1500px;
   #table-name {
     display: block;
-    margin: 14px 0 0 160px;
+    margin: 14px 0 0 14px;
     font-family: "Jua";
-    font-size: 20px;
+    font-size: 24px;
     color: #82954b;
   }
   #footer {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-around;
-    height: 7vh;
+    height: 40px;
+    margin-bottom: 15px;
   }
   #switch {
     display: flex;

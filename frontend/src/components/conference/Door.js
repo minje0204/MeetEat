@@ -20,8 +20,8 @@ const StyledWrapper = styled.div`
   #cont {
     position: absolute;
     top: 85%;
-    width: 45px;
-    height: 75px;
+    width: 70px;
+    height: 120px;
     margin: 0 auto 15px;
     background-color: #733c3c;
   }
@@ -29,21 +29,21 @@ const StyledWrapper = styled.div`
     position: relative;
     background-color: white;
     top: 5px;
-    width: 30px;
-    height: 70px;
+    width: 55px;
+    height: 115px;
     margin: 0 auto;
     perspective: 480px;
   }
   #door {
     position: relative;
-    width: 30px;
-    height: 70px;
+    width: 55px;
+    height: 115px;
     transform-origin: left;
   }
   #door:hover {
     position: relative;
-    width: 30px;
-    height: 70px;
+    width: 55px;
+    height: 115px;
     transform-origin: left;
     animation: opendoor 1.5s ease-out;
   }
