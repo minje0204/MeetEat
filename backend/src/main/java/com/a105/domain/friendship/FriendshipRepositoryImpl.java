@@ -19,7 +19,7 @@ public class FriendshipRepositoryImpl implements FriendshipRepositoryCustom {
 
         // Received Requests
         friendDtos.addAll(jpaQueryFactory.select(new QFriendshipDto(friendship.id, friendship.senderId, friendship.status, friendship.receiverId.eq(userId), userConference.conference.id))
-            .from(friendship)
+                .distinct().from(friendship)
                 .leftJoin(userConference)
                 .on(friendship.senderId.eq(userConference.user.id), userConference.action.eq(0))
             .where(friendship.receiverId.eq(userId), friendship.status.eq(1))
@@ -27,7 +27,7 @@ public class FriendshipRepositoryImpl implements FriendshipRepositoryCustom {
 
         // Sent Requests
         friendDtos.addAll(jpaQueryFactory.select(new QFriendshipDto(friendship.id, friendship.receiverId, friendship.status, friendship.receiverId.eq(userId), userConference.conference.id))
-            .from(friendship)
+                .distinct().from(friendship)
                 .leftJoin(userConference)
                 .on(friendship.receiverId.eq(userConference.user.id), userConference.action.eq(0))
             .where(friendship.senderId.eq(userId), friendship.status.eq(1))
