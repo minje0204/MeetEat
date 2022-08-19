@@ -3,10 +3,13 @@ import styled from "@emotion/styled";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import menu_rounded from "assets/img/menu_rounded.png";
+import Axios from "utils/axios/Axios";
+import { toast } from "react-toastify";
 
 export default function PersonalMenu(props) {
   const { idx, host } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [searchTarget, setSearchTarget] = React.useState("");
   const open = Boolean(anchorEl);
   const [videoStatus, setVideoStatus] = React.useState(true);
   const video = document.querySelector(`#personal-${idx} video`);
@@ -18,6 +21,26 @@ export default function PersonalMenu(props) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleRequest = () => {
+    const target = document.querySelector(
+      `#personal-${idx} #personal_id`,
+    ).innerText;
+    Axios.get(`/user/search?nickname=${target}`).then(res => {
+      setSearchTarget(res.data.response[0].id);
+    }).then(() => {
+      Axios.post(`/friend/request/${searchTarget}`)
+    }).then(() => {
+      toast.success("밥친구 요청을 보냈습니다.", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    })
   };
   const handleAudio = () => {
     if (video) {
@@ -67,14 +90,14 @@ export default function PersonalMenu(props) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem
+        {/* <MenuItem
           onClick={handleClose}
           sx={{ color: "black", fontFamily: "Jua" }}
         >
           프로필 보기
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem
-          onClick={handleClose}
+          onClick={handleRequest}
           sx={{ color: "black", fontFamily: "Jua" }}
         >
           친구 요청
