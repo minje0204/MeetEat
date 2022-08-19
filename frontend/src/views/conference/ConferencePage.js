@@ -94,6 +94,10 @@ export default function ConferencePage() {
           <div id="table-name">
             {`[ ${restaurantName[restaurantId]} - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
           </div>
+          <div id="table-label">
+            <img id="circle-image" src="/images/circle.png" alt="circle"></img>
+            <span id="table-num">{`${position}`}</span>
+          </div>
           <div id={"cam-container"}>
             <TableSlide conferenceId={conferenceId} />
             {peopleLimitNum > 3 ? (
@@ -176,7 +180,7 @@ export default function ConferencePage() {
           </div>
           <div id="footer">
             <Link to={"/restaurant/" + restaurantId}>
-              <Door id="exitdoor"/>
+              <Door id="exitdoor" />
             </Link>
             <div id="switch">
               <SwitchMic value={{ rtcPeer: rtcPeer }}></SwitchMic>
@@ -195,6 +199,15 @@ export default function ConferencePage() {
   );
 }
 const StyledWrapper = styled.div`
+  #table-num {
+    position: absolute;
+    top: 14px;
+    left: 41px;
+    font-size: 70px;
+    text-align: center;
+    font-family: cursive;
+    color: #cccccc;
+  }
   background-color: #faf0d7;
   height: 100vh;
   display: flex;
@@ -207,7 +220,15 @@ const StyledWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
+  }
+  #table-label {
+    position: absolute;
+    margin-left: 1rem;
+    margin-top: 4rem;
+  }
+  #circle-image {
+    width: 120px;
+    height: 120px;
   }
   .cam-column {
     display: flex;
