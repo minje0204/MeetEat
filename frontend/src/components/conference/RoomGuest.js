@@ -21,7 +21,7 @@ export default function RoomGuest(props) {
   useEffect(() => {
     let target = document.querySelector(
       `#personal-${idx} #personal_id`,
-    ).innerText;
+      ).innerText;
     if (!target) {
       setIsHost("none");
       return;
@@ -97,7 +97,7 @@ const StyledWrapper = styled.div`
     overflow: hidden;
     position: relative;
     width: 300px;
-    height: 250px;
+    height: 225px;
     margin: auto;
     border-radius: 5px;
     background-color: gray;

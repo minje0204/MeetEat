@@ -286,7 +286,6 @@ const StyledWrapper = styled.div`
     transition: top 0.01s linear;
     text-shadow: none;
     box-shadow: none;
-    height: 3rem;
   }
 
   button:hover {

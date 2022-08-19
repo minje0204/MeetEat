@@ -39,6 +39,21 @@ let tableItems = [
     imageUrl: "/images/table_items/rice.png",
   },
   {
+    name: "cup_noodle",
+    type: "kfood",
+    imageUrl: "/images/table_items/cup_noodle.png",
+  },
+  {
+    name: "kimbab",
+    type: "kfood",
+    imageUrl: "/images/table_items/kimbab.png",
+  },
+  {
+    name: "kimchi",
+    type: "kfood",
+    imageUrl: "/images/table_items/kimchi.png",
+  },
+  {
     name: "egg_sushi",
     type: "jfood",
     imageUrl: "/images/table_items/egg_sushi.png",
