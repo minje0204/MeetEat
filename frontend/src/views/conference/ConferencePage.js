@@ -93,6 +93,10 @@ export default function ConferencePage() {
           <div id="table-name">
             {`[ ${restaurantId}번 식당 - ${position}번 테이블 : ${title} (${num}명 / ${peopleLimit}명) ]`}
           </div>
+          <div id="table-label">
+            <img id="circle-image" src="/images/circle.png" alt="circle"></img>
+            <span id="table-num">{`${position}`}</span>
+          </div>
           <div id={"cam-container"}>
             <TableSlide conferenceId={conferenceId} />
             {peopleLimitNum > 3 ? (
@@ -194,8 +198,25 @@ export default function ConferencePage() {
   );
 }
 const StyledWrapper = styled.div`
+  #table-num {
+    position: absolute;
+    top: 14px;
+    left: 41px;
+    font-size: 70px;
+    text-align: center;
+    font-family: cursive;
+    color: #cccccc;
+  }
   #cam-container {
     min-height: 600px;
+  }
+  #table-label {
+    position: absolute;
+    margin-left: 1rem;
+  }
+  #circle-image {
+    width: 120px;
+    height: 120px;
   }
   .cam-column {
     display: flex;
