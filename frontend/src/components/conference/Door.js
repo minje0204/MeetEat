@@ -22,7 +22,7 @@ const StyledWrapper = styled.div`
     top: 85%;
     width: 70px;
     height: 120px;
-    margin: 0 auto 20px;
+    margin: 0 auto 15px;
     background-color: #733c3c;
   }
   #frame {
