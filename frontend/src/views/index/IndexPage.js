@@ -34,7 +34,6 @@ export default function IndexPage() {
     },
   ];
   const [open, setOpen] = useState(0);
-  
 
   const listItems = restaurantList.map((e, idx) => (
     <div
@@ -161,15 +160,15 @@ const StyledWrapper = styled.div`
     padding: 6rem 3rem;
   }
   .image-container1 {
-    width: 35%;
+    width: 33%;
     position: relative;
   }
   .image-container2 {
-    width: 32%;
+    width: 30%;
     position: relative;
   }
   .image-container3 {
-    width: 44%;
+    width: 41%;
     position: relative;
   }
   #image-box {
@@ -182,7 +181,7 @@ const StyledWrapper = styled.div`
   h1 {
     display: flex;
     justify-content: center;
-    font: bold 4vw/1.6 "Jua", sans-serif;
+    font: bold 4vw/1.4 "Jua", sans-serif;
     user-select: none;
     height: 0.5vh;
     max-height: 0.2vh;
