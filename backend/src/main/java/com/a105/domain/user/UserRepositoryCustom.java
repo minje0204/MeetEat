@@ -4,9 +4,8 @@ import java.util.List;
 
 public interface UserRepositoryCustom {
 
-    List<User> findByEmail(String email);
+    User findOneByNickname(String nickname);
 
-    List<User> findByNickname(String nickname);
-
+    List<UserSearchDto> search(Long userId, String email, String nickname);
 
 }

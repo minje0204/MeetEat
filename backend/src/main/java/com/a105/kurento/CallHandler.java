@@ -19,8 +19,10 @@ package com.a105.kurento;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.io.IOException;
+import java.sql.SQLException;
 import org.kurento.client.IceCandidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +61,9 @@ public class CallHandler extends TextWebSocketHandler {
         }
 
         switch (jsonMessage.get("id").getAsString()) {
+            case "sendChat":
+                sendChat(jsonMessage);
+                break;
             case "joinRoom":
                 joinRoom(jsonMessage, session);
                 break;
@@ -81,10 +86,67 @@ public class CallHandler extends TextWebSocketHandler {
                     user.addCandidate(cand, jsonMessage.get("name").getAsString());
                 }
                 break;
+            case "changeHost":
+                changeHost(jsonMessage);
+                break;
+            case "kickOut":
+                kickOut(jsonMessage);
+                break;
+            case "updateTable":
+                updateTable(jsonMessage);
+                break;
             default:
                 System.out.println(jsonMessage.getAsString());
                 break;
         }
+    }
+
+    private void updateTable(JsonObject params) {
+        System.out.println(params);
+        final String roomName = params.get("room").getAsString();
+        final String name = params.get("name").getAsString();
+        final JsonArray data = params.get("data").getAsJsonArray();
+        log.info("PARTICIPANT {}: trying to updating table with {} in room {}", name, data,
+            roomName);
+        Room room = roomManager.getRoom(roomName);
+        room.sendTable(name, data);
+    }
+
+    private void sendChat(JsonObject params) {
+        final String roomName = params.get("room").getAsString();
+        final String name = params.get("name").getAsString();
+        final String chat = params.get("chat").getAsString();
+        log.info("PARTICIPANT {}: trying to chatting in room {} saying {}", name, roomName, chat);
+        Room room = roomManager.getRoom(roomName);
+        room.sendChat(name, chat);
+    }
+
+    private void kickOut(JsonObject params)
+        throws IOException, SQLException, ClassNotFoundException {
+        final String roomName = params.get("room").getAsString();
+        final String name = params.get("name").getAsString();
+        final String kick = params.get("kick").getAsString();
+        log.info("room {} HOST {}: trying to kick {} out", roomName, name, kick);
+        Room room = roomManager.getRoom(roomName);
+        if (!room.getHost().equals(name)) {
+            log.info("permission denied : attempt to kick out");
+            return;
+        }
+        UserSession user = registry.getByName(kick);
+        leaveRoom(user);
+    }
+
+    private void changeHost(JsonObject params) {
+        final String roomName = params.get("room").getAsString();
+        final String name = params.get("name").getAsString();
+        final String change = params.get("change").getAsString();
+        log.info("room {} HOST {}: trying to change the host to {}", roomName, name, change);
+        Room room = roomManager.getRoom(roomName);
+        if (!room.getHost().equals(name)) {
+            log.info("permission denied : attempt to change host");
+            return;
+        }
+        room.changeHost(change);
     }
 
     @Override
@@ -97,14 +159,20 @@ public class CallHandler extends TextWebSocketHandler {
     private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
         final String roomName = params.get("room").getAsString();
         final String name = params.get("name").getAsString();
+        final String userId = params.get("userId").getAsString();
         log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
 
         Room room = roomManager.getRoom(roomName);
-        final UserSession user = room.join(name, session);
+        if (room.getHost() == null) {
+            room.changeHost(name);
+        }
+        final UserSession user = room.join(name, session, userId);
         registry.register(user);
+//        log.info("PARTICIPANT {}: joined {} host is {}", name, roomName, room.getHost());
     }
 
-    private void leaveRoom(UserSession user) throws IOException {
+    private void leaveRoom(UserSession user)
+        throws IOException, SQLException, ClassNotFoundException {
         final Room room = roomManager.getRoom(user.getRoomName());
         room.leave(user);
         if (room.getParticipants().isEmpty()) {

@@ -42,4 +42,9 @@ out/
 .vscode/
 
 ### Setting ###
+<<<<<<< HEAD
 src/main/resources/application.yml
+=======
+src/main/resources/application.yml
+src/main/resources/keystore.p12
+>>>>>>> c22d73986809ce7668a6bfa4671516c0b65d7dfb

@@ -4,7 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class ConferenceRequest {
-    Long hostId;
     String title;
     int maxUserNum;
     int restaurant;

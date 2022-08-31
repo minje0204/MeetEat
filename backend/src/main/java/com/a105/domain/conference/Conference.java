@@ -46,8 +46,8 @@ public class Conference {
     private int position;
 
     @Builder
-    private Conference(ConferenceRequest conferenceRequest, int restaurant) {
-        this.hostId = conferenceRequest.getHostId();
+    private Conference(ConferenceRequest conferenceRequest,Long hostId, int restaurant) {
+        this.hostId = hostId;
         this.title = conferenceRequest.getTitle();
         this.maxUserNum = conferenceRequest.getMaxUserNum();
         this.restaurant = restaurant;

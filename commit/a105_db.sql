@@ -1,5 +1,5 @@
-CREATE DATABASE a105;
-USE 'a105';
+create database a105;
+use 'a105';
 
 CREATE TABLE `user` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -53,14 +53,12 @@ CREATE TABLE `tray` (
 );
 
 
-CREATE TABLE `friend` (
+CREATE TABLE `friendship` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `user_id` bigint NOT NULL,
-  `friend_id` bigint NOT NULL,
+  `sender_id` bigint NOT NULL,
+  `receiver_id` bigint NOT NULL,
   `status` int NOT NULL DEFAULT '0',
   `is_read` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `friend_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  UNIQUE KEY `sender_receiver_id_UNIQUE` (`sender_id`, `receiver_id`)
 );
-
